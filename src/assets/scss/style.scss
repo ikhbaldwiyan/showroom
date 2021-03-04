@@ -66,6 +66,7 @@ header {
         &.active {
           a.nav-link {
             color: $primary;
+            font-weight: 500;
           }
         }
         a {
