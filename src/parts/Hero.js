@@ -9,10 +9,10 @@ import iconTreasure from 'assets/images/icons/icon_treasure.svg';
 import Button from 'elements/Button';
 import FormatNumber from 'utils/formatNumber'; 
 
-export default function Hero(props) {
+export default function Hero({data, refMostPicked}) {
   function showMostPicked() {
     window.scrollTo({
-      top: props.refMostPicked.current.offsetTop - 30,
+      top: refMostPicked.current.offsetTop - 30,
       behavior: "smooth",
     });
   }
@@ -20,7 +20,7 @@ export default function Hero(props) {
   return (
     <section className="container pt-4">
       <div className="row aligns-item-center">
-        <div col="col-auto pr-5" style={{ width: 530 }}>
+        <div className="col-auto pr-5" style={{ width: 530 }}>
           <h1 className="font-weight-bold line-height-1 mb-3">
             Forget Busy Work,<br />
             Start Next Vacation
@@ -37,28 +37,28 @@ export default function Hero(props) {
           </Button>
 
           <div className="row" style={{marginTop: 80}}>
-            <div className="col-auto mr-3">
+            <div className="col-auto mr-4">
               <img src={iconTraveler} alt="Travelers" width={36} height={36} />
               <h6 className="mt-3">
-                {FormatNumber(props.data.travelers)}{" "}
+                {FormatNumber(data.travelers)}{" "}
                 <span className="text-gray-500 font-weight-light">
                   Travelers
                 </span>
               </h6>
             </div>
-            <div className="col-auto mr-3">
+            <div className="col-auto mr-4">
               <img src={iconTreasure} alt="Treasure" width={36} height={36} />
               <h6 className="mt-3">
-                {FormatNumber(props.data.treasures)}{" "}
+                {FormatNumber(data.treasures)}{" "}
                 <span className="text-gray-500 font-weight-light">
                   Treasures
                 </span>
               </h6>
             </div>
-            <div className="col-auto mr-3">
+            <div className="col-auto mr-4">
               <img src={iconCities} alt="Cities" width={36} height={36} />
               <h6 className="mt-3">
-                {FormatNumber(props.data.cities)}{" "}
+                {FormatNumber(data.cities)}{" "}
                 <span className="text-gray-500 font-weight-light">Cities</span>
               </h6>
             </div>
