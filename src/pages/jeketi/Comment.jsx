@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { Card } from 'reactstrap';
 
-export default function Comment() {
+export default function Comment({roomId}) {
   const [comment, setComment] = useState([{
     name: 'Wotadmin ',
     comment: 'Tunggu Gan',
@@ -10,7 +10,7 @@ export default function Comment() {
   }]);
 
   useEffect(() => {
-    axios.get('/comment_log?room_id=318117').then(res => {
+    axios.get(`/comment_log?room_id=${roomId}`).then(res => {
       const comments = res.data.comment_log
       setComment(comments)
     });

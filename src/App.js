@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Route path="/" component={LandingPage} />
+        <Route path="/" component={LandingPage} exact />
         <Route path="/live-stream" component={Live} />
       </Router>
     </div>

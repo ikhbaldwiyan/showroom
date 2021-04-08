@@ -1,37 +1,51 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Container } from 'reactstrap';
 
 import Header from 'parts/Header';
-import Streaming from './Stream';
-import Comment from 'pages/jeketi/Comment';
+import Menu from 'pages/jeketi/Menu';
+import Stream from './Stream';
+import Profile from 'pages/jeketi/Profile';
+import RoomList from 'pages/jeketi/RoomList';
+import LiveChat from 'pages/jeketi/Comment';
+import Setlist from 'pages/jeketi/Setlist';
 
 export default function Live(props) {
-  const [url, setUrl] = useState([])
+  const [url, setUrl] = useState([]);
+  const [roomId, setRoomId] = useState('317724');
+  const [menu, setMenu] = useState('room');
 
   useEffect(() => {
-    axios.get('/streaming_url?room_id=318117').then(res => {
+    axios.get(`/streaming_url?room_id=${roomId}`).then(res => {
       const streamUrl = res.data.streaming_url_list
       setUrl(streamUrl)
     });
-  }, [])
+  }, [roomId])
 
   return (
     <>
       <Header {...props} />
-      <Row style={{ marginLeft: '48px', marginRight: '48px' }}>
-        <Col lg="8">
-          {url.slice(0, 1).map((item, idx) => (
-            <Streaming key={idx} url={item.url} />
-          ))}
-          <h3 className="mt-3">
-            Showroom
-          </h3>
-        </Col>
-        <Col>
-          <Comment />
-        </Col>
-      </Row>
+      <Container>
+        <Row>
+          <Col lg="8">
+            {url ? url.slice(0, 1).map((item, idx) => (
+              <Stream key={idx} url={item.url} />
+            )) : (
+              <Profile roomId={roomId} setRoomId={setRoomId} />
+            )}
+          </Col>
+          <Col>
+            <Menu setMenu={setMenu} />
+            {menu === 'room' ? (
+              <RoomList setRoomId={setRoomId} />
+            ) : menu === 'chat' ? (
+              <LiveChat roomId={roomId} />
+            ) : (
+              <Setlist />
+            )}
+          </Col>
+        </Row>
+      </Container>
     </>
   )
 }
