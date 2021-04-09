@@ -31,7 +31,7 @@ export default function Live(props) {
         <Row>
           <Col lg="8">
             {url ? url.slice(0, 1).map((item, idx) => (
-              <Stream key={idx} url={item.url} />
+              <Stream roomId={roomId} key={idx} url={item.url} />
             )) : !url ? (
               <Profile roomId={roomId} setRoomId={setRoomId} />
             ) : 'null'}

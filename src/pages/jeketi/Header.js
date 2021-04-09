@@ -11,10 +11,10 @@ export default function Header(props) {
   return (
     <Fade>
       <header className="sapcing-sm">
-        <div className="container" style={{marginLeft: "88px"}}>
+        <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light">
             <Button className="brand-text-icon" href="" type="link">
-              JKT48<span className="text-gray-900">SHOWROOM.</span>
+              JKT48<span className="text-gray-900">SHOWROOM</span>
             </Button>
             <div className="collapse navbar-collapse">
               <ul className="navbar-nav ml-auto">

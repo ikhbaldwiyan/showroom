@@ -1,34 +1,8 @@
 import React from 'react'
 import { Row, Col, Table , Button} from 'reactstrap';
+import showroom from './store/list-room';
 
 export default function RoomList({setRoomId}) {
-  const showroom = [
-    {
-      id: '317727',
-      name: 'Zee',
-    },
-    {
-      id: '318229',
-      name: 'Jesslyn'
-    },
-    {
-      id: '318213',
-      name: 'Mira'
-    },
-    {
-      id: '317724',
-      name: 'Anin'
-    },
-    {
-      id: '233157',
-      name: 'Eli'
-    },
-    {
-      id: '318207',
-      name: 'Shani'
-    },
-  ]
-
   return (
     <Row>
       <Col>

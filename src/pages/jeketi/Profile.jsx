@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Row, Col, Card, CardImg, CardHeader, CardText } from "reactstrap";
+import { Row, Col, Card, CardImg, CardHeader, CardText, Button } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Profile({ roomId }) {
@@ -16,15 +16,8 @@ export default function Profile({ roomId }) {
   return (
     <>
       <Row className="mb-3">
-        <Col sm="5">
-          {profile && profile.room_name.length < 16 ? (
-            <h3 className="text-gray-900">{profile.room_name}</h3>
-          ) : (
-            <h4>{profile.room_name}</h4>
-          )}
-        </Col>
         <Col>
-          <h4>Showroom is Offline</h4>
+          <h4>{profile.room_name}</h4>
         </Col>
       </Row>
       <Row>
@@ -50,13 +43,14 @@ export default function Profile({ roomId }) {
             <CardText>
               <b>Name:</b> {profile.room_name} <br />
               <b>Follower:</b> {profile.follower_num} <br />
-              <b>Room Level: </b>
-              {profile.room_level}
+              <b>Room Level: </b> {profile.room_level} <br />
+              <Button className="btn-block mt-2" color="danger">Offline</Button>
             </CardText>
           </Card>
         </Col>
-        <Col sm="7">
+        <Col className="mb-3" sm="7">
           <CardHeader
+            className="mt-2"
             style={{
               backgroundColor: "#dc3545",
               color: "white",
