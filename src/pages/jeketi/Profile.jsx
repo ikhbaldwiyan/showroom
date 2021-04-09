@@ -18,7 +18,7 @@ export default function Profile({ roomId }) {
       <Row className="mb-3">
         <Col sm="5">
           {profile && profile.room_name.length < 16 ? (
-            <h3>{profile.room_name}</h3>
+            <h3 className="text-gray-900">{profile.room_name}</h3>
           ) : (
             <h4>{profile.room_name}</h4>
           )}

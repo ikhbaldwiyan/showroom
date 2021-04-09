@@ -35,7 +35,11 @@ export default function RoomList({setRoomId}) {
         <Table dark>
           <thead>
             <tr>
-              <th colSpan="2">Daftar Showroom Member JKT48 </th>
+              <th 
+                colSpan="2" 
+                style={{backgroundColor: '#3252DF', color: 'white'}}>
+                Daftar Showroom Member JKT48 
+              </th>
             </tr>
           </thead>
           {showroom.map((item, idx) => (
@@ -44,7 +48,7 @@ export default function RoomList({setRoomId}) {
                 <td>{item.name}</td>
                 <td>
                   <Button
-                    color="info"
+                    color="primary"
                     onClick={() => setRoomId([item.id])}>
                     See Room
                   </Button>
