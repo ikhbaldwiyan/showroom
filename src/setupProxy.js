@@ -38,4 +38,11 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   );
+
+  app.use(
+    createProxyMiddleware("/gift_log", {
+      target: live,
+      changeOrigin: true,
+    }),
+  );
 };

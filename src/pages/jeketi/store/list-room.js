@@ -4,8 +4,20 @@ const showroom = [
     name: 'Azizi',
   },
   {
-    id: '61543',
-    name: 'Random'
+    id: '318210',
+    name: 'Ashel'
+  },
+  {
+    id: '317724',
+    name: 'Anin'
+  },
+  {
+    id: '318209',
+    name: 'Chika'
+  },
+  {
+    id: '318225',
+    name: 'Freya'
   },
   {
     id: '318229',
@@ -14,14 +26,6 @@ const showroom = [
   {
     id: '318213',
     name: 'Mira'
-  },
-  {
-    id: '317724',
-    name: 'Anin'
-  },
-  {
-    id: '233157',
-    name: 'Eli'
   },
   {
     id: '318207',
