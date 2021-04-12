@@ -22,15 +22,16 @@ export default function ListRoom(props) {
       <Container>
         <div className="row">
           <div className="col-9">
-            <h3 className="text-gray-900 mb-3">Room List</h3>
+            <h3 className="text-gray-800 mb-3">Room List</h3>
           </div>
           <div className="col mt-2">
             <b>Update Terakhir: </b> {lastUpdate.slice(0, -9)}
           </div>
         </div>
         <Table bordered>
-          <thead style={{backgroundColor: '#3252DF', color: 'white'}}>
+          <thead style={{backgroundColor: '#24a2b7', color: 'white'}}>
             <tr>
+              <th>No</th>
               <th>Room Name</th>
               <th>Followers</th>
               <th>Room Level</th>
@@ -40,6 +41,7 @@ export default function ListRoom(props) {
           {room.map((member, idx) => (
             <tbody key={idx} >
               <tr>
+                <th>{idx + 1}</th>
                 <th scope="row">{member.name}</th>
                 <td>{member.followers}</td>
                 <td>{member.room_level}</td>

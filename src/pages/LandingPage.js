@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import Header from 'parts/Header'
+import Header from 'pages/jeketi/Header'
 import landingPage from 'json/landingPage.json'
-import Hero from 'parts/Hero'
 import MostPicked from 'parts/MostPicked'
 
 export default class LandingPage extends Component {

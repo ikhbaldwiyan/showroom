@@ -4,9 +4,9 @@ import { Card } from 'reactstrap';
 
 export default function Comment({roomId}) {
   const [comment, setComment] = useState([{
-    name: 'Wotadmin ',
-    comment: 'Tunggu Gan',
-    avatar_url: "https://yt3.ggpht.com/ytc/AAUvwnjHM1JtaFTxSNNWf67Rjl4NqGZ4xMeC-K235DP_NA=s68-c-k-c0x00ffffff-no-rj"
+    name: 'Inzoid ',
+    comment: 'Tunggu wots',
+    avatar_url: "https://image.showroom-cdn.com/showroom-prod/image/avatar/1028686.png?v=87"
   }]);
 
   useEffect(() => {

@@ -2,33 +2,49 @@ import React from 'react'
 import { Row, Col, Button } from 'reactstrap';
 
 export default function Menu({setMenu, isLive}) {
+
+  const listMenu = [
+    {
+      name: 'Room List',
+      menu: 'room'
+    },
+    {
+      name: 'Live Chat',
+      menu: 'chat'
+    },
+    {
+      name: 'Rank',
+      menu: 'rank'
+    },
+    {
+      name: 'Gift',
+      menu: 'gift'
+    },
+  ]
+
   return (
     <Row>
       <Col>
-        <Button
-          color="primary"
-          className="mb-2 mr-2"
-          onClick={() => setMenu('room')}
-        >
-          Room List
-        </Button>
+        {!isLive && (
+          <Button
+            className="mb-2 mr-2 mt-1"
+            style={{backgroundColor: 'teal', border: 'none'}}
+            onClick={() => setMenu('room')}
+          >
+            Room List
+          </Button>
+        )}
         {isLive && (
-          <>
+          listMenu.map((menu, idx) => (
             <Button
-              color="primary"
-              className="mb-2 mr-2"
-              onClick={() => setMenu('chat')}
+              key={idx}
+              style={{backgroundColor: 'teal', border: 'none'}}
+              className="mb-2 mr-1"
+              onClick={() => setMenu(menu.menu)}
             >
-              Live Chat
+              {menu.name}
             </Button>
-            <Button
-              color="primary"
-              className="mb-2"
-              onClick={() => setMenu('rank')}
-            >
-              Rank
-            </Button>
-          </>
+          ))
         )}
       </Col>
     </Row>
