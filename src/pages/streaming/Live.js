@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Container } from 'reactstrap';
+import { useParams } from "react-router-dom";
 
 import Header from 'pages/jeketi/Header';
 import Menu from 'pages/jeketi/Menu';
@@ -12,10 +13,12 @@ import Setlist from 'pages/jeketi/Setlist';
 import StageUser from 'pages/jeketi/StageUser';
 import Gift from 'pages/jeketi/Gift';
 import Loading from 'pages/jeketi/Loading';  
+import Footer from 'pages/jeketi/Footer';
 
 export default function Live(props) {
+  let { id } = useParams();
   const [url, setUrl] = useState([]);
-  const [roomId, setRoomId] = useState('317727');
+  const [roomId, setRoomId] = useState(id);
   const [menu, setMenu] = useState('room');
   const [loading, setLoading] = useState(false);
 
@@ -34,6 +37,10 @@ export default function Live(props) {
     });
   }, [roomId, menu])
 
+  useEffect(() => {
+    id === 'undefined' && setRoomId('332503');
+  }, [id])
+
   return (
     <>
       <Header {...props} />
@@ -48,7 +55,7 @@ export default function Live(props) {
               <Stream url="" />
             ) : 'null'}
           </Col>
-          <Col>
+          <Col lg="4">
             <Menu setMenu={setMenu} isLive={url} />
             {menu === 'room' ? (
               <RoomList setRoomId={setRoomId} />
@@ -67,6 +74,7 @@ export default function Live(props) {
           </Col>
         </Row>
       </Container>
+      <Footer />
     </>
   )
 }

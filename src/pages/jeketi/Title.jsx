@@ -20,12 +20,9 @@ export default function Title({ roomId }) {
 
   return (
     <h4>
-      <b className="mr-1 text-gray-900">{profile.main_name} |</b>
+      <b className="mr-1 text-gray-800">{profile.main_name} |</b>
       {title}
-      <Button
-        style={{ marginLeft: '4px'}}
-        color="danger"
-      >
+      <Button color="danger" className="ml-2">
         <img src="https://pbs.twimg.com/media/Erx2IE1VQAEqdZD?format=png&name=small"
           width="15"
           className="mb-1 mr-1"

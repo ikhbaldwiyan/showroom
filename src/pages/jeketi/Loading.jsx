@@ -3,9 +3,11 @@ import PulseLoader from "react-spinners/PulseLoader";
 
 export default function Loading() {
   return (
-    <PulseLoader
-      size={12}
-      color={"teal"}
-    />
+    <div style={{marginBottom: '8px'}}>
+      <PulseLoader
+        size={12}
+        color={"teal"}
+      />
+    </div>
   )
 }

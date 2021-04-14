@@ -45,4 +45,11 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   );
+
+  app.use(
+    createProxyMiddleware("/room_status_list.json", {
+      target: 'https://campaign.showroom-live.com/akb48_sr/data',
+      changeOrigin: true,
+    }),
+  );
 };

@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState, useEffect } from 'react'
 import { Container, Table } from "reactstrap";
 import Header from 'pages/jeketi/Header';
+import formatLongDate from "utils/formatLongDate";
+import Footer from "./Footer";
 
 export default function ListRoom(props) {
   const [room, setRoom] = useState([]);
@@ -21,11 +23,11 @@ export default function ListRoom(props) {
       <Header {...props} />
       <Container>
         <div className="row">
-          <div className="col-9">
+          <div className="col-8">
             <h3 className="text-gray-800 mb-3">Room List</h3>
           </div>
           <div className="col mt-2">
-            <b>Update Terakhir: </b> {lastUpdate.slice(0, -9)}
+            <b>Update Terakhir: </b> {formatLongDate(lastUpdate)}
           </div>
         </div>
         <Table bordered>
@@ -51,6 +53,7 @@ export default function ListRoom(props) {
           ))}
         </Table>
       </Container>
+      <Footer />
     </>
   )
 }

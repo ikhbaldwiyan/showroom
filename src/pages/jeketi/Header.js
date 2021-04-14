@@ -4,6 +4,7 @@ import Fade from 'react-reveal/Fade';
 import Button from 'elements/Button';
 
 export default function Header(props) {
+  const roomId = props.match.params.id;
   const getNavLinkClass = (path) => {
     return props.location.pathname === path ? " active" : "";
   };
@@ -23,8 +24,8 @@ export default function Header(props) {
                     Home
                   </Button>
                 </li>
-                <li className={`nav-item${getNavLinkClass("/live-stream")}`}>
-                  <Button className="nav-link" type="link" href="/live-stream">
+                <li className={`nav-item${getNavLinkClass(`/live-stream/${roomId}`)}`}>
+                  <Button className="nav-link" type="link" href={`/live-stream/${roomId}`}>
                     Live Stream
                   </Button>
                 </li>
@@ -33,9 +34,9 @@ export default function Header(props) {
                     Room List
                   </Button>
                 </li>
-                <li className={`nav-item${getNavLinkClass("/agents")}`}>
-                  <Button className="nav-link" type="link" href="/agents">
-                    Rank Fans
+                <li className={`nav-item${getNavLinkClass("/about")}`}>
+                  <Button className="nav-link" type="link" href="/">
+                    About
                   </Button>
                 </li>
               </ul>
