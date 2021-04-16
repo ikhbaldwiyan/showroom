@@ -15,7 +15,6 @@ export default function RoomList({setRoomId}) {
       setRoom(listRoom);
     })
   });
-  
 
   return (
     <Row>
@@ -33,11 +32,13 @@ export default function RoomList({setRoomId}) {
               </th>
             </tr>
           </thead>
+
+          {/* Is live */}
           {room && room.map((item, idx) => (
-            item.name.includes("JKT48") && item.is_live === true &&
+            item.name.includes("JKT48") && item.is_live &&
             <tbody key={idx}>
               <tr>
-                <td>{item.name.slice(0, -8)} <b className="ml-3 text-danger">Live Now</b></td>
+                <td>{item.url_key.substr(6)} <Button color="danger" className="btn-sm ml-3 text-white">Live Now</Button></td>
                 <td>
                   <Button
                     color="primary"
@@ -49,11 +50,13 @@ export default function RoomList({setRoomId}) {
               </tr>
             </tbody>
           ))}
+
+          {/* Not Live */}
           {room && room.map((item, idx) => (
             item.name.includes("JKT48") && 
             <tbody key={idx}>
               <tr>
-                <td>{item.name.slice(0, -8)}</td>
+                <td>{item.url_key.substr(6)}</td>
                 <td>
                   <Button
                     color="primary"

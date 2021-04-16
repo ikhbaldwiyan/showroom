@@ -20,9 +20,9 @@ export default function Title({ roomId }) {
 
   return (
     <h4>
-      <b className="mr-1 text-gray-800">{profile.main_name} |</b>
+      <b className="mr-1 text-gray-800">{profile && profile.room_url_key.slice(6)} JKT48 |</b>
       {title}
-      <Button color="danger" className="ml-2">
+      <Button color="info" className="ml-2">
         <img src="https://pbs.twimg.com/media/Erx2IE1VQAEqdZD?format=png&name=small"
           width="15"
           className="mb-1 mr-1"
