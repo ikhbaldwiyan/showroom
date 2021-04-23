@@ -7,19 +7,9 @@
   "mostPicked": [
     {
       "_id": "asd1293uasdads1",
-      "name": "Jung Hook Sie",
-      "type": "Apartment",
-      "imageUrl": "/images/image-mostpicked-1.jpg",
-      "country": "South Korea",
-      "city": "Seoul Flore",
-      "price": "80",
-      "unit": "night"
-    },
-    {
-      "_id": "asd1293uasdads1",
-      "name": "The People House",
+      "name": "Azizi Asadel",
       "type": "Hotel",
-      "imageUrl": "/images/image-mostpicked-2.jpg",
+      "imageUrl": "https://image.showroom-cdn.com/showroom-prod/image/room/cover/a9aa6279cf53c4b3f2d79e35a098e94934506edc56b60896dcc44a45f940611e_m.jpeg?v=1617298740",
       "country": "Indonesia",
       "city": "Bogor",
       "price": "52",
@@ -27,31 +17,31 @@
     },
     {
       "_id": "asd1293uasdads1",
-      "name": "House Tour",
+      "name": "Anindita Cahyadi",
+      "type": "Apartment",
+      "imageUrl": "https://image.showroom-cdn.com/showroom-prod/image/room/cover/2d4a64a6d558a49204ac7bf4c8f98081bff9a1aaaa0af5260adc2287c229de6d_m.jpeg?v=1617298819",
+      "country": "Indonesia",
+      "city": "Bandung",
+      "price": "80",
+      "unit": "night"
+    },
+    {
+      "_id": "asd1293uasdads1",
+      "name": "Shani Indira Natio",
       "type": "Rumah",
-      "imageUrl": "/images/image-mostpicked-3.jpg",
-      "country": "South Korea",
+      "imageUrl": "https://image.showroom-cdn.com/showroom-prod/image/room/cover/15391680ed61e9c6c53454d5f56f63236e29a261ee5054e42daee3f04b630567_m.jpeg?v=1617298249",
+      "country": "France",
       "city": "Seoul Flore",
       "price": "80",
       "unit": "night"
     },
     {
       "_id": "asd1293uasdads1",
-      "name": "Jung Hook Sie",
+      "name": "Jesslyn Calista",
       "type": "Apartment",
-      "imageUrl": "/images/image-mostpicked-4.jpg",
-      "country": "South Korea",
-      "city": "Seoul Flore",
-      "price": "80",
-      "unit": "night"
-    },
-    {
-      "_id": "asd1293uasdads1",
-      "name": "Jung Hook Sie",
-      "type": "Apartment",
-      "imageUrl": "/images/image-mostpicked-5.jpg",
-      "country": "South Korea",
-      "city": "Seoul Flore",
+      "imageUrl": "https://image.showroom-cdn.com/showroom-prod/image/room/cover/a86713e31d9b8f4341baa7cbc5031e2d80a7b729fff37ac29dabcd26c92c29d1_m.jpeg?v=1617297634",
+      "country": "Indonesia",
+      "city": "West Java",
       "price": "80",
       "unit": "night"
     }
@@ -64,7 +54,7 @@
         {
           "_id": "asd1293uasdads1",
           "name": "PSW Antasari",
-          "imageUrl": "/images/image-category-1.jpg",
+          "imageUrl": "https://image.showroom-cdn.com/showroom-prod/image/room/cover/a9aa6279cf53c4b3f2d79e35a098e94934506edc56b60896dcc44a45f940611e_m.jpeg?v=1617298740",
           "country": "South Korea",
           "city": "Seoul Flore",
           "isPopular": true
@@ -72,7 +62,7 @@
         {
           "_id": "asd1293uasdads1",
           "name": "Kuretakeso",
-          "imageUrl": "/images/image-category-2.jpg",
+          "imageUrl": "https://image.showroom-cdn.com/showroom-prod/image/room/cover/15391680ed61e9c6c53454d5f56f63236e29a261ee5054e42daee3f04b630567_m.jpeg?v=1617298249",
           "country": "South Korea",
           "city": "Seoul Flore",
           "isPopular": false
@@ -80,7 +70,7 @@
         {
           "_id": "asd1293uasdads1",
           "name": "Arya Duta",
-          "imageUrl": "/images/image-category-3.jpg",
+          "imageUrl": "https://image.showroom-cdn.com/showroom-prod/image/room/cover/a86713e31d9b8f4341baa7cbc5031e2d80a7b729fff37ac29dabcd26c92c29d1_m.jpeg?v=1617297634",
           "country": "South Korea",
           "city": "Seoul Flore",
           "isPopular": false
@@ -88,7 +78,7 @@
         {
           "_id": "asd1293uasdads1",
           "name": "Grand Dhika",
-          "imageUrl": "/images/image-category-4.jpg",
+          "imageUrl": "https://image.showroom-cdn.com/showroom-prod/image/room/cover/2d4a64a6d558a49204ac7bf4c8f98081bff9a1aaaa0af5260adc2287c229de6d_m.jpeg?v=1617298819",
           "country": "South Korea",
           "city": "Seoul Flore",
           "isPopular": false

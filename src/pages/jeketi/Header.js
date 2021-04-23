@@ -23,14 +23,14 @@ export default function Header(props) {
                     Home
                   </Button>
                 </li>
-                <li className={`nav-item${getNavLinkClass("/list-room")}`}>
-                  <Button className="nav-link" type="link" href="/list-room">
-                    Room List
-                  </Button>
-                </li>
                 <li className={`nav-item${getNavLinkClass("/live-stream")}`}>
                   <Button className="nav-link" type="link" href="/live-stream">
                     Live Stream
+                  </Button>
+                </li>
+                <li className={`nav-item${getNavLinkClass("/list-room")}`}>
+                  <Button className="nav-link" type="link" href="/list-room">
+                    Room List
                   </Button>
                 </li>
                 <li className={`nav-item${getNavLinkClass("/agents")}`}>
