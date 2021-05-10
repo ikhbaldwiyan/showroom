@@ -22,27 +22,40 @@ export default function Menu({setMenu, isLive}) {
     },
   ]
 
+  const buttonStyle = {
+    backgroundColor: 'teal', border: 'none'
+  }
+
   return (
     <Row>
       <Col>
         {!isLive && (
-          <Button
-            className="mb-2 mr-2 mt-1"
-            style={{backgroundColor: 'teal', border: 'none'}}
-            onClick={() => setMenu('room')}
-          >
-            Room List
-          </Button>
+          <>
+            <Button
+              className="menu"
+              style={buttonStyle}
+              onClick={() => setMenu('room')}
+            >
+              Room List
+            </Button>
+            <Button
+              className="menu"
+              style={buttonStyle}
+              onClick={() => setMenu('total')}
+            >
+              Total Ranking
+            </Button>
+          </>
         )}
         {isLive && (
-          listMenu.map((menu, idx) => (
+          listMenu.map((item, idx) => (
             <Button
               key={idx}
-              style={{backgroundColor: 'teal', border: 'none'}}
+              style={buttonStyle}
               className="menu"
-              onClick={() => setMenu(menu.menu)}
+              onClick={() => setMenu(item.menu)}
             >
-              {menu.name}
+              {item.name}
             </Button>
           ))
         )}

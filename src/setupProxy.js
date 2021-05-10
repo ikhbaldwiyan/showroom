@@ -52,4 +52,11 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   );
+
+  app.use(
+    createProxyMiddleware("/summary_ranking", {
+      target: live,
+      changeOrigin: true,
+    })
+  );
 };

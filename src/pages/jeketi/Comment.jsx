@@ -21,8 +21,8 @@ export default function Comment({roomId}) {
       {comment.map((item, idx) => (
         item.comment.length != '2' && item.comment.length != '1' && 
         <>
-          <h5 key={idx} className="text-gray-100">
-            <img width="30" className="mr-1" src={item.avatar_url} alt={item.name} />
+          <h5 key={idx} className="text-gray-200">
+            <img width="30" className="mr-2" src={item.avatar_url} alt={item.name} />
             {item.name}
           </h5>
           <p>{item.comment}</p>

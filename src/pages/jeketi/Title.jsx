@@ -20,7 +20,9 @@ export default function Title({ roomId }) {
 
   return (
     <h4>
-      <b className="mr-1 text-gray-800">{profile && profile.room_url_key != 'officialJKT48' ? profile.room_url_key.slice(6) + ' JKT48 |': profile.room_name}</b>
+      <b className="mr-1 text-gray-800">
+        {profile && profile.room_url_key.includes('JKT48') && profile.room_url_key != 'officialJKT48' ? profile.room_url_key.slice(6) + ' JKT48': profile.room_name} |
+      </b>
       {title}
       <Button color="info" className="ml-2">
         <img src="https://pbs.twimg.com/media/Erx2IE1VQAEqdZD?format=png&name=small"

@@ -11,6 +11,7 @@ import RoomList from 'pages/jeketi/RoomList';
 import LiveChat from 'pages/jeketi/Comment';
 import Setlist from 'pages/jeketi/Setlist';
 import StageUser from 'pages/jeketi/StageUser';
+import TotalRank from 'pages/jeketi/TotalRank';
 import Gift from 'pages/jeketi/Gift';
 import Loading from 'pages/jeketi/Loading';  
 import Footer from 'pages/jeketi/Footer';
@@ -35,7 +36,8 @@ export default function Live(props) {
       const streamUrl = res.data.streaming_url_list
       setUrl(streamUrl)
     });
-  }, [roomId, menu])
+
+  }, [roomId])
 
   useEffect(() => {
     id === 'undefined' && setRoomId('332503');
@@ -68,6 +70,9 @@ export default function Live(props) {
             ) : menu === 'gift' ? (
               loading ? <Loading /> :
               <Gift roomId={roomId} />
+            ) : menu === 'total' ? (
+              loading ? <Loading /> :
+              <TotalRank roomId={roomId} />
             ): (
               <Setlist />
             )}
