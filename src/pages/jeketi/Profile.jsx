@@ -30,6 +30,7 @@ export default function Profile({ roomId, isLoad }) {
             width="100%"
             src={profile.image}
             alt={profile.room_name}
+            style={{boxShadow: '3px 3px 3px 2px'}}
           />
           <CardHeader
             className="mt-2"

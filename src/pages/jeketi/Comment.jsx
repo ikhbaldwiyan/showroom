@@ -17,11 +17,12 @@ export default function Comment({roomId}) {
   }, [comment]);
 
   return (
-    <Card body inverse color="dark">
+    <Card body inverse color="dark" className="mb-3">
       {comment.map((item, idx) => (
+        item.comment.length != '2' && item.comment.length != '1' && 
         <>
-          <h5 key={idx}>
-            <img width="30" className="mr-1" src={item.avatar_url} />
+          <h5 key={idx} className="text-gray-100">
+            <img width="30" className="mr-1" src={item.avatar_url} alt={item.name} />
             {item.name}
           </h5>
           <p>{item.comment}</p>

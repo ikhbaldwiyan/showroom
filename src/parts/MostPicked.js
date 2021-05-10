@@ -23,6 +23,7 @@ export default function MostPicked({refMostPicked}) {
               width="600"
               src="https://image.showroom-cdn.com/showroom-prod/image/top_slider/0f2072404986edd4f5883e76c7a45a84.png"
               className="img-fluid"
+              alt="showroom"
             />
           </center>
         </div>
@@ -48,6 +49,7 @@ export default function MostPicked({refMostPicked}) {
                   <div className="meta-wrapper">
                     <Button
                       type="link"
+                      style={{textDecoration: 'none'}}
                       className="strecthed-link d-block text-white"
                       href={`live-stream/${item.id}`}
                     >
@@ -65,7 +67,7 @@ export default function MostPicked({refMostPicked}) {
             <div key={idx} className={`item ${isMobile ? "column-12 row-1" : "column-4 row-1"}`}>
               <Fade bottom>
                 <div className="card card-featured">
-                  <figure className={`${isMobile ? "img-wrapper" : "img-article"}`}>
+                  <figure className="img-wrapper">
                     <img
                       src={item.image_url}
                       alt={item.name}
@@ -75,6 +77,7 @@ export default function MostPicked({refMostPicked}) {
                   <div className="meta-wrapper">
                     <Button
                       type="link"
+                      style={{textDecoration: 'none'}}
                       className="strecthed-link d-block text-white"
                       href={`live-stream/${item.id}`}
                     >

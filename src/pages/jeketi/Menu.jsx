@@ -39,7 +39,7 @@ export default function Menu({setMenu, isLive}) {
             <Button
               key={idx}
               style={{backgroundColor: 'teal', border: 'none'}}
-              className="mb-2 mr-1"
+              className="menu"
               onClick={() => setMenu(menu.menu)}
             >
               {menu.name}
