@@ -41,6 +41,7 @@ export default function RoomList({setRoomId}) {
                 <td>{item.url_key.substr(6)} <br /> <LiveButton className="btn-sm btn-danger mt-1" isPrimary>Live Now</LiveButton></td>
                 <td>
                   <Button
+                    className="mt-4"
                     color="primary"
                     style={{backgroundColor: '#24a2b7', color: 'white', border: 'none'}}
                     onClick={() => setRoomId([item.id])}>

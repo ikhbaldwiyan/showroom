@@ -24,7 +24,7 @@ export default function Live(props) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    window.document.title = 'JKT48 Showroom'
+    window.document.title = 'JKT48 SHOWROOM'
     window.scrollTo(0, 0);
 
     setLoading(true)

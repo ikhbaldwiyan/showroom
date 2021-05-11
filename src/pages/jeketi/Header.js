@@ -2,6 +2,7 @@ import React from 'react';
 import Fade from 'react-reveal/Fade';
 
 import Button from 'elements/Button';
+import BrandIcon from 'parts/IconText';
 
 export default function Header(props) {
   const roomId = props.match.params.id;
@@ -14,9 +15,7 @@ export default function Header(props) {
       <header className="sapcing-sm">
         <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light">
-            <Button className="brand-text-icon" href="" type="link">
-              JKT48<span className="text-gray-900">SHOWROOM</span>
-            </Button>
+            <BrandIcon />
             <div className="collapse navbar-collapse">
               <ul className="navbar-nav ml-auto">
                 <li className={`nav-item${getNavLinkClass("/")}`}>

@@ -7,13 +7,24 @@ import Loading from 'pages/jeketi/Loading';
 export default function Profile({ roomId, isLoad }) {
   const [profile, setProfile] = useState("");
 
-  useEffect(() => {
-    profile && window.scrollTo(0, 0);
+  useEffect(() => { 
     axios.get(`/profile?room_id=${roomId}`).then((res) => {
       const profiles = res.data;
       setProfile(profiles);
     });
   }, [roomId]);
+
+  useEffect(() => {
+    window.document.title = profile && profile.room_url_key !== 'officialJKT48' ? `${profile.room_url_key.slice(6)} JKT48 Room` : 'JKT48 Official SHOWROOM';
+    console.log(profile.room_url_key)
+  }, [profile])
+
+  const text = {
+    borderColor: "#24a2b7",
+    borderTopLeftRadius: "0",
+    borderTopRightRadius: "0",
+    color: "black",
+  }
 
   return (
     isLoad ? <Loading /> : 
@@ -43,7 +54,7 @@ export default function Profile({ roomId, isLoad }) {
             body
             outline
           >
-            <CardText>
+            <CardText style={text}>
               <b>Name:</b> {profile.room_name} <br />
               <b>Follower:</b> {profile.follower_num} <br />
               <b>Room Level: </b> {profile.room_level} <br />
@@ -62,12 +73,7 @@ export default function Profile({ roomId, isLoad }) {
             Fans Letter
           </CardHeader>
           <Card
-            style={{
-              borderColor: "#24a2b7",
-              borderTopLeftRadius: "0",
-              borderTopRightRadius: "0",
-              color: "black",
-            }}
+            style={text}
             body
             outline
           >

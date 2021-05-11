@@ -18,6 +18,10 @@ export default function Title({ roomId }) {
     });
   }, [profile, roomId])
 
+  useEffect(() => {
+    window.document.title = profile && `${profile.room_url_key.slice(6)} JKT48 Room`
+  }, [profile])
+
   return (
     <h4>
       <b className="mr-1 text-gray-800">

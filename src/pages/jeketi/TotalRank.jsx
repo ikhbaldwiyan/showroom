@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
-import { Table } from "reactstrap";
+import { Table, Card } from "reactstrap";
 
 export default function SummaryRank({roomId}) {
     const [summary, setSummary] = useState('')
@@ -38,7 +38,13 @@ export default function SummaryRank({roomId}) {
           ))}
         </Table>
       ) : (
-        <h5>Tunggu Wots</h5>
+        <Card body inverse color="dark" className="mb-3">
+          <h5 className="text-gray-200">
+            <img width="30" className="mr-2" src="https://image.showroom-cdn.com/showroom-prod/image/avatar/1028686.png?v=87" alt="Minzoid" />
+            Minzoid
+          </h5>
+          <p>Tunggu wots</p>
+        </Card>
       )
     )
 }
