@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
 import { Table, Card } from "reactstrap";
+import formatViews from "utils/formatViews";
 
 export default function SummaryRank({roomId}) {
     const [summary, setSummary] = useState('')
@@ -31,7 +32,7 @@ export default function SummaryRank({roomId}) {
                 <th className="text-center">{item.rank}</th>
                 <td><img width="40" src={item.avatar_url} /></td>
                 <td>{item.name}</td>
-                <td>{item.point}</td>
+                <td>{formatViews(item.point)}</td>
                 <td>{item.visit_count}x</td>
               </tr>
             </tbody>

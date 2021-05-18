@@ -12,11 +12,10 @@ export default function Profile({ roomId, isLoad }) {
       const profiles = res.data;
       setProfile(profiles);
     });
-  }, [roomId]);
+  }, [roomId, profile]);
 
   useEffect(() => {
     window.document.title = profile && profile.room_url_key !== 'officialJKT48' ? `${profile.room_url_key.slice(6)} JKT48 Room` : 'JKT48 Official SHOWROOM';
-    console.log(profile.room_url_key)
   }, [profile])
 
   const text = {

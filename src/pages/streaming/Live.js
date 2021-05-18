@@ -24,6 +24,14 @@ export default function Live(props) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    axios.get(`/streaming_url?room_id=${roomId}`).then(res => {
+      const streamUrl = res.data.streaming_url_list
+      setUrl(streamUrl)
+    });
+    !url && setMenu('room')
+  }, [roomId, url])
+
+  useEffect(() => {
     window.document.title = 'JKT48 SHOWROOM'
     window.scrollTo(0, 0);
 
@@ -31,13 +39,7 @@ export default function Live(props) {
     setTimeout(() => {
       setLoading(false)
     }, 1000);
-    
-    axios.get(`/streaming_url?room_id=${roomId}`).then(res => {
-      const streamUrl = res.data.streaming_url_list
-      setUrl(streamUrl)
-    });
-
-  }, [roomId])
+  }, [menu, roomId])
 
   useEffect(() => {
     id === 'undefined' && setRoomId('332503');

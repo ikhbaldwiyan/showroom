@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Button } from "reactstrap";
+import Button from "elements/Button";
+import formatViews from "utils/formatViews";
 
 export default function Title({ roomId }) {
   const [profile, setProfile] = useState("");
@@ -24,15 +25,15 @@ export default function Title({ roomId }) {
 
   return (
     <h4>
-      <b className="mr-1 text-gray-800">
+      <b className="text-gray-800 mr-1">
         {profile && profile.room_url_key.includes('JKT48') && profile.room_url_key != 'officialJKT48' ? profile.room_url_key.slice(6) + ' JKT48': profile.room_name} |
       </b>
       {title}
-      <Button color="info" className="ml-2">
+      <Button className="btn-sm btn-info ml-1 mb-1">
         <img src="https://pbs.twimg.com/media/Erx2IE1VQAEqdZD?format=png&name=small"
           width="15"
           className="mb-1 mr-1"
-        /> {profile.view_num}
+        /> {formatViews(profile.view_num)}
       </Button>
     </h4>
   )
