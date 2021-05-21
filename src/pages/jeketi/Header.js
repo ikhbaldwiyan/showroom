@@ -1,13 +1,15 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
+import DarkModeToggle from "react-dark-mode-toggle";
 
 import Button from 'elements/Button';
 import BrandIcon from 'parts/IconText';
+import { isMobile } from 'react-device-detect';
 
-export default function Header(props) {
-  const roomId = props.match.params.id;
+export default function Header({setTheme, theme}) {
+  let RoomId = window.location.pathname.slice('13')
   const getNavLinkClass = (path) => {
-    return props.location.pathname === path ? " active" : "";
+    return window.location.pathname === path ? " active" : "";
   };
 
   return (
@@ -16,6 +18,12 @@ export default function Header(props) {
         <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light">
             <BrandIcon />
+            <DarkModeToggle 
+              className={!isMobile && 'ml-3'}
+              onChange={setTheme}
+              checked={theme === 'dark'}
+              size={48}
+            />
             <div className="collapse navbar-collapse">
               <ul className="navbar-nav ml-auto">
                 <li className={`nav-item${getNavLinkClass("/")}`}>
@@ -23,8 +31,8 @@ export default function Header(props) {
                     Home
                   </Button>
                 </li>
-                <li className={`nav-item${getNavLinkClass(`/live-stream/${roomId}`)}`}>
-                  <Button className="nav-link" type="link" href={`/live-stream/${roomId}`}>
+                <li className={`nav-item${getNavLinkClass(`/live-stream/${RoomId}`)}`}>
+                  <Button className="nav-link" type="link" href="/live-stream/332503">
                     Live Stream
                   </Button>
                 </li>
