@@ -25,7 +25,7 @@ export default function Title({ roomId }) {
 
   return (
     <h4>
-      <b className="text-gray-800 mr-1">
+      <b className="mr-1">
         {profile && profile.room_url_key.includes('JKT48') && profile.room_url_key != 'officialJKT48' ? profile.room_url_key.slice(6) + ' JKT48': profile.room_name} |
       </b>
       {title}

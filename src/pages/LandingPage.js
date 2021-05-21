@@ -5,11 +5,6 @@ import MostPicked from 'parts/MostPicked'
 import Footer from 'pages/jeketi/Footer';
 
 export default class LandingPage extends Component {
-  constructor(props) {
-    super(props);
-    this.refMostPicked = React.createRef();
-  }
-
   componentDidMount() {
     document.title = 'JKT48 Showroom'
   }
@@ -18,7 +13,7 @@ export default class LandingPage extends Component {
     return (
       <>
         <Header {...this.props} />
-          <MostPicked refMostPicked={this.refMostPicked} />
+          <MostPicked />
         <Footer />
       </>
     )

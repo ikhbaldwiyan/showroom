@@ -59,4 +59,11 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+
+  app.use(
+    createProxyMiddleware("/next_live", {
+      target: room,
+      changeOrigin: true,
+    })
+  )
 };

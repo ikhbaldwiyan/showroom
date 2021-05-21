@@ -6,19 +6,27 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import TwitterLogo from 'assets/images/twitter.png'
 import InstagramLogo from 'assets/images/instagram.png'
 import Loading from 'pages/jeketi/Loading';  
+import formatViews from "utils/formatViews";
 
-export default function Profile({ roomId, isLoad }) {
+export default function Profile({ roomId, isLoad, menu }) {
   const [profile, setProfile] = useState("");
+  const [schedule, setSchedule] = useState("");
 
   useEffect(() => { 
     axios.get(`/profile?room_id=${roomId}`).then((res) => {
       const profiles = res.data;
       setProfile(profiles);
     });
-  }, [roomId, profile]);
+
+    axios.get(`/next_live?room_id=${roomId}`).then((res) => {
+      const schedules = res.data.text;
+      setSchedule(schedules);
+    });
+  }, [roomId]);
 
   useEffect(() => {
-    window.document.title = profile && profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48' ? `${profile.room_url_key.slice(6)} JKT48 Room` : profile.room_name;
+    let title = profile && profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48';
+    window.document.title = title ? `${profile.room_url_key.slice(6)} JKT48 Room` : profile.room_name;
   }, [profile])
 
   const text = {
@@ -34,7 +42,7 @@ export default function Profile({ roomId, isLoad }) {
   }
 
   let value = profile && profile.description;
-  const description = value.replace(/\n/g, " <br /> ").replace(/"/g, "").replace(/Instagram:/g, `<img src=${InstagramLogo} width="40" class="ml-1 mr-1" /> `).replace(/Twitter:/g, `<img src=${TwitterLogo} width="48" /> `);
+  const description = value.replace(/\n/g, " <br /> ").replace(/"/g, "").replace(/Instagram:/g, `<img src=${InstagramLogo} width="40" class="ml-1 mr-1" alt="Instagram"/> `).replace(/Twitter:/g, `<img src=${TwitterLogo} width="48" alt="Twitter"/> `);
   
   function createTextLinks(text) {
     return (text || "").replace(
@@ -51,11 +59,11 @@ export default function Profile({ roomId, isLoad }) {
   }
 
   return (
-    isLoad ? <Loading /> : 
+    isLoad && menu == 'room' ? <Loading /> : 
     <>
       <Row className="mb-2">
         <Col>
-          <h4 className="text-gray-800">{profile.room_name}</h4>
+          <h4>{profile.room_name}</h4>
         </Col>
       </Row>
       <Row>
@@ -88,7 +96,7 @@ export default function Profile({ roomId, isLoad }) {
         
         <Col className="mb-2" sm="6">
           <CardHeader className="mt-2" style={header}>
-            {profile && profile.room_url_key.slice(6)} Room Info
+            {profile && profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48' ? `${profile.room_url_key.slice(6)}` : profile.room_name } Room Info
           </CardHeader>
           <Card
             className="mb-2"
@@ -97,10 +105,10 @@ export default function Profile({ roomId, isLoad }) {
             outline
           >
             <CardText style={text}>
-              <b>Room Id:</b> {profile.room_id} <br />
               <b>Room Level: </b> {profile.room_level} <br />
+              <b>Schedule:</b> {schedule} <br />
               <b>Category: </b> {profile.genre_name} <br />
-              <b>Follower:</b> {profile.follower_num} <br />
+              <b>Follower:</b> {formatViews(profile.follower_num)} <br />
             </CardText>
           </Card>
 

@@ -33,7 +33,7 @@ export default function Live(props) {
 
   useEffect(() => {
     window.document.title = 'JKT48 SHOWROOM'
-    window.scrollTo(0, 0);
+    menu == 'room' && window.scrollTo(0, 0);
 
     setLoading(true)
     setTimeout(() => {
@@ -54,7 +54,7 @@ export default function Live(props) {
             {url ? url.slice(0, 1).map((item, idx) => (
               <Stream roomId={roomId} key={idx} url={item.url} />
             )) : !url ? (
-              <Profile roomId={roomId} setRoomId={setRoomId} isLoad={loading} />
+              <Profile roomId={roomId} setRoomId={setRoomId} isLoad={loading} menu={menu} />
             ) : menu === 'live' ? (
               <Stream url="" />
             ) : 'null'}
