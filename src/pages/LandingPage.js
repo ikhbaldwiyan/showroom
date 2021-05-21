@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import Header from 'pages/jeketi/Header';
-import MostPicked from 'parts/MostPicked'
+import Home from 'parts/Home'
 import Footer from 'pages/jeketi/Footer';
 
 export default class LandingPage extends Component {
@@ -13,7 +13,7 @@ export default class LandingPage extends Component {
     return (
       <>
         <Header {...this.props} />
-          <MostPicked />
+          <Home />
         <Footer />
       </>
     )
