@@ -20,7 +20,7 @@ export default function Title({ roomId }) {
   }, [profile, roomId])
 
   useEffect(() => {
-    window.document.title = profile && `${profile.room_url_key.slice(6)} JKT48 Room`
+    window.document.title = profile && profile.room_url_key.includes("JKT48") ? `${profile.room_url_key.slice(6)} JKT48 Room` : profile.room_name;
   }, [profile])
 
   return (

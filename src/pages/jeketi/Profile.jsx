@@ -22,7 +22,17 @@ export default function Profile({ roomId, isLoad, menu }) {
       const schedules = res.data.text;
       setSchedule(schedules);
     });
-  }, [roomId]);
+  }, [roomId, menu]);
+
+  const profileName = () => {
+    let title = profile && profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48';
+    let name = title ? `${profile.room_url_key.slice(6)} JKT48 Room` : profile.room_name;
+    return profile ? name : 'JKT48 SHOWROOM';
+  };
+
+  useEffect(() => {
+    window.document.title = profileName();
+  }, [profile, menu])
 
   useEffect(() => {
     let title = profile && profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48';

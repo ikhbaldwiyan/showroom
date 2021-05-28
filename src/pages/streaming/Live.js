@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import Header from 'pages/jeketi/Header';
 import Menu from 'pages/jeketi/Menu';
 import Stream from './Stream';
+import Title from 'pages/jeketi/Title';
 import Profile from 'pages/jeketi/Profile';
 import RoomList from 'pages/jeketi/RoomList';
 import LiveChat from 'pages/jeketi/Comment';
@@ -52,12 +53,13 @@ export default function Live(props) {
         <Row>
           <Col lg="8">
             {url ? url.slice(0, 1).map((item, idx) => (
-              <Stream roomId={roomId} key={idx} url={item.url} />
-            )) : !url ? (
+              <>
+                <Stream key={idx} url={item.url} />
+                <Title roomId={roomId} />
+              </>
+            )) : (
               <Profile roomId={roomId} setRoomId={setRoomId} isLoad={loading} menu={menu} />
-            ) : menu === 'live' ? (
-              <Stream url="" />
-            ) : 'null'}
+            )}
           </Col>
           <Col lg="4">
             <Menu setMenu={setMenu} isLive={url} />
