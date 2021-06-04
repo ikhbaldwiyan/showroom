@@ -60,4 +60,11 @@ export const GlobalStyles = createGlobalStyle`
     .showroom {
       color: ${({ theme }) => theme.showroom}
     }
-  }`
+  }
+  
+  footer {
+    .list-group-item {
+      background-color: ${({ theme }) => theme.body};
+    }
+  }
+  `

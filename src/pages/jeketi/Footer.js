@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from 'elements/Button';
+import BrandIcon from 'parts/IconText';
 
 export default function Footer() {
   return (
@@ -7,9 +8,7 @@ export default function Footer() {
       <div className="container">
         <div className="row">
           <div className="col-auto" style={{width: 380}}>
-            <Button className="brand-text-icon" href="" type="link">
-              JKT48<span className="text-gray-900">SHOWROOM</span>
-            </Button>
+            <BrandIcon />
             <p className="brand-tagline">
               Solusi bagi Laptop / Hp Kentang yang ingin <br/>
               ngidol dengan aplikasi Showroom versi ringan
@@ -48,7 +47,7 @@ export default function Footer() {
         </div>
         <div className="row">
           <div className="col text-center copyrights">
-            Copyright 2021 • All rights reserved • JKT48SHOWROOM
+            Copyright 2021 • All rights reserved • JKT48SHOWROOM - Inzoid
           </div>
         </div>
       </div>

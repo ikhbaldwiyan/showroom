@@ -62,7 +62,7 @@ export default function Profile({ roomId, isLoad, menu }) {
         if (!hyperlink.match("^https?://")) {
           hyperlink = "http://" + hyperlink;
         }
-        let title = profile.room_url_key.includes("JKT48") ? `${profile.room_url_key.slice(6)} JKT48` : profile.room_name
+        let title = profile.room_url_key.includes("JKT48") ? `${profile.room_url_key.slice(6)} JKT48` : hyperlink
         return space + '<a href="' + hyperlink + '" target="_blank">' + title + "</a>";
       }
     );

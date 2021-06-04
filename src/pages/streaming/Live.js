@@ -57,8 +57,10 @@ export default function Live(props) {
                 <Stream key={idx} url={item.url} />
                 <Title roomId={roomId} />
               </>
-            )) : (
+            )) : !url ? (
               <Profile roomId={roomId} setRoomId={setRoomId} isLoad={loading} menu={menu} />
+            ) : (
+              <Stream url="" />
             )}
           </Col>
           <Col lg="4">

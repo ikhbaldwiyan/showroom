@@ -29,7 +29,7 @@ export default function Title({ roomId }) {
         {profile && profile.room_url_key.includes('JKT48') && profile.room_url_key != 'officialJKT48' ? profile.room_url_key.slice(6) + ' JKT48': profile.room_name} |
       </b>
       {title}
-      <Button className="btn-sm btn-info ml-1 mb-1">
+      <Button className="btn-sm btn-info ml-2 mb-1">
         <img src="https://pbs.twimg.com/media/Erx2IE1VQAEqdZD?format=png&name=small"
           width="15"
           className="mb-1 mr-1"
