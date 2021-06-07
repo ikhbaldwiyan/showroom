@@ -17,7 +17,7 @@ export default function Comment({roomId}) {
   }, [comment]);
 
   return (
-    <Card body inverse color="dark" className="mb-3">
+    <Card body inverse color="dark" className="scroll">
       {comment.map((item, idx) => (
         item.comment.length != '2' && item.comment.length != '1' && 
         <>

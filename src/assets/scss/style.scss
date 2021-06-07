@@ -205,6 +205,12 @@ section {
   margin-right: .25rem;
 }
 
+.scroll {
+  max-height: 500px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
 footer {
   border-top: 1px solid $gray-200;
   padding-top: 50px;

@@ -15,26 +15,28 @@ export default function Gift({roomId}) {
 
   return (
     gift && (
-      <Table dark>
-        <thead>
-          <tr>
-            <th>Ava</th>
-            <th>Name</th>
-            <th>Gift</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        {gift.map((item, idx) => (
-          <tbody key={idx} >
+      <div className="scroll">
+        <Table dark>
+          <thead>
             <tr>
-              <td><img width="40" src={item.avatar_url} /></td>
-              <th scope="row">{item.name}</th>
-              <td><img width="40" src={item.image} /></td>
-              <td>x{item.num}</td>
+              <th>Ava</th>
+              <th>Name</th>
+              <th>Gift</th>
+              <th>Total</th>
             </tr>
-          </tbody>
-        ))}
-      </Table>
+          </thead>
+          {gift.map((item, idx) => (
+            <tbody key={idx} >
+              <tr>
+                <td><img width="40" src={item.avatar_url} /></td>
+                <th scope="row">{item.name}</th>
+                <td><img width="40" src={item.image} /></td>
+                <td>x{item.num}</td>
+              </tr>
+            </tbody>
+          ))}
+        </Table>
+      </div>
     )
   )
 }

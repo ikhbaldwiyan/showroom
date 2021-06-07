@@ -19,7 +19,7 @@ export default function RoomList({setRoomId}) {
 
   return (
     <Row>
-      <Col>
+      <Col className="scroll">
         <FormGroup>
           <Input type="number" placeholder="Masukan ID Showroom" onChange={handleInputId} />
         </FormGroup>
