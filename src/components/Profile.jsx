@@ -5,8 +5,8 @@ import { Row, Col, Card, CardImg, CardHeader, CardText, Button } from "reactstra
 import "bootstrap/dist/css/bootstrap.min.css";
 import TwitterLogo from 'assets/images/twitter.png'
 import InstagramLogo from 'assets/images/instagram.png'
-import Loading from 'pages/jeketi/Loading';  
 import formatViews from "utils/formatViews";
+import Loading from "components/Loading";
 
 export default function Profile({ roomId, isLoad, menu }) {
   const [profile, setProfile] = useState("");
@@ -99,6 +99,7 @@ export default function Profile({ roomId, isLoad, menu }) {
               {profile.avatar && profile.avatar.list.map((item, idx) => (
                 <img key={idx} width="60" className="mr-2" src={item} />
               ))}
+              <Button href={profile.share_url_live} className="btn-block mt-2" style={{backgroundColor: 'teal', border: 'none'}} target="_blank">Open Showroom</Button>
               <Button className="btn-block mt-2" color="danger" disabled>Offline</Button>
             </CardText>
           </Card>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import Header from 'pages/jeketi/Header';
+import Header from 'parts/Header';
 import Home from 'parts/Home'
-import Footer from 'pages/jeketi/Footer';
+import Footer from 'parts/Footer';
 
 export default class LandingPage extends Component {
   componentDidMount() {

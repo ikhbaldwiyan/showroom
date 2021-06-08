@@ -3,19 +3,19 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Container } from 'reactstrap';
 import { useParams } from "react-router-dom";
 
-import Header from 'pages/jeketi/Header';
-import Menu from 'pages/jeketi/Menu';
-import Stream from './Stream';
-import Title from 'pages/jeketi/Title';
-import Profile from 'pages/jeketi/Profile';
-import RoomList from 'pages/jeketi/RoomList';
-import LiveChat from 'pages/jeketi/Comment';
-import Setlist from 'pages/jeketi/Setlist';
-import StageUser from 'pages/jeketi/StageUser';
-import TotalRank from 'pages/jeketi/TotalRank';
-import Gift from 'pages/jeketi/Gift';
-import Loading from 'pages/jeketi/Loading';  
-import Footer from 'pages/jeketi/Footer';
+import Header from 'parts/Header';
+import Menu from 'components/Menu';
+import Stream from './streaming/Stream';
+import Title from 'components/Title';
+import Profile from 'components/Profile';
+import RoomList from 'components/RoomList';
+import LiveChat from 'components/Comment';
+import Setlist from 'components/Setlist';
+import StageUser from 'components/StageUser';
+import TotalRank from 'components/TotalRank';
+import Gift from 'components/Gift';
+import Loading from 'components/Loading';  
+import Footer from 'parts/Footer';
 
 export default function Live(props) {
   let { id } = useParams();
