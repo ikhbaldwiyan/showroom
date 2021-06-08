@@ -29,7 +29,7 @@ export default function Gift({roomId}) {
             <tbody key={idx} >
               <tr>
                 <td><img width="40" src={item.avatar_url} /></td>
-                <th scope="row">{item.name}</th>
+                <th style={{wordBreak: 'break-word'}}>{item.name}</th>
                 <td><img width="40" src={item.image} /></td>
                 <td>x{item.num}</td>
               </tr>
