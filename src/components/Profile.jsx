@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import TwitterLogo from 'assets/images/twitter.png'
 import InstagramLogo from 'assets/images/instagram.png'
 import formatViews from "utils/formatViews";
-import Loading from "components/Loading";
+import Skeleton from "parts/Skeleton";
 
 export default function Profile({ roomId, isLoad, menu }) {
   const [profile, setProfile] = useState("");
@@ -69,7 +69,7 @@ export default function Profile({ roomId, isLoad, menu }) {
   }
 
   return (
-    isLoad && menu == 'room' ? <Loading /> : 
+    isLoad && menu == 'room' ? <Skeleton /> : 
     <>
       <Row className="mb-2">
         <Col>
