@@ -8,11 +8,17 @@ import { GlobalStyles } from 'utils/darkmode/global';
 import LandingPage from 'pages/LandingPage';
 import Live from 'pages/Live';
 import ListRoom from 'pages/ListRoom';
+import MultiRoom from 'pages/MultiRoom';
 
-function App() {
-  const [theme, setTheme] = useState('light');
+function App(props) {
+  const [theme, setTheme] = useState('dark');
   const toggleTheme = () => {
    theme === 'light' ? setTheme('dark') : setTheme('light');
+  }
+
+  props = {
+    theme,
+    setTheme: toggleTheme
   }
 
   return (
@@ -20,9 +26,10 @@ function App() {
       <div className="App">
         <GlobalStyles />
         <Router>
-          <Route path="/" component={() => <LandingPage theme={theme} setTheme={toggleTheme} /> } exact />
-          <Route path="/live-stream/:id" component={() => <Live theme={theme} setTheme={toggleTheme} />} />
-          <Route path="/list-room" component={() => <ListRoom theme={theme} setTheme={toggleTheme} />} />
+          <Route path="/" component={() => <LandingPage {...props} /> } exact />
+          <Route path="/live-stream/:id" component={() => <Live {...props} />} />
+          <Route path="/list-room" component={() => <ListRoom {...props} />} />
+          <Route path="/multi-room" component={() => <MultiRoom {...props} />} />
         </Router>
       </div>
     </ThemeProvider>

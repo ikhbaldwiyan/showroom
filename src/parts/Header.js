@@ -41,6 +41,11 @@ export default function Header({setTheme, theme}) {
                     Room List
                   </Button>
                 </li>
+                <li className={`nav-item${getNavLinkClass("/multi-room")}`}>
+                  <Button className="nav-link" type="link" href="/multi-room">
+                    Multi Room
+                  </Button>
+                </li>
                 <li className={`nav-item${getNavLinkClass("/about")}`}>
                   <Button className="nav-link" type="link" href="/">
                     About
