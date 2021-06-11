@@ -9,6 +9,7 @@ import LandingPage from 'pages/LandingPage';
 import Live from 'pages/Live';
 import ListRoom from 'pages/ListRoom';
 import MultiRoom from 'pages/MultiRoom';
+import AvaProject from 'pages/AvaProject';
 
 function App(props) {
   const [theme, setTheme] = useState('dark');
@@ -30,6 +31,7 @@ function App(props) {
           <Route path="/live-stream/:id" component={() => <Live {...props} />} />
           <Route path="/list-room" component={() => <ListRoom {...props} />} />
           <Route path="/multi-room" component={() => <MultiRoom {...props} />} />
+          <Route path="/avatar-project" component={() => <AvaProject {...props} />} />
         </Router>
       </div>
     </ThemeProvider>

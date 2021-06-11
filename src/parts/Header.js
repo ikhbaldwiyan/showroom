@@ -36,14 +36,19 @@ export default function Header({setTheme, theme}) {
                     Live Stream
                   </Button>
                 </li>
-                <li className={`nav-item${getNavLinkClass("/list-room")}`}>
-                  <Button className="nav-link" type="link" href="/list-room">
-                    Room List
-                  </Button>
-                </li>
                 <li className={`nav-item${getNavLinkClass("/multi-room")}`}>
                   <Button className="nav-link" type="link" href="/multi-room">
                     Multi Room
+                  </Button>
+                </li>
+                <li className={`nav-item${getNavLinkClass("/avatar-project")}`}>
+                  <Button className="nav-link" type="link" href="/avatar-project">
+                    Ava Project
+                  </Button>
+                </li>
+                <li className={`nav-item${getNavLinkClass("/list-room")}`}>
+                  <Button className="nav-link" type="link" href="/list-room">
+                    Room List
                   </Button>
                 </li>
                 <li className={`nav-item${getNavLinkClass("/about")}`}>
