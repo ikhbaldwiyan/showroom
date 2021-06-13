@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Room from 'pages/jeketi/Room';
+import Room from 'components/Room';
 
 export default function RoomLive({room}) {
   const [isLive, setIsLive] = useState(false);

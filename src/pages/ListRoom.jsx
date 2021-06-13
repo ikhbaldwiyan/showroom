@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
 import { Container, Table } from "reactstrap";
-import Header from 'pages/jeketi/Header';
+import Header from 'parts/Header';
 import formatLongDate from "utils/formatLongDate";
-import Footer from "./Footer";
+import Footer from "parts/Footer";
 
 export default function ListRoom(props) {
   const [room, setRoom] = useState([]);

@@ -6,8 +6,8 @@ import { lightTheme, darkTheme } from 'utils/darkmode/theme';
 import { GlobalStyles } from 'utils/darkmode/global';
 
 import LandingPage from 'pages/LandingPage';
-import Live from 'pages/streaming/Live';
-import ListRoom from 'pages/jeketi/ListRoom';
+import Live from 'pages/Live';
+import ListRoom from 'pages/ListRoom';
 
 function App() {
   const [theme, setTheme] = useState('light');

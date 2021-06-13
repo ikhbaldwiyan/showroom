@@ -11,14 +11,15 @@ export default function Footer() {
             <BrandIcon />
             <p className="brand-tagline">
               Solusi bagi Laptop / Hp Kentang yang ingin <br/>
-              ngidol dengan aplikasi Showroom versi ringan
+              ngidol dengan website Showroom versi ringan <br />
+              dan tampilan User Interface yang berbeda
             </p>
           </div>
           <div className="col-auto mr-2">
             <h6 className="mt-2">Explore</h6>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
-                <Button type="link" href="/live-stream/undefined">
+                <Button type="link" href="/live-stream/332503">
                   Live Stream
                 </Button>
               </li>
@@ -33,12 +34,12 @@ export default function Footer() {
             <h6 className="mt-2">More Info</h6>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
-                <Button type="link" href="/register">
+                <Button type="link" href="/">
                   About
                 </Button>
               </li>
               <li className="list-group-item">
-                <Button type="link" href="/privacy">
+                <Button type="link" href="/">
                   Privacy
                 </Button>
               </li>

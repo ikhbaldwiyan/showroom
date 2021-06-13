@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Room from 'pages/jeketi/Room';
+import Room from 'components/Room';
 
 export default function RoomUpcoming({room}) {
   const [isUpcoming, setIsUpcoming] = useState(false);

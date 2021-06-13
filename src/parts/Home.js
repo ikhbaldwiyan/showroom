@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
 import Fade from 'react-reveal/Fade';
-import Room from 'pages/jeketi/Room';
+import Room from 'components/Room';
 import RoomLive from 'parts/RoomLive';
 import RoomUpcoming from 'parts/RoomUpcoming';
 
