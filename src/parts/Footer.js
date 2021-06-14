@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from 'elements/Button';
-import BrandIcon from 'parts/IconText';
+import Logo from 'parts/Logo';
 
 export default function Footer() {
   return (
@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="container">
         <div className="row">
           <div className="col-auto" style={{width: 380}}>
-            <BrandIcon />
+            <Logo />
             <p className="brand-tagline">
               Solusi bagi Laptop / Hp Kentang yang ingin <br/>
               ngidol dengan website Showroom versi ringan <br />

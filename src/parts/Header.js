@@ -3,7 +3,7 @@ import Fade from 'react-reveal/Fade';
 import DarkModeToggle from "react-dark-mode-toggle";
 
 import Button from 'elements/Button';
-import BrandIcon from 'parts/IconText';
+import Logo from 'parts/Logo';
 import { isMobile } from 'react-device-detect';
 
 export default function Header({setTheme, theme}) {
@@ -14,10 +14,10 @@ export default function Header({setTheme, theme}) {
 
   return (
     <Fade>
-      <header className="sapcing-sm">
+      <header className="spacing-sm">
         <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light">
-            <BrandIcon />
+            <Logo />
             <DarkModeToggle 
               className={!isMobile && 'ml-3'}
               onChange={setTheme}

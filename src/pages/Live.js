@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Container } from 'reactstrap';
 import { useParams } from "react-router-dom";
 
-import Header from 'parts/Header';
 import Menu from 'components/Menu';
+import MainLayout from './layout/MainLayout';
 import Stream from './streaming/Stream';
 import Title from 'components/Title';
 import Profile from 'components/Profile';
@@ -15,9 +15,8 @@ import StageUser from 'components/StageUser';
 import TotalRank from 'components/TotalRank';
 import Gift from 'components/Gift';
 import Loading from 'components/Loading';  
-import Footer from 'parts/Footer';
 
-export default function Live(props) {
+function Live(props) {
   let { id } = useParams();
   const [url, setUrl] = useState([]);
   const [roomId, setRoomId] = useState(id);
@@ -47,8 +46,7 @@ export default function Live(props) {
   }, [id])
 
   return (
-    <>
-      <Header {...props} />
+    <MainLayout {...props}>
       <Container>
         <Row>
           <Col lg="8">
@@ -85,8 +83,8 @@ export default function Live(props) {
           </Col>
         </Row>
       </Container>
-      <Footer />
-    </>
+    </MainLayout>
   )
 }
 
+export default Live;

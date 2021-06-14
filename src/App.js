@@ -5,14 +5,19 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from 'utils/darkmode/theme'; 
 import { GlobalStyles } from 'utils/darkmode/global';
 
-import LandingPage from 'pages/LandingPage';
+import Home from 'pages/Home';
 import Live from 'pages/Live';
-import ListRoom from 'pages/ListRoom';
+import RoomList from 'pages/RoomList';
 
-function App() {
+function App(props) {
   const [theme, setTheme] = useState('light');
   const toggleTheme = () => {
    theme === 'light' ? setTheme('dark') : setTheme('light');
+  }
+
+  props = {
+    theme,
+    setTheme: toggleTheme
   }
 
   return (
@@ -20,9 +25,9 @@ function App() {
       <div className="App">
         <GlobalStyles />
         <Router>
-          <Route path="/" component={() => <LandingPage theme={theme} setTheme={toggleTheme} /> } exact />
-          <Route path="/live-stream/:id" component={() => <Live theme={theme} setTheme={toggleTheme} />} />
-          <Route path="/list-room" component={() => <ListRoom theme={theme} setTheme={toggleTheme} />} />
+          <Route path="/" component={() => <Home {...props} /> } exact />
+          <Route path="/live-stream/:id" component={() => <Live {...props} />} />
+          <Route path="/list-room" component={() => <RoomList {...props} />} />
         </Router>
       </div>
     </ThemeProvider>

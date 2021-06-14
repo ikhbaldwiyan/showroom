@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
 import { Container, Table } from "reactstrap";
-import Header from 'parts/Header';
 import formatLongDate from "utils/formatLongDate";
-import Footer from "parts/Footer";
+import MainLayout from "./layout/MainLayout";
 
-export default function ListRoom(props) {
+function RoomList(props) {
   const [room, setRoom] = useState([]);
   const [lastUpdate, setLastUpdate] = useState('')
 
@@ -19,12 +18,11 @@ export default function ListRoom(props) {
   });
 
   return (
-    <>
-      <Header {...props} />
+    <MainLayout {...props}>
       <Container>
         <div className="row">
           <div className="col-8">
-            <h3 className="text-gray-800 mb-3">Room List</h3>
+            <h3 className="mb-3">Room List</h3>
           </div>
           <div className="col mt-2">
             <b>Update Terakhir: </b> {formatLongDate(lastUpdate)}
@@ -53,7 +51,8 @@ export default function ListRoom(props) {
           ))}
         </Table>
       </Container>
-      <Footer />
-    </>
+    </MainLayout >    
   )
 }
+
+export default RoomList;
