@@ -6,7 +6,7 @@ import Button from 'elements/Button';
 import Logo from 'parts/Logo';
 import { isMobile } from 'react-device-detect';
 
-export default function Header({setTheme, theme}) {
+export default function Header({theme, toggleTheme}) {
   let RoomId = window.location.pathname.slice('13')
   const getNavLinkClass = (path) => {
     return window.location.pathname === path ? " active" : "";
@@ -20,7 +20,7 @@ export default function Header({setTheme, theme}) {
             <Logo />
             <DarkModeToggle 
               className={!isMobile && 'ml-3'}
-              onChange={setTheme}
+              onChange={toggleTheme}
               checked={theme === 'dark'}
               size={48}
             />
