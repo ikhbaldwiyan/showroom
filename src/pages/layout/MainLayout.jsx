@@ -3,16 +3,25 @@ import { Container } from 'reactstrap';
 
 import Header from 'parts/Header';
 import Footer from 'parts/Footer';
+import { isMobile } from 'react-device-detect';
 
 function MainLayout(props) {
   return (
-    <>
-      <Header {...props} />
-        <Container>
+    isMobile ? (
+      <>
+        <Header {...props} />
           {props.children}
-        </Container>
-      <Footer />
-    </>
+        <Footer />
+      </>
+    ) : (
+      <>
+        <Header {...props} />
+          <Container>
+            {props.children}
+          </Container>
+        <Footer />
+      </>
+    )
   )
 }
 
