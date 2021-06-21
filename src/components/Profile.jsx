@@ -3,9 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Card, CardImg, CardHeader, CardText, Button } from "reactstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import TwitterLogo from 'assets/images/twitter.png'
-import InstagramLogo from 'assets/images/instagram.png'
-import formatViews from "utils/formatViews";
+import formatNumber from "utils/formatNumber";
+import formatDescription from "utils/formatDescription";
 import Skeleton from "parts/Skeleton";
 
 export default function Profile({ roomId, isLoad, menu }) {
@@ -51,23 +50,6 @@ export default function Profile({ roomId, isLoad, menu }) {
     color: "white",
   }
 
-  let value = profile && profile.description;
-  const description = value.replace(/\n/g, " <br /> ").replace(/"/g, "").replace(/Instagram:/g, `<img src=${InstagramLogo} width="40" class="ml-1 mr-1" alt="Instagram"/> `).replace(/Twitter:/g, `<img src=${TwitterLogo} width="48" alt="Twitter"/> `);
-  
-  function createTextLinks(text) {
-    return (text || "").replace(
-      /([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi,
-      function (match, space, url) {
-        let hyperlink = url;
-        if (!hyperlink.match("^https?://")) {
-          hyperlink = "http://" + hyperlink;
-        }
-        let title = profile.room_url_key.includes("JKT48") ? `${profile.room_url_key.slice(6)} JKT48` : hyperlink
-        return space + '<a href="' + hyperlink + '" target="_blank">' + title + "</a>";
-      }
-    );
-  }
-
   return (
     isLoad && menu == 'room' ? <Skeleton /> : 
     <>
@@ -94,7 +76,7 @@ export default function Profile({ roomId, isLoad, menu }) {
             outline
           >
             <CardText style={text}>
-              <div dangerouslySetInnerHTML={{ __html: createTextLinks(description) }} />
+              <div dangerouslySetInnerHTML={{ __html: formatDescription(profile) }} />
               {profile.avatar && <h4 className="mt-3">Avatar List</h4>}
               {profile.avatar && profile.avatar.list.map((item, idx) => (
                 <img key={idx} width="60" className="mr-2" src={item} />
@@ -119,7 +101,7 @@ export default function Profile({ roomId, isLoad, menu }) {
               <b>Room Level: </b> {profile.room_level} <br />
               <b>Schedule:</b> {schedule} <br />
               <b>Category: </b> {profile.genre_name} <br />
-              <b>Follower:</b> {formatViews(profile.follower_num)} <br />
+              <b>Follower:</b> {formatNumber(profile.follower_num)} <br />
             </CardText>
           </Card>
 
