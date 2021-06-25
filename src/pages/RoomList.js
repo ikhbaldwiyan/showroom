@@ -1,19 +1,18 @@
-import axios from "axios";
-import React, { useState, useEffect } from 'react'
-import { Container, Table } from "reactstrap";
-import formatLongDate from "utils/formatLongDate";
-import MainLayout from "./layout/MainLayout";
+import axios from 'axios';
+import Button from 'elements/Button';
+import React, { useState, useEffect } from 'react';
+import { Container, Table } from 'reactstrap';
+import formatNumber from 'utils/formatNumber';
+import getSchedule from 'utils/getSchedule';
+import MainLayout from './layout/MainLayout';
 
 function RoomList(props) {
   const [room, setRoom] = useState([]);
-  const [lastUpdate, setLastUpdate] = useState('')
 
   useEffect(() => {
-    axios.get(`https://bot48.github.io/data/showroom.json`).then(res => {
-      const listRoom = res.data.members
-      const lastUpdates = res.data.last_update
-      setRoom(listRoom)
-      setLastUpdate(lastUpdates)
+    axios.get('/room_status_list.json').then((res) => {
+      const listRoom = res.data;
+      setRoom(listRoom);
     });
   });
 
@@ -24,35 +23,39 @@ function RoomList(props) {
           <div className="col-8">
             <h3 className="mb-3">Room List</h3>
           </div>
-          <div className="col mt-2">
-            <b>Update Terakhir: </b> {formatLongDate(lastUpdate)}
-          </div>
         </div>
         <Table bordered>
-          <thead style={{backgroundColor: '#24a2b7', color: 'white'}}>
-            <tr>
-              <th>No</th>
+          <thead style={{ backgroundColor: '#24a2b7', color: 'white' }}>
+            <tr style={{textAlign: 'center'}}>
+              <th>Room Id</th>
               <th>Room Name</th>
               <th>Followers</th>
-              <th>Room Level</th>
-              <th>Jumlah Live</th>
+              <th>Jadwal Live</th>
+              <th>Detail Room</th>
             </tr>
           </thead>
-          {room.map((member, idx) => (
-            <tbody key={idx} >
-              <tr>
-                <th>{idx + 1}</th>
-                <th scope="row">{member.name}</th>
-                <td>{member.followers}</td>
-                <td>{member.room_level}</td>
-                <td>{member.total_live}</td>
-              </tr>
-            </tbody>
-          ))}
+          {room.map(
+            (member, idx) =>
+              member.name.includes('JKT48') && (
+                <tbody key={idx} style={{textAlign: 'center', color: props.theme === 'dark' && 'white'}}>
+                  <tr>
+                    <th>{member.id}</th>
+                    <th scope="row">{member.name}</th>
+                    <td>{formatNumber(member.follower_num)}</td>
+                    <td>
+                      {member.next_live_schedule ? getSchedule(member.next_live_schedule) : '-'}
+                    </td>
+                    <td>
+                      <Button style={{textDecoration: 'none'}} type="link" href={`/live-stream/${member.id}`}>Detail</Button>
+                    </td>
+                  </tr>
+                </tbody>
+              )
+          )}
         </Table>
       </Container>
-    </MainLayout >    
-  )
+    </MainLayout>
+  );
 }
 
 export default RoomList;
