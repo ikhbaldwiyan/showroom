@@ -34,7 +34,7 @@ export default function Footer() {
             <h6 className="mt-2">More Info</h6>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
-                <Button type="link" href="/">
+                <Button type="link" href="/about">
                   About
                 </Button>
               </li>

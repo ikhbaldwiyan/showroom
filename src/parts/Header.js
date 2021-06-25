@@ -47,7 +47,7 @@ export default function Header({theme, toggleTheme}) {
                   </Button>
                 </li>
                 <li className={`nav-item${getNavLinkClass("/about")}`}>
-                  <Button className="nav-link" type="link" href="/">
+                  <Button className="nav-link" type="link" href="/about">
                     About
                   </Button>
                 </li>

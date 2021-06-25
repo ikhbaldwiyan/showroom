@@ -10,6 +10,7 @@ import Home from 'pages/Home';
 import Live from 'pages/Live';
 import RoomList from 'pages/RoomList';
 import MultiRoom from 'pages/MultiRoom';
+import About from 'pages/About';
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -29,6 +30,7 @@ function App(props) {
           <Route path="/live-stream/:id" component={() => <Live {...props} />} />
           <Route path="/list-room" component={() => <RoomList {...props} />} />
           <Route path="/multi-room" component={() => <MultiRoom {...props} />} />
+          <Route path="/about" component={() => <About {...props} />} />
         </Router>
       </div>
     </ThemeProvider>
