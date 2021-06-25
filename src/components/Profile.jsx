@@ -5,6 +5,7 @@ import { Row, Col, Card, CardImg, CardHeader, CardText, Button } from "reactstra
 import "bootstrap/dist/css/bootstrap.min.css";
 import formatNumber from "utils/formatNumber";
 import formatDescription from "utils/formatDescription";
+import getSchedule from "utils/getSchedule";
 import Skeleton from "parts/Skeleton";
 
 export default function Profile({ roomId, isLoad, menu }) {
@@ -18,8 +19,9 @@ export default function Profile({ roomId, isLoad, menu }) {
     });
 
     axios.get(`/next_live?room_id=${roomId}`).then((res) => {
-      const schedules = res.data.text;
-      setSchedule(schedules);
+      const schedules = res.data;
+      const formatSchedule = schedules.text.slice(0, -5) + getSchedule(schedules.epoch);
+      setSchedule(formatSchedule);
     });
   }, [roomId, menu]);
 
@@ -32,11 +34,6 @@ export default function Profile({ roomId, isLoad, menu }) {
   useEffect(() => {
     window.document.title = profileName();
   }, [profile, menu])
-
-  useEffect(() => {
-    let title = profile && profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48';
-    window.document.title = title ? `${profile.room_url_key.slice(6)} JKT48 Room` : profile.room_name;
-  }, [profile])
 
   const text = {
     borderColor: "#24a2b7",
@@ -99,7 +96,7 @@ export default function Profile({ roomId, isLoad, menu }) {
           >
             <CardText style={text}>
               <b>Room Level: </b> {profile.room_level} <br />
-              <b>Schedule:</b> {schedule} <br />
+              <b>Schedule:</b> {schedule !== '07:00' ? schedule : 'TBD'} <br />
               <b>Category: </b> {profile.genre_name} <br />
               <b>Follower:</b> {formatNumber(profile.follower_num)} <br />
             </CardText>

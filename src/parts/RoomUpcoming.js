@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Room from 'components/Room';
+import getSchedule from 'utils/getSchedule';
 
 export default function RoomUpcoming({room}) {
   const [isUpcoming, setIsUpcoming] = useState(false);
@@ -21,7 +22,7 @@ export default function RoomUpcoming({room}) {
             item.name.includes("JKT48") && item.next_live_schedule !== 0 && (
               <Room idx={idx} item={item} style="column-6">
                 <div className="tag" style={{backgroundColor: 'teal'}}>
-                  Upcoming <span className="font-weight-light">Live</span>
+                  Next <span className="font-weight-light">Live</span> at <b>{getSchedule(item.next_live_schedule)}</b> 
                 </div>
               </Room>
             )
