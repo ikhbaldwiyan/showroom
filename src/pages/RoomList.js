@@ -36,7 +36,25 @@ function RoomList(props) {
           </thead>
           {room.map(
             (member, idx) =>
-              member.name.includes('JKT48') && (
+              member.name.includes('JKT48') && member.next_live_schedule !== 0 && (
+                <tbody key={idx} style={{textAlign: 'center', color: props.theme === 'dark' && 'white'}}>
+                  <tr>
+                    <th>{member.id}</th>
+                    <th scope="row">{member.name}</th>
+                    <td>{formatNumber(member.follower_num)}</td>
+                    <td>
+                      {member.next_live_schedule ? getSchedule(member.next_live_schedule) : '-'}
+                    </td>
+                    <td>
+                      <Button style={{textDecoration: 'none'}} type="link" href={`/live-stream/${member.id}`}>Detail</Button>
+                    </td>
+                  </tr>
+                </tbody>
+              )
+          )}
+          {room.map(
+            (member, idx) =>
+              member.name.includes('JKT48') && !member.next_live_schedule && (
                 <tbody key={idx} style={{textAlign: 'center', color: props.theme === 'dark' && 'white'}}>
                   <tr>
                     <th>{member.id}</th>
