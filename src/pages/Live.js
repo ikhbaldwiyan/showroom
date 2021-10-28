@@ -3,18 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Container } from 'reactstrap';
 import { useParams } from "react-router-dom";
 
-import Menu from 'components/Menu';
 import MainLayout from './layout/MainLayout';
 import Stream from './streaming/Stream';
-import Title from 'components/Title';
-import Profile from 'components/Profile';
-import RoomList from 'components/RoomList';
-import LiveChat from 'components/Comment';
-import Setlist from 'components/Setlist';
-import StageUser from 'components/StageUser';
-import TotalRank from 'components/TotalRank';
-import Gift from 'components/Gift';
-import Loading from 'components/Loading';  
+import { Profile, Title, Menu, RoomList, LiveChat, StageUser, TotalRank, Gift, Loading, Setlist } from 'components';
 
 function Live(props) {
   let { id } = useParams();
@@ -62,11 +53,10 @@ function Live(props) {
             )}
           </Col>
           <Col lg="4">
-            <Menu setMenu={setMenu} isLive={url} />
+            <Menu setMenu={setMenu} isLive={url} roomId={roomId} />
             {menu === 'room' ? (
               <RoomList setRoomId={setRoomId} />
             ) : menu === 'chat' ? (
-              loading ? <Loading /> :
               <LiveChat roomId={roomId} />
             ) : menu === 'rank' ? (
               loading ? <Loading /> :

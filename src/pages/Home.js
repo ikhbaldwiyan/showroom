@@ -39,7 +39,7 @@ function Home(props) {
           <div className="container-grid">
             {room.map((item, idx) => (
               item.name.includes("JKT48") && !item.next_live_schedule && !item.is_live && (
-                <Room idx={idx} item={item}  style="column-4" />
+                <Room key={idx} idx={idx} item={item} style="column-4" />
               )
             ))}
           </div>

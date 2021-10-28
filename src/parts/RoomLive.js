@@ -15,11 +15,11 @@ export default function RoomLive({room}) {
   return (
     isLive && (
       <div className="mb-4">
-        <h3 className="mb-3">Live Now</h3>
+        {isLive && <h3 className="mb-3">Live Now</h3>}
         <div className="container-grid">
           {room.map((item, idx) => (
             item.name.includes("JKT48") && item.is_live && (
-              <Room idx={idx} item={item} style="column-6">
+              <Room key={idx} item={item} style="column-6">
                 <div className="tag" style={{backgroundColor: '#dc3545'}}>
                   Live <span className="font-weight-light">Now</span>
                 </div>

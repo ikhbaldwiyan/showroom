@@ -4,11 +4,12 @@ import getSchedule from 'utils/getSchedule';
 
 export default function RoomUpcoming({room}) {
   const [isUpcoming, setIsUpcoming] = useState(false);
+  const team = 'JKT48';
 
   useEffect(() => {
     for (let i = 0; i < room.length; i++) {
       const upcoming = room[i];
-      const upcomingLive = upcoming.name.includes("JKT48") && upcoming.next_live_schedule
+      const upcomingLive = upcoming.name.includes(team) && upcoming.next_live_schedule
       upcomingLive && setIsUpcoming(true)
     }
   })
@@ -19,10 +20,10 @@ export default function RoomUpcoming({room}) {
         <h3 className="mb-3">Upcoming Live</h3>
         <div className="container-grid">
           {room.map((item, idx) => (
-            item.name.includes("JKT48") && item.next_live_schedule !== 0 && (
-              <Room idx={idx} item={item} style="column-6">
+            item.name.includes(team) && item.next_live_schedule !== 0 && (
+              <Room key={idx} item={item} style="column-6">
                 <div className="tag" style={{backgroundColor: 'teal'}}>
-                  Next <span className="font-weight-light">Live</span> at <b>{getSchedule(item.next_live_schedule)}</b> 
+                  <b>{getSchedule(item.next_live_schedule, 'home')}</b> 
                 </div>
               </Room>
             )
