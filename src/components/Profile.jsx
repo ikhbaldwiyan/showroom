@@ -7,10 +7,12 @@ import formatNumber from "utils/formatNumber";
 import formatDescription from "utils/formatDescription";
 import getSchedule from "utils/getSchedule";
 import Skeleton from "parts/Skeleton";
+import getTimes from "utils/getTimes";
 
 export default function Profile({ roomId, isLoad, menu }) {
   const [profile, setProfile] = useState("");
   const [schedule, setSchedule] = useState("");
+  const [comments, setComments] = useState([]);
 
   useEffect(() => { 
     axios.get(`/profile?room_id=${roomId}`).then((res) => {
@@ -20,9 +22,15 @@ export default function Profile({ roomId, isLoad, menu }) {
 
     axios.get(`/next_live?room_id=${roomId}`).then((res) => {
       const schedules = res.data;
-      const formatSchedule = schedules.text.slice(0, -5) + getSchedule(schedules.epoch);
+      const formatSchedule = getSchedule(schedules.epoch);
       setSchedule(formatSchedule);
     });
+
+    axios.get(`/recommend_comments?room_id=${roomId}`).then((res) => {
+      const comment = res.data.recommend_comments;
+      setComments(comment);
+    });
+
   }, [roomId, menu]);
 
   const profileName = () => {
@@ -45,6 +53,14 @@ export default function Profile({ roomId, isLoad, menu }) {
   const header = {
     backgroundColor: "#24a2b7",
     color: "white",
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+  }
+
+  const hr = (idx) => {
+    if (idx !== 3) {
+     return  <hr />
+   }
   }
 
   return (
@@ -110,7 +126,7 @@ export default function Profile({ roomId, isLoad, menu }) {
           >
             <CardText>
               {profile.recommend_comment_list != null ?
-                profile.recommend_comment_list.map((item, idx) => (
+                comments.slice(0, 4).map((item, idx) => (
                   <div key={idx}>
                     <h5>
                       <img
@@ -120,8 +136,9 @@ export default function Profile({ roomId, isLoad, menu }) {
                       />
                       {item.user.name}
                     </h5>
+                    <p style={{fontWeight: '400', fontSize: 13, color:'grey'}}>{getSchedule(item.created_at)}</p>
                     <p>{item.comment}</p>
-                    <hr />
+                    {hr(idx)}
                   </div>
                 )) : (
                   'No Message'

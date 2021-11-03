@@ -26,6 +26,7 @@ function RoomListTable({ data, children, setRoomId, idx }) {
             className="mt-4"
             color="info"
             onClick={() => setRoomId([data.id])}
+            style={{backgroundColor: '#24a2b7', color: 'white', border: 'none'}}
           >
             See
           </Button>

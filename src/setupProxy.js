@@ -65,5 +65,12 @@ module.exports = function (app) {
       target: room,
       changeOrigin: true,
     })
-  )
+  );
+
+  app.use(
+    createProxyMiddleware("/recommend_comments", {
+      target: room,
+      changeOrigin: true,
+    })
+  );
 };

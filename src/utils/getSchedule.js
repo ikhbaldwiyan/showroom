@@ -1,13 +1,19 @@
-export default function (times) {
-  function formatTime(n) {
-    return n < 10 ? '0' + n : n;
-  }
-
+export default function (times, type) {
   function getTimes(dateInput) {
-    var date = new Date(dateInput);
-    var time = `${formatTime(date.getHours())}:${formatTime(date.getMinutes())}`;
-    return time;
+    const date = new Date(dateInput);
+    const longSchedule = date.toLocaleString('id-ID', { 
+      month: 'short', day: '2-digit', weekday: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+
+    const liveToday = date.toLocaleString('id-ID', { 
+      hour: '2-digit', minute: '2-digit'
+    });
+
+    let today = new Date();
+    let isToday = (today.toDateString() == date.toDateString());
+
+    return isToday && type !== 'home' ? liveToday : longSchedule;
   }
 
-  return getTimes(times * 1000);
+  return times ? getTimes(times * 1000) : 'TBD';
 }

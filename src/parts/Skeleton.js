@@ -30,9 +30,7 @@ export default function Skeletons() {
         </Col>
         <Col sm="6" className="mb-2">
           <Skeleton height={70}>
-            <rect x="0" y="0" rx="5" ry="5" width="60" height="60" />
-            <rect x="80" y="17" rx="4" width="300" height="13" />
-            <rect x="80" y="40" rx="3" width="250" height="10" />
+            <rect x="0" y="100" rx="5" ry="5" width="60" height="60" />
           </Skeleton>
           <Skeleton>
             <rect width="100%" height="100%" />
@@ -42,6 +40,9 @@ export default function Skeletons() {
           </Skeleton>
           <Skeleton>
             <rect width="100%" height="100%" />
+          </Skeleton>
+          <Skeleton>
+            <rect width="100%" height="50%" />
           </Skeleton>
         </Col>
       </Row> 

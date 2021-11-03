@@ -20,50 +20,6 @@ export default function RoomList({ setRoomId }) {
     });
   });
 
-  const RoomLive = () => (
-    room && room.map(
-      (item, idx) =>
-        item.name.includes(group) && item.is_live && (
-          <RoomListTable idx={idx} data={item} setRoomId={setRoomId}>
-            <LiveButton
-              style={{ borderRadius: "6px" }}
-              className="btn-sm btn-danger"
-            >
-              Live Now
-            </LiveButton>
-          </RoomListTable>
-        )
-    )
-  );
-
-  const RoomUpcoming = () => (
-    room && room.map(
-      (item, idx) =>
-        item.name.includes(group) && item.next_live_schedule !== 0 && (
-          <RoomListTable idx={idx} data={item} setRoomId={setRoomId}>
-            <LiveButton
-              className="btn-sm mt-1 text-white py-2"
-              style={{
-                backgroundColor: "teal",
-                border: "none",
-                borderRadius: "6px",
-              }}
-            >
-              Live <b>{getSchedule(item.next_live_schedule)}</b>
-            </LiveButton>
-          </RoomListTable>
-        )
-    )
-  )
-
-  const RoomNotLive = () => (
-    room &&room.map(
-      (item, idx) => item.name.includes(group) && !item.is_live && (   
-        <RoomListTable idx={idx} data={item} setRoomId={setRoomId} /> 
-      )
-    )
-  );
-
   return (
     <Row>
       <Col>
@@ -83,9 +39,45 @@ export default function RoomList({ setRoomId }) {
                 <th>Room</th>
               </tr>
             </thead>
-            <RoomLive />
-            <RoomUpcoming />
-            <RoomNotLive />
+            {/* Room Live */}
+            {room && room.map(
+              (item, idx) =>
+                item.name.includes(group) && item.is_live && (
+                  <RoomListTable idx={idx} data={item} setRoomId={setRoomId}>
+                    <LiveButton
+                      style={{ borderRadius: "6px" }}
+                      className="btn-sm btn-danger"
+                    >
+                      Live Now
+                    </LiveButton>
+                  </RoomListTable>
+                )
+            )}
+            {/* Room Upcoming */}
+            {room && room.map(
+              (item, idx) =>
+                item.name.includes(group) && item.next_live_schedule !== 0 && (
+                  <RoomListTable idx={idx} data={item} setRoomId={setRoomId}>
+                    <LiveButton
+                      className="btn-sm mt-1 text-white py-2"
+                      style={{
+                        backgroundColor: "teal",
+                        border: "none",
+                        borderRadius: "6px",
+                      }}
+                    >
+                      Live <b>{getSchedule(item.next_live_schedule)}</b>
+                    </LiveButton>
+                  </RoomListTable>
+                )
+            )}
+            
+            {/* Room Not Live */}
+            {room &&room.map(
+              (item, idx) => item.name.includes(group) && !item.is_live && (   
+                <RoomListTable idx={idx} data={item} setRoomId={setRoomId} /> 
+              )
+            )}
           </Table>
         </div>
       </Col>
