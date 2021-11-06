@@ -1,24 +1,40 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { Row, Col, Button } from 'reactstrap';
+import { AiFillGift, AiFillTrophy } from "react-icons/ai";
+import { BsFillChatDotsFill } from "react-icons/bs";
+import { FaListAlt } from "react-icons/fa";
 
-export default function Menu({setMenu, isLive}) {
+export default function Menu({setMenu, isLive, roomId}) {
+  const [roomName, setRoomName] = useState('');
+
+  useEffect(() => {
+    axios.get(`/profile?room_id=${roomId}`).then((res) => {
+      const profiles = res.data;
+      const roomName = profiles.room_url_key !== 'officialJKT48' ? profiles.room_url_key.slice(6) : profiles.room_url_key
+      setRoomName(roomName);
+    });
+  }, [roomId])
+
+  const iconStyle = {
+    marginBottom: 4
+  }
 
   const listMenu = [
     {
-      name: 'Room List',
-      menu: 'room'
-    },
-    {
-      name: 'Live Chat',
-      menu: 'chat'
+      name: 'Chat',
+      menu: 'chat',
+      icon: <BsFillChatDotsFill style={iconStyle}/>
     },
     {
       name: 'Rank',
-      menu: 'rank'
+      menu: 'rank',
+      icon: <AiFillTrophy style={iconStyle} />
     },
     {
       name: 'Gift',
-      menu: 'gift'
+      menu: 'gift',
+      icon: <AiFillGift style={iconStyle} />
     },
   ]
 
@@ -29,21 +45,21 @@ export default function Menu({setMenu, isLive}) {
   return (
     <Row>
       <Col>
+        <Button
+          className="menu"
+          style={buttonStyle}
+          onClick={() => setMenu('room')}
+        >
+          <FaListAlt style={iconStyle} /> Room
+        </Button>
         {!isLive && (
           <>
             <Button
               className="menu"
               style={buttonStyle}
-              onClick={() => setMenu('room')}
-            >
-              Room List
-            </Button>
-            <Button
-              className="menu"
-              style={buttonStyle}
               onClick={() => setMenu('total')}
             >
-              Total Ranking
+              <AiFillTrophy style={iconStyle} /> Total Rank  {roomName} {roomName !== 'officialJKT48' && 'JKT48'}
             </Button>
           </>
         )}
@@ -55,7 +71,7 @@ export default function Menu({setMenu, isLive}) {
               className="menu"
               onClick={() => setMenu(item.menu)}
             >
-              {item.name}
+              {item.icon} {item.name}
             </Button>
           ))
         )}
