@@ -7,7 +7,7 @@ import getTimes from "utils/getTimes";
 import Views from "elements/Button";
 import Settings from "./Settings";
 
-function Title({ roomId }) {
+function Title({ roomId, hideMenu, setHideMenu }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState('');
 
@@ -16,7 +16,7 @@ function Title({ roomId }) {
   const [hideViews, setHideViews] = useState(false);
 
   const propSettings = {
-    hideTime, setHideTime, hideName, setHideName, hideViews, setHideViews, profile
+    hideTime, setHideTime, hideName, setHideName, hideViews, setHideViews, profile, hideMenu, setHideMenu
   }
 
   useEffect(() => {

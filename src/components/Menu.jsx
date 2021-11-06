@@ -5,7 +5,7 @@ import { AiFillGift, AiFillTrophy } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { FaListAlt } from "react-icons/fa";
 
-export default function Menu({setMenu, isLive, roomId}) {
+function Menu({setMenu, isLive, roomId, hideMenu}) {
   const [roomName, setRoomName] = useState('');
 
   useEffect(() => {
@@ -45,13 +45,15 @@ export default function Menu({setMenu, isLive, roomId}) {
   return (
     <Row>
       <Col>
-        <Button
-          className="menu"
-          style={buttonStyle}
-          onClick={() => setMenu('room')}
-        >
-          <FaListAlt style={iconStyle} /> Room
-        </Button>
+        {!hideMenu && (
+          <Button
+            className="menu"
+            style={buttonStyle}
+            onClick={() => setMenu('room')}
+          >
+            <FaListAlt style={iconStyle} /> Room
+          </Button>
+        )}
         {!isLive && (
           <>
             <Button
@@ -59,11 +61,11 @@ export default function Menu({setMenu, isLive, roomId}) {
               style={buttonStyle}
               onClick={() => setMenu('total')}
             >
-              <AiFillTrophy style={iconStyle} /> Total Rank  {roomName} {roomName !== 'officialJKT48' && 'JKT48'}
+              <AiFillTrophy style={iconStyle} /> Total Rank {roomName} {roomName !== 'officialJKT48' && 'JKT48'}
             </Button>
           </>
         )}
-        {isLive && (
+        {isLive && !hideMenu && (
           listMenu.map((item, idx) => (
             <Button
               key={idx}
@@ -79,3 +81,5 @@ export default function Menu({setMenu, isLive, roomId}) {
     </Row>
   )
 }
+
+export default Menu;

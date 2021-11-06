@@ -13,6 +13,7 @@ function Live(props) {
   const [roomId, setRoomId] = useState(id);
   const [menu, setMenu] = useState('room');
   const [loading, setLoading] = useState(false);
+  const [hideMenu, setHideMenu] = useState(false);
 
   useEffect(() => {
     axios.get(`/streaming_url?room_id=${roomId}`).then(res => {
@@ -44,7 +45,7 @@ function Live(props) {
             {url ? url.slice(0, 1).map((item, idx) => (
               <>
                 <Stream key={idx} url={item.url} />
-                <Title roomId={roomId} />
+                <Title roomId={roomId} hideMenu={hideMenu} setHideMenu={setHideMenu} />
               </>
             )) : !url ? (
               <Profile roomId={roomId} setRoomId={setRoomId} isLoad={loading} menu={menu} />
@@ -53,7 +54,7 @@ function Live(props) {
             )}
           </Col>
           <Col lg="4">
-            <Menu setMenu={setMenu} isLive={url} roomId={roomId} />
+            <Menu setMenu={setMenu} isLive={url} roomId={roomId} hideMenu={hideMenu} />
             {menu === 'room' ? (
               <RoomList setRoomId={setRoomId} />
             ) : menu === 'chat' ? (
