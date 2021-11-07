@@ -3,24 +3,16 @@ import { Col } from 'reactstrap';
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 
-import Menu from 'components/Menu';
 import Stream from 'pages/streaming/Stream';
-import Title from 'components/Title';
-import Profile from 'components/Profile';
-import RoomList from 'components/RoomList';
-import LiveChat from 'components/Comment';
-import Setlist from 'components/Setlist';
-import StageUser from 'components/StageUser';
-import TotalRank from 'components/TotalRank';
-import Gift from 'components/Gift';
-import Loading from 'components/Loading';  
+import { Profile, Title, Menu, RoomList, LiveChat, StageUser, TotalRank, Gift, Loading, Setlist } from 'components';
 
-export default function Multi() {
+export default function Multi({layout}) {
   let { id } = useParams();
   const [url, setUrl] = useState([]);
   const [roomId, setRoomId] = useState(id);
   const [menu, setMenu] = useState('room');
   const [loading, setLoading] = useState(false);
+  const [hideMenu, setHideMenu] = useState(false);
 
   useEffect(() => {
     axios.get(`/streaming_url?room_id=${roomId}`).then(res => {
@@ -45,19 +37,18 @@ export default function Multi() {
   }, [id])
 
   return (
-    <Col lg="6">
+    <Col lg={layout}>
       {url ? url.slice(0, 1).map((item, idx) => (
         <>
           <Stream key={idx} url={item.url} />
-          <Title roomId={roomId} />
+          <Title roomId={roomId} hideMenu={hideMenu} setHideMenu={setHideMenu} />
         </>
       )) : !url ? (
         <Profile roomId={roomId} setRoomId={setRoomId} isLoad={loading} menu={menu} />
       ) : (
         <Stream url="" />
       )}
-      
-      <Menu setMenu={setMenu} isLive={url} roomId={roomId} />
+      <Menu setMenu={setMenu} isLive={url} roomId={roomId} hideMenu={hideMenu} />
       {menu === 'room' ? (
         <RoomList setRoomId={setRoomId} />
       ) : menu === 'chat' ? (

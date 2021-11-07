@@ -63,6 +63,8 @@ export default function Profile({ roomId, isLoad, menu }) {
    }
   }
 
+  const isMultiRoom = window.location.pathname !== '/multi-room';
+
   return (
     isLoad && menu == 'room' ? <Skeleton /> : 
     <>
@@ -72,7 +74,7 @@ export default function Profile({ roomId, isLoad, menu }) {
         </Col>
       </Row>
       <Row>
-        <Col sm="6" className="mb-2">
+        <Col sm={isMultiRoom ? '6' : '12'} className="mb-2">
           <CardImg
             top
             width="100%"
@@ -99,53 +101,56 @@ export default function Profile({ roomId, isLoad, menu }) {
             </CardText>
           </Card>
         </Col>
-        
-        <Col className="mb-2" sm="6">
-          <CardHeader className="mt-2" style={header}>
-            {profile && profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48' ? `${profile.room_url_key.slice(6)}` : profile.room_name } Room Info
-          </CardHeader>
-          <Card
-            className="mb-2"
-            style={{ borderColor: "#24a2b7",  borderTopLeftRadius: "0", borderTopRightRadius: "0" }}
-            body
-            outline
-          >
-            <CardText style={text}>
-              <b>Room Level: </b> {profile.room_level} <br />
-              <b>Schedule:</b> {schedule !== '07:00' ? schedule : 'TBD'} <br />
-              <b>Category: </b> {profile.genre_name} <br />
-              <b>Follower:</b> {formatNumber(profile.follower_num)} <br />
-            </CardText>
-          </Card>
 
-          <CardHeader style={header}>Fans Letter</CardHeader>
-          <Card
-            style={text}
-            body
-            outline
-          >
-            <CardText>
-              {profile.recommend_comment_list != null ?
-                comments.slice(0, 4).map((item, idx) => (
-                  <div key={idx}>
-                    <h5>
-                      <img
-                        width="30"
-                        className="mr-2"
-                        src={item.user.image}
-                      />
-                      {item.user.name}
-                    </h5>
-                    <p style={{fontWeight: '400', fontSize: 13, color:'grey'}}>{getSchedule(item.created_at)}</p>
-                    <p>{item.comment}</p>
-                    {hr(idx)}
-                  </div>
-                )) : (
-                  'No Message'
-                )}
-            </CardText>
-          </Card>
-        </Col>
+
+        {isMultiRoom && (
+          <Col className="mb-2" sm="6">
+            <CardHeader className="mt-2" style={header}>
+              {profile && profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48' ? `${profile.room_url_key.slice(6)}` : profile.room_name } Room Info
+            </CardHeader>
+            <Card
+              className="mb-2"
+              style={{ borderColor: "#24a2b7",  borderTopLeftRadius: "0", borderTopRightRadius: "0" }}
+              body
+              outline
+            >
+              <CardText style={text}>
+                <b>Room Level: </b> {profile.room_level} <br />
+                <b>Schedule:</b> {schedule !== '07:00' ? schedule : 'TBD'} <br />
+                <b>Category: </b> {profile.genre_name} <br />
+                <b>Follower:</b> {formatNumber(profile.follower_num)} <br />
+              </CardText>
+            </Card>
+
+            <CardHeader style={header}>Fans Letter</CardHeader>
+            <Card
+              style={text}
+              body
+              outline
+            >
+              <CardText>
+                {profile.recommend_comment_list != null ?
+                  comments.slice(0, 4).map((item, idx) => (
+                    <div key={idx}>
+                      <h5>
+                        <img
+                          width="30"
+                          className="mr-2"
+                          src={item.user.image}
+                        />
+                        {item.user.name}
+                      </h5>
+                      <p style={{fontWeight: '400', fontSize: 13, color:'grey'}}>{getSchedule(item.created_at)}</p>
+                      <p>{item.comment}</p>
+                      {hr(idx)}
+                    </div>
+                  )) : (
+                    'No Message'
+                  )}
+              </CardText>
+            </Card>
+          </Col>
+        )}
       </Row>
     </>
   );
