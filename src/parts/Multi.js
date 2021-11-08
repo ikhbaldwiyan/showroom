@@ -7,7 +7,7 @@ import Stream from 'pages/streaming/Stream';
 import { Profile, Title, Menu, RoomList, LiveChat, StageUser, TotalRank, Gift, Loading, Setlist } from 'components';
 
 export default function Multi({layout}) {
-  let { id } = useParams();
+  const {id} = useParams();
   const [url, setUrl] = useState([]);
   const [roomId, setRoomId] = useState(id);
   const [menu, setMenu] = useState('room');
@@ -36,6 +36,8 @@ export default function Multi({layout}) {
     id === 'undefined' && setRoomId('332503');
   }, [id])
 
+  const isMultiRoom = window.location.pathname !== '/multi-room';
+
   return (
     <Col lg={layout}>
       {url ? url.slice(0, 1).map((item, idx) => (
@@ -48,9 +50,9 @@ export default function Multi({layout}) {
       ) : (
         <Stream url="" />
       )}
-      <Menu setMenu={setMenu} isLive={url} roomId={roomId} hideMenu={hideMenu} />
+      {roomId ? <Menu setMenu={setMenu} isLive={url} roomId={roomId} hideMenu={hideMenu} isMultiRoom={isMultiRoom} /> : ''}
       {menu === 'room' ? (
-        <RoomList setRoomId={setRoomId} />
+        <RoomList setRoomId={setRoomId} isMultiRoom={isMultiRoom}/>
       ) : menu === 'chat' ? (
         loading ? <Loading /> :
         <LiveChat roomId={roomId} />

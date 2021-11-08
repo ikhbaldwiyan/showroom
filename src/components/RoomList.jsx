@@ -4,8 +4,9 @@ import { Row, Col, Table, FormGroup, Input } from "reactstrap";
 import LiveButton from "elements/Button";
 import getSchedule from "utils/getSchedule";
 import RoomListTable from "./RoomListTable";
+import { RiBroadcastFill } from "react-icons/ri";
 
-export default function RoomList({ setRoomId }) {
+export default function RoomList({ setRoomId, isMultiRoom }) {
   const handleInputId = (event) => {
     setRoomId(event.target.value);
   };
@@ -24,13 +25,15 @@ export default function RoomList({ setRoomId }) {
     <Row>
       <Col>
         <div className="scroll">
-          <FormGroup>
-            <Input
-              type="number"
-              placeholder="Masukan ID Showroom"
-              onChange={handleInputId}
-            />
-          </FormGroup>
+          {isMultiRoom && (
+            <FormGroup>
+              <Input
+                type="number"
+                placeholder="Masukan ID Showroom"
+                onChange={handleInputId}
+              />
+            </FormGroup>
+          )}
           <Table dark>
             <thead style={{ backgroundColor: "#24a2b7", color: "white", borderTop: "none"}}>
               <tr>
@@ -48,7 +51,7 @@ export default function RoomList({ setRoomId }) {
                       style={{ borderRadius: "6px" }}
                       className="btn-sm btn-danger"
                     >
-                      Live Now
+                      <RiBroadcastFill className="mb-1" /> Live
                     </LiveButton>
                   </RoomListTable>
                 )

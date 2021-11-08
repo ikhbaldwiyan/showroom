@@ -7,7 +7,6 @@ import formatNumber from "utils/formatNumber";
 import formatDescription from "utils/formatDescription";
 import getSchedule from "utils/getSchedule";
 import Skeleton from "parts/Skeleton";
-import getTimes from "utils/getTimes";
 
 export default function Profile({ roomId, isLoad, menu }) {
   const [profile, setProfile] = useState("");
@@ -66,7 +65,7 @@ export default function Profile({ roomId, isLoad, menu }) {
   const isMultiRoom = window.location.pathname !== '/multi-room';
 
   return (
-    isLoad && menu == 'room' ? <Skeleton /> : 
+    isLoad && menu == 'room' && isMultiRoom ? <Skeleton /> : 
     <>
       <Row className="mb-2">
         <Col>

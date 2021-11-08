@@ -11,18 +11,19 @@ import { HiUsers } from "react-icons/hi";
 import { RiFileList3Fill } from "react-icons/ri";
 import { BsInfoCircleFill } from "react-icons/bs";
 
-export default function Header({theme, toggleTheme}) {
+export default function Header({theme, toggleTheme, isMultiRoom}) {
   let RoomId = window.location.pathname.slice('13')
   const getNavLinkClass = (path) => {
     return window.location.pathname === path ? " active" : "";
   };
 
   const iconHome = {marginBottom: 4};
+  const classMulti =  isMultiRoom ? 'container-fluid' : 'container';
 
   return (
     <Fade>
       <header className="spacing-sm">
-        <div className="container">
+        <div className={classMulti}>
           <nav className="navbar navbar-expand-lg navbar-light">
             <Logo />
             <DarkModeToggle 

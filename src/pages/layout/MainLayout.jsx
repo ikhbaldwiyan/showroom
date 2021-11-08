@@ -15,10 +15,21 @@ function MainLayout(props) {
       </>
     ) : (
       <>
-        <Header {...props} />
-          <Container>
-            {props.children}
-          </Container>
+          {props.isMultiRoom ? (
+            <>
+              <Header {...props} isMultiRoom/>
+              <Container fluid>
+                {props.children}
+              </Container>
+            </>
+          ): (
+            <>
+              <Header {...props} />
+              <Container>
+                {props.children}
+              </Container>
+            </>
+          )}
         <Footer />
       </>
     )
