@@ -7,7 +7,7 @@ function About(props) {
   return (
     <MainLayout {...props}>
       <Container>
-        <div style={{height: '450px'}}>
+        <div style={{height: '650px'}}>
           <h3>About</h3>
           <p>
             JKT48 SHOWROOM adalah website fanmade yang bertujuan untuk memfilter room member JKT48. <br />
@@ -27,7 +27,7 @@ function About(props) {
               </a> (Official Showroom)
             </li>
             <li>
-              <a href="https://qiita.com/takeru7584/items/f4ba4c31551204279ed2" target="_blank">
+              <a style={{wordBreak: 'break-word'}} href="https://qiita.com/takeru7584/items/f4ba4c31551204279ed2" target="_blank">
                 https://qiita.com/takeru7584/items/f4ba4c31551204279ed2
               </a> (Showroom API)
             </li>

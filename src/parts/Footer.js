@@ -28,6 +28,11 @@ export default function Footer() {
                   Room List
                 </Button>
               </li>
+              <li className="list-group-item">
+                <Button type="link" href="/multi-room">
+                  Multi Room
+                </Button>
+              </li>
             </ul>
           </div>
           <div className="col-6 mr-5">
