@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import Stream from 'pages/streaming/Stream';
 import { Profile, Title, Menu, RoomList, LiveChat, StageUser, TotalRank, Gift, Loading, Setlist } from 'components';
 
-export default function Multi({layout}) {
+export default function Multi({layout, hideMultiMenu, setHideMultiMenu}) {
   const {id} = useParams();
   const [url, setUrl] = useState([]);
   const [roomId, setRoomId] = useState(id);
@@ -43,7 +43,7 @@ export default function Multi({layout}) {
       {url ? url.slice(0, 1).map((item, idx) => (
         <>
           <Stream key={idx} url={item.url} />
-          <Title roomId={roomId} hideMenu={hideMenu} setHideMenu={setHideMenu} />
+          <Title roomId={roomId} hideMenu={hideMenu} setHideMenu={setHideMenu} hideMultiMenu={hideMultiMenu} setHideMultiMenu={setHideMultiMenu}  />
         </>
       )) : !url ? (
         <Profile roomId={roomId} setRoomId={setRoomId} isLoad={loading} menu={menu} />

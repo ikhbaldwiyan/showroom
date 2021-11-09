@@ -14,7 +14,7 @@ function Settings(props) {
   const css = { backgroundColor: 'teal', border: 'none', borderRadius: '10px', marginBottom: 4 }
   const inline = { display: 'inline' }
 
-  const { hideTime, setHideTime, hideName, setHideName, hideViews, setHideViews, profile, hideMenu, setHideMenu } = props
+  const { hideTime, setHideTime, hideName, setHideName, hideViews, setHideViews, profile, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu } = props
 
   useEffect(() => {
     isMobile && setDirection('left')
@@ -66,6 +66,9 @@ function Settings(props) {
           ))}
           <ProfileModal className="btn-sm mt-1 px-4 mb-1" profile={profile} buttonLabel="Show Profile" />
           <DropdownItem href={profile.share_url_live} target="_blank" >Open Showroom</DropdownItem>
+          {window.location.pathname === '/multi-room' && (
+            <DropdownItem onClick={() => { setHideMultiMenu(!hideMultiMenu) }}>{hideOrShow(hideMultiMenu)} Multi Options</DropdownItem>
+          )}
         </DropdownMenu>
       </Dropdown>
     </div>

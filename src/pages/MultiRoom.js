@@ -1,31 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Button, Col, Row } from 'reactstrap'
-import { FaUsersCog, FaUsersSlash, FaUsers } from "react-icons/fa";
-import { MdResetTv } from "react-icons/md";
+import { Container, Row } from 'reactstrap'
 
 import MainLayout from './layout/MainLayout'
 import Multi from 'parts/Multi';
 import Loading from 'components/Loading';
+import MultiMenu from 'components/MultiMenu';
 
 export default function MultiRoom(props) {
   const [layout, setLayout] = useState('6');
   const [loading, setLoading] = useState(false);
-
-  const changeLayout = () => {
-    setLayout('4');
-  }
-
-  const fourLayout = () => {
-    setLayout('3');
-  }
-
-  const resetLayout = () => {
-    setLayout('6')
-  }
-
-  const iconCss = {
-    fontSize: 20, marginBottom: 2
-  }
+  const [hideMultiMenu, setHideMultiMenu] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -35,41 +19,25 @@ export default function MultiRoom(props) {
   }, [layout])
 
   const isMultiRoom = layout === '4' || layout === '3' ? 'isMultiRoom' : '';
+  const propsMultiRoom = { hideMultiMenu, setHideMultiMenu, layout, setLayout }
 
   return (
-    <div>
-      <MainLayout {...props} isMultiRoom={isMultiRoom}>
-        <Container fluid>
-          <Row>
-            <Col>
-              <Button className="mb-3" onClick={changeLayout} color="info">
-                <FaUsers style={iconCss} /> Set 3 Room
-              </Button>
-              <Button className="mb-3 ml-3" onClick={fourLayout} color="info">
-                <FaUsersCog style={iconCss} /> Set 4 Room
-              </Button>
-              <Button className="mb-3 ml-3" onClick={resetLayout} color="danger">
-                <MdResetTv style={iconCss} /> Reset Layout
-              </Button>
-              <Button className="mb-3 ml-3" onClick={() => window.location.reload()} color="secondary">
-                <FaUsersSlash style={iconCss} /> Reset All Room
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <Multi layout={layout} />
-            <Multi layout={layout}/>
-            {layout === '4' || layout == '3' ? (
-              loading && layout !== '3' ? <Loading /> :
-              <Multi layout={layout}/>
-            ) : ''}
-            {layout === '3' && (
-              loading && layout !== '4' ? <Loading />  :
-              <Multi layout={layout}/>
-            )}
-          </Row>
-        </Container>
-      </MainLayout>
-    </div>
+    <MainLayout {...props} isMultiRoom={isMultiRoom}>
+      <Container fluid>
+        <MultiMenu {...propsMultiRoom} />
+        <Row>
+          <Multi {...propsMultiRoom} />
+          <Multi {...propsMultiRoom} />
+          {layout === '4' || layout == '3' ? (
+            loading && layout !== '3' ? <Loading /> :
+            <Multi {...propsMultiRoom} />
+          ) : ''}
+          {layout === '3' && (
+            loading && layout !== '4' ? <Loading />  :
+            <Multi {...propsMultiRoom} />
+          )}
+        </Row>
+      </Container>
+    </MainLayout>
   )
 }
