@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FaUserFriends } from "react-icons/fa";
 import formatViews from "utils/formatViews";
 import getTimes from "utils/getTimes";
+import { profileApi, titleLive } from "utils/api/api";
 
 import Views from "elements/Button";
 import Settings from "./Settings";
@@ -20,12 +21,12 @@ function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu 
   }
 
   useEffect(() => {
-    axios.get(`/profile?room_id=${roomId}`).then((res) => {
+    axios.get(profileApi(roomId)).then((res) => {
       const profiles = res.data;
       setProfile(profiles);
     });
 
-    axios.get(`/telop?room_id=${roomId}`).then(res => {
+    axios.get(titleLive(roomId)).then(res => {
       const telop = res.data.telop
       setTitle(telop)
     });

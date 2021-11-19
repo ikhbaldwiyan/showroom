@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Room from 'components/Room';
+import { RiBroadcastFill } from "react-icons/ri";
 
 export default function RoomLive({room}) {
   const [isLive, setIsLive] = useState(false);
@@ -21,7 +22,7 @@ export default function RoomLive({room}) {
             item.name.includes("JKT48") && item.is_live && (
               <Room key={idx} item={item} style="column-6">
                 <div className="tag" style={{backgroundColor: '#dc3545'}}>
-                  Live <span className="font-weight-light">Now</span>
+                  <RiBroadcastFill className="mb-1" /> Live <span className="font-weight-light">Now</span>
                 </div>
               </Room>
             )

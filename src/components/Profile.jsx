@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Row, Col, Card, CardImg, CardHeader, CardText, Button } from "reactstrap";
+import { fanLetter, nextLive, profileApi } from "utils/api/api";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import formatNumber from "utils/formatNumber";
@@ -14,18 +15,18 @@ export default function Profile({ roomId, isLoad, menu }) {
   const [comments, setComments] = useState([]);
 
   useEffect(() => { 
-    axios.get(`/profile?room_id=${roomId}`).then((res) => {
+    axios.get(profileApi(roomId)).then((res) => {
       const profiles = res.data;
       setProfile(profiles);
     });
 
-    axios.get(`/next_live?room_id=${roomId}`).then((res) => {
+    axios.get(nextLive(roomId)).then((res) => {
       const schedules = res.data;
       const formatSchedule = getSchedule(schedules.epoch);
       setSchedule(formatSchedule);
     });
 
-    axios.get(`/recommend_comments?room_id=${roomId}`).then((res) => {
+    axios.get(fanLetter(roomId)).then((res) => {
       const comment = res.data.recommend_comments;
       setComments(comment);
     });

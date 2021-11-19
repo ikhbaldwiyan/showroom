@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
 import { Table, Card } from "reactstrap";
+import { totalRank } from "utils/api/api";
 import formatViews from "utils/formatViews";
 
 export default function SummaryRank({roomId}) {

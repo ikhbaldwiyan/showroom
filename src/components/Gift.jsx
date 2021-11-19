@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
 import { Table } from "reactstrap";
+import { giftLog } from "utils/api/api";
 
 export default function Gift({roomId}) {
   const [gift, setGift] = useState([])
 
   useEffect(() => {
-    axios.get(`/gift_log?room_id=${roomId}`).then(res => {
+    axios.get(giftLog(roomId)).then(res => {
       const giftLog = res.data.gift_log.reverse();
       setGift(giftLog);
     })

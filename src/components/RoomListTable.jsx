@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "reactstrap";
+import { RiLiveFill } from 'react-icons/ri'
 
 function RoomListTable({ data, children, setRoomId, idx }) {
   return (
@@ -26,9 +27,9 @@ function RoomListTable({ data, children, setRoomId, idx }) {
             className="mt-4"
             color="info"
             onClick={() => setRoomId([data.id])}
-            style={{backgroundColor: '#24a2b7', color: 'white', border: 'none'}}
+            style={{backgroundColor: '#24a2a7', color: 'white', border: 'none'}}
           >
-            See
+           <RiLiveFill className="mb-1" />
           </Button>
         </td>
       </tr>

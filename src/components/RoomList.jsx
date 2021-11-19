@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Row, Col, Table, FormGroup, Input } from "reactstrap";
+import { RiBroadcastFill } from "react-icons/ri";
+import { roomList } from "utils/api/api";
+
 import LiveButton from "elements/Button";
 import getSchedule from "utils/getSchedule";
 import RoomListTable from "./RoomListTable";
-import { RiBroadcastFill } from "react-icons/ri";
 
 export default function RoomList({ setRoomId, isMultiRoom }) {
   const handleInputId = (event) => {
@@ -15,7 +17,7 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
   const [room, setRoom] = useState("");
 
   useEffect(() => {
-    axios.get("/room_status_list.json").then((res) => {
+    axios.get(roomList).then((res) => {
       const listRoom = res.data;
       setRoom(listRoom);
     });
