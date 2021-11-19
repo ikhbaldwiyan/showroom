@@ -24,13 +24,13 @@ function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu 
     axios.get(profileApi(roomId)).then((res) => {
       const profiles = res.data;
       setProfile(profiles);
-    });
+    },[profile]);
 
     axios.get(titleLive(roomId)).then(res => {
       const telop = res.data.telop
       setTitle(telop)
     });
-  }, [profile, roomId])
+  }, [profile, roomId, title])
 
   useEffect(() => {
     window.document.title = profile && profile.room_url_key.includes("JKT48") ? `${profile.room_url_key.slice(6)} JKT48 Room` : profile.room_name;

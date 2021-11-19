@@ -11,10 +11,13 @@ export default function Comment({roomId}) {
   }]);
 
   useEffect(() => {
-    axios.get(comments(roomId)).then(res => {
-      const comments = res.data.comment_log
-      setComment(comments)
-    });
+    async function getComments(){
+      await axios.get(comments(roomId)).then(res => {
+        const comments = res.data.comment_log
+        setComment(comments)
+      });
+    } 
+    getComments()
   }, [comment]);
 
   return (

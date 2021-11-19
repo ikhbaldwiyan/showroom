@@ -17,11 +17,13 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
   const [room, setRoom] = useState("");
 
   useEffect(() => {
-    axios.get(roomList).then((res) => {
-      const listRoom = res.data;
+    async function getRoomList() {
+      const room = await axios.get(roomList)
+      const listRoom = room.data;
       setRoom(listRoom);
-    });
-  });
+    }
+    getRoomList();
+  }, []);
 
   return (
     <Row>

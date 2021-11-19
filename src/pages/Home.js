@@ -12,13 +12,13 @@ function Home(props) {
   const [room, setRoom] = useState([]);
 
   useEffect(() => {
-    axios.get(roomList).then((res) => {
-      const listRoom = res.data;
+    async function getRoomList() {
+      const room = await axios.get(roomList)
+      const listRoom = room.data;
       setRoom(listRoom);
-    })
-
-    window.document.title = 'JKT48 Showroom'
-  });
+    }
+    getRoomList();
+  }, []);
 
   return (
     <MainLayout {...props}>
