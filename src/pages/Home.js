@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
 import Fade from 'react-reveal/Fade';
+import { roomList } from "utils/api/api";
 
 import MainLayout from 'pages/layout/MainLayout';
 import Room from 'components/Room';
@@ -11,7 +12,7 @@ function Home(props) {
   const [room, setRoom] = useState([]);
 
   useEffect(() => {
-    axios.get('/room_status_list.json').then((res) => {
+    axios.get(roomList).then((res) => {
       const listRoom = res.data;
       setRoom(listRoom);
     })
