@@ -1,3 +1,4 @@
+const API = 'https://express-api-psi.vercel.app';
 const baseUrl = 'https://mycorsproxy-tuto.herokuapp.com';
 const live = `${baseUrl}/https://www.showroom-live.com/api/live`;
 const room = `${baseUrl}/https://www.showroom-live.com/api/room`;
@@ -42,4 +43,4 @@ const fanLetter = (roomId) => {
     return `${room}/recommend_comments?room_id=${roomId}`;
 }
 
-export { roomList, streamUrl, profileApi, comments, titleLive, nextLive, giftLog, fanLetter, totalRank, liveRanking }
+export { API, roomList, streamUrl, profileApi, comments, titleLive, nextLive, giftLog, fanLetter, totalRank, liveRanking }

@@ -1,17 +1,17 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
 import { Table } from "reactstrap";
-import { totalRank } from "utils/api/api";
+import { liveRanking } from "utils/api/api";
 
 export default function StageUser({roomId}) {
   const [rank, setRank] = useState([]);
 
   useEffect(() => {
-    axios.get(totalRank(roomId)).then(res => {
+    axios.get(liveRanking(roomId)).then(res => {
       const userRank = res.data.stage_user_list
       setRank(userRank)
     });
-  });
+  }, []);
 
   return (
     <Table dark>

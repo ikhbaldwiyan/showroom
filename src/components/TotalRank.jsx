@@ -8,13 +8,12 @@ export default function SummaryRank({roomId}) {
     const [summary, setSummary] = useState('')
 
     useEffect(() => {
-      axios.get(`/summary_ranking?room_id=${roomId}`).then(res => {
+      axios.get(totalRank(roomId)).then(res => {
         const totalRank = res.data.ranking
         setSummary(totalRank)
       });
-    });
+    }, []);
   
-
     return (
       summary ? (
         <Table dark>

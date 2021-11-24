@@ -1,31 +1,52 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import Room from 'components/Room';
-import { RiBroadcastFill } from "react-icons/ri";
 
-export default function RoomLive({room}) {
-  const [isLive, setIsLive] = useState(false);
+import { API } from 'utils/api/api';
+import { isMobile } from 'react-device-detect';
+import Button from 'elements/Button';
 
+export default function RoomLive() {
+  const [onLive, setOnLive] = useState([])
+  
   useEffect(() => {
-    for (let i = 0; i < room.length; i++) {
-      const roomLive = room[i];
-      const memberLive = roomLive.name.includes("JKT48") && roomLive.is_live
-      memberLive && setIsLive(true);
+    async function getOnLives() {
+      const room = await axios.get(`${API}/onlives`)
+      const onLive = room.data;
+      onLive && setOnLive(onLive)
     }
-  });
+    getOnLives();
+  }, []);
 
   return (
-    isLive && (
+    onLive && onLive.length !== 0 && (
       <div className="mb-4">
-        {isLive && <h3 className="mb-3">Live Now</h3>}
+        <h3 className="mb-3">Room Live</h3>
         <div className="container-grid">
-          {room.map((item, idx) => (
-            item.name.includes("JKT48") && item.is_live && (
-              <Room key={idx} item={item} style="column-6">
-                <div className="tag" style={{backgroundColor: '#dc3545'}}>
-                  <RiBroadcastFill className="mb-1" /> Live <span className="font-weight-light">Now</span>
+          {onLive && onLive.map((item, idx) => (
+            <div key={idx} className={`item ${isMobile ? "column-12 row-1" : `column-3 row-1`}`}>
+                <div className="card card-featured">
+                  <div className="tag" style={{backgroundColor: '#22a2b7'}}>
+                    {item.label} 
+                  </div>
+                  <figure className="img-wrapper">
+                    <img
+                      src={item.image_square}
+                      alt={item.room_name}
+                      className="img-cover"
+                    />
+                  </figure>
+                  <div className="meta-wrapper">
+                    <Button
+                      type="link"
+                      style={{textDecoration: 'none'}}
+                      className="strecthed-link d-block text-white"
+                      href={`live-stream/${item.room_id}`}
+                    >
+                      <h5> {item.room_url_key.replace('_', ' ')} </h5>
+                    </Button>
+                  </div>
                 </div>
-              </Room>
-            )
+            </div>
           ))}
         </div>
       </div>

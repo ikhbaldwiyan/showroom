@@ -1,7 +1,7 @@
 import axios from "axios";
+import { API } from "utils/api/api";
 import React, { useState, useEffect } from 'react';
 import Fade from 'react-reveal/Fade';
-import { roomList } from "utils/api/api";
 
 import MainLayout from 'pages/layout/MainLayout';
 import Room from 'components/Room';
@@ -13,9 +13,9 @@ function Home(props) {
 
   useEffect(() => {
     async function getRoomList() {
-      const room = await axios.get(roomList)
+      const room = await axios.get(API)
       const listRoom = room.data;
-      setRoom(listRoom);
+      listRoom && setRoom(listRoom);
     }
     getRoomList();
   }, []);
@@ -34,7 +34,7 @@ function Home(props) {
               />
             </center>
           </div>
-          <RoomLive room={room} />
+          <RoomLive />
           <RoomUpcoming room={room} />
           <h3 className="mb-3">Room List</h3>
           <div className="container-grid">

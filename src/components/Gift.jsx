@@ -12,7 +12,7 @@ export default function Gift({roomId}) {
       setGift(giftLog);
     })
 
-  }, [gift])
+  }, [])
 
   return (
     gift && (

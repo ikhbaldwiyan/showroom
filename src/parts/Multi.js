@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Col } from 'reactstrap';
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
+import { streamUrl } from 'utils/api/api';
 
 import Stream from 'pages/streaming/Stream';
 import { Profile, Title, Menu, RoomList, LiveChat, StageUser, TotalRank, Gift, Loading, Setlist } from 'components';
@@ -15,7 +16,7 @@ export default function Multi({layout, hideMultiMenu, setHideMultiMenu}) {
   const [hideMenu, setHideMenu] = useState(false);
 
   useEffect(() => {
-    axios.get(`/streaming_url?room_id=${roomId}`).then(res => {
+    axios.get(streamUrl(roomId)).then(res => {
       const streamUrl = res.data.streaming_url_list
       setUrl(streamUrl)
     });
