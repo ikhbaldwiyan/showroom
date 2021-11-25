@@ -2,11 +2,11 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaUserFriends } from "react-icons/fa";
 import formatViews from "utils/formatViews";
-import getTimes from "utils/getTimes";
 import { profileApi, titleLive } from "utils/api/api";
 
 import Views from "elements/Button";
 import Settings from "./Settings";
+import LastSeen from "./LastSeen";
 
 function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu }) {
   const [profile, setProfile] = useState("");
@@ -41,13 +41,13 @@ function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu 
       {!hideName &&
         <h4 style={{ display: 'inline' }}>
           <b className="mr-1">
-            {profile && profile.room_url_key.includes('JKT48') && profile.room_url_key != 'officialJKT48' ? profile.room_url_key.slice(6) + ' JKT48' : profile.room_name} |
+            {profile && profile.room_url_key.includes('JKT48') && profile.room_url_key !== 'officialJKT48' ? profile.room_url_key.slice(6) + ' JKT48' : profile.room_name} |
           </b>
         </h4>
       }
 
       {!hideTime &&
-        <h5 style={{ display: 'inline' }}>{title ?? getTimes(profile.current_live_started_at)}</h5>
+        <LastSeen times={profile.current_live_started_at} />
       }
 
       {!hideViews &&
