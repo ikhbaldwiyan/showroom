@@ -38,7 +38,7 @@ function Home(props) {
           <RoomUpcoming room={room} />
           <h3 className="mb-3">Room List</h3>
           <div className="container-grid">
-            {room.map((item, idx) => (
+            {room && room.length !== 0 && room.map((item, idx) => (
               item.name.includes("JKT48") && !item.next_live_schedule && !item.is_live && (
                 <Room key={idx} idx={idx} item={item} style="column-4" />
               )
