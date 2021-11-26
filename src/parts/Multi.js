@@ -1,23 +1,21 @@
 import axios from 'axios';
 import { Col } from 'reactstrap';
+import { API } from 'utils/api/api';
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
-import { streamUrl } from 'utils/api/api';
 
 import Stream from 'pages/streaming/Stream';
 import { Profile, Title, Menu, RoomList, LiveChat, StageUser, TotalRank, Gift, Loading, Setlist } from 'components';
 
 export default function Multi({layout, hideMultiMenu, setHideMultiMenu}) {
-  const {id} = useParams();
   const [url, setUrl] = useState([]);
-  const [roomId, setRoomId] = useState(id);
+  const [roomId, setRoomId] = useState('');
   const [menu, setMenu] = useState('room');
   const [loading, setLoading] = useState(false);
   const [hideMenu, setHideMenu] = useState(false);
 
   useEffect(() => {
-    axios.get(streamUrl(roomId)).then(res => {
-      const streamUrl = res.data.streaming_url_list
+    axios.get(`${API}/lives/${roomId}`).then(res => {
+      const streamUrl = res.data;
       setUrl(streamUrl)
     });
     !url && setMenu('room')
@@ -33,9 +31,6 @@ export default function Multi({layout, hideMultiMenu, setHideMultiMenu}) {
     }, 1000);
   }, [menu, roomId])
 
-  useEffect(() => {
-    id === 'undefined' && setRoomId('332503');
-  }, [id])
 
   const isMultiRoom = window.location.pathname !== '/multi-room';
 

@@ -12,7 +12,7 @@ export default function Comment({roomId}) {
 
   useEffect(() => {
     async function getComments(){
-      await axios.get(`${API}/rooms/comments/${roomId}`).then(res => {
+      await axios.get(`${API}/lives/comments/${roomId}`).then(res => {
         const comments = res.data
         setTimeout(() => {
           setComment(comments)

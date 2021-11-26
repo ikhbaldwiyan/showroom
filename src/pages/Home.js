@@ -13,7 +13,7 @@ function Home(props) {
 
   useEffect(() => {
     async function getRoomList() {
-      const room = await axios.get(API)
+      const room = await axios.get(`${API}/rooms`)
       const listRoom = room.data;
       listRoom && setRoom(listRoom);
     }

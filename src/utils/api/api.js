@@ -1,9 +1,7 @@
-const API = 'https://express-api-psi.vercel.app';
+const API = 'https://jkt48-showroom-api.vercel.app/api';
 const baseUrl = 'https://mycorsproxy-tuto.herokuapp.com';
 const live = `${baseUrl}/https://www.showroom-live.com/api/live`;
 const room = `${baseUrl}/https://www.showroom-live.com/api/room`;
-
-const roomList = `${baseUrl}/https://campaign.showroom-live.com/akb48_sr/data/room_status_list.json`;
 
 // Live API
 const streamUrl = (roomId) => {
@@ -43,4 +41,4 @@ const fanLetter = (roomId) => {
     return `${room}/recommend_comments?room_id=${roomId}`;
 }
 
-export { API, roomList, streamUrl, profileApi, comments, titleLive, nextLive, giftLog, fanLetter, totalRank, liveRanking }
+export { API, streamUrl, profileApi, comments, titleLive, nextLive, giftLog, fanLetter, totalRank, liveRanking }

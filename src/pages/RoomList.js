@@ -2,6 +2,7 @@ import axios from 'axios';
 import Button from 'elements/Button';
 import React, { useState, useEffect } from 'react';
 import { Container, Table } from 'reactstrap';
+import { API } from 'utils/api/api';
 import formatNumber from 'utils/formatNumber';
 import getSchedule from 'utils/getSchedule';
 import MainLayout from './layout/MainLayout';
@@ -10,7 +11,7 @@ function RoomList(props) {
   const [room, setRoom] = useState([]);
 
   useEffect(() => {
-    axios.get('/room_status_list.json').then((res) => {
+    axios.get(`${API}/rooms`).then((res) => {
       const listRoom = res.data;
       setRoom(listRoom);
     });

@@ -11,7 +11,7 @@ export default function RoomLive() {
   
   useEffect(() => {
     async function getOnLives() {
-      const room = await axios.get(`${API}/onlives`)
+      const room = await axios.get(`${API}/rooms/onlives`)
       const onLive = room.data;
       onLive && onLive.length && setOnLive(onLive)
     }
@@ -28,7 +28,7 @@ export default function RoomLive() {
               <div key={idx} className={`item ${isMobile ? "column-12 row-1" : `column-3 row-1`}`}>
                   <div className="card card-featured">
                     <div className="tag" style={{backgroundColor: '#22a2b7'}}>
-                      {item.label}
+                      {item.label ? item.label : 'Live Now'}
                     </div>
                     <figure className="img-wrapper">
                       <img

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaUserFriends } from "react-icons/fa";
 import formatViews from "utils/formatViews";
-import { profileApi, titleLive } from "utils/api/api";
+import { API } from "utils/api/api";
 
 import Views from "elements/Button";
 import Settings from "./Settings";
@@ -21,15 +21,12 @@ function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu 
   }
 
   useEffect(() => {
-    axios.get(profileApi(roomId)).then((res) => {
+    axios.get(`${API}/lives/info/${roomId}`).then((res) => {
       const profiles = res.data;
       setProfile(profiles);
+      setTitle(profiles.title);
     },[profile]);
 
-    axios.get(titleLive(roomId)).then(res => {
-      const telop = res.data.telop
-      setTitle(telop)
-    });
   }, [profile, roomId, title])
 
   useEffect(() => {
@@ -52,7 +49,7 @@ function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu 
 
       {!hideViews &&
         <Views className="btn-sm btn-info ml-2 mr-2 mb-2" style={{borderRadius: 5}}>
-          <FaUserFriends style={{fontSize: 20, marginBottom: 4, marginRight: 2}} /> {profile.view_num ? formatViews(profile.view_num) : '0'}
+          <FaUserFriends style={{fontSize: 20, marginBottom: 4, marginRight: 2}} /> {profile.views ? formatViews(profile.views) : '0'}
         </Views>
       }
       <Settings {...propSettings} />

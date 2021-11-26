@@ -3,7 +3,7 @@ import { isMobile } from "react-device-detect";
 import { IoMdSettings } from "react-icons/io";
 
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import ProfileModal from "./ProfileModal";
+// import ProfileModal from "./ProfileModal";
 
 function Settings(props) {
   const [isOpen, setDropdownOpen] = useState(false);
@@ -64,7 +64,7 @@ function Settings(props) {
           {menu.map((item, idx) => (
             <DropdownItem key={idx} onClick={item.update}>{item.name}</DropdownItem>
           ))}
-          <ProfileModal className="btn-sm mt-1 px-4 mb-1" profile={profile} buttonLabel="Show Profile" />
+          {/* <ProfileModal className="btn-sm mt-1 px-4 mb-1" profile={profile} buttonLabel="Show Profile" /> */}
           <DropdownItem href={profile.share_url_live} target="_blank" >Open Showroom</DropdownItem>
           {window.location.pathname === '/multi-room' && (
             <DropdownItem onClick={() => { setHideMultiMenu(!hideMultiMenu) }}>{hideOrShow(hideMultiMenu)} Multi Options</DropdownItem>

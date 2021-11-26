@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Container } from 'reactstrap';
 import { useParams } from "react-router-dom";
-import { streamUrl } from 'utils/api/api';
+import { API } from 'utils/api/api';
 
 import MainLayout from './layout/MainLayout';
 import Stream from './streaming/Stream';
@@ -17,8 +17,8 @@ function Live(props) {
   const [hideMenu, setHideMenu] = useState(false);
 
   useEffect(() => {
-    axios.get(streamUrl(roomId)).then(res => {
-      const streamUrl = res.data.streaming_url_list
+    axios.get(`${API}/lives/${roomId}`).then(res => {
+      const streamUrl = res.data
       setUrl(streamUrl)
     });
     !url && setMenu('room')

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Row, Col, Table, FormGroup, Input } from "reactstrap";
 import { RiBroadcastFill } from "react-icons/ri";
-import { roomList } from "utils/api/api";
+import { API } from "utils/api/api";
 
 import LiveButton from "elements/Button";
 import getSchedule from "utils/getSchedule";
@@ -18,7 +18,7 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
 
   useEffect(() => {
     async function getRoomList() {
-      const room = await axios.get(roomList)
+      const room = await axios.get(`${API}/rooms`)
       const listRoom = room.data;
       setRoom(listRoom);
     }
