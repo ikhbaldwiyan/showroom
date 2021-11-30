@@ -30,7 +30,7 @@ function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu 
   }, [profile, roomId, title])
 
   useEffect(() => {
-    window.document.title = profile && profile.room_url_key.includes("JKT48") ? `${profile.room_url_key.slice(6)} JKT48 Room` : profile.room_name;
+    window.document.title = profile && profile.room_url_key !== 0 && profile.room_url_key.includes("JKT48") ? `${profile.room_url_key.slice(6)} JKT48 Room` : profile.room_name;
   }, [profile])
 
   return (
@@ -38,7 +38,7 @@ function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu 
       {!hideName &&
         <h4 style={{ display: 'inline' }}>
           <b className="mr-1">
-            {profile && profile.room_url_key.includes('JKT48') && profile.room_url_key !== 'officialJKT48' ? profile.room_url_key.slice(6) + ' JKT48' : profile.room_name} |
+            {profile && profile.room_url_key !== 0 && profile.room_url_key.includes('JKT48') && profile.room_url_key !== 'officialJKT48' ? profile.room_url_key.slice(6) + ' JKT48' : profile.room_name} |
           </b>
         </h4>
       }

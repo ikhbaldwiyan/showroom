@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 import { API } from 'utils/api/api';
+import { Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
 import Button from 'elements/Button';
 import Fade from 'react-reveal';
@@ -24,9 +25,10 @@ export default function RoomLive() {
         <h3 className="mb-3">Room Live</h3>
         <div className="container-grid">
           {onLive && onLive.length !== 0 && onLive.map((item, idx) => (
-            <Fade right>
-              <div key={idx} className={`item ${isMobile ? "column-12 row-1" : `column-3 row-1`}`}>
-                  <div className="card card-featured">
+            <div key={idx} className={`item ${isMobile ? "column-12 row-1" : `column-3 row-1`}`}>
+              <Link to={`live-stream/${item.room_id}`}>
+                <div className="card card-featured">
+                  <Fade right>
                     <div className="tag" style={{backgroundColor: '#22a2b7'}}>
                       {item.label ? item.label : 'Live Now'}
                     </div>
@@ -44,12 +46,13 @@ export default function RoomLive() {
                         className="strecthed-link d-block text-white"
                         href={`live-stream/${item.room_id}`}
                       >
-                        <h5> {item.room_url_key.replace('_', ' ')} </h5>
+                        <h5> {item.room_url_key.replace('_', ' ').replace('JKT48', '') + ' JKT48'} </h5>
                       </Button>
                     </div>
-                  </div>
-              </div>
-            </Fade>
+                  </Fade>
+                </div>
+              </Link>
+            </div>
           ))}
         </div>
       </div>

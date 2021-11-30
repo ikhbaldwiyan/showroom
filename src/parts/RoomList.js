@@ -11,7 +11,7 @@ function RoomList({room}) {
               item.name.includes('JKT48') &&
               !item.next_live_schedule &&
               !item.is_live && (
-                <Room key={idx} idx={idx} item={item} style="column-4" />
+                <Room idx={idx} item={item} style="column-4" />
               )
           )}
       </div>
