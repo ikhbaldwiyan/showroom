@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Card, CardImg, CardHeader, CardText, Button } from "reactstrap";
 import { fanLetter, nextLive, profileApi } from "utils/api/api";
 
-import "bootstrap/dist/css/bootstrap.min.css";
 import formatNumber from "utils/formatNumber";
 import formatDescription from "utils/formatDescription";
 import getSchedule from "utils/getSchedule";
