@@ -6,7 +6,7 @@ import getSchedule from 'utils/getSchedule';
 
 function LastSeen({times}) {
   const formatter = buildFormatter(languageString)
-  const getInfo = getSchedule(times);
+  const getInfo = getSchedule(times, 'isLastSeen');
   const liveTime = getInfo.replace('.', ':');
 
   return (
