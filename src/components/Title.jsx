@@ -8,7 +8,7 @@ import Views from "elements/Button";
 import Settings from "./Settings";
 import LastSeen from "./LastSeen";
 
-function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu }) {
+function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu, theme }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState('');
 
@@ -44,11 +44,11 @@ function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu 
       }
 
       {!hideTime &&
-        <LastSeen times={profile.current_live_started_at} />
+        <LastSeen theme={theme} times={profile.current_live_started_at} />
       }
 
       {!hideViews &&
-        <Views className="btn-sm btn-info ml-2 mr-2 mb-2" style={{borderRadius: 5, backgroundColor: '#008b9b', borderColor: '#008b9b'}}>
+        <Views className="btn-sm btn-info ml-2 mr-2 mb-2" style={{borderRadius: 5}}>
           <FaUserFriends style={{fontSize: 20, marginBottom: 4, marginRight: 2}} /> {profile.views ? formatViews(profile.views) : '0'}
         </Views>
       }

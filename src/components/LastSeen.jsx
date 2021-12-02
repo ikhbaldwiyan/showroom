@@ -4,13 +4,13 @@ import languageString from 'react-timeago/lib/language-strings/en';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import getSchedule from 'utils/getSchedule';
 
-function LastSeen({times}) {
+function LastSeen({times, theme}) {
   const formatter = buildFormatter(languageString)
   const getInfo = getSchedule(times, 'isLastSeen');
   const liveTime = getInfo.replace('.', ':');
 
   return (
-    <h5 className="text-gray-400" style={{ display: 'inline' }}>
+    <h5 className={theme === 'dark' ? 'text-gray-400' : 'text-gray-700'} style={{ display: 'inline' }}>
       Live <TimeAgo date={liveTime} formatter={formatter} className="mr-2" />
     </h5>
   );

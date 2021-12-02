@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { API } from "utils/api/api";
 import { Row, Col, Card, CardImg, CardHeader, CardText, Button } from "reactstrap";
-import { fanLetter, nextLive, profileApi } from "utils/api/api";
 
 import formatNumber from "utils/formatNumber";
 import formatDescription from "utils/formatDescription";
@@ -11,23 +11,17 @@ import Skeleton from "parts/Skeleton";
 export default function Profile({ roomId, isLoad, menu }) {
   const [profile, setProfile] = useState("");
   const [schedule, setSchedule] = useState("");
-  const [comments, setComments] = useState([]);
 
   useEffect(() => { 
-    axios.get(profileApi(roomId)).then((res) => {
+    axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
       const profiles = res.data;
       setProfile(profiles);
     });
 
-    axios.get(nextLive(roomId)).then((res) => {
+    axios.get(`${API}/rooms/schedule/${roomId}`).then((res) => {
       const schedules = res.data;
       const formatSchedule = getSchedule(schedules.epoch);
       setSchedule(formatSchedule);
-    });
-
-    axios.get(fanLetter(roomId)).then((res) => {
-      const comment = res.data.recommend_comments;
-      setComments(comment);
     });
 
   }, [roomId, menu]);
@@ -57,7 +51,7 @@ export default function Profile({ roomId, isLoad, menu }) {
   }
 
   const hr = (idx) => {
-    if (idx !== 3) {
+    if (idx !== 2) {
      return  <hr />
    }
   }
@@ -85,7 +79,7 @@ export default function Profile({ roomId, isLoad, menu }) {
             Biodata
           </CardHeader>
           <Card
-            style={{ borderColor: "#24a2b7",  borderTopLeftRadius: "0", borderTopRightRadius: "0" }}
+            style={{ borderTopLeftRadius: "0", borderTopRightRadius: "0" }}
             body
             outline
           >
@@ -129,7 +123,7 @@ export default function Profile({ roomId, isLoad, menu }) {
             >
               <CardText>
                 {profile.recommend_comment_list != null ?
-                  comments.slice(0, 4).map((item, idx) => (
+                  profile.recommend_comment_list.map((item, idx) => (
                     <div key={idx}>
                       <h5>
                         <img

@@ -46,7 +46,7 @@ function Live(props) {
             {url ? url.slice(0, 1).map((item, idx) => (
               <>
                 <Stream key={idx} url={item.url} />
-                <Title roomId={roomId} hideMenu={hideMenu} setHideMenu={setHideMenu} />
+                <Title roomId={roomId} hideMenu={hideMenu} setHideMenu={setHideMenu} theme={props.theme} />
               </>
             )) : !url ? (
               <Profile roomId={roomId} setRoomId={setRoomId} isLoad={loading} menu={menu} />
