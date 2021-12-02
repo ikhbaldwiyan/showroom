@@ -48,7 +48,7 @@ function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu 
       }
 
       {!hideViews &&
-        <Views className="btn-sm btn-info ml-2 mr-2 mb-2" style={{borderRadius: 5}}>
+        <Views className="btn-sm btn-info ml-2 mr-2 mb-2" style={{borderRadius: 5, backgroundColor: '#008b9b', borderColor: '#008b9b'}}>
           <FaUserFriends style={{fontSize: 20, marginBottom: 4, marginRight: 2}} /> {profile.views ? formatViews(profile.views) : '0'}
         </Views>
       }

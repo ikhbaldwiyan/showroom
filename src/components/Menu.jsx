@@ -5,7 +5,7 @@ import { AiFillGift, AiFillTrophy } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { FaListAlt } from "react-icons/fa";
 
-function Menu({setMenu, isLive, roomId, hideMenu}) {
+function Menu({menu, setMenu, isLive, roomId, hideMenu}) {
   const [roomName, setRoomName] = useState('');
 
   useEffect(() => {
@@ -42,13 +42,17 @@ function Menu({setMenu, isLive, roomId, hideMenu}) {
     backgroundColor: 'teal', border: 'none'
   }
 
+  const buttonActive = {
+    backgroundColor: '#008b9b', border: 'none'
+  }
+
   return (
     <Row>
       <Col>
         {!hideMenu && (
           <Button
             className="menu"
-            style={buttonStyle}
+            style={menu === 'room' ? buttonActive : buttonStyle}
             onClick={() => setMenu('room')}
           >
             <FaListAlt style={iconStyle} /> Room
@@ -69,7 +73,7 @@ function Menu({setMenu, isLive, roomId, hideMenu}) {
           listMenu.map((item, idx) => (
             <Button
               key={idx}
-              style={buttonStyle}
+              style={menu === item.menu ? buttonActive : buttonStyle}
               className="menu"
               onClick={() => setMenu(item.menu)}
             >
