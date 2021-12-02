@@ -46,7 +46,7 @@ export default function Multi({layout, hideMultiMenu, setHideMultiMenu}) {
       ) : (
         <Stream url="" />
       )}
-      {roomId ? <Menu setMenu={setMenu} isLive={url} roomId={roomId} hideMenu={hideMenu} isMultiRoom={isMultiRoom} /> : ''}
+      {roomId ? <Menu menu={menu} setMenu={setMenu} isLive={url} roomId={roomId} hideMenu={hideMenu} isMultiRoom={isMultiRoom} /> : ''}
       {menu === 'room' ? (
         <RoomList setRoomId={setRoomId} isMultiRoom={isMultiRoom}/>
       ) : menu === 'chat' ? (
