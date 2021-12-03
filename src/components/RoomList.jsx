@@ -23,7 +23,7 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
       setRoom(listRoom);
     }
     getRoomList();
-  }, []);
+  }, [room]);
 
   return (
     <Row>

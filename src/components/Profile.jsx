@@ -6,9 +6,9 @@ import { Row, Col, Card, CardImg, CardHeader, CardText, Button } from "reactstra
 import formatNumber from "utils/formatNumber";
 import formatDescription from "utils/formatDescription";
 import getSchedule from "utils/getSchedule";
-import Skeleton from "parts/Skeleton";
+import SkeletonProfile from "parts/skeleton/SkeletonProfile";
 
-export default function Profile({ roomId, isLoad, menu }) {
+export default function Profile({ roomId, isLoad, menu, theme }) {
   const [profile, setProfile] = useState("");
   const [schedule, setSchedule] = useState("");
 
@@ -59,7 +59,7 @@ export default function Profile({ roomId, isLoad, menu }) {
   const isMultiRoom = window.location.pathname !== '/multi-room';
 
   return (
-    isLoad && menu == 'room' && isMultiRoom ? <Skeleton /> : 
+    isLoad && menu == 'room' && isMultiRoom ? <SkeletonProfile theme={theme} /> : 
     <>
       <Row className="mb-2">
         <Col>

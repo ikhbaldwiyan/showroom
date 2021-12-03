@@ -2,7 +2,7 @@ import React from 'react';
 import Room from 'components/Room';
 import SkeletonList from './skeleton/SkeletonList';
 
-function RoomList({room}) {
+function RoomList({room, theme}) {
   return (
     <>
       <h3 className="mb-3">Room List</h3>
@@ -12,7 +12,7 @@ function RoomList({room}) {
             <Room idx={idx} item={item} style="column-4" />
           ))
         ) : (
-          <SkeletonList />
+          <SkeletonList theme={theme} />
         )}
       </div>
     </>

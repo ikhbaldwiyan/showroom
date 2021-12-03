@@ -49,7 +49,7 @@ function Live(props) {
                 <Title roomId={roomId} hideMenu={hideMenu} setHideMenu={setHideMenu} theme={props.theme} />
               </>
             )) : !url ? (
-              <Profile roomId={roomId} setRoomId={setRoomId} isLoad={loading} menu={menu} />
+              <Profile roomId={roomId} setRoomId={setRoomId} isLoad={loading} menu={menu} theme={props.theme} />
             ) : (
               <Stream url="" />
             )}

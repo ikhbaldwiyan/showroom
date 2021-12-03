@@ -8,7 +8,7 @@ import Button from 'elements/Button';
 import Fade from 'react-reveal';
 import SkeletonLive from './skeleton/SkeletonLive';
 
-export default function RoomLive() {
+export default function RoomLive({theme}) {
   const [onLive, setOnLive] = useState([])
   
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function RoomLive() {
             ))}
           </div>
         ) : (
-          <SkeletonLive />
+          <SkeletonLive theme={theme} />
         )}
       </div>
     )

@@ -28,9 +28,9 @@ function Home(props) {
       <section className="container">
         <Fade bottom>
           <Banner />
-          <RoomLive />
+          <RoomLive theme={props.theme} />
           <RoomUpcoming room={room} />
-          <RoomList room={room} />
+          <RoomList room={room} theme={props.theme} />
         </Fade>
       </section>
     </MainLayout>
