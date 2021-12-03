@@ -19,7 +19,7 @@ export default function MultiRoom(props) {
   }, [layout])
 
   const isMultiRoom = layout === '4' || layout === '3' ? 'isMultiRoom' : '';
-  const propsMultiRoom = { hideMultiMenu, setHideMultiMenu, layout, setLayout }
+  const propsMultiRoom = { hideMultiMenu, setHideMultiMenu, layout, setLayout, theme: props.theme }
 
   return (
     <MainLayout {...props} isMultiRoom={isMultiRoom}>

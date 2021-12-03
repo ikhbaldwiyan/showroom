@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import Stream from 'pages/streaming/Stream';
 import { Profile, Title, Menu, RoomList, LiveChat, StageUser, TotalRank, Gift, Loading, Setlist } from 'components';
 
-export default function Multi({layout, hideMultiMenu, setHideMultiMenu}) {
+export default function Multi({layout, hideMultiMenu, setHideMultiMenu, theme}) {
   const [url, setUrl] = useState([]);
   const [roomId, setRoomId] = useState('');
   const [menu, setMenu] = useState('room');
@@ -39,13 +39,14 @@ export default function Multi({layout, hideMultiMenu, setHideMultiMenu}) {
       {url ? url.slice(0, 1).map((item, idx) => (
         <>
           <Stream key={idx} url={item.url} />
-          <Title roomId={roomId} hideMenu={hideMenu} setHideMenu={setHideMenu} hideMultiMenu={hideMultiMenu} setHideMultiMenu={setHideMultiMenu}  />
+          <Title roomId={roomId} hideMenu={hideMenu} setHideMenu={setHideMenu} hideMultiMenu={hideMultiMenu} setHideMultiMenu={setHideMultiMenu} theme={theme} />
         </>
       )) : !url ? (
         <Profile roomId={roomId} setRoomId={setRoomId} isLoad={loading} menu={menu} />
       ) : (
         <Stream url="" />
       )}
+      {url.length === 0 && <p className="h6 text-center py-2">Please Choose Member Room</p>}
       {roomId ? <Menu menu={menu} setMenu={setMenu} isLive={url} roomId={roomId} hideMenu={hideMenu} isMultiRoom={isMultiRoom} /> : ''}
       {menu === 'room' ? (
         <RoomList setRoomId={setRoomId} isMultiRoom={isMultiRoom}/>
