@@ -24,26 +24,29 @@ export default function Comment({roomId}) {
 
   return (
     <Card body inverse color="dark" className="scroll">
-      {comment && comment.length !== 0 ? comment.map((item, idx) => (
+      {comment && comment.length !== 0 && comment.map((item, idx) => (
         item.comment.length != '2' && item.comment.length != '1' && 
         <>
-          <h5 key={idx} className="text-gray-200">
-            <img width="30" className="mr-2" src={item.avatar_url} alt={item.name} />
-            {item.name}
+          <h5 key={idx} style={styles.name}>
+            <img src={item.avatar_url} width="25" alt={item.name} className="mr-2 mb-1" />
+            {item.name} 
           </h5>
-          <p>{item.comment}</p>
+          <p style={styles.comment}>{item.comment}</p>
           <hr/>
         </>
-      )) : (
-        <>
-          <h5 className="text-gray-200">
-            <img width="30" className="mr-2" src="https://image.showroom-cdn.com/showroom-prod/image/avatar/1028686.png?v=87" alt="Inzoid" />
-            Loading..
-          </h5>
-          <p>Sabar Wots</p>
-          <hr />
-        </>
-      )}
+      ))}
     </Card>
   )
+}
+
+const styles = {
+  name : {
+    display: 'inline', 
+    color: '#24a2b7', 
+    fontWeight: 500, 
+    fontSize: '18px'
+  },
+  comment : {
+    fontSize: '15px'
+  }
 }

@@ -21,7 +21,7 @@ function Live(props) {
       const streamUrl = res.data
       setUrl(streamUrl)
     });
-    !url && setMenu('room')
+    !url && setMenu('room');
   }, [roomId, url])
 
   useEffect(() => {
@@ -31,11 +31,12 @@ function Live(props) {
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
-    }, 1000);
+    }, 2000);
   }, [menu, roomId])
 
   useEffect(() => {
     id === 'undefined' && setRoomId('332503');
+    roomId && url && setMenu('chat');
   }, [id])
 
   return (

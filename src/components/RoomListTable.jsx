@@ -8,7 +8,7 @@ function RoomListTable({ data, children, setRoomId, idx }) {
       <tr>
         <td>
           <img
-            src={data.image_url}
+            src={data.image_url ?? data.image}
             style={{ borderRadius: "10px" }}
             alt={data.name}
             width="120"
@@ -16,9 +16,9 @@ function RoomListTable({ data, children, setRoomId, idx }) {
         </td>
         <td>
           {data.is_live || data.next_live_schedule !== 0 ? (
-            <p className="mb-1">{data.url_key.substr(6)}</p> 
+            <p className="mb-1">{data.url_key ? data.url_key.substr(6) : data.room_url_key !== 'officialJKT48' ? data.room_url_key.substr(6) : 'JKT48'}</p> 
           ) : (
-            <p className="mt-4">{data.url_key.substr(6)}</p> 
+            <p className="mt-4">{data.url_key ? data.url_key.substr(6) : data.room_url_key.substr(6)}</p> 
           )}
           {children}
         </td>
@@ -26,7 +26,7 @@ function RoomListTable({ data, children, setRoomId, idx }) {
           <Button
             className="mt-4"
             color="info"
-            onClick={() => setRoomId([data.id])}
+            onClick={() => setRoomId([data.id ? data.id : data.room_id])}
             style={{backgroundColor: '#24a2a7', color: 'white', border: 'none'}}
           >
            <RiLiveFill className="mb-1" />

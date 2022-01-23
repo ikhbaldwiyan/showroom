@@ -1,6 +1,7 @@
 import React from 'react';
 import Room from 'components/Room';
 import SkeletonList from './skeleton/SkeletonList';
+import { isMobile } from 'react-device-detect';
 
 function RoomList({room, theme}) {
   return (
@@ -12,7 +13,7 @@ function RoomList({room, theme}) {
             <Room idx={idx} item={item} style="column-4" />
           ))
         ) : (
-          <SkeletonList theme={theme} />
+          !isMobile && <SkeletonList theme={theme} />
         )}
       </div>
     </>

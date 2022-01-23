@@ -21,7 +21,7 @@ function Home(props) {
     getRoomList();
 
     window.document.title = 'JKT48 SHOWROOM';
-  }, []);
+  }, [room]);
 
   return (
     <MainLayout {...props}>

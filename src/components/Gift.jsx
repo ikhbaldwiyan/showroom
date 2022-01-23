@@ -11,11 +11,11 @@ export default function Gift({roomId}) {
       const giftLog = res.data.gift_log.reverse();
       setGift(giftLog);
     })
-
-  }, [])
+    
+  }, [gift.length])
 
   return (
-    gift && (
+    gift.length !== 0 ? (
       <div className="scroll">
         <Table dark>
           <thead>
@@ -38,6 +38,20 @@ export default function Gift({roomId}) {
           ))}
         </Table>
       </div>
+    ) : (
+      <Table dark>
+        <thead>
+          <tr>
+            <th>Ava</th>
+            <th>Name</th>
+            <th>Gift</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <td colSpan="4" className="text-center">Gift not found</td>
+        </tbody>
+      </Table>
     )
   )
 }
