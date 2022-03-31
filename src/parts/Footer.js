@@ -53,7 +53,7 @@ export default function Footer() {
         </div>
         <div className="row">
           <div className="col text-center copyrights">
-            Copyright 2021 • All rights reserved • JKT48SHOWROOM - Inzoid
+            Copyright 2022 • All rights reserved • JKT48SHOWROOM - Inzoid
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import RoomList from "parts/RoomList";
 
 function Home(props) {
   const [room, setRoom] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function getRoomList() {
@@ -23,14 +24,34 @@ function Home(props) {
     window.document.title = 'JKT48 SHOWROOM';
   }, [room]);
 
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+    console.log(search)
+  };
+
+  const filtered = !search ? room
+    : room.filter((room) =>
+      room.name.toLowerCase().includes(search.toLowerCase())
+    );
+
   return (
     <MainLayout {...props}>
       <section className="container">
         <Fade bottom>
           <Banner />
+          <div className="row py-4">
+            <div className="col">
+              <input
+                type="text"
+                placeholder="Search Room"
+                onChange={handleSearch}
+                className="form-control"
+              />
+            </div>
+          </div>
           <RoomLive theme={props.theme} />
           <RoomUpcoming room={room} />
-          <RoomList room={room} theme={props.theme} />
+          <RoomList isSearch={search} room={filtered} theme={props.theme} />
         </Fade>
       </section>
     </MainLayout>
