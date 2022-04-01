@@ -1,9 +1,9 @@
 import React from 'react';
 import { FcSearch } from 'react-icons/fc';
 import { Button } from 'reactstrap';
-import { RiBroadcastFill, RiGlobalLine } from 'react-icons/ri';
-import { AiFillAppstore } from 'react-icons/ai';
-import { HiOutlineAcademicCap } from 'react-icons/hi';
+import { RiGlobalLine } from 'react-icons/ri';
+import { AiFillAppstore, AiFillVideoCamera } from 'react-icons/ai';
+import { IoSchoolSharp } from 'react-icons/io5';
 import { isMobile } from 'react-device-detect';
 
 function SearchAndFilter({
@@ -75,7 +75,7 @@ function SearchAndFilter({
             disabled={isAcademy ? 'disabled' : ''}
             style={{font: 'poppins'}}
           >
-            <HiOutlineAcademicCap className='mb-1' /> <span className="text-filter">ACADEMY</span>
+            <IoSchoolSharp className='mb-1 mr-1' /> <span className="text-filter">ACADEMY</span>
           </Button>
           <Button
             className="mx-2"
@@ -91,7 +91,7 @@ function SearchAndFilter({
             onClick={filterIsLive}
             disabled={isLive ? 'disabled' : ''}
           >
-            <RiBroadcastFill className="mb-1" /> <span className="text-filter">ROOM ONLIVE</span>
+            <AiFillVideoCamera className="mb-1" /> <span className="text-filter">ROOM ONLIVE</span>
           </Button>
         </div>
       </div>
@@ -122,7 +122,7 @@ function SearchAndFilter({
             onClick={filterAcademy}
             disabled={isAcademy ? 'disabled' : ''}
           >
-            <HiOutlineAcademicCap className='mb-1' /> <span className="text-filter">ACADEMY</span>
+            <IoSchoolSharp className='mb-1' /> <span className="text-filter">ACADEMY</span>
           </Button>
           <Button
             className="mx-2"

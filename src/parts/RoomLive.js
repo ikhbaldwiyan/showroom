@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
 import { FaUser } from 'react-icons/fa';
+import { IoVideocamOff } from 'react-icons/io5';
 import Fade from 'react-reveal';
 
 import { API } from "utils/api/api";
@@ -10,7 +11,7 @@ import getTimes from 'utils/getTimes';
 import Button from 'elements/Button';
 import SkeletonLive from './skeleton/SkeletonLive';
 
-export default function RoomLive({theme}) {
+export default function RoomLive({theme, roomLive}) {
   const [loading, setLoading] = useState(false);
   const [onLive, setOnLive] = useState([]);
   const [isLive, setIsLive] = useState(false)
@@ -38,7 +39,7 @@ export default function RoomLive({theme}) {
   }, []);
 
   return (
-    isLive && (
+    isLive ? (
       <div className="mb-4">
         <h3 className="mb-3"> {loading && 'Loading'} Room Live </h3>
         {loading && !isMobile || onLive.length === 0 ? <SkeletonLive theme={theme} liveLength={onLive.length} /> : (
@@ -80,6 +81,17 @@ export default function RoomLive({theme}) {
           </div>
         )}
       </div>
+    ) : roomLive ? (
+      <div className="container">
+        <div className="row">
+          <div className="col-12 mt-5 text-center">
+            <IoVideocamOff size={100} />
+            <h3 className="mt-3">Room Live Not Found</h3>
+          </div>
+        </div>
+      </div>
+    ) : (
+      ''
     )
   );
 }

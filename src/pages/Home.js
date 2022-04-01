@@ -89,7 +89,7 @@ function Home(props) {
           ) : isRegular ? (
             <RoomList isSearch={search} room={filtered} theme={props.theme} />
           ) : isLive  ? (
-            <RoomLive theme={props.theme} />
+            <RoomLive roomLive={isLive} theme={props.theme} />
           ) : (
             ''
           )}
