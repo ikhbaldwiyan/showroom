@@ -211,6 +211,23 @@ section {
   margin-bottom: 15px;
 }
 
+.text-filter {
+  font-weight: 500;
+}
+
+.search-wrapper {
+  padding: 1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-bar {
+  margin-left: 1rem;
+  position: absolute;
+}
+
 footer {
   border-top: 1px solid $gray-200;
   padding-top: 50px;

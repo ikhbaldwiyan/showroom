@@ -5,6 +5,7 @@ import { Row, Col, Table, FormGroup, Input } from "reactstrap";
 import { RiBroadcastFill } from "react-icons/ri";
 import { MdOutlineSearchOff } from "react-icons/md";
 import { API } from "utils/api/api";
+import { FcSearch } from 'react-icons/fc';
 
 import Loading from "./Loading";
 import LiveButton from "elements/Button";
@@ -48,12 +49,21 @@ export default function RoomList({ setRoomId, isMultiRoom, loading }) {
       room.name.toLowerCase().includes(search.toLowerCase())
     );
 
+  const div = {
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+		width: '100%',
+	}
+  
   return (
     <div>
       <Row>
         <Col>
-          <FormGroup className="mt-2">
+          <FormGroup className="mt-2" style={div}>
+					  <FcSearch style={{marginLeft: "1rem", position: "absolute"}} color="#03665c" size="1.5em" />
             <Input
+              style={{width: '100%',  padding: '1rem 1rem 1rem 3rem',}}
               type="text"
               placeholder="Search Room"
               onChange={handleSearch}
