@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import MainLayout from './layout/MainLayout';
 import Stream from './streaming/Stream';
 import { Profile, Title, Menu, RoomList, LiveChat, StageUser, TotalRank, Gift, Loading, Setlist } from 'components';
+import { isMobile } from 'react-device-detect';
 
 function Live(props) {
   let { id } = useParams();
@@ -49,14 +50,16 @@ function Live(props) {
   return (
     <MainLayout {...props}>
       <Container>
-        <Row>
-          <Col>
-            <ToastContainer 
-              position="top-right"
-              autoClose={3000} 
-            />
-          </Col>
-        </Row>
+        {!isMobile && (
+          <Row>
+            <Col>
+              <ToastContainer 
+                position="top-right"
+                autoClose={3000} 
+              />
+            </Col>
+          </Row>
+        )}
         <Row>
           <Col lg="8">
             {url ? url.slice(0, 1).map((item, idx) => (

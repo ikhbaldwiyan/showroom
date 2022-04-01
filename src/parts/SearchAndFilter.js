@@ -114,7 +114,7 @@ function SearchAndFilter({
             onClick={filterAllMember}
             disabled={allMember ? 'disabled' : ''}
           >
-            <AiFillAppstore className='mb-1'/> ALL
+            <AiFillAppstore className='mb-1'/> <span className="text-filter">ALL</span>
           </Button>
           <Button
             className="mx-2"
@@ -122,7 +122,7 @@ function SearchAndFilter({
             onClick={filterAcademy}
             disabled={isAcademy ? 'disabled' : ''}
           >
-            <HiOutlineAcademicCap className='mb-1' /> ACADEMY
+            <HiOutlineAcademicCap className='mb-1' /> <span className="text-filter">ACADEMY</span>
           </Button>
           <Button
             className="mx-2"
@@ -130,7 +130,7 @@ function SearchAndFilter({
             onClick={filterRegular}
             disabled={isRegular ? 'disabled' : ''}
           >
-           <RiGlobalLine className="mb-1" /> REGULAR
+           <RiGlobalLine className="mb-1" /> <span className="text-filter">REGULAR</span>
           </Button>
         </div>
       </div>
