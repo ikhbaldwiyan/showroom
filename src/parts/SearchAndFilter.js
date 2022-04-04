@@ -91,7 +91,7 @@ function SearchAndFilter({
             onClick={filterIsLive}
             disabled={isLive ? 'disabled' : ''}
           >
-            <AiFillVideoCamera className="mb-1" /> <span className="text-filter">ROOM ONLIVE</span>
+            <AiFillVideoCamera className="mb-1" /> <span className="text-filter">ROOM ON LIVE</span>
           </Button>
         </div>
       </div>

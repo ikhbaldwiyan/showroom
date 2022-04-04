@@ -4,7 +4,7 @@ import SkeletonList from './skeleton/SkeletonList';
 import { isMobile } from 'react-device-detect';
 import { MdOutlineSearchOff } from 'react-icons/md';
 
-function RoomAcademy({ room, theme, isSearch }) {
+function RoomAcademy({ room, theme, isSearch, isSearchRegular }) {
   return (
     <>
       <h3 className="py-4">{!isSearch && 'Room Academy'}</h3>
@@ -22,7 +22,7 @@ function RoomAcademy({ room, theme, isSearch }) {
           )}
         </div>
       ) : isSearch ? (
-        <div className="mt-4">
+        !isSearchRegular && <div className="mt-4">
           <p style={{ fontSize: 20 }}>
             <MdOutlineSearchOff className="mr-2" size={40} />
             Room Academy Not Found

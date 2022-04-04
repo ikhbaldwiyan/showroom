@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Room from 'components/Room';
 import getSchedule from 'utils/getSchedule';
 
-export default function RoomUpcoming({room}) {
+export default function RoomUpcoming({room, search}) {
   const [isUpcoming, setIsUpcoming] = useState(false);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function RoomUpcoming({room}) {
   })
                                 
   return (
-    isUpcoming && (
+    isUpcoming && !search && (
       <div className="mb-4">
         <h3 className="mb-3">Upcoming Live</h3>
         <div className="container-grid">
@@ -22,7 +22,7 @@ export default function RoomUpcoming({room}) {
            item.next_live_schedule !== 0 && (
               <Room key={idx} item={item} style="column-6">
                 <div className="tag" style={{backgroundColor: 'teal'}}>
-                  <b>{getSchedule(item.next_live_schedule, 'home')}</b> 
+                  <b>{getSchedule(item.next_live_schedule)}</b> 
                 </div>
               </Room>
             )

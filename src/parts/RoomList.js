@@ -4,7 +4,7 @@ import SkeletonList from './skeleton/SkeletonList';
 import { isMobile } from 'react-device-detect';
 import { MdOutlineSearchOff } from 'react-icons/md';
 
-function RoomList({ room, theme, isSearch }) {
+function RoomList({ room, theme, isSearch, isSearchAcademy }) {
   return (
     <>
       <h3 className="py-4">{!isSearch && 'Room List'}</h3>
@@ -12,7 +12,7 @@ function RoomList({ room, theme, isSearch }) {
         <div className="container-grid">
           {room.map((item, idx) => (
             <Room idx={idx} item={item} style="column-4">
-              {item.is_onlive && (
+              {item.is_live && (
                 <div className="tag" style={{ backgroundColor: '#CC2636' }}>
                   On Live
                 </div>
@@ -21,7 +21,7 @@ function RoomList({ room, theme, isSearch }) {
           ))}
         </div>
       ) : isSearch ? (
-        <div className="mt-4">
+        !isSearchAcademy && <div className="mt-4">
           <p style={{ fontSize: 20 }}>
             <MdOutlineSearchOff className="mr-2" size={40} />
             Room Not Found

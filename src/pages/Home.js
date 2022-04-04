@@ -13,8 +13,8 @@ import SearchAndFilter from 'parts/SearchAndFilter';
 function Home(props) {
   const [room, setRoom] = useState([]);
   const [search, setSearch] = useState('');
-  const [allMember, setAllMember] = useState(true);
   const [academy, setAcademy] = useState([]);
+  const [allMember, setAllMember] = useState(true);
   const [isAcademy, setIsAcademy] = useState(false);
   const [isRegular, setIsRegular] = useState(false);
   const [isLive, setIsLive] = useState(false);
@@ -44,37 +44,45 @@ function Home(props) {
   };
 
   const filtered = !search
-    ? room : room.filter((room) =>
-      room.name.toLowerCase().includes(search.toLowerCase())
-    );
+    ? room
+    : room.filter((room) =>
+        room.name.toLowerCase().includes(search.toLowerCase())
+      );
 
   const filteredAcademy = !search
-    ? academy : academy.filter((room) =>
-      room.room_url_key.toLowerCase().includes(search.toLowerCase())
-    );
+    ? academy
+    : academy.filter((room) =>
+        room.room_url_key.toLowerCase().includes(search.toLowerCase())
+      );
 
   return (
     <MainLayout {...props}>
       <section className="container">
+        <SearchAndFilter
+          isLive={isLive}
+          isAcademy={isAcademy}
+          allMember={allMember}
+          isRegular={isRegular}
+          setIsLive={setIsLive}
+          setIsAcademy={setIsAcademy}
+          setAllMember={setAllMember}
+          handleSearch={handleSearch}
+          setIsRegular={setIsRegular}
+        />
         <Fade bottom>
-          <SearchAndFilter
-            isLive={isLive}
-            isAcademy={isAcademy}
-            allMember={allMember}
-            isRegular={isRegular}
-            setIsLive={setIsLive}
-            setIsAcademy={setIsAcademy}
-            setAllMember={setAllMember}
-            handleSearch={handleSearch}
-            setIsRegular={setIsRegular}
-          />
-
           {allMember ? (
             <>
-              <RoomLive theme={props.theme} />
-              <RoomUpcoming room={room} />
-              <RoomList isSearch={search} room={filtered} theme={props.theme} />
+              <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
+              <RoomUpcoming search={search} room={room} />
+              <RoomList
+                isSearchRegular={filtered}
+                isSearchAcademy={filteredAcademy}
+                isSearch={search}
+                room={filtered}
+                theme={props.theme}
+              />
               <RoomAcademy
+                isSearchRegular={filtered}
                 isSearch={search}
                 room={filteredAcademy}
                 theme={props.theme}
@@ -88,8 +96,8 @@ function Home(props) {
             />
           ) : isRegular ? (
             <RoomList isSearch={search} room={filtered} theme={props.theme} />
-          ) : isLive  ? (
-            <RoomLive roomLive={isLive} theme={props.theme} />
+          ) : isLive ? (
+            <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
           ) : (
             ''
           )}

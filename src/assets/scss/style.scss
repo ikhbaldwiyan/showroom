@@ -222,9 +222,22 @@ section {
   width: 100%;
 }
 
+.search-room-list {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
 .search-bar {
   margin-left: 1rem;
   position: absolute;
+}
+
+.room-list {
+  background-color: #24a2b7; 
+  color: white; 
+  border-top: none;
 }
 
 footer {
