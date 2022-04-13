@@ -3,10 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Container } from 'reactstrap';
 import { useParams } from "react-router-dom";
 import { API } from 'utils/api/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import MainLayout from './layout/MainLayout';
 import Stream from './streaming/Stream';
 import { Profile, Title, Menu, RoomList, LiveChat, StageUser, TotalRank, Gift, Loading, Setlist } from 'components';
+import { isMobile } from 'react-device-detect';
 
 function Live(props) {
   let { id } = useParams();
@@ -22,6 +25,7 @@ function Live(props) {
       setUrl(streamUrl)
     });
     !url && setMenu('room');
+    !url && messages();
   }, [roomId, url])
 
   useEffect(() => {
@@ -39,9 +43,23 @@ function Live(props) {
     roomId && url && setMenu('chat');
   }, [id])
 
+  const messages = () => toast.error("Room Offline", {
+    theme: 'colored'
+  });
+
   return (
     <MainLayout {...props}>
       <Container>
+        {!isMobile && (
+          <Row>
+            <Col>
+              <ToastContainer 
+                position="top-right"
+                autoClose={3000} 
+              />
+            </Col>
+          </Row>
+        )}
         <Row>
           <Col lg="8">
             {url ? url.slice(0, 1).map((item, idx) => (
@@ -58,7 +76,7 @@ function Live(props) {
           <Col lg="4">
             <Menu menu={menu} setMenu={setMenu} isLive={url} roomId={roomId} hideMenu={hideMenu} />
             {menu === 'room' ? (
-              <RoomList setRoomId={setRoomId} />
+              <RoomList loading={loading} setRoomId={setRoomId} />
             ) : menu === 'chat' ? (
               <LiveChat roomId={roomId} />
             ) : menu === 'rank' ? (
@@ -68,7 +86,6 @@ function Live(props) {
               loading ? <Loading /> :
               <Gift roomId={roomId} />
             ) : menu === 'total' ? (
-              loading ? <Loading /> :
               <TotalRank roomId={roomId} />
             ): (
               <Setlist />

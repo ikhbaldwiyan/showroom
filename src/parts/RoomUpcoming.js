@@ -2,28 +2,27 @@ import React, { useState, useEffect } from 'react';
 import Room from 'components/Room';
 import getSchedule from 'utils/getSchedule';
 
-export default function RoomUpcoming({room}) {
+export default function RoomUpcoming({room, search}) {
   const [isUpcoming, setIsUpcoming] = useState(false);
-  const team = 'JKT48';
 
   useEffect(() => {
     for (let i = 0; i < room.length; i++) {
       const upcoming = room[i];
-      const upcomingLive = upcoming.name.includes(team) && upcoming.next_live_schedule
+      const upcomingLive = upcoming.next_live_schedule
       upcomingLive && setIsUpcoming(true)
     }
   })
                                 
   return (
-    isUpcoming && (
+    isUpcoming && !search && (
       <div className="mb-4">
         <h3 className="mb-3">Upcoming Live</h3>
         <div className="container-grid">
           {room.map((item, idx) => (
-            item.name.includes(team) && item.next_live_schedule !== 0 && (
+           item.next_live_schedule !== 0 && (
               <Room key={idx} item={item} style="column-6">
                 <div className="tag" style={{backgroundColor: 'teal'}}>
-                  <b>{getSchedule(item.next_live_schedule, 'home')}</b> 
+                  <b>{getSchedule(item.next_live_schedule)}</b> 
                 </div>
               </Room>
             )

@@ -99,7 +99,6 @@ section {
 }
 
 .card {
-  border: none;
   .tag {
     z-index: 3;
     font-size: 0.875rem;
@@ -209,6 +208,36 @@ section {
   max-height: 650px;
   overflow-y: auto;
   margin-bottom: 15px;
+}
+
+.text-filter {
+  font-weight: 500;
+}
+
+.search-wrapper {
+  padding: 1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-room-list {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-bar {
+  margin-left: 1rem;
+  position: absolute;
+}
+
+.room-list {
+  background-color: #24a2b7; 
+  color: white; 
+  border-top: none;
 }
 
 footer {

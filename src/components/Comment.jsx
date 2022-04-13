@@ -26,14 +26,14 @@ export default function Comment({roomId}) {
     <Card body inverse color="dark" className="scroll">
       {comment && comment.length !== 0 && comment.map((item, idx) => (
         item.comment.length != '2' && item.comment.length != '1' && 
-        <>
-          <h5 key={idx} style={styles.name}>
+        <div key={idx}>
+          <h5 style={styles.name}>
             <img src={item.avatar_url} width="25" alt={item.name} className="mr-2 mb-1" />
             {item.name} 
           </h5>
           <p style={styles.comment}>{item.comment}</p>
           <hr/>
-        </>
+        </div>
       ))}
     </Card>
   )
