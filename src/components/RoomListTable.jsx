@@ -4,6 +4,9 @@ import { RiLiveFill } from 'react-icons/ri'
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function RoomListTable({ data, children, setRoomId, idx }) {
+
+  const isMultiRoom = window.location.pathname === '/multi-room';
+
   return (
     <tbody key={idx}>
       <tr>
@@ -24,16 +27,27 @@ function RoomListTable({ data, children, setRoomId, idx }) {
           {children}
         </td>
         <td>
-          <Link to={location => ({ ...location, pathname: `/room/${data.url_key ?? data.room_url_key}/${data.id ? data.id : data.room_id}` })}>
+          {isMultiRoom ? (
             <Button
               className="mt-4"
               color="info"
               onClick={() => setRoomId([data.id ? data.id : data.room_id])}
               style={{backgroundColor: '#24a2a7', color: 'white', border: 'none'}}
             >
-            <RiLiveFill className="mb-1" />
+              <RiLiveFill className="mb-1" />
             </Button>
-          </Link>
+          ) : (
+            <Link to={location => ({ ...location, pathname: `/room/${data.url_key ?? data.room_url_key}/${data.id ? data.id : data.room_id}` })}>
+              <Button
+                className="mt-4"
+                color="info"
+                onClick={() => setRoomId([data.id ? data.id : data.room_id])}
+                style={{backgroundColor: '#24a2a7', color: 'white', border: 'none'}}
+              >
+              <RiLiveFill className="mb-1" />
+              </Button>
+            </Link>
+          )}
         </td>
       </tr>
     </tbody>
