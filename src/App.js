@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
 import 'assets/scss/style.scss';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from 'utils/darkmode/theme'; 
 import { GlobalStyles } from 'utils/darkmode/global';
@@ -18,11 +18,13 @@ function App(props) {
   props = {theme, toggleTheme}
 
   const TRACKING_ID = "UA-226891621-1";
+  const location = useLocation();
+  
   ReactGA.initialize(TRACKING_ID);
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
-  }, [window.location.pathname]);
+  }, [location]);
 
   props = {
     theme,
@@ -33,13 +35,11 @@ function App(props) {
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <div className="App">
         <GlobalStyles />
-        <Router>
-          <Route path="/" component={() => <Home {...props} /> } exact />
-          <Route path="/room/:name/:id/" component={() => <Live {...props} />} />
-          <Route path="/list-room" component={() => <RoomList {...props} />} />
-          <Route path="/multi-room" component={() => <MultiRoom {...props} />} />
-          <Route path="/about" component={() => <About {...props} />} />
-        </Router>
+        <Route path="/" component={() => <Home {...props} /> } exact />
+        <Route path="/room/:name/:id/" component={() => <Live {...props} />} />
+        <Route path="/list-room" component={() => <RoomList {...props} />} />
+        <Route path="/multi-room" component={() => <MultiRoom {...props} />} />
+        <Route path="/about" component={() => <About {...props} />} />
       </div>
     </ThemeProvider>
   );
