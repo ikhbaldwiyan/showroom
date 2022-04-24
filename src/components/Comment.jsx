@@ -69,9 +69,10 @@ const styles = {
     display: 'inline', 
     color: '#24a2b7', 
     fontWeight: 500, 
-    fontSize: '18px'
+    fontSize: '17px'
   },
   comment : {
+    marginTop: 6,
     fontSize: '15px'
   }
 }

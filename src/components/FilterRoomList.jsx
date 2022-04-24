@@ -47,24 +47,13 @@ function FilterRoomList({
     <div className="mb-3 text-justify">
       <Button
         className="mr-1"
-        color="primary"
+        color="danger"
         onClick={filterAllMember}
         disabled={allMember ? 'disabled' : ''}
         size="sm"
       >
         <AiFillAppstore className='mb-1' /> <span className="text-filter">ALL</span>
       </Button>
-      {isRoomLive.length !== 0 && (
-        <Button
-          className="mr-1"
-          color="danger"
-          onClick={filterIsLive}
-          disabled={isLive ? 'disabled' : ''}
-          size="sm"
-        >
-          <AiFillVideoCamera className="mb-1" /> <span className="text-filter"> LIVE</span>
-        </Button>
-      )}
       <Button
         className="mr-1"
         color="info"
@@ -84,6 +73,17 @@ function FilterRoomList({
       >
         <RiGlobalLine className="mb-1" /> <span className="text-filter">REGULAR</span>
       </Button>
+      {isRoomLive.length !== 0 && (
+        <Button
+          className="mr-1"
+          style={{ backgroundColor: '#CD0C0D', border: 'none' }}
+          onClick={filterIsLive}
+          disabled={isLive ? 'disabled' : ''}
+          size="sm"
+        >
+          <span className="text-filter">LIVES</span>
+        </Button>
+      )}
     </div>
   )
 }

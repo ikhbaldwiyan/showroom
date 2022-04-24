@@ -87,7 +87,7 @@ function SearchAndFilter({
           </Button>
           <Button
             className="mx-2"
-            color="primary"
+            style={{backgroundColor: '#CD0C0D', border: 'none'}}
             onClick={filterIsLive}
             disabled={isLive ? 'disabled' : ''}
           >
