@@ -59,7 +59,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
                   isMobile ? 'column-12 row-1' : `column-3 row-1`
                 }`}
               >
-                <Link to={`live-stream/${item.room_id}`}>
+                <Link to={`room/${item.url_key ?? item.room_url_key}/${item.id ?? item.room_id}`}>
                   <div className="card card-featured">
                     <Fade right>
                       <div className="tag">
@@ -78,7 +78,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
                           type="link"
                           style={{ textDecoration: 'none' }}
                           className="d-block text-white"
-                          href={`live-stream/${item.room_id}`}
+                          href={`room/${item.url_key ?? item.room_url_key}/${item.id ?? item.room_id}`}
                         >
                           <h5 className="d-inline">
                             {item.room_url_key

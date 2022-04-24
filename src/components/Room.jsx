@@ -9,7 +9,7 @@ export default function Room({ idx, item, children, style }) {
     <div key={idx} className={`item ${isMobile ? "column-12 row-1" : `${style} row-1`}`}>
       <Fade bottom>
         <div className="card card-featured">
-          <Link to={`live-stream/${item.id ?? item.room_id}`}>
+          <Link to={`room/${item.url_key ?? item.room_url_key}/${item.id ?? item.room_id}`}>
             {children}
             <figure className="img-wrapper">
               <img
@@ -23,7 +23,7 @@ export default function Room({ idx, item, children, style }) {
                 type="link"
                 style={{ textDecoration: 'none' }}
                 className="strecthed-link d-block text-white"
-                href={`live-stream/${item.id ?? item.room_id}`}
+                href={`room/${item.url_key ?? item.room_url_key}/${item.id ?? item.room_id}`}
               >
                 <h5>{item.url_key ? item.url_key.substr(6) + ' JKT48' : item.room_url_key.substr(6) + ' JKT48'}</h5>
               </Button>

@@ -19,7 +19,7 @@ export default function Footer() {
             <h6 className="mt-2">Explore</h6>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
-                <Button type="link" href="/live-stream/332503">
+                <Button type="link" href="/room/jkt48/332503">
                   Live Stream
                 </Button>
               </li>

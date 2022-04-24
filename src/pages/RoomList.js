@@ -47,7 +47,7 @@ function RoomList(props) {
                       {member.next_live_schedule ? getSchedule(member.next_live_schedule) : '-'}
                     </td>
                     <td>
-                      <Button style={{textDecoration: 'none'}} type="link" href={`/live-stream/${member.id}`}>Detail</Button>
+                      <Button style={{textDecoration: 'none'}} type="link" href={`/room/${member.url_key}/${member.id}`}>Detail</Button>
                     </td>
                   </tr>
                 </tbody>
@@ -65,7 +65,7 @@ function RoomList(props) {
                       {member.next_live_schedule ? getSchedule(member.next_live_schedule) : '-'}
                     </td>
                     <td>
-                      <Button style={{textDecoration: 'none'}} type="link" href={`/live-stream/${member.id}`}>Detail</Button>
+                      <Button style={{textDecoration: 'none'}} type="link" href={`/room/${member.url_key}/${member.id}`}>Detail</Button>
                     </td>
                   </tr>
                 </tbody>

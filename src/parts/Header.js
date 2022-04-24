@@ -12,7 +12,7 @@ import { RiFileList3Fill } from "react-icons/ri";
 import { BsInfoCircleFill } from "react-icons/bs";
 
 export default function Header({theme, toggleTheme, isMultiRoom}) {
-  let RoomId = window.location.pathname.slice('13')
+  let roomUrl = '/room' + window.location.pathname.replace('room/' , '')
   const getNavLinkClass = (path) => {
     return window.location.pathname === path ? " active" : "";
   };
@@ -39,8 +39,8 @@ export default function Header({theme, toggleTheme, isMultiRoom}) {
                     <AiFillHome style={iconHome} /> Home
                   </Button>
                 </li>
-                <li className={`nav-item${getNavLinkClass(`/live-stream/${RoomId}`)}`}>
-                  <Button className="nav-link" type="link" href="/live-stream/332503">
+                <li className={`nav-item${getNavLinkClass(roomUrl)}`}>
+                  <Button className="nav-link" type="link" href="/room/jkt48/332503">
                     <RiBroadcastFill style={iconHome} /> Live Stream
                   </Button>
                 </li>

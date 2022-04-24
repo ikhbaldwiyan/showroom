@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import ReactGA from 'react-ga';
 import 'assets/scss/style.scss';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -16,6 +17,13 @@ function App(props) {
   const [theme, toggleTheme] = useDarkMode();
   props = {theme, toggleTheme}
 
+  const TRACKING_ID = "UA-226891621-1";
+  ReactGA.initialize(TRACKING_ID);
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, [window.location.pathname]);
+
   props = {
     theme,
     toggleTheme
@@ -27,7 +35,7 @@ function App(props) {
         <GlobalStyles />
         <Router>
           <Route path="/" component={() => <Home {...props} /> } exact />
-          <Route path="/live-stream/:id" component={() => <Live {...props} />} />
+          <Route path="/room/:name/:id/" component={() => <Live {...props} />} />
           <Route path="/list-room" component={() => <RoomList {...props} />} />
           <Route path="/multi-room" component={() => <MultiRoom {...props} />} />
           <Route path="/about" component={() => <About {...props} />} />

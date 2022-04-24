@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { RiLiveFill } from 'react-icons/ri'
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function RoomListTable({ data, children, setRoomId, idx }) {
   return (
@@ -23,14 +24,16 @@ function RoomListTable({ data, children, setRoomId, idx }) {
           {children}
         </td>
         <td>
-          <Button
-            className="mt-4"
-            color="info"
-            onClick={() => setRoomId([data.id ? data.id : data.room_id])}
-            style={{backgroundColor: '#24a2a7', color: 'white', border: 'none'}}
-          >
-           <RiLiveFill className="mb-1" />
-          </Button>
+          <Link to={location => ({ ...location, pathname: `/room/${data.url_key ?? data.room_url_key}/${data.id ? data.id : data.room_id}` })}>
+            <Button
+              className="mt-4"
+              color="info"
+              onClick={() => setRoomId([data.id ? data.id : data.room_id])}
+              style={{backgroundColor: '#24a2a7', color: 'white', border: 'none'}}
+            >
+            <RiLiveFill className="mb-1" />
+            </Button>
+          </Link>
         </td>
       </tr>
     </tbody>
