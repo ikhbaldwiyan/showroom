@@ -64,4 +64,15 @@
       grid-row-end: span 4;
     }
   }
+
+  @media only screen and (max-width: 768px) {
+    .item {
+      &.column-6 {
+        grid-column-end: span 12;
+      }
+      &.column-4 {
+        grid-column-end: span 12;
+      }
+    }
+  }
 }

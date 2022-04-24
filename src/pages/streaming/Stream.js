@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
 import './video.scss';
-import Title from 'pages/jeketi/Title';
 
-export default function Streaming({url, roomId}) {
-  // const darkMode = document.body.style = 'background: #2c2f33; color: white';
-
+export default function Streaming({url}) {
   return (
     <>
       <div className="player-wrapper mb-3">
@@ -23,7 +20,6 @@ export default function Streaming({url, roomId}) {
           playing={true}
         />
       </div>
-      <Title roomId={roomId} />
     </>
   );
 }

@@ -52,6 +52,12 @@
   &:hover {
     text-decoration: none;
   }
+  .logo {
+    color : $indigo
+  }
+  .showroom {
+    color: $gray-900
+  }
 }
 
 header {
@@ -93,12 +99,11 @@ section {
 }
 
 .card {
-  border: none;
   .tag {
     z-index: 3;
     font-size: 0.875rem;
-    background-color: $pink;
-    padding: 0.25rem 1.25rem;
+    background-color:#22a2b7;
+    padding: 0.25rem 1rem;
     position: absolute;
     top: 0; right:0;
     color: $white;
@@ -199,6 +204,42 @@ section {
   margin-right: .25rem;
 }
 
+.scroll {
+  max-height: 650px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.text-filter {
+  font-weight: 500;
+}
+
+.search-wrapper {
+  padding: 1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-room-list {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-bar {
+  margin-left: 1rem;
+  position: absolute;
+}
+
+.room-list {
+  background-color: #24a2b7; 
+  color: white; 
+  border-top: none;
+}
+
 footer {
   border-top: 1px solid $gray-200;
   padding-top: 50px;
@@ -210,6 +251,7 @@ footer {
   }
   
   .list-group-item {
+    background-color: white;
     padding: 0.3125rem 0;
     border: 0;
     a, span {

@@ -59,4 +59,18 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+
+  app.use(
+    createProxyMiddleware("/next_live", {
+      target: room,
+      changeOrigin: true,
+    })
+  );
+
+  app.use(
+    createProxyMiddleware("/recommend_comments", {
+      target: room,
+      changeOrigin: true,
+    })
+  );
 };
