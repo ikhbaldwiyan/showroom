@@ -22,7 +22,7 @@ export default function Header({theme, toggleTheme, isMultiRoom}) {
 
   return (
     <Fade>
-      <header className="spacing-sm">
+      <header className="spacing-sm sticky">
         <div className={classMulti}>
           <nav className="navbar navbar-expand-lg navbar-light">
             <Logo />

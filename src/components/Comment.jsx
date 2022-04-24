@@ -2,13 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { Card } from 'reactstrap';
 import { API } from 'utils/api/api';
+import Skeleton from 'react-content-loader'
 
 export default function Comment({roomId}) {
-  const [comment, setComment] = useState([{
-    name: 'Minzoid ',
-    comment: 'Tunggu wots',
-    avatar_url: "https://image.showroom-cdn.com/showroom-prod/image/avatar/1028686.png?v=87"
-  }]);
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     async function getComments(){
@@ -22,9 +19,32 @@ export default function Comment({roomId}) {
     getComments()
   }, [comment]);
 
+  const LoadingMessage = () => (
+    <>
+      <h5 style={styles.name}>
+        <img src="https://image.showroom-cdn.com/showroom-prod/image/avatar/1028686.png?v=87" width="30" className="mr-2 mb-1" />
+          Tunggu Wots
+        <img src="https://image.showroom-cdn.com/showroom-prod/image/avatar/1028686.png?v=87" width="30" className="ml-2 mb-1" />
+      </h5>
+      <hr />
+    </>
+  );
+
+  const CommentList = () => (
+    Array.from(Array(7), (e, i) => {
+      return (
+        <Skeleton viewBox="0 0 300 100" height={90} width={200} backgroundColor="#D1D7E0">
+          <rect x="70" y="10" rx="4" ry="4" width="170" height="10" />
+          <rect x="70"  y="30" rx="3" ry="3" width="200" height="10" />
+          <circle cx="25" cy="25" r="25" />
+        </Skeleton>
+      )
+    })
+  );
+
   return (
     <Card body inverse color="dark" className="scroll">
-      {comment && comment.length !== 0 && comment.map((item, idx) => (
+      {comment && comment.length !== 0 ? comment.map((item, idx) => (
         item.comment.length != '2' && item.comment.length != '1' && 
         <div key={idx}>
           <h5 style={styles.name}>
@@ -34,7 +54,12 @@ export default function Comment({roomId}) {
           <p style={styles.comment}>{item.comment}</p>
           <hr/>
         </div>
-      ))}
+      )) : (
+        <div>
+          <LoadingMessage />
+          <CommentList />
+        </div>
+      )}
     </Card>
   )
 }

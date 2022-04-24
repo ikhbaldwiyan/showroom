@@ -74,9 +74,9 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
       room.main_name.toLowerCase().includes(search.toLowerCase())
     );
 
-  const SkeletonLoading = () => (
+  const SkeletonLoading = ({type}) => (
     <tbody>
-      {Array.from(Array(6), (e, i) => {
+      {Array.from(Array(type === 'live' ? roomLive.length : 6), (e, i) => {
         return (
           <tr>
             <td key={i} colSpan={3} className="text-center">
@@ -137,7 +137,7 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
             {allMember ? (
               <>
                 {/* Room Live */}
-                {filteredLive && filteredLive.length !== 0 && filteredLive.map(
+                {filteredLive && filteredLive.length !== 0 ? filteredLive.map(
                   (item, idx) => (
                     <RoomListTable idx={idx} data={item} setRoomId={setRoomId}>
                       <LiveButton
@@ -148,6 +148,8 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
                       </LiveButton>
                     </RoomListTable>
                   )
+                ) : (
+                  <SkeletonLoading type="live" />
                 )}
                 {/* Room Upcoming */}
                 {filtered && filtered.length !== 0 && filtered.map(

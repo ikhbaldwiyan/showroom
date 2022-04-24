@@ -12,7 +12,7 @@ function Menu({menu, setMenu, isLive, roomId, hideMenu}) {
   useEffect(() => {
     axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
       const profiles = res.data;
-      const roomName = profiles.room_url_key !== 'officialJKT48' ? profiles.room_url_key.slice(6) : profiles.room_url_key
+      const roomName = profiles.room_url_key !== 'officialJKT48' && profiles.room_url_key.includes("JKT48") ? profiles.room_url_key.slice(6) + ' JKT48' : profiles.room_name 
       setRoomName(roomName);
     });
   }, [roomId])
@@ -66,7 +66,7 @@ function Menu({menu, setMenu, isLive, roomId, hideMenu}) {
               style={menu === 'total' ? buttonActive : buttonStyle}
               onClick={() => setMenu('total')}
             >
-              <AiFillTrophy style={iconStyle} /> Total Rank {roomName} {roomName !== 'officialJKT48' && 'JKT48'}
+              <AiFillTrophy style={iconStyle} /> Total Rank {roomName}
             </Button>
           </>
         )}

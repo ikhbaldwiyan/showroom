@@ -60,8 +60,15 @@
   }
 }
 
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
 header {
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 2px solid $gray-300;
   width: 100%;
   position: relative;
   margin-bottom: 30px;
