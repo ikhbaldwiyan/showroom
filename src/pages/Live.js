@@ -75,7 +75,7 @@ function Live(props) {
           <Col lg="4">
             <Menu menu={menu} setMenu={setMenu} isLive={url} roomId={roomId} hideMenu={hideMenu} />
             {menu === 'room' ? (
-              <RoomList setRoomId={setRoomId} />
+              <RoomList roomId={roomId} setRoomId={setRoomId} />
             ) : menu === 'chat' ? (
               <LiveChat roomId={roomId} />
             ) : menu === 'rank' ? (

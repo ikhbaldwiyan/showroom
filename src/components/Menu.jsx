@@ -17,6 +17,10 @@ function Menu({menu, setMenu, isLive, roomId, hideMenu}) {
     });
   }, [roomId])
 
+  useEffect(() => {
+    isLive.length && setMenu('chat');
+  }, [isLive.length])
+
   const iconStyle = {
     marginBottom: 4
   }
@@ -59,7 +63,7 @@ function Menu({menu, setMenu, isLive, roomId, hideMenu}) {
             <FaListAlt style={iconStyle} /> Room
           </Button>
         )}
-        {!isLive && (
+        {!isLive.length && (
           <>
             <Button
               className="menu"
@@ -70,7 +74,7 @@ function Menu({menu, setMenu, isLive, roomId, hideMenu}) {
             </Button>
           </>
         )}
-        {isLive && !hideMenu && (
+        {isLive.length !== 0 && !hideMenu && (
           listMenu.map((item, idx) => (
             <Button
               key={idx}

@@ -49,7 +49,7 @@ export default function Multi({layout, hideMultiMenu, setHideMultiMenu, theme}) 
       {url.length === 0 && <p className="h6 text-center py-2">Please Choose Member Room</p>}
       {roomId ? <Menu menu={menu} setMenu={setMenu} isLive={url} roomId={roomId} hideMenu={hideMenu} isMultiRoom={isMultiRoom} /> : ''}
       {menu === 'room' ? (
-        <RoomList setRoomId={setRoomId} isMultiRoom={isMultiRoom}/>
+        <RoomList roomId={roomId} setRoomId={setRoomId} isMultiRoom={isMultiRoom}/>
       ) : menu === 'chat' ? (
         loading ? <Loading /> :
         <LiveChat roomId={roomId} />

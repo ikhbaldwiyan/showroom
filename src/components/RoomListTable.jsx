@@ -3,9 +3,10 @@ import { Button } from "reactstrap";
 import { RiLiveFill } from 'react-icons/ri'
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
-function RoomListTable({ data, children, setRoomId, idx }) {
+function RoomListTable({ data, children, setRoomId, idx, roomId }) {
 
   const isMultiRoom = window.location.pathname === '/multi-room';
+  const buttonStyle = {backgroundColor: roomId == data.id || roomId == data.room_id ? '#DC3545' : '#008b9b' , color: 'white', border: 'none'}
 
   return (
     <tbody key={idx}>
@@ -32,7 +33,7 @@ function RoomListTable({ data, children, setRoomId, idx }) {
               className="mt-4"
               color="info"
               onClick={() => setRoomId([data.id ? data.id : data.room_id])}
-              style={{backgroundColor: '#24a2a7', color: 'white', border: 'none'}}
+              style={buttonStyle}
             >
               <RiLiveFill className="mb-1" />
             </Button>
@@ -42,7 +43,7 @@ function RoomListTable({ data, children, setRoomId, idx }) {
                 className="mt-4"
                 color="info"
                 onClick={() => setRoomId([data.id ? data.id : data.room_id])}
-                style={{backgroundColor: '#24a2a7', color: 'white', border: 'none'}}
+                style={buttonStyle}
               >
               <RiLiveFill className="mb-1" />
               </Button>

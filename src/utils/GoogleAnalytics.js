@@ -7,7 +7,8 @@ const RouteChangeTracker = ({ history }) => {
     ReactGA.initialize(TRACKING_ID);
     
     useEffect(() => {
-        history.listen((location, action) => {
+        ReactGA.pageview(window.location.pathname);
+        history.listen((location) => {
             ReactGA.pageview(location.pathname);
         }, [history]);
     })

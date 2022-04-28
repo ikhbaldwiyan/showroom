@@ -13,7 +13,7 @@ import getSchedule from "utils/getSchedule";
 import RoomListTable from "./RoomListTable";
 import FilterRoomList from "./FilterRoomList";
 
-export default function RoomList({ setRoomId, isMultiRoom }) {
+export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   const [room, setRoom] = useState('');
   const [roomLive, setRoomLive] = useState([]);
   const [search, setSearch] = useState('');
@@ -139,7 +139,7 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
                 {/* Room Live */}
                 {filteredLive && filteredLive.length !== 0 ? filteredLive.map(
                   (item, idx) => (
-                    <RoomListTable idx={idx} data={item} setRoomId={setRoomId}>
+                    <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId}>
                       <LiveButton
                         style={{ borderRadius: "6px" }}
                         className="btn-sm btn-danger"
@@ -154,7 +154,7 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
                 {/* Room Upcoming */}
                 {filtered && filtered.length !== 0 && filtered.map(
                   (item, idx) => item.next_live_schedule !== 0 && (
-                    <RoomListTable idx={idx} data={item} setRoomId={setRoomId}>
+                    <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId}>
                       <LiveButton
                         className="btn-sm mt-1 text-white py-2"
                         style={{
@@ -171,7 +171,7 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
                 {/* Room Regular */}
                 {filtered && filtered.length !== 0 ? filtered.map(
                   (item, idx) => !item.is_live && !item.next_live_schedule && (
-                    <RoomListTable idx={idx} data={item} setRoomId={setRoomId} />
+                    <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                   )
                 ) : room.length === 0 ? (
                   <SkeletonLoading />
@@ -187,7 +187,7 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
                 {/* Room Academy */}
                 {filteredAcademy && filteredAcademy.length !== 0 ? filteredAcademy.map(
                   (item, idx) => !item.is_onlive && (
-                    <RoomListTable idx={idx} data={item} setRoomId={setRoomId} />
+                    <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                   )
                 ) : academy.length === 0 ? (
                   <SkeletonLoading />
@@ -204,7 +204,7 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
             ) : isAcademy ? (
               filteredAcademy && filteredAcademy.length !== 0 ? filteredAcademy.map(
                 (item, idx) => !item.is_onlive && (
-                  <RoomListTable idx={idx} data={item} setRoomId={setRoomId} />
+                  <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                 )
               ) : academy.length === 0 ? (
                 <SkeletonLoading />
@@ -220,7 +220,7 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
             ) : isRegular ? (
               filtered && filtered.length !== 0 ? filtered.map(
                 (item, idx) => !item.is_live && !item.next_live_schedule && (
-                  <RoomListTable idx={idx} data={item} setRoomId={setRoomId} />
+                  <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                 )
               ) : room.length === 0 ? (
                 <SkeletonLoading />
@@ -236,7 +236,7 @@ export default function RoomList({ setRoomId, isMultiRoom }) {
             ) : isLive ? (
               filteredLive && filteredLive.length !== 0 && filteredLive.map(
                 (item, idx) => (
-                  <RoomListTable idx={idx} data={item} setRoomId={setRoomId}>
+                  <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId}>
                     <LiveButton
                       style={{ borderRadius: "6px" }}
                       className="btn-sm btn-danger"
