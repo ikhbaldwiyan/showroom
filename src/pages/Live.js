@@ -40,7 +40,6 @@ function Live(props) {
 
   useEffect(() => {
     id === 'undefined' && setRoomId('332503');
-    roomId && url && setMenu('chat');
   }, [id])
 
   const messages = () => toast.error("Room Offline", {
@@ -76,7 +75,7 @@ function Live(props) {
           <Col lg="4">
             <Menu menu={menu} setMenu={setMenu} isLive={url} roomId={roomId} hideMenu={hideMenu} />
             {menu === 'room' ? (
-              <RoomList loading={loading} setRoomId={setRoomId} />
+              <RoomList setRoomId={setRoomId} />
             ) : menu === 'chat' ? (
               <LiveChat roomId={roomId} />
             ) : menu === 'rank' ? (
