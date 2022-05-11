@@ -34,7 +34,7 @@ export default function Profile({ roomId, isLoad, menu, theme }) {
 
   useEffect(() => {
     window.document.title = profileName();
-  }, [profile, menu])
+  }, [profile])
 
   const text = {
     borderColor: "#24a2b7",

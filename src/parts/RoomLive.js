@@ -10,6 +10,7 @@ import { API } from 'utils/api/api';
 import getTimes from 'utils/getTimes';
 import Button from 'elements/Button';
 import SkeletonLive from './skeleton/SkeletonLive';
+import formatViews from 'utils/formatViews';
 
 export default function RoomLive({ theme, search, isOnLive }) {
   const [loading, setLoading] = useState(false);
@@ -64,7 +65,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
                     <Fade right>
                       <div className="tag">
                         <FaUser style={{ width: '10' }} className="mb-1" />{' '}
-                        {item.view_num}
+                        {formatViews(item.view_num)}
                       </div>
                       <figure className="img-wrapper">
                         <img

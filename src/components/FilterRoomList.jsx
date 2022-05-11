@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'reactstrap'
 import { RiGlobalLine } from 'react-icons/ri';
-import { AiFillAppstore, AiFillVideoCamera } from 'react-icons/ai';
+import { AiFillAppstore } from 'react-icons/ai';
 import { IoSchoolSharp } from 'react-icons/io5';
 
 function FilterRoomList({

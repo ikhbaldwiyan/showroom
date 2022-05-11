@@ -33,11 +33,13 @@ export default function Comment({roomId}) {
   const CommentList = () => (
     Array.from(Array(7), (e, i) => {
       return (
-        <Skeleton viewBox="0 0 300 100" height={90} width={200} backgroundColor="#D1D7E0">
-          <rect x="70" y="10" rx="4" ry="4" width="170" height="10" />
-          <rect x="70"  y="30" rx="3" ry="3" width="200" height="10" />
-          <circle cx="25" cy="25" r="25" />
-        </Skeleton>
+        <div>
+          <Skeleton viewBox="0 0 300 100" height={90} width={200} backgroundColor="#D1D7E0">
+            <rect x="70" y="10" rx="4" ry="4" width="170" height="10" />
+            <rect x="70"  y="30" rx="3" ry="3" width="200" height="10" />
+            <circle cx="25" cy="25" r="25" />
+          </Skeleton>
+        </div>
       )
     })
   );
