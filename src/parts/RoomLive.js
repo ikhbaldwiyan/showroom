@@ -11,30 +11,33 @@ import getTimes from 'utils/getTimes';
 import Button from 'elements/Button';
 import SkeletonLive from './skeleton/SkeletonLive';
 import formatViews from 'utils/formatViews';
+import { getRoomListLive } from 'redux/actions/rooms';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function RoomLive({ theme, search, isOnLive }) {
   const [loading, setLoading] = useState(false);
-  const [onLive, setOnLive] = useState([]);
   const [isLive, setIsLive] = useState(false);
+
+  const roomLive = useSelector((state) => state.roomLive.data);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getRoomLive() {
       const room = await axios.get(`${API}/rooms/onlives`);
-      const onLive = room.data;
-      onLive && onLive.length && setOnLive(onLive);
-
-      if (onLive.length !== undefined) {
+      
+      if (room.length !== undefined) {
         setIsLive(true);
       } else {
         setIsLive(false);
       }
+      dispatch(getRoomListLive(room))
     }
     getRoomLive();
-  }, [onLive]);
+  }, [roomLive]);
 
   const filteredLive = !search
-    ? onLive
-    : onLive.filter((room) =>
+    ? roomLive
+    : roomLive.filter((room) =>
         room.main_name.toLowerCase().includes(search.toLowerCase())
       );
 
@@ -42,11 +45,11 @@ export default function RoomLive({ theme, search, isOnLive }) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 4000);
+    }, 2000);
   }, []);
 
   return (
-    isLive ? (
+    roomLive.length || isLive ? (
       <div className="mb-4">
         <h3 className="mb-3"> {loading && 'Loading'} Room Live </h3>
         {loading && !isMobile ? (
