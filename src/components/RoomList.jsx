@@ -25,8 +25,8 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   const [isLive, setIsLive] = useState(false);
 
   //redux
-  const roomRegular = useSelector((state) => state.roomRegularReducer.data);
-  const roomAcademy = useSelector((state) => state.roomAcademyReducer.data);
+  const roomRegular = useSelector((state) => state.roomRegular.data);
+  const roomAcademy = useSelector((state) => state.roomAcademy.data);
   const dispatch = useDispatch();
 
   useEffect(() => {

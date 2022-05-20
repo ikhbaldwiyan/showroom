@@ -4,7 +4,7 @@ const intialState = {
   data: [],
 };
 
-function roomRegularReducer(state = intialState, action) {
+function reducer(state = intialState, action) {
   switch (action.type) {
     case ACTION_TYPES.GET_ROOM_LIST_REGULAR:
       return {
@@ -16,4 +16,4 @@ function roomRegularReducer(state = intialState, action) {
   }
 }
 
-export default roomRegularReducer;
+export default reducer;

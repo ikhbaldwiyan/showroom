@@ -19,8 +19,8 @@ function Home(props) {
   const [isRegular, setIsRegular] = useState(false);
   const [isLive, setIsLive] = useState(false);
 
-  const roomRegular = useSelector((state) => state.roomRegularReducer.data);
-  const roomAcademy = useSelector((state) => state.roomAcademyReducer.data);
+  const roomRegular = useSelector((state) => state.roomRegular.data);
+  const roomAcademy = useSelector((state) => state.roomAcademy.data);
   const dispatch = useDispatch();
 
   useEffect(() => {

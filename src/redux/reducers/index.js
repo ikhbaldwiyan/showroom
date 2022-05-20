@@ -1,11 +1,11 @@
 import { combineReducers } from "redux"
 
-import roomRegularReducer from "./roomRegular"
-import roomAcademyReducer from "./roomAcademy"
+import roomRegular from "./roomRegular"
+import roomAcademy from "./roomAcademy"
 
 const rootReducers = combineReducers({
-    roomRegularReducer,
-    roomAcademyReducer
+    roomRegular,
+    roomAcademy
 });
 
 export default rootReducers;

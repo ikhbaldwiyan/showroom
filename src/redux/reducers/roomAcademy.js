@@ -4,7 +4,7 @@ const intialState = {
   data: [],
 };
 
-function roomAcademyReducer(state = intialState, action) {
+function reducer(state = intialState, action) {
   switch (action.type) {
     case ACTION_TYPES.GET_ROOM_LIST_ACADEMY:
       return {
@@ -16,4 +16,4 @@ function roomAcademyReducer(state = intialState, action) {
   }
 }
 
-export default roomAcademyReducer;
+export default reducer;
