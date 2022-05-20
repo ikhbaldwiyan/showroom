@@ -12,26 +12,31 @@ import LiveButton from "elements/Button";
 import getSchedule from "utils/getSchedule";
 import RoomListTable from "./RoomListTable";
 import FilterRoomList from "./FilterRoomList";
+import { useDispatch, useSelector } from "react-redux";
+import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
 
 export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
-  const [room, setRoom] = useState('');
   const [roomLive, setRoomLive] = useState([]);
   const [search, setSearch] = useState('');
-  const [academy, setAcademy] = useState([]);
 
   const [allMember, setAllMember] = useState(true);
   const [isAcademy, setIsAcademy] = useState(false);
   const [isRegular, setIsRegular] = useState(false);
   const [isLive, setIsLive] = useState(false);
 
+  //redux
+  const roomRegular = useSelector((state) => state.roomRegularReducer.data);
+  const roomAcademy = useSelector((state) => state.roomAcademyReducer.data);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     async function getRoomList() {
-      const room = await axios.get(`${API}/rooms`)
-      const listRoom = room.data;
-      setRoom(listRoom);
+      const room = await axios.get(`${API}/rooms`);
+      dispatch(getRoomListRegular(room.data))
     }
     getRoomList();
-  }, [room]);
+    window.document.title = 'JKT48 SHOWROOM';
+  }, []);
 
   useEffect(() => {
     async function getRoomLive() {
@@ -45,11 +50,10 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   useEffect(() => {
     async function getRoomAcademy() {
       const room = await axios.get(`${API}/rooms/academy`);
-      const listRoomAcademy = room.data;
-      listRoomAcademy && setAcademy(listRoomAcademy);
+      dispatch(getRoomListAcademy(room.data))
     }
     getRoomAcademy();
-  }, [academy]);
+  }, []);
 
   const handleInputId = (event) => {
     setRoomId(event.target.value);
@@ -59,13 +63,13 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
     setSearch(event.target.value);
   };
 
-  const filtered = !search ? room
-    : room.filter((room) =>
+  const filtered = !search ? roomRegular
+    : roomRegular.filter((room) =>
       room.name.toLowerCase().includes(search.toLowerCase())
     );
 
-  const filteredAcademy = !search ? academy
-    : academy.filter((room) =>
+  const filteredAcademy = !search ? roomAcademy
+    : roomAcademy.filter((room) =>
       room.room_url_key.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -173,7 +177,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                   (item, idx) => !item.is_live && !item.next_live_schedule && (
                     <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                   )
-                ) : room.length === 0 ? (
+                ) : roomRegular.length === 0 ? (
                   <SkeletonLoading />
                 ) : (
                   <tbody>
@@ -189,7 +193,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                   (item, idx) => !item.is_onlive && (
                     <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                   )
-                ) : academy.length === 0 ? (
+                ) : roomAcademy.length === 0 ? (
                   <SkeletonLoading />
                 ) : (
                   <tbody>
@@ -206,7 +210,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                 (item, idx) => !item.is_onlive && (
                   <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                 )
-              ) : academy.length === 0 ? (
+              ) : roomAcademy.length === 0 ? (
                 <SkeletonLoading />
               ) : (
                 <tbody>
@@ -222,7 +226,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                 (item, idx) => !item.is_live && !item.next_live_schedule && (
                   <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                 )
-              ) : room.length === 0 ? (
+              ) : roomRegular.length === 0 ? (
                 <SkeletonLoading />
               ) : (
                 <tbody>

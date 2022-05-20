@@ -9,49 +9,49 @@ import RoomList from 'parts/RoomList';
 import RoomUpcoming from 'parts/RoomUpcoming';
 import RoomAcademy from 'parts/RoomAcademy';
 import SearchAndFilter from 'parts/SearchAndFilter';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRoomListRegular, getRoomListAcademy } from 'redux/actions/rooms';
 
 function Home(props) {
-  const [room, setRoom] = useState([]);
   const [search, setSearch] = useState('');
-  const [academy, setAcademy] = useState([]);
   const [allMember, setAllMember] = useState(true);
   const [isAcademy, setIsAcademy] = useState(false);
   const [isRegular, setIsRegular] = useState(false);
   const [isLive, setIsLive] = useState(false);
 
+  const roomRegular = useSelector((state) => state.roomRegularReducer.data);
+  const roomAcademy = useSelector((state) => state.roomAcademyReducer.data);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     async function getRoomList() {
       const room = await axios.get(`${API}/rooms`);
-      const listRoom = room.data;
-      listRoom && setRoom(listRoom);
+      dispatch(getRoomListRegular(room.data))
     }
     getRoomList();
-
-    window.document.title = 'JKT48 SHOWROOM';
-  }, [room]);
+  }, []);
 
   useEffect(() => {
     async function getRoomAcademy() {
       const room = await axios.get(`${API}/rooms/academy`);
-      const listRoomAcademy = room.data;
-      listRoomAcademy && setAcademy(listRoomAcademy);
+      dispatch(getRoomListAcademy(room.data))
     }
     getRoomAcademy();
-  }, [academy]);
+  }, []);
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
 
   const filtered = !search
-    ? room
-    : room.filter((room) =>
+    ? roomRegular
+    : roomRegular.filter((room) =>
         room.name.toLowerCase().includes(search.toLowerCase())
       );
 
   const filteredAcademy = !search
-    ? academy
-    : academy.filter((room) =>
+    ? roomAcademy
+    : roomAcademy.filter((room) =>
         room.room_url_key.toLowerCase().includes(search.toLowerCase())
       );
 
@@ -73,7 +73,7 @@ function Home(props) {
           {allMember ? (
             <>
               <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
-              <RoomUpcoming search={search} room={room} />
+              <RoomUpcoming search={search} room={roomRegular} />
               <RoomList
                 isSearchRegular={filtered}
                 isSearchAcademy={filteredAcademy}
