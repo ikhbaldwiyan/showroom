@@ -29,6 +29,7 @@ function Home(props) {
       dispatch(getRoomListRegular(room.data))
     }
     getRoomList();
+    window.document.title = "JKT48 SHOWROOM"
   }, []);
 
   useEffect(() => {

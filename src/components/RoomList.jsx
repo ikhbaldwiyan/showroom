@@ -12,8 +12,10 @@ import LiveButton from "elements/Button";
 import getSchedule from "utils/getSchedule";
 import RoomListTable from "./RoomListTable";
 import FilterRoomList from "./FilterRoomList";
+
 import { useDispatch, useSelector } from "react-redux";
-import { getRoomListRegular, getRoomListAcademy, getRoomListLive } from "redux/actions/rooms";
+import { getRoomLiveSuccess, getRoomLiveFailed } from 'redux/actions/roomLives';
+import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
 
 export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   const [search, setSearch] = useState('');
@@ -21,13 +23,14 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   const [allMember, setAllMember] = useState(true);
   const [isAcademy, setIsAcademy] = useState(false);
   const [isRegular, setIsRegular] = useState(false);
-  const [isLive, setIsLive] = useState(false);
   const [isOnLive, setIsOnLive] = useState(false);
 
   //redux
   const roomRegular = useSelector((state) => state.roomRegular.data);
   const roomAcademy = useSelector((state) => state.roomAcademy.data);
-  const roomLives = useSelector((state) => state.roomLive.data);
+  const { data, isLoading, isLive } = useSelector((state) => state.roomLives);
+  const roomLives = data
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,15 +45,14 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   useEffect(() => {
     async function getRoomLive() {
       const room = await axios.get(`${API}/rooms/onlives`)
-      dispatch(getRoomListLive(room.data))
-      if (room.length !== undefined) {
-        setIsOnLive(true);
+      if (room.data.length >= 1) {
+        dispatch(getRoomLiveSuccess(room.data))
       } else {
-        setIsOnLive(false);
+        dispatch(getRoomLiveFailed())
       }
     }
     getRoomLive();
-  }, [roomLives]);
+  }, []);
 
   useEffect(() => {
     async function getRoomAcademy() {
@@ -78,8 +80,8 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
       room.room_url_key.toLowerCase().includes(search.toLowerCase())
     );
 
-  const filteredLive = !search ? roomLives
-    : roomLives.filter((room) =>
+  const filteredLive = isLive && !search ? roomLives
+    : isLive && roomLives.filter((room) =>
       room.main_name.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -111,12 +113,12 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
         </FormGroup>
 
         <FilterRoomList
-          isRoomLive={roomLives}
-          isLive={isLive}
+          isRoomLive={isLive}
+          isLive={isOnLive}
           isAcademy={isAcademy}
           allMember={allMember}
           isRegular={isRegular}
-          setIsLive={setIsLive}
+          setIsLive={setIsOnLive}
           setIsAcademy={setIsAcademy}
           setAllMember={setAllMember}
           handleSearch={handleSearch}
@@ -146,7 +148,9 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
             {allMember ? (
               <>
                 {/* Room Live */}
-                {isOnLive && filteredLive && filteredLive.length !== 0 ? filteredLive.map(
+                {isLoading ? (
+                  <SkeletonLoading type="live" />
+                ) : isLive && filteredLive && filteredLive.length !== 0 ? filteredLive.map(
                   (item, idx) => (
                     <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId}>
                       <LiveButton
@@ -157,8 +161,6 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                       </LiveButton>
                     </RoomListTable>
                   )
-                ) : isOnLive ? (
-                  <SkeletonLoading type="live" />
                 ) : ''}
                 {/* Room Upcoming */}
                 {filtered && filtered.length !== 0 && filtered.map(
@@ -242,7 +244,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                   </tr>
                 </tbody>
               )
-            ) : isLive ? (
+            ) : isOnLive ? (
               filteredLive && filteredLive.length !== 0 && filteredLive.map(
                 (item, idx) => (
                   <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId}>

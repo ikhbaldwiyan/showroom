@@ -73,7 +73,7 @@ function FilterRoomList({
       >
         <RiGlobalLine className="mb-1" /> <span className="text-filter">REGULAR</span>
       </Button>
-      {isRoomLive.length !== 0 && (
+      {isRoomLive && (
         <Button
           className="mr-1"
           style={{ backgroundColor: '#CD0C0D', border: 'none' }}

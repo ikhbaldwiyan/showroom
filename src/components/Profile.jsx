@@ -8,58 +8,41 @@ import formatDescription from "utils/formatDescription";
 import getSchedule from "utils/getSchedule";
 import SkeletonProfile from "parts/skeleton/SkeletonProfile";
 
-export default function Profile({ roomId, isLoad, menu, theme }) {
-  const [profile, setProfile] = useState("");
-  const [schedule, setSchedule] = useState("");
+import { useDispatch, useSelector } from "react-redux";
+import { getRoomDetailLoad, getRoomDetailSucces, clearRoomDetail } from "redux/actions/roomDetail";
+
+export default function Profile({ roomId, menu, theme }) {
+  const { profile, isLoading, room_name } = useSelector((state) => state.roomDetail)
+  const [schedule, setSchedule] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => { 
+    dispatch(getRoomDetailLoad());
+    
     axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
-      const profiles = res.data;
-      setProfile(profiles);
+      const profile = res.data;
+      dispatch(getRoomDetailSucces(profile))
     });
 
     axios.get(`${API}/rooms/schedule/${roomId}`).then((res) => {
-      const schedules = res.data;
-      const formatSchedule = getSchedule(schedules.epoch);
+      const formatSchedule = getSchedule(res.data.epoch);
       setSchedule(formatSchedule);
     });
 
+    return () => {
+      dispatch(clearRoomDetail())
+    }
+
   }, [roomId, menu]);
 
-  const profileName = () => {
-    let title = profile && profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48';
-    let name = title ? `${profile.room_url_key.slice(6)} JKT48 Room` : profile.room_name;
-    return profile ? name : 'JKT48 SHOWROOM';
-  };
-
   useEffect(() => {
-    window.document.title = profileName();
+    window.document.title = room_name;
   }, [profile])
-
-  const text = {
-    borderColor: "#24a2b7",
-    borderTopLeftRadius: "0",
-    borderTopRightRadius: "0",
-    color: "black",
-  }
-
-  const header = {
-    backgroundColor: "#24a2b7",
-    color: "white",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-  }
-
-  const hr = (idx) => {
-    if (idx !== 2) {
-     return  <hr />
-   }
-  }
 
   const isMultiRoom = window.location.pathname !== '/multi-room';
 
   return (
-    isLoad && menu == 'room' && isMultiRoom ? <SkeletonProfile theme={theme} /> : 
+    isLoading && isMultiRoom ? <SkeletonProfile theme={theme} /> : 
     <>
       <Row className="mb-2">
         <Col>
@@ -94,12 +77,10 @@ export default function Profile({ roomId, isLoad, menu, theme }) {
             </CardText>
           </Card>
         </Col>
-
-
         {isMultiRoom && (
           <Col className="mb-2" sm="6">
             <CardHeader className="mt-2" style={header}>
-              {profile && profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48' ? `${profile.room_url_key.slice(6)}` : profile.room_name } Room Info
+              {room_name} Info
             </CardHeader>
             <Card
               className="mb-2"
@@ -114,7 +95,6 @@ export default function Profile({ roomId, isLoad, menu, theme }) {
                 <b>Follower:</b> {formatNumber(profile.follower_num)} <br />
               </CardText>
             </Card>
-
             <CardHeader style={header}>Fans Letter</CardHeader>
             <Card
               style={text}
@@ -147,4 +127,24 @@ export default function Profile({ roomId, isLoad, menu, theme }) {
       </Row>
     </>
   );
+}
+
+const text = {
+  borderColor: "#24a2b7",
+  borderTopLeftRadius: "0",
+  borderTopRightRadius: "0",
+  color: "black",
+}
+
+const header = {
+  backgroundColor: "#24a2b7",
+  color: "white",
+  borderTopLeftRadius: 5,
+  borderTopRightRadius: 5,
+}
+
+const hr = (idx) => {
+  if (idx !== 2) {
+   return  <hr />
+ }
 }

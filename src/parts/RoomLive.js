@@ -11,26 +11,28 @@ import getTimes from 'utils/getTimes';
 import Button from 'elements/Button';
 import SkeletonLive from './skeleton/SkeletonLive';
 import formatViews from 'utils/formatViews';
-import { getRoomListLive } from 'redux/actions/rooms';
 import { useDispatch, useSelector } from 'react-redux';
+import { getRoomLiveFailed, getRoomLiveLoad, getRoomLiveSuccess } from 'redux/actions/roomLives';
 
 export default function RoomLive({ theme, search, isOnLive }) {
-  const [loading, setLoading] = useState(false);
-  const [isLive, setIsLive] = useState(false);
-
-  const roomLive = useSelector((state) => state.roomLive.data);
+  const { data, isLoading, isLive } = useSelector((state) => state.roomLives);
+  const roomLive = data
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getRoomLiveLoad());
+  }, [])
 
   useEffect(() => {
     async function getRoomLive() {
       const room = await axios.get(`${API}/rooms/onlives`);
       
-      if (room.length !== undefined) {
-        setIsLive(true);
+      if (room.data.length >= 1) {
+        dispatch(getRoomLiveSuccess(room.data))
       } else {
-        setIsLive(false);
+        dispatch(getRoomLiveFailed())
       }
-      dispatch(getRoomListLive(room))
+
     }
     getRoomLive();
   }, [roomLive]);
@@ -41,18 +43,11 @@ export default function RoomLive({ theme, search, isOnLive }) {
         room.main_name.toLowerCase().includes(search.toLowerCase())
       );
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
-
   return (
-    roomLive.length || isLive ? (
+    isLive ? (
       <div className="mb-4">
-        <h3 className="mb-3"> {loading && 'Loading'} Room Live </h3>
-        {loading && !isMobile ? (
+        <h3 className="mb-3"> {isLoading && 'Loading'} Room Live </h3>
+        {isLoading && !isMobile ? (
           <SkeletonLive theme={theme} liveLength={filteredLive.length} />
         ) : filteredLive.length !== 0 ? (
           <div className="container-grid">
