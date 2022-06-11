@@ -11,45 +11,43 @@ import getTimes from 'utils/getTimes';
 import Button from 'elements/Button';
 import SkeletonLive from './skeleton/SkeletonLive';
 import formatViews from 'utils/formatViews';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRoomLiveFailed, getRoomLiveLoad, getRoomLiveSuccess } from 'redux/actions/roomLives';
 
 export default function RoomLive({ theme, search, isOnLive }) {
-  const [loading, setLoading] = useState(false);
-  const [onLive, setOnLive] = useState([]);
-  const [isLive, setIsLive] = useState(false);
+  const { data, isLoading, isLive } = useSelector((state) => state.roomLives);
+  const roomLive = data
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getRoomLiveLoad());
+  }, [])
 
   useEffect(() => {
     async function getRoomLive() {
       const room = await axios.get(`${API}/rooms/onlives`);
-      const onLive = room.data;
-      onLive && onLive.length && setOnLive(onLive);
-
-      if (onLive.length !== undefined) {
-        setIsLive(true);
+      
+      if (room.data.length >= 1) {
+        dispatch(getRoomLiveSuccess(room.data))
       } else {
-        setIsLive(false);
+        dispatch(getRoomLiveFailed())
       }
+
     }
     getRoomLive();
-  }, [onLive]);
+  }, [roomLive]);
 
   const filteredLive = !search
-    ? onLive
-    : onLive.filter((room) =>
+    ? roomLive
+    : roomLive.filter((room) =>
         room.main_name.toLowerCase().includes(search.toLowerCase())
       );
-
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 4000);
-  }, []);
 
   return (
     isLive ? (
       <div className="mb-4">
-        <h3 className="mb-3"> {loading && 'Loading'} Room Live </h3>
-        {loading && !isMobile ? (
+        <h3 className="mb-3"> {isLoading && 'Loading'} Room Live </h3>
+        {isLoading && !isMobile ? (
           <SkeletonLive theme={theme} liveLength={filteredLive.length} />
         ) : filteredLive.length !== 0 ? (
           <div className="container-grid">

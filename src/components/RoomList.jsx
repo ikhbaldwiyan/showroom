@@ -13,43 +13,54 @@ import getSchedule from "utils/getSchedule";
 import RoomListTable from "./RoomListTable";
 import FilterRoomList from "./FilterRoomList";
 
+import { useDispatch, useSelector } from "react-redux";
+import { getRoomLiveSuccess, getRoomLiveFailed } from 'redux/actions/roomLives';
+import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
+
 export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
-  const [room, setRoom] = useState('');
-  const [roomLive, setRoomLive] = useState([]);
   const [search, setSearch] = useState('');
-  const [academy, setAcademy] = useState([]);
 
   const [allMember, setAllMember] = useState(true);
   const [isAcademy, setIsAcademy] = useState(false);
   const [isRegular, setIsRegular] = useState(false);
-  const [isLive, setIsLive] = useState(false);
+  const [isOnLive, setIsOnLive] = useState(false);
+
+  //redux
+  const roomRegular = useSelector((state) => state.roomRegular.data);
+  const roomAcademy = useSelector((state) => state.roomAcademy.data);
+  const { data, isLoading, isLive } = useSelector((state) => state.roomLives);
+  const roomLives = data
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getRoomList() {
-      const room = await axios.get(`${API}/rooms`)
-      const listRoom = room.data;
-      setRoom(listRoom);
+      const room = await axios.get(`${API}/rooms`);
+      dispatch(getRoomListRegular(room.data))
     }
     getRoomList();
-  }, [room]);
+    window.document.title = 'JKT48 SHOWROOM';
+  }, []);
 
   useEffect(() => {
     async function getRoomLive() {
       const room = await axios.get(`${API}/rooms/onlives`)
-      const onLive = room.data;
-      onLive && onLive.length && setRoomLive(onLive)
+      if (room.data.length >= 1) {
+        dispatch(getRoomLiveSuccess(room.data))
+      } else {
+        dispatch(getRoomLiveFailed())
+      }
     }
     getRoomLive();
-  }, [roomLive]);
+  }, []);
 
   useEffect(() => {
     async function getRoomAcademy() {
       const room = await axios.get(`${API}/rooms/academy`);
-      const listRoomAcademy = room.data;
-      listRoomAcademy && setAcademy(listRoomAcademy);
+      dispatch(getRoomListAcademy(room.data))
     }
     getRoomAcademy();
-  }, [academy]);
+  }, []);
 
   const handleInputId = (event) => {
     setRoomId(event.target.value);
@@ -59,24 +70,24 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
     setSearch(event.target.value);
   };
 
-  const filtered = !search ? room
-    : room.filter((room) =>
+  const filtered = !search ? roomRegular
+    : roomRegular.filter((room) =>
       room.name.toLowerCase().includes(search.toLowerCase())
     );
 
-  const filteredAcademy = !search ? academy
-    : academy.filter((room) =>
+  const filteredAcademy = !search ? roomAcademy
+    : roomAcademy.filter((room) =>
       room.room_url_key.toLowerCase().includes(search.toLowerCase())
     );
 
-  const filteredLive = !search ? roomLive
-    : roomLive.filter((room) =>
+  const filteredLive = isLive && !search ? roomLives
+    : isLive && roomLives.filter((room) =>
       room.main_name.toLowerCase().includes(search.toLowerCase())
     );
 
   const SkeletonLoading = ({type}) => (
     <tbody>
-      {Array.from(Array(type === 'live' ? roomLive.length : 6), (e, i) => {
+      {Array.from(Array(type === 'live' ? roomLives.length : 6), (e, i) => {
         return (
           <tr>
             <td key={i} colSpan={3} className="text-center">
@@ -102,12 +113,12 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
         </FormGroup>
 
         <FilterRoomList
-          isRoomLive={roomLive}
-          isLive={isLive}
+          isRoomLive={isLive}
+          isLive={isOnLive}
           isAcademy={isAcademy}
           allMember={allMember}
           isRegular={isRegular}
-          setIsLive={setIsLive}
+          setIsLive={setIsOnLive}
           setIsAcademy={setIsAcademy}
           setAllMember={setAllMember}
           handleSearch={handleSearch}
@@ -137,7 +148,9 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
             {allMember ? (
               <>
                 {/* Room Live */}
-                {filteredLive && filteredLive.length !== 0 ? filteredLive.map(
+                {isLoading ? (
+                  <SkeletonLoading type="live" />
+                ) : isLive && filteredLive && filteredLive.length !== 0 ? filteredLive.map(
                   (item, idx) => (
                     <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId}>
                       <LiveButton
@@ -148,9 +161,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                       </LiveButton>
                     </RoomListTable>
                   )
-                ) : (
-                  <SkeletonLoading type="live" />
-                )}
+                ) : ''}
                 {/* Room Upcoming */}
                 {filtered && filtered.length !== 0 && filtered.map(
                   (item, idx) => item.next_live_schedule !== 0 && (
@@ -173,7 +184,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                   (item, idx) => !item.is_live && !item.next_live_schedule && (
                     <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                   )
-                ) : room.length === 0 ? (
+                ) : roomRegular.length === 0 ? (
                   <SkeletonLoading />
                 ) : (
                   <tbody>
@@ -189,7 +200,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                   (item, idx) => !item.is_onlive && (
                     <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                   )
-                ) : academy.length === 0 ? (
+                ) : roomAcademy.length === 0 ? (
                   <SkeletonLoading />
                 ) : (
                   <tbody>
@@ -206,7 +217,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                 (item, idx) => !item.is_onlive && (
                   <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                 )
-              ) : academy.length === 0 ? (
+              ) : roomAcademy.length === 0 ? (
                 <SkeletonLoading />
               ) : (
                 <tbody>
@@ -222,7 +233,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                 (item, idx) => !item.is_live && !item.next_live_schedule && (
                   <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                 )
-              ) : room.length === 0 ? (
+              ) : roomRegular.length === 0 ? (
                 <SkeletonLoading />
               ) : (
                 <tbody>
@@ -233,7 +244,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                   </tr>
                 </tbody>
               )
-            ) : isLive ? (
+            ) : isOnLive ? (
               filteredLive && filteredLive.length !== 0 && filteredLive.map(
                 (item, idx) => (
                   <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId}>
