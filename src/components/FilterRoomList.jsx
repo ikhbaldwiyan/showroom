@@ -43,43 +43,52 @@ function FilterRoomList({
     setIsAcademy(false);
   };
 
+  const button = [
+    {
+      name: 'ALL',
+      action: filterAllMember,
+      state: allMember,
+      color: 'danger',
+      icon: <AiFillAppstore className='mb-1' />
+    },  
+    {
+      name: 'ACADEMY',
+      action: filterAcademy,
+      state: isAcademy,
+      color: 'info',
+      icon: <IoSchoolSharp className='mb-1' /> 
+    },  
+    {
+      name: 'REGULAR',
+      action: filterRegular,
+      state: isRegular,
+      icon: <RiGlobalLine className="mb-1" />,
+      style: { backgroundColor: 'teal', border: 'none' }
+    }
+  ]
+
   return (
     <div className="mb-3 text-justify">
-      <Button
-        className="mr-1"
-        color="danger"
-        onClick={filterAllMember}
-        disabled={allMember ? 'disabled' : ''}
-        size="sm"
-      >
-        <AiFillAppstore className='mb-1' /> <span className="text-filter">ALL</span>
-      </Button>
-      <Button
-        className="mr-1"
-        color="info"
-        onClick={filterAcademy}
-        disabled={isAcademy ? 'disabled' : ''}
-        size="sm"
-        style={{ font: 'poppins' }}
-      >
-        <IoSchoolSharp className='mb-1' /> <span className="text-filter">ACADEMY</span>
-      </Button>
-      <Button
-        className="mr-1"
-        style={{ backgroundColor: 'teal', border: 'none' }}
-        onClick={filterRegular}
-        disabled={isRegular ? 'disabled' : ''}
-        size="sm"
-      >
-        <RiGlobalLine className="mb-1" /> <span className="text-filter">REGULAR</span>
-      </Button>
+      {button.map((item, idx) => (
+        <Button
+          key={idx}
+          size="sm"
+          className="mr-1"
+          color={item.color}
+          onClick={item.action}
+          style={item.style}
+          disabled={item.state ? 'disabled' : ''}
+        >
+          {item.icon} <span className="text-filter">{item.name}</span>
+        </Button>
+      ))}
       {isRoomLive && (
         <Button
+          size="sm"
           className="mr-1"
-          style={{ backgroundColor: '#CD0C0D', border: 'none' }}
           onClick={filterIsLive}
           disabled={isLive ? 'disabled' : ''}
-          size="sm"
+          style={{ backgroundColor: '#CD0C0D', border: 'none' }}
         >
           <span className="text-filter">LIVES</span>
         </Button>

@@ -10,6 +10,7 @@ import SkeletonProfile from "parts/skeleton/SkeletonProfile";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getRoomDetailLoad, getRoomDetailSucces, clearRoomDetail } from "redux/actions/roomDetail";
+import FanLetter from "./FanLetter";
 
 export default function Profile({ roomId, menu, theme }) {
   const { profile, isLoading, room_name } = useSelector((state) => state.roomDetail)
@@ -95,33 +96,7 @@ export default function Profile({ roomId, menu, theme }) {
                 <b>Follower:</b> {formatNumber(profile.follower_num)} <br />
               </CardText>
             </Card>
-            <CardHeader style={header}>Fans Letter</CardHeader>
-            <Card
-              style={text}
-              body
-              outline
-            >
-              <CardText>
-                {profile.recommend_comment_list != null ?
-                  profile.recommend_comment_list.map((item, idx) => (
-                    <div key={idx}>
-                      <h5>
-                        <img
-                          width="30"
-                          className="mr-2"
-                          src={item.user.image}
-                        />
-                        {item.user.name}
-                      </h5>
-                      <p style={{fontWeight: '400', fontSize: 13, color:'grey'}}>{getSchedule(item.created_at)}</p>
-                      <p>{item.comment}</p>
-                      {hr(idx)}
-                    </div>
-                  )) : (
-                    'No Message'
-                  )}
-              </CardText>
-            </Card>
+            <FanLetter roomId={roomId} text={text} header={header} room_name={room_name} profile={profile} theme={theme} />
           </Col>
         )}
       </Row>
