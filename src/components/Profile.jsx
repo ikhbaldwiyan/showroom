@@ -15,6 +15,7 @@ import FanLetter from "./FanLetter";
 export default function Profile({ roomId, menu, theme }) {
   const { profile, isLoading, room_name } = useSelector((state) => state.roomDetail)
   const [schedule, setSchedule] = useState('');
+  const [profiles, setProfile] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => { 
@@ -23,6 +24,11 @@ export default function Profile({ roomId, menu, theme }) {
     axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
       const profile = res.data;
       dispatch(getRoomDetailSucces(profile))
+    });
+
+    axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
+      const profiles = res.data;
+      setProfile(profiles);
     });
 
     axios.get(`${API}/rooms/schedule/${roomId}`).then((res) => {
@@ -36,27 +42,28 @@ export default function Profile({ roomId, menu, theme }) {
 
   }, [roomId, menu]);
 
+  const isMultiRoom = window.location.pathname == '/multi-room';
+  const newProfile = isMultiRoom ? profiles : profile;
+
   useEffect(() => {
     window.document.title = room_name;
   }, [profile])
 
-  const isMultiRoom = window.location.pathname !== '/multi-room';
-
   return (
-    isLoading && isMultiRoom ? <SkeletonProfile theme={theme} /> : 
+    isLoading && !isMultiRoom ? <SkeletonProfile theme={theme} /> : 
     <>
       <Row className="mb-2">
         <Col>
-          <h4>{profile.room_name}</h4>
+          <h4>{newProfile.room_name}</h4>
         </Col>
       </Row>
       <Row>
-        <Col sm={isMultiRoom ? '6' : '12'} className="mb-2">
+        <Col sm={!isMultiRoom ? '6' : '12'} className="mb-2">
           <CardImg
             top
             width="100%"
-            src={profile.image}
-            alt={profile.room_name}
+            src={newProfile.image}
+            alt={newProfile.room_name}
             style={{boxShadow: '3px 3px 3px 2px'}}
           />
           <CardHeader className="mt-2" style={header}>
@@ -68,17 +75,17 @@ export default function Profile({ roomId, menu, theme }) {
             outline
           >
             <CardText style={text}>
-              <div dangerouslySetInnerHTML={{ __html: formatDescription(profile) }} />
-              {profile.avatar && <h4 className="mt-3">Avatar List</h4>}
-              {profile.avatar && profile.avatar.list.map((item, idx) => (
+              <div dangerouslySetInnerHTML={{ __html: formatDescription(newProfile) }} />
+              {newProfile.avatar && <h4 className="mt-3">Avatar List</h4>}
+              {newProfile.avatar && newProfile.avatar.list.map((item, idx) => (
                 <img key={idx} width="60" className="mr-2" src={item} />
               ))}
-              <Button href={profile.share_url_live} className="btn-block mt-2" style={{backgroundColor: 'teal', border: 'none'}} target="_blank">Open Showroom</Button>
+              <Button href={newProfile.share_url_live} className="btn-block mt-2" style={{backgroundColor: 'teal', border: 'none'}} target="_blank">Open Showroom</Button>
               <Button className="btn-block mt-2" color="danger" disabled>Offline</Button>
             </CardText>
           </Card>
         </Col>
-        {isMultiRoom && (
+        {!isMultiRoom && (
           <Col className="mb-2" sm="6">
             <CardHeader className="mt-2" style={header}>
               {room_name} Info
@@ -90,13 +97,13 @@ export default function Profile({ roomId, menu, theme }) {
               outline
             >
               <CardText style={text}>
-                <b>Room Level: </b> {profile.room_level} <br />
+                <b>Room Level: </b> {newProfile.room_level} <br />
                 <b>Schedule:</b> {schedule !== '07:00' ? schedule : 'TBD'} <br />
-                <b>Category: </b> {profile.genre_name} <br />
-                <b>Follower:</b> {formatNumber(profile.follower_num)} <br />
+                <b>Category: </b> {newProfile.genre_name} <br />
+                <b>Follower:</b> {formatNumber(newProfile.follower_num)} <br />
               </CardText>
             </Card>
-            <FanLetter roomId={roomId} text={text} header={header} room_name={room_name} profile={profile} theme={theme} />
+            <FanLetter roomId={roomId} text={text} header={header} room_name={room_name} profile={newProfile} theme={theme} />
           </Col>
         )}
       </Row>
@@ -116,10 +123,4 @@ const header = {
   color: "white",
   borderTopLeftRadius: 5,
   borderTopRightRadius: 5,
-}
-
-const hr = (idx) => {
-  if (idx !== 2) {
-   return  <hr />
- }
 }
