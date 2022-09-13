@@ -11,6 +11,7 @@ import SkeletonProfile from "parts/skeleton/SkeletonProfile";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoomDetailLoad, getRoomDetailSucces, clearRoomDetail } from "redux/actions/roomDetail";
 import FanLetter from "./FanLetter";
+import { addFavoriteRoom } from "utils/addFavoriteRoom";
 
 export default function Profile({ roomId, menu, theme }) {
   const { profile, isLoading, room_name } = useSelector((state) => state.roomDetail)
@@ -82,6 +83,7 @@ export default function Profile({ roomId, menu, theme }) {
               ))}
               <Button href={newProfile.share_url_live} className="btn-block mt-2" style={{backgroundColor: 'teal', border: 'none'}} target="_blank">Open Showroom</Button>
               <Button className="btn-block mt-2" color="danger" disabled>Offline</Button>
+              <Button onClick={() => addFavoriteRoom(dispatch, profile)} className="btn-block mt-2" color="info" outline>Add Room to Favorite</Button>
             </CardText>
           </Card>
         </Col>

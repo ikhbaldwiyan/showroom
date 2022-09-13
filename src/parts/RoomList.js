@@ -4,10 +4,12 @@ import SkeletonList from './skeleton/SkeletonList';
 import { isMobile } from 'react-device-detect';
 import { MdOutlineSearchOff } from 'react-icons/md';
 
-function RoomList({ room, theme, isSearch, isSearchAcademy }) {
+function RoomList({ room, theme, isSearch, isSearchAcademy, isFavoriteRoom }) {
   return (
     <>
-      <h3 className="py-4">{!isSearch && 'Room List'}</h3>
+      <h3 className="py-4">
+        {isFavoriteRoom ? 'Room Favorite' : !isSearch ? 'Room List' : ''}
+      </h3>
       {room && room.length !== 0 ? (
         <div className="container-grid">
           {room.map((item, idx) => (

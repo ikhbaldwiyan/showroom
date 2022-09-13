@@ -14,11 +14,44 @@ import { BsInfoCircleFill } from "react-icons/bs";
 export default function Header({theme, toggleTheme, isMultiRoom}) {
   let roomUrl = '/room' + window.location.pathname.replace('room/' , '')
   const getNavLinkClass = (path) => {
-    return window.location.pathname === path ? " active" : "";
+    return window.location.pathname === path ? "active" : "";
   };
 
-  const iconHome = {marginBottom: 4};
+  const icon = {marginBottom: 4};
   const classMulti =  isMultiRoom ? 'container-fluid' : 'container';
+
+  const navigation = [
+    {
+      name: 'Home',
+      icon: <AiFillHome style={icon} />,
+      href: "/",
+    },
+    {
+      name: 'Live Stream',
+      icon: <RiBroadcastFill style={icon} />,
+      href: '/room/JKT48/332503'
+    },
+    {
+      name: 'Multi Room',
+      icon: <HiUsers style={icon} />,
+      href: '/multi-room'
+    },
+    {
+      name: 'Favorite',
+      icon: <HiUsers style={icon} />,
+      href: '/favorite'
+    },
+    {
+      name: 'Room List',
+      icon: <RiFileList3Fill style={icon} />,
+      href: '/list-room'
+    },
+    {
+      name: 'About',
+      icon: <BsInfoCircleFill style={icon} />,
+      href: '/about'
+    },
+  ]
 
   return (
     <Fade>
@@ -34,31 +67,16 @@ export default function Header({theme, toggleTheme, isMultiRoom}) {
             />
             <div className="collapse navbar-collapse">
               <ul className="navbar-nav ml-auto">
-                <li className={`nav-item${getNavLinkClass("/")}`}>
-                  <Button className="nav-link" type="link" href="">
-                    <AiFillHome style={iconHome} /> Home
-                  </Button>
-                </li>
-                <li className={`nav-item${getNavLinkClass(roomUrl)}`}>
-                  <Button className="nav-link" type="link" href="/room/jkt48/332503">
-                    <RiBroadcastFill style={iconHome} /> Live Stream
-                  </Button>
-                </li>
-                <li className={`nav-item${getNavLinkClass("/multi-room")}`}>
-                  <Button className="nav-link" type="link" href="/multi-room">
-                    <HiUsers style={iconHome} /> Multi Room
-                  </Button>
-                </li>
-                <li className={`nav-item${getNavLinkClass("/list-room")}`}>
-                  <Button className="nav-link" type="link" href="/list-room">
-                    <RiFileList3Fill style={iconHome} /> Room List
-                  </Button>
-                </li>
-                <li className={`nav-item${getNavLinkClass("/about")}`}>
-                  <Button className="nav-link" type="link" href="/about">
-                    <BsInfoCircleFill style={iconHome} /> About
-                  </Button>
-                </li>
+                {navigation.map((item, idx) => (
+                  <li 
+                    key={idx} 
+                    className={`nav-item ${getNavLinkClass(item.name == 'Live Stream' ? roomUrl : item.href)}`}
+                  >
+                    <Button className="nav-link" type="link" href={item.href}>
+                      {item.icon} {item.name}
+                    </Button>
+                  </li>
+                ))}
               </ul>
             </div>
           </nav>

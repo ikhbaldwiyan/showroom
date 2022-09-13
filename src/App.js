@@ -11,6 +11,7 @@ import RoomList from 'pages/RoomList';
 import MultiRoom from 'pages/MultiRoom';
 import About from 'pages/About';
 import GoogleAnalytics from 'utils/GoogleAnalytics';
+import FavoriteRoom from "pages/FavoriteRoom";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -26,6 +27,7 @@ function App(props) {
         <Route path="/room/:name/:id/" component={() => <Live {...props} />} />
         <Route path="/list-room" component={() => <RoomList {...props} />} />
         <Route path="/multi-room" component={() => <MultiRoom {...props} />} />
+        <Route path="/favorite" component={() => <FavoriteRoom {...props} />} />
         <Route path="/about" component={() => <About {...props} />} />
       </div>
     </ThemeProvider>

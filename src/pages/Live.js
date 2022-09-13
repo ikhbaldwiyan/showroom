@@ -42,9 +42,7 @@ function Live(props) {
     id === 'undefined' && setRoomId('332503');
   }, [id])
 
-  const messages = () => toast.error("Room Offline", {
-    theme: 'colored'
-  });
+  const messages = () => toast.error("Room Offline");
 
   return (
     <MainLayout {...props}>
