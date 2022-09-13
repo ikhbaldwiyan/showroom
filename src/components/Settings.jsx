@@ -1,20 +1,26 @@
+import axios from "axios";
+import { API } from "utils/api/api";
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { IoMdSettings } from "react-icons/io";
-
+import { useDispatch } from "react-redux";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-// import ProfileModal from "./ProfileModal";
+import { addFavoriteRoom } from "utils/addFavoriteRoom";
 
 function Settings(props) {
   const [isOpen, setDropdownOpen] = useState(false);
   const [direction, setDirection] = useState('right')
   const [menu, setMenu] = useState([])
+  const [profiles, setProfiles] = useState([]);
+
+
   const toggle = () => setDropdownOpen(prevState => !prevState);
+  const dispatch = useDispatch();
 
   const css = { backgroundColor: 'teal', border: 'none', borderRadius: '10px', marginBottom: 4 }
   const inline = { display: 'inline' }
 
-  const { hideTime, setHideTime, hideName, setHideName, hideViews, setHideViews, profile, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu } = props
+  const { hideTime, setHideTime, hideName, setHideName, hideViews, setHideViews, profile, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu, roomId } = props
 
   useEffect(() => {
     isMobile && setDirection('left')
@@ -23,6 +29,14 @@ function Settings(props) {
   function hideOrShow(menu) {
     return menu ? 'Show' : 'Hide'
   }
+
+  useEffect(() => {
+    axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
+      const data = res.data;
+      setProfiles(data)
+    });
+
+  }, [profiles, roomId])
 
   useEffect(() => {
     const settingsMenu = [
@@ -50,13 +64,19 @@ function Settings(props) {
          return setHideTime(!hideTime)
         }
       },
+      {
+        name: 'Add to favorite',
+        update: function() { 
+         return addFavoriteRoom(dispatch, profiles)
+        }
+      },
     ]
     setMenu(settingsMenu);
-  }, [hideName, hideTime, hideViews, hideMenu])
+  }, [hideName, hideTime, hideViews, hideMenu, profiles, roomId])
 
   return (
     <div style={inline} className="ml-1 mt-1">
-      <Dropdown style={inline} direction="up" isOpen={isOpen} toggle={toggle} direction={direction}>
+      <Dropdown style={inline} isOpen={isOpen} toggle={toggle} direction={direction}>
         <DropdownToggle style={css}>
           <IoMdSettings style={{fontSize: 20, marginBottom: 2}} />
         </DropdownToggle>
@@ -64,7 +84,6 @@ function Settings(props) {
           {menu.map((item, idx) => (
             <DropdownItem key={idx} onClick={item.update}>{item.name}</DropdownItem>
           ))}
-          {/* <ProfileModal className="btn-sm mt-1 px-4 mb-1" profile={profile} buttonLabel="Show Profile" /> */}
           <DropdownItem href={profile.share_url_live} target="_blank" >Open Showroom</DropdownItem>
           {window.location.pathname === '/multi-room' && (
             <DropdownItem onClick={() => { setHideMultiMenu(!hideMultiMenu) }}>{hideOrShow(hideMultiMenu)} Multi Options</DropdownItem>

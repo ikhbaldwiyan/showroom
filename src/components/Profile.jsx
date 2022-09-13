@@ -7,10 +7,10 @@ import formatNumber from "utils/formatNumber";
 import formatDescription from "utils/formatDescription";
 import getSchedule from "utils/getSchedule";
 import SkeletonProfile from "parts/skeleton/SkeletonProfile";
+import FanLetter from "./FanLetter";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getRoomDetailLoad, getRoomDetailSucces, clearRoomDetail } from "redux/actions/roomDetail";
-import FanLetter from "./FanLetter";
 import { addFavoriteRoom } from "utils/addFavoriteRoom";
 
 export default function Profile({ roomId, menu, theme }) {
@@ -25,11 +25,7 @@ export default function Profile({ roomId, menu, theme }) {
     axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
       const profile = res.data;
       dispatch(getRoomDetailSucces(profile))
-    });
-
-    axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
-      const profiles = res.data;
-      setProfile(profiles);
+      setProfile(profile);
     });
 
     axios.get(`${API}/rooms/schedule/${roomId}`).then((res) => {

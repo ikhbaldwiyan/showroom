@@ -18,5 +18,5 @@ export const addFavoriteRoom = (dispatch, profile) => {
     ]))
   }
 
-  toast.success(`${profile.room_name} success added to favorite room`)
+  toast.success(`${profile.room_name} added to favorite room`)
 }

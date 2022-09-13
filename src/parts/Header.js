@@ -7,7 +7,7 @@ import Logo from 'parts/Logo';
 import { isMobile } from 'react-device-detect';
 import { AiFillHome } from 'react-icons/ai';
 import { RiBroadcastFill } from "react-icons/ri";
-import { HiUsers } from "react-icons/hi";
+import { HiStar, HiUsers } from "react-icons/hi";
 import { RiFileList3Fill } from "react-icons/ri";
 import { BsInfoCircleFill } from "react-icons/bs";
 
@@ -38,14 +38,14 @@ export default function Header({theme, toggleTheme, isMultiRoom}) {
     },
     {
       name: 'Favorite',
-      icon: <HiUsers style={icon} />,
+      icon: <HiStar style={icon} />,
       href: '/favorite'
     },
-    {
-      name: 'Room List',
-      icon: <RiFileList3Fill style={icon} />,
-      href: '/list-room'
-    },
+    // {
+    //   name: 'Room List',
+    //   icon: <RiFileList3Fill style={icon} />,
+    //   href: '/list-room'
+    // },
     {
       name: 'About',
       icon: <BsInfoCircleFill style={icon} />,

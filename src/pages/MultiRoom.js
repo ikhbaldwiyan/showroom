@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'reactstrap'
+import { ToastContainer } from "react-toastify";
 
 import MainLayout from './layout/MainLayout'
 import Multi from 'parts/Multi';
@@ -24,6 +25,10 @@ export default function MultiRoom(props) {
   return (
     <MainLayout {...props} isMultiRoom={isMultiRoom}>
       <Container fluid>
+        <ToastContainer 
+          position="top-right"
+          autoClose={3000} 
+        />
         <MultiMenu {...propsMultiRoom} />
         <Row>
           <Multi {...propsMultiRoom} />
