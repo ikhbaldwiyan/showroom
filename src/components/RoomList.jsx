@@ -24,10 +24,12 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   const [isAcademy, setIsAcademy] = useState(false);
   const [isRegular, setIsRegular] = useState(false);
   const [isOnLive, setIsOnLive] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   //redux
   const roomRegular = useSelector((state) => state.roomRegular.data);
   const roomAcademy = useSelector((state) => state.roomAcademy.data);
+  const roomFavorite = useSelector((state) => state.roomFavorite.data);
   const { data, isLoading, isLive } = useSelector((state) => state.roomLives);
   const roomLives = data
 
@@ -84,6 +86,11 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
     : isLive && roomLives.filter((room) =>
       room.main_name.toLowerCase().includes(search.toLowerCase())
     );
+    
+  const filteredFavorite = isFavorite && !search ? roomFavorite
+    : isFavorite && roomFavorite.filter((room) =>
+      room.main_name.toLowerCase().includes(search.toLowerCase())
+    );
 
   const SkeletonLoading = ({type}) => (
     <tbody>
@@ -118,11 +125,13 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
           isAcademy={isAcademy}
           allMember={allMember}
           isRegular={isRegular}
+          isFavorite={isFavorite}
           setIsLive={setIsOnLive}
           setIsAcademy={setIsAcademy}
           setAllMember={setAllMember}
           handleSearch={handleSearch}
           setIsRegular={setIsRegular}
+          setIsFavorite={setIsFavorite}
         />
 
         <div className="scroll">
@@ -240,6 +249,20 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                   <tr>
                     <td colSpan={3} className="text-center">
                       <p style={{ fontSize: 18 }} className="mt-3"><MdOutlineSearchOff className="mr-2" size={30} />Room Regular not found</p>
+                    </td>
+                  </tr>
+                </tbody>
+              )
+            ) : isFavorite ? (
+              filteredFavorite ? filteredFavorite.reverse().map(
+                (item, idx) => !item.is_live && !item.next_live_schedule && (
+                  <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
+                )
+              ) : (
+                <tbody>
+                  <tr>
+                    <td colSpan={3} className="text-center">
+                      <p style={{ fontSize: 18 }} className="mt-3"><MdOutlineSearchOff className="mr-2" size={30} />Room Favorite not found</p>
                     </td>
                   </tr>
                 </tbody>

@@ -21,7 +21,7 @@ function RoomListTable({ data, children, setRoomId, idx, roomId }) {
         </td>
         <td>
           {data.is_live || data.next_live_schedule !== 0 ? (
-            <p className="mb-1">{data.url_key ? data.url_key.substr(6) : data.room_url_key !== 'officialJKT48' ? data.room_url_key.substr(6) : 'JKT48'}</p> 
+            <p className={`${data.is_live} ? mb-1 : mt-4`}>{data.url_key ? data.url_key.substr(6) : data.room_url_key !== 'officialJKT48' ? data.room_url_key.substr(6) : 'JKT48'}</p> 
           ) : (
             <p className="mt-4">{data.url_key ? data.url_key.substr(6) : data.room_url_key.substr(6)}</p> 
           )}

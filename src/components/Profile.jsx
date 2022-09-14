@@ -12,15 +12,22 @@ import FanLetter from "./FanLetter";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoomDetailLoad, getRoomDetailSucces, clearRoomDetail } from "redux/actions/roomDetail";
 import { addFavoriteRoom } from "utils/addFavoriteRoom";
+import { getRoomFavorite, removeFavoriteRoom } from "redux/actions/roomFavorite";
+import { HiStar, HiTrash } from "react-icons/hi";
+import { toast } from "react-toastify";
 
 export default function Profile({ roomId, menu, theme }) {
   const { profile, isLoading, room_name } = useSelector((state) => state.roomDetail)
   const [schedule, setSchedule] = useState('');
   const [profiles, setProfile] = useState('');
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const roomFavorite = useSelector((state) => state.roomFavorite.data);
   const dispatch = useDispatch();
 
   useEffect(() => { 
     dispatch(getRoomDetailLoad());
+    dispatch(getRoomFavorite());
     
     axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
       const profile = res.data;
@@ -43,8 +50,34 @@ export default function Profile({ roomId, menu, theme }) {
   const newProfile = isMultiRoom ? profiles : profile;
 
   useEffect(() => {
+    setIsFavorite(false)
     window.document.title = room_name;
-  }, [profile])
+  }, [profile, profiles])
+
+  useEffect(() => {
+    if (roomFavorite) {
+      for (let i = 0; i < roomFavorite.length; i++) {
+        const data = roomFavorite[i];
+        if (data.room_id === parseInt(roomId)) {
+          setIsFavorite(true);
+        }
+      }
+    }
+  }, [roomId, getRoomFavorite(), isFavorite, profile])
+
+  const handleRemoveFavoriteRoom = () => {
+    setIsFavorite(false);
+    dispatch(removeFavoriteRoom(roomId))
+
+    let title = profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48';
+    let name = title ? `${profile.room_url_key.slice(6)} JKT48` : profile.room_name;
+
+    toast.error(`${name} removed from favorite room`)
+  }
+
+  useEffect(() => {
+    roomFavorite && localStorage.setItem('favorites', JSON.stringify(roomFavorite))
+  }, [handleRemoveFavoriteRoom])
 
   return (
     isLoading && !isMultiRoom ? <SkeletonProfile theme={theme} /> : 
@@ -61,13 +94,13 @@ export default function Profile({ roomId, menu, theme }) {
             width="100%"
             src={newProfile.image}
             alt={newProfile.room_name}
-            style={{boxShadow: '3px 3px 3px 2px'}}
+            style={{boxShadow: '3px 3px 3px 3px', borderRadius: 8, marginBottom: 6}}
           />
           <CardHeader className="mt-2" style={header}>
             Biodata
           </CardHeader>
           <Card
-            style={{ borderTopLeftRadius: "0", borderTopRightRadius: "0" }}
+            style={{ borderTopLeftRadius: "0", borderTopRightRadius: "0", borderColor: "#24a2b7" }}
             body
             outline
           >
@@ -79,7 +112,17 @@ export default function Profile({ roomId, menu, theme }) {
               ))}
               <Button href={newProfile.share_url_live} className="btn-block mt-2" style={{backgroundColor: 'teal', border: 'none'}} target="_blank">Open Showroom</Button>
               <Button className="btn-block mt-2" color="danger" disabled>Offline</Button>
-              <Button onClick={() => addFavoriteRoom(dispatch, profile)} className="btn-block mt-2" color="info" outline>Add Room to Favorite</Button>
+              {!isMultiRoom && (
+                isFavorite ? (
+                  <Button onClick={() => handleRemoveFavoriteRoom()} className="btn-block mt-2" color="danger" >
+                  <HiTrash size={20} className="mb-1" /> Remove From Favorite
+                  </Button>
+                ) : (
+                  <Button onClick={() => addFavoriteRoom(dispatch, profile)} className="btn-block mt-2" color="info" >
+                    <HiStar size={20} className="mb-1" /> Add Room to Favorite
+                  </Button>
+                )
+              )}
             </CardText>
           </Card>
         </Col>

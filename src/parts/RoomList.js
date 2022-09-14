@@ -8,7 +8,7 @@ function RoomList({ room, theme, isSearch, isSearchAcademy, isFavoriteRoom }) {
   return (
     <>
       <h3 className="py-4">
-        {isFavoriteRoom ? 'Room Favorite' : !isSearch ? 'Room List' : ''}
+        {isFavoriteRoom ? 'Favorite Room' : !isSearch ? 'Room List' : ''}
       </h3>
       {room && room.length !== 0 ? (
         <div className="container-grid">

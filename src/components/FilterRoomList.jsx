@@ -3,6 +3,7 @@ import { Button } from 'reactstrap'
 import { RiGlobalLine } from 'react-icons/ri';
 import { AiFillAppstore } from 'react-icons/ai';
 import { IoSchoolSharp } from 'react-icons/io5';
+import { HiStar } from "react-icons/hi";
 
 function FilterRoomList({
   allMember,
@@ -13,13 +14,16 @@ function FilterRoomList({
   setIsRegular,
   isLive,
   setIsLive,
-  isRoomLive
+  isRoomLive,
+  isFavorite,
+  setIsFavorite
 }) {
   const filterAllMember = () => {
     setIsRegular(false);
     setAllMember(true);
     setIsAcademy(false);
     setIsLive(false);
+    setIsFavorite(false);
   };
 
   const filterAcademy = () => {
@@ -27,6 +31,7 @@ function FilterRoomList({
     setAllMember(false);
     setIsRegular(false);
     setIsLive(false);
+    setIsFavorite(false);
   };
 
   const filterRegular = () => {
@@ -34,6 +39,7 @@ function FilterRoomList({
     setAllMember(false);
     setIsAcademy(false);
     setIsLive(false);
+    setIsFavorite(false);
   };
 
   const filterIsLive = () => {
@@ -42,6 +48,15 @@ function FilterRoomList({
     setAllMember(false);
     setIsAcademy(false);
   };
+
+  const filterIsFavorite = () => {
+    setIsLive(false);
+    setIsRegular(false);
+    setAllMember(false);
+    setIsAcademy(false);
+    setIsFavorite(true);
+  };
+
 
   const button = [
     {
@@ -64,6 +79,13 @@ function FilterRoomList({
       state: isRegular,
       icon: <RiGlobalLine className="mb-1" />,
       style: { backgroundColor: 'teal', border: 'none' }
+    },
+    {
+      name: '',
+      action: filterIsFavorite,
+      state: isFavorite,
+      icon: <HiStar size={20} className="mx-3" />,
+      style: { backgroundColor: '#6b7280', border: 'none' }
     }
   ]
 

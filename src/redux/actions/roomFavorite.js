@@ -1,12 +1,5 @@
 import { ACTION_TYPES as STATE } from '../constans/actionTypes';
 
-export const addRoomFavoriteSucces = (profile) => {
-  return {
-    type: STATE.ADD_ROOM_TO_FAVORITE,
-    payload: profile,
-  };
-};
-
 export const getRoomFavorite = () => {
   const favorites = localStorage.getItem('favorites') && JSON.parse(localStorage.getItem('favorites') || "");
 
@@ -15,3 +8,17 @@ export const getRoomFavorite = () => {
     payload: favorites,
   };
 };
+
+export const addRoomFavoriteSucces = (profile) => {
+  return {
+    type: STATE.ADD_ROOM_TO_FAVORITE,
+    payload: profile,
+  };
+};
+
+export const removeFavoriteRoom = (roomId) => {
+  return {
+    type: STATE.REMOVE_ROOM_TO_FAVORITE,
+    payload: roomId
+  }
+}
