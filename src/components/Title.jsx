@@ -20,7 +20,7 @@ function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu,
   const [hideViews, setHideViews] = useState(false);
 
   const propSettings = {
-    hideTime, setHideTime, hideName, setHideName, hideViews, setHideViews, profile, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu, roomId
+    hideTime, setHideTime, hideName, setHideName, hideViews, setHideViews, profile, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu, roomId, theme
   }
 
   const icon = {fontSize: 20, marginBottom: 4, marginRight: 2}

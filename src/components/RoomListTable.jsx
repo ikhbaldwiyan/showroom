@@ -47,7 +47,7 @@ function RoomListTable({
         </td>
         <td>
           {data.is_onlive || data.is_live || data.next_live_schedule !== 0 ? (
-            <p className={isAcademy ? "mt-4" : isFavoriteRoom && !data.is_onlive ? "mt-4" : "mb-1"}>
+            <p className={isAcademy ? "mt-4" : isFavoriteRoom  ? "mt-4" : "mb-1"}>
               {data.url_key
                 ? data.url_key.substr(6)
                 : data.room_url_key !== "officialJKT48"

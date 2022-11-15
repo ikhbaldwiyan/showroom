@@ -25,7 +25,7 @@ const RemoveRoomModal = ({ roomId, theme }) => {
   const handleRemoveFavRoom = (roomId) => {
     dispatch(removeFavoriteRoom(roomId));
     setModal(!modal);
-    toast.error(`${profile.room_name} removed from favorite room`)
+    toast.error(`${profile.room_name}removed from favorite room`)
   };
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const RemoveRoomModal = ({ roomId, theme }) => {
       </div>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader style={header} toggle={toggle}>
-          Remove {profile.room_name}from favorite ?{" "}
+          Remove {profile && profile?.room_url_key.substr(6)} from favorite ?{" "}
         </ModalHeader>
         <ModalBody
           className="justify-content-center text-center"
@@ -78,7 +78,7 @@ const RemoveRoomModal = ({ roomId, theme }) => {
             dangerouslySetInnerHTML={{ __html: formatDescription(profile) }}
           />
         </ModalBody>
-        <ModalFooter style={header}>
+        <ModalFooter style={{backgroundColor: '#21252b'}}>
           <Button color="info" onClick={() => handleRemoveFavRoom(roomId)}>
             Yes
           </Button>{" "}

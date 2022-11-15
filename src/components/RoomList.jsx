@@ -256,16 +256,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom , theme }) {
             ) : isFavorite ? (
               filteredFavorite && filteredFavorite.length !== 0 ? filteredFavorite.map(
                 (item, idx) => !item.is_live && !item.next_live_schedule && (
-                  <RoomListTable theme={theme} idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} isFavoriteRoom>
-                    {item.is_onlive && (
-                      <LiveButton
-                      style={{ borderRadius: "6px" }}
-                      className="btn-sm btn-danger"
-                    >
-                      <RiBroadcastFill className="mb-1" /> Live
-                    </LiveButton>
-                    )}
-                  </RoomListTable>
+                  <RoomListTable theme={theme} idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} isFavoriteRoom />
                 )
               ) : (
                 <tbody>
