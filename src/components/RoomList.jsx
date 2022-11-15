@@ -254,7 +254,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                 </tbody>
               )
             ) : isFavorite ? (
-              filteredFavorite ? filteredFavorite.reverse().map(
+              filteredFavorite && filteredFavorite.length !== 0 ? filteredFavorite.map(
                 (item, idx) => !item.is_live && !item.next_live_schedule && (
                   <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
                 )

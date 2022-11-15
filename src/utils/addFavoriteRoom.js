@@ -9,12 +9,12 @@ export const addFavoriteRoom = (dispatch, profile) => {
     dispatch(addRoomFavoriteSucces([profile]))
   } else {
     localStorage.setItem('favorites', JSON.stringify([
+      profile,
       ...oldProfile,
-      profile
     ]))
     dispatch(addRoomFavoriteSucces([
+      profile,
       ...oldProfile,
-      profile
     ]))
   }
   let title = profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48';

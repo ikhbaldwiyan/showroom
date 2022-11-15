@@ -84,8 +84,8 @@ function FilterRoomList({
       name: '',
       action: filterIsFavorite,
       state: isFavorite,
-      icon: <HiStar size={20} className="mx-3" />,
-      style: { backgroundColor: '#6b7280', border: 'none' }
+      icon: <HiStar size={20} className="mx-2" />,
+      style: { backgroundColor: '#008b9b', border: 'none' }
     }
   ]
 
@@ -104,7 +104,7 @@ function FilterRoomList({
           {item.icon} <span className="text-filter">{item.name}</span>
         </Button>
       ))}
-      {isRoomLive && (
+      {/* {isRoomLive && (
         <Button
           size="sm"
           className="mr-1"
@@ -114,7 +114,7 @@ function FilterRoomList({
         >
           <span className="text-filter">LIVES</span>
         </Button>
-      )}
+      )} */}
     </div>
   )
 }

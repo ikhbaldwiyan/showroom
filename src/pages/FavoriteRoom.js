@@ -16,8 +16,8 @@ function FavoriteRoom(props) {
   return (
     <MainLayout {...props}>
       <section className="container">
-        {roomFavorite ? (
-          <RoomList room={roomFavorite.reverse()} theme={props.theme} isFavoriteRoom />
+        {roomFavorite && roomFavorite.length !== 0 ? (
+          <RoomList room={roomFavorite} theme={props.theme} isFavoriteRoom />
         ) : (
           <div>
             <h3 className="py-4">
