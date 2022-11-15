@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getRoomLiveSuccess, getRoomLiveFailed } from 'redux/actions/roomLives';
 import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
 
-export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
+export default function RoomList({ roomId, setRoomId, isMultiRoom , theme }) {
   const [search, setSearch] = useState('');
 
   const [allMember, setAllMember] = useState(true);
@@ -224,7 +224,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
             ) : isAcademy ? (
               filteredAcademy && filteredAcademy.length !== 0 ? filteredAcademy.map(
                 (item, idx) => !item.is_onlive && (
-                  <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
+                  <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} isAcademy />
                 )
               ) : roomAcademy.length === 0 ? (
                 <SkeletonLoading />
@@ -256,7 +256,16 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
             ) : isFavorite ? (
               filteredFavorite && filteredFavorite.length !== 0 ? filteredFavorite.map(
                 (item, idx) => !item.is_live && !item.next_live_schedule && (
-                  <RoomListTable idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} />
+                  <RoomListTable theme={theme} idx={idx} data={item} roomId={roomId} setRoomId={setRoomId} isFavoriteRoom>
+                    {item.is_onlive && (
+                      <LiveButton
+                      style={{ borderRadius: "6px" }}
+                      className="btn-sm btn-danger"
+                    >
+                      <RiBroadcastFill className="mb-1" /> Live
+                    </LiveButton>
+                    )}
+                  </RoomListTable>
                 )
               ) : (
                 <tbody>

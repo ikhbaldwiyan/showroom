@@ -11,6 +11,7 @@ function FavoriteRoom(props) {
 
   useEffect(() => {
     dispatch(getRoomFavorite())
+    window.document.title = 'Room Favorite';
   }, [dispatch])
   
   return (
