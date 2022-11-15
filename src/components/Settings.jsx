@@ -167,7 +167,7 @@ function Settings(props) {
           )}
           <Modal isOpen={modal} toggle={toggleModal}>
             <ModalHeader style={header} toggle={toggleModal}>
-              Remove {profiles && profiles?.room_url_key.substr(6)} from favorite ?{" "}
+              Remove from favorite room ?
             </ModalHeader>
             <ModalBody
               className="justify-content-center text-center"

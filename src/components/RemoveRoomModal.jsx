@@ -61,7 +61,7 @@ const RemoveRoomModal = ({ roomId, theme }) => {
       </div>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader style={header} toggle={toggle}>
-          Remove {profile && profile?.room_url_key.substr(6)} from favorite ?{" "}
+          Remove from favorite room ?
         </ModalHeader>
         <ModalBody
           className="justify-content-center text-center"
