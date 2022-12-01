@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "reactstrap";
 import { RiLiveFill } from "react-icons/ri";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import RemoveRoomModal from "./RemoveRoomModal";
 
@@ -28,7 +29,18 @@ function RoomListTable({
         <td>
           {isFavoriteRoom ? (
             <div style={{ position: "sticky" }}>
-              <RemoveRoomModal theme={theme} roomId={data.room_id} />
+              <RemoveRoomModal theme={theme} roomId={data.room_id}>
+                <div
+                  className="ml-1"
+                  style={{
+                    position: "absolute",
+                    color: "#21252b",
+                    cursor: "pointer",
+                  }}
+                >
+                  <AiFillCloseCircle />
+                </div>
+              </RemoveRoomModal>
               <img
                 src={data.image_url ?? data.image}
                 style={{ borderRadius: "10px" }}
@@ -47,12 +59,12 @@ function RoomListTable({
         </td>
         <td>
           {data.is_onlive || data.is_live || data.next_live_schedule !== 0 ? (
-            <p className={isAcademy ? "mt-4" : isFavoriteRoom  ? "mt-4" : "mb-1"}>
+            <p className={isAcademy ? "mt-4" : isFavoriteRoom ? "mt-4" : "mb-1"}>
               {data.url_key
                 ? data.url_key.substr(6)
                 : data.room_url_key !== "officialJKT48"
-                ? data.room_url_key.substr(6)
-                : "JKT48"}
+                  ? data.room_url_key.substr(6)
+                  : "JKT48"}
             </p>
           ) : (
             <p className="mt-4">
@@ -77,9 +89,8 @@ function RoomListTable({
             <Link
               to={(location) => ({
                 ...location,
-                pathname: `/room/${data.url_key ?? data.room_url_key}/${
-                  data.id ? data.id : data.room_id
-                }`,
+                pathname: `/room/${data.url_key ?? data.room_url_key}/${data.id ? data.id : data.room_id
+                  }`,
               })}
             >
               <Button

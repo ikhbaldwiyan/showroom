@@ -14,7 +14,7 @@ import { removeFavoriteRoom } from "redux/actions/roomFavorite";
 import { API } from "utils/api/api";
 import formatDescription from "utils/formatDescription";
 
-const RemoveRoomModal = ({ roomId, theme }) => {
+const RemoveRoomModal = ({ roomId, theme, children }) => {
   const roomFavorite = useSelector((state) => state.roomFavorite.data);
   const [profile, setProfile] = useState("");
   const [modal, setModal] = useState(false);
@@ -48,16 +48,8 @@ const RemoveRoomModal = ({ roomId, theme }) => {
 
   return (
     <div>
-      <div
-        className="ml-1"
-        style={{
-          position: "absolute",
-          color: "#21252b",
-          cursor: "pointer",
-        }}
-        onClick={toggle}
-      >
-        <AiFillCloseCircle />
+      <div onClick={toggle}>
+        {children}
       </div>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader style={header} toggle={toggle}>
@@ -71,14 +63,14 @@ const RemoveRoomModal = ({ roomId, theme }) => {
             width="240px"
             src={profile.image_square}
             alt={profile.room_name}
-            style={{boxShadow: '3px 3px 3px 3px', borderRadius: 8, marginBottom: 6}}
+            style={{ boxShadow: '3px 3px 3px 3px', borderRadius: 8, marginBottom: 6 }}
           />
           <div
             className="py-3"
             dangerouslySetInnerHTML={{ __html: formatDescription(profile) }}
           />
         </ModalBody>
-        <ModalFooter style={{backgroundColor: '#21252b'}}>
+        <ModalFooter style={{ backgroundColor: '#21252b' }}>
           <Button color="info" onClick={() => handleRemoveFavRoom(roomId)}>
             Yes
           </Button>{" "}

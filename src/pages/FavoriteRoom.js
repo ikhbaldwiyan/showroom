@@ -2,6 +2,7 @@ import RoomList from 'parts/RoomList';
 import React, { useEffect } from 'react'
 import { MdOutlineSearchOff } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 import { getRoomFavorite } from "redux/actions/roomFavorite";
 import MainLayout from "./layout/MainLayout";
 
@@ -17,6 +18,10 @@ function FavoriteRoom(props) {
   return (
     <MainLayout {...props}>
       <section className="container">
+        <ToastContainer 
+          position="top-right"
+          autoClose={3000} 
+        />
         {roomFavorite && roomFavorite.length !== 0 ? (
           <RoomList room={roomFavorite} theme={props.theme} isFavoriteRoom />
         ) : (
