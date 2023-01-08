@@ -58,7 +58,7 @@ export default function Profile({ roomId, menu, theme }) {
     if (roomFavorite) {
       for (let i = 0; i < roomFavorite.length; i++) {
         const data = roomFavorite[i];
-        if (data.room_id === parseInt(roomId)) {
+        if (data.room_id === parseInt(roomId) || data.id === parseInt(roomId)) {
           setIsFavorite(true);
         }
       }
@@ -122,7 +122,7 @@ export default function Profile({ roomId, menu, theme }) {
                     <HiStar size={20} className="mb-1" /> Add Room to Favorite
                   </Button>
                 )
-              )}
+                )}
             </CardText>
           </Card>
         </Col>

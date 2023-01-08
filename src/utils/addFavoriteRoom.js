@@ -2,23 +2,43 @@ import { toast } from 'react-toastify';
 import { addRoomFavoriteSucces } from "redux/actions/roomFavorite";
 
 export const addFavoriteRoom = (dispatch, profile) => {
+  let isFavorite = false;
+
   const oldProfile = localStorage.getItem('favorites') && JSON.parse(localStorage.getItem('favorites') || "");
 
-  if (!oldProfile) {
-    localStorage.setItem('favorites', JSON.stringify([profile]))
-    dispatch(addRoomFavoriteSucces([profile]))
-  } else {
-    localStorage.setItem('favorites', JSON.stringify([
-      profile,
-      ...oldProfile,
-    ]))
-    dispatch(addRoomFavoriteSucces([
-      profile,
-      ...oldProfile,
-    ]))
-  }
-  let title = profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48';
-  let name = title ? `${profile.room_url_key.slice(6)} JKT48` : profile.room_name;
+  const urlKey = profile.room_url_key ?? profile.url_key;
+  const roomName = profile.room_name ?? profile.name;
 
-  toast.success(`${name} added to favorite room`)
+  let title = profile && urlKey.includes("JKT48") && urlKey !== 'officialJKT48';
+  let name = title ? `${urlKey.slice(6)} JKT48` : roomName;
+
+  // check room is in favorite
+  for (let i = 0; i < oldProfile.length; i++) {
+    const data = oldProfile[i];
+    if (data.room_id === parseInt(profile.room_id ?? profile.id) || data.id === parseInt(profile.room_id ?? profile.id)) {
+      isFavorite = true;
+    }
+  }
+
+  if (isFavorite) {
+    toast.error(`${name} already in favorite room`)
+  } else  {
+    if (!oldProfile) {
+      localStorage.setItem('favorites', JSON.stringify([profile]))
+      dispatch(addRoomFavoriteSucces([profile]))
+    } else {
+      localStorage.setItem('favorites', JSON.stringify([
+        profile,
+        ...oldProfile,
+      ]))
+      dispatch(addRoomFavoriteSucces([
+        profile,
+        ...oldProfile,
+      ]))
+    }
+  }
+
+
+
+  !isFavorite && toast.success(`${name} added to favorite room`)
 }

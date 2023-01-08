@@ -18,7 +18,7 @@ function reducer(state = intialState, action) {
     case STATE.REMOVE_ROOM_TO_FAVORITE:
       return {
         ...state,
-        data: state.data.filter(item => parseInt(item.room_id) !== parseInt(action.payload))
+        data: state.data.filter(item => parseInt(item.room_id ?? item.id) !== parseInt(action.payload))
       };
     case STATE.GET_ROOM_FAVORITE:
         return {

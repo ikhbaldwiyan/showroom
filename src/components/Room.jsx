@@ -16,7 +16,7 @@ export default function Room({ idx, item, children, style, isRemove, isFavoriteR
             {children}
             {isFavoriteRoom && isRemove && (
               <div style={{ zIndex: 99 }}>
-                <RemoveRoomModal roomId={item.room_id} theme={theme}>
+                <RemoveRoomModal roomId={item.id ?? item.room_id} theme={theme}>
                   <div className="tag" style={{ backgroundColor: "#CC2636" }}>
                     X
                   </div>

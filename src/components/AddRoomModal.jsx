@@ -11,12 +11,13 @@ import {
 } from "reactstrap";
 import { removeFavoriteRoom } from "redux/actions/roomFavorite";
 import { API } from "utils/api/api";
-import formatDescription from "utils/formatDescription";
+import RoomFavoriteList from "./RoomFavoriteList";
 
-const RemoveRoomModal = ({ roomId, theme, children }) => {
+const AddRoomModal = ({ theme, children }) => {
   const roomFavorite = useSelector((state) => state.roomFavorite.data);
   const [profile, setProfile] = useState("");
   const [modal, setModal] = useState(false);
+  const [roomId, setRoomId] = useState()
   const toggle = () => setModal(!modal);
 
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const RemoveRoomModal = ({ roomId, theme, children }) => {
   }, [handleRemoveFavRoom])
 
   const header = {
-    backgroundColor: "#dc3545",
+    backgroundColor: "#24a2b7",
     color: "white",
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
@@ -46,28 +47,19 @@ const RemoveRoomModal = ({ roomId, theme, children }) => {
   }, [profile, roomId, dispatch]);
 
   return (
-    <div>
-      <div onClick={toggle}>
+    <>
+      <div style={{ display: "inline" }} onClick={toggle}>
         {children}
       </div>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader style={header} toggle={toggle}>
-          Remove from favorite room ?
+          Add Room Favorite
         </ModalHeader>
         <ModalBody
           className="justify-content-center text-center"
           style={{ backgroundColor: theme === "dark" ? "#282C34" : "" }}
         >
-          <img
-            width="240px"
-            src={profile.image_square}
-            alt={profile.room_name}
-            style={{ boxShadow: '3px 3px 3px 3px', borderRadius: 8, marginBottom: 6 }}
-          />
-          <div
-            className="py-3"
-            dangerouslySetInnerHTML={{ __html: formatDescription(profile) }}
-          />
+          <RoomFavoriteList roomId={roomId} setRoomId={setRoomId} theme={theme} />
         </ModalBody>
         <ModalFooter style={{ backgroundColor: '#21252b' }}>
           <Button color="info" onClick={() => handleRemoveFavRoom(roomId)}>
@@ -78,8 +70,8 @@ const RemoveRoomModal = ({ roomId, theme, children }) => {
           </Button>
         </ModalFooter>
       </Modal>
-    </div>
+    </>
   );
 };
 
-export default RemoveRoomModal;
+export default AddRoomModal;

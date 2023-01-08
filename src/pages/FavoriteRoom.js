@@ -26,11 +26,13 @@ function FavoriteRoom(props) {
           <RoomList room={roomFavorite} theme={props.theme} isFavoriteRoom />
         ) : (
           <div>
-            <h3 className="py-4">
-              Room Favorite
-            </h3>
+            <div className="py-4" style={{display: "flex", justifyContent: "space-between"}}>
+              <h3 >
+                Room Favorite
+              </h3>
+            </div>
             <p style={{ fontSize: 18}}>
-              <MdOutlineSearchOff className="inline" size={35} /> Room Not Found please add it
+              <MdOutlineSearchOff className="inline" size={35} /> Room Not Found please add it in profile
             </p>
           </div>
         )}

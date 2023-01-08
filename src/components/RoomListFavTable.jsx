@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "reactstrap";
-import { RiLiveFill } from "react-icons/ri";
+import { BsFillPersonPlusFill } from "react-icons/bs";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import RemoveRoomModal from "./RemoveRoomModal";
+import { addFavoriteRoom } from "utils/addFavoriteRoom";
+import { useDispatch, useSelector } from "react-redux";
 
-function RoomListTable({
+function RoomListFavTable({
   data,
   children,
-  setRoomId,
   idx,
   roomId,
   isFavoriteRoom,
@@ -18,10 +18,19 @@ function RoomListTable({
   const isMultiRoom = window.location.pathname === "/multi-room";
   const buttonStyle = {
     backgroundColor:
-      roomId == data.id || roomId === data.room_id ? "#DC3545" : "#008b9b",
+      roomId == data.id || roomId === data.room_id ? "#008b9b" : "#008b9b",
     color: "white",
     border: "none",
   };
+
+  const dispatch = useDispatch()
+
+  const roomFavorite = useSelector((state) => state.roomFavorite.data);
+
+  useEffect(() => {
+    roomFavorite &&
+      localStorage.setItem("favorites", JSON.stringify(roomFavorite));
+  }, [roomFavorite, dispatch, addFavoriteRoom]);
 
   return (
     <tbody key={idx}>
@@ -80,28 +89,20 @@ function RoomListTable({
             <Button
               className="mt-4"
               color="info"
-              onClick={() => setRoomId([data.id ? data.id : data.room_id])}
+              onClick={() => console.log(data)}
               style={buttonStyle}
             >
-              <RiLiveFill className="mb-1" />
+              <BsFillPersonPlusFill className="mb-1" />
             </Button>
           ) : (
-            <Link
-              to={(location) => ({
-                ...location,
-                pathname: `/room/${data.url_key ?? data.room_url_key}/${data.id ? data.id : data.room_id
-                  }`,
-              })}
+            <Button
+              className="mt-4"
+              color="info"
+              onClick={() => addFavoriteRoom(dispatch, data)}
+              style={buttonStyle}
             >
-              <Button
-                className="mt-4"
-                color="info"
-                onClick={() => setRoomId([data.id ? data.id : data.room_id])}
-                style={buttonStyle}
-              >
-                <RiLiveFill className="mb-1" />
-              </Button>
-            </Link>
+              <BsFillPersonPlusFill className="mb-1" />
+            </Button>
           )}
         </td>
       </tr>
@@ -109,4 +110,4 @@ function RoomListTable({
   );
 }
 
-export default RoomListTable;
+export default RoomListFavTable;
