@@ -1,44 +1,51 @@
-const API = 'https://jkt48-showroom-api.vercel.app/api';
-const baseUrl = 'https://mycorsproxy-tuto.herokuapp.com';
-const live = `${baseUrl}/https://www.showroom-live.com/api/live`;
-const room = `${baseUrl}/https://www.showroom-live.com/api/room`;
+const API = "https://jkt48showroom-api.vercel.app/api";
+const LIVE = `${API}/lives`;
+const ROOM = `${API}/rooms`;
 
 // Live API
-const streamUrl = (roomId) => {
-    return `${live}/streaming_url?room_id=${roomId}`;
-}
-
-const titleLive = (roomId) => {
-    return `${live}/telop?room_id=${roomId}`;
-}
-
-const comments = (roomId) => {
-    return `${live}/comment_log?room_id=${roomId}`;
-}
+const liveDetail = (roomId) => {
+  return `${LIVE}/${roomId}`;
+};
 
 const liveRanking = (roomId) => {
-    return `${live}/stage_user_list?room_id=${roomId}`
-}
+  return `${LIVE}/rank/${roomId}`;
+};
 
-const giftLog = (roomId) => {
-    return `${live}/gift_log?room_id=${roomId}`;
-}
-
-const totalRank = (roomId) => {
-    return `${live}/summary_ranking?room_id=${roomId}`;
-}
+const liveGift = (roomId) => {
+  return `${LIVE}/gift/${roomId}`;
+};
 
 // Room API
-const profileApi = (roomId) => {
-    return `${room}/profile?room_id=${roomId}`;
-}
+const roomListApi = ROOM;
+const roomAcademyApi = `${ROOM}/academy`;
+const roomLivesApi = `${ROOM}/onlives`;
 
-const nextLive = (roomId) => {
-    return `${room}/next_live?room_id=${roomId}`;
-}
+const profileApi = (roomId) => {
+  return `${ROOM}/profile/${roomId}`;
+};
 
 const fanLetter = (roomId) => {
-    return `${room}/recommend_comments?room_id=${roomId}`;
-}
+  return `${ROOM}/fan-letters/${roomId}`;
+};
 
-export { API, streamUrl, profileApi, comments, titleLive, nextLive, giftLog, fanLetter, totalRank, liveRanking }
+const totalRank = (roomId) => {
+  return `${LIVE}/total-rank/${roomId}`;
+};
+
+const nextLive = (roomId) => {
+  return `${ROOM}/next_live/${roomId}`;
+};
+
+export {
+  API,
+  roomListApi,
+  roomLivesApi,
+  roomAcademyApi,
+  profileApi,
+  fanLetter,
+  totalRank,
+  liveDetail,
+  liveRanking, 
+  liveGift,
+  nextLive
+};

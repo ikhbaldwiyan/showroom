@@ -8,7 +8,7 @@ export default function StageUser({roomId}) {
 
   useEffect(() => {
     axios.get(liveRanking(roomId)).then(res => {
-      const userRank = res.data.stage_user_list
+      const userRank = res.data
       setRank(userRank)
     });
   }, []);

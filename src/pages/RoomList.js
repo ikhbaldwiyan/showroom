@@ -1,17 +1,17 @@
-import axios from 'axios';
-import Button from 'elements/Button';
-import React, { useState, useEffect } from 'react';
-import { Container, Table } from 'reactstrap';
-import { API } from 'utils/api/api';
-import formatNumber from 'utils/formatNumber';
-import getSchedule from 'utils/getSchedule';
-import MainLayout from './layout/MainLayout';
+import axios from "axios";
+import Button from "elements/Button";
+import React, { useState, useEffect } from "react";
+import { Container, Table } from "reactstrap";
+import { roomListApi } from "utils/api/api";
+import formatNumber from "utils/formatNumber";
+import getSchedule from "utils/getSchedule";
+import MainLayout from "./layout/MainLayout";
 
 function RoomList(props) {
   const [room, setRoom] = useState([]);
 
   useEffect(() => {
-    axios.get(`${API}/rooms`).then((res) => {
+    axios.get(roomListApi).then((res) => {
       const listRoom = res.data;
       setRoom(listRoom);
     });
@@ -26,8 +26,8 @@ function RoomList(props) {
           </div>
         </div>
         <Table bordered>
-          <thead style={{ backgroundColor: '#24a2b7', color: 'white' }}>
-            <tr style={{textAlign: 'center'}}>
+          <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
+            <tr style={{ textAlign: "center" }}>
               <th>Room Id</th>
               <th>Room Name</th>
               <th>Followers</th>
@@ -37,17 +37,32 @@ function RoomList(props) {
           </thead>
           {room.map(
             (member, idx) =>
-              member.name.includes('JKT48') && member.next_live_schedule !== 0 && (
-                <tbody key={idx} style={{textAlign: 'center', color: props.theme === 'dark' && 'white'}}>
+              member.name.includes("JKT48") &&
+              member.next_live_schedule !== 0 && (
+                <tbody
+                  key={idx}
+                  style={{
+                    textAlign: "center",
+                    color: props.theme === "dark" && "white"
+                  }}
+                >
                   <tr>
                     <th>{member.id}</th>
                     <th scope="row">{member.name}</th>
                     <td>{formatNumber(member.follower_num)}</td>
                     <td>
-                      {member.next_live_schedule ? getSchedule(member.next_live_schedule) : '-'}
+                      {member.next_live_schedule
+                        ? getSchedule(member.next_live_schedule)
+                        : "-"}
                     </td>
                     <td>
-                      <Button style={{textDecoration: 'none'}} type="link" href={`/room/${member.url_key}/${member.id}`}>Detail</Button>
+                      <Button
+                        style={{ textDecoration: "none" }}
+                        type="link"
+                        href={`/room/${member.url_key}/${member.id}`}
+                      >
+                        Detail
+                      </Button>
                     </td>
                   </tr>
                 </tbody>
@@ -55,17 +70,32 @@ function RoomList(props) {
           )}
           {room.map(
             (member, idx) =>
-              member.name.includes('JKT48') && !member.next_live_schedule && (
-                <tbody key={idx} style={{textAlign: 'center', color: props.theme === 'dark' && 'white'}}>
+              member.name.includes("JKT48") &&
+              !member.next_live_schedule && (
+                <tbody
+                  key={idx}
+                  style={{
+                    textAlign: "center",
+                    color: props.theme === "dark" && "white"
+                  }}
+                >
                   <tr>
                     <th>{member.id}</th>
                     <th scope="row">{member.name}</th>
                     <td>{formatNumber(member.follower_num)}</td>
                     <td>
-                      {member.next_live_schedule ? getSchedule(member.next_live_schedule) : '-'}
+                      {member.next_live_schedule
+                        ? getSchedule(member.next_live_schedule)
+                        : "-"}
                     </td>
                     <td>
-                      <Button style={{textDecoration: 'none'}} type="link" href={`/room/${member.url_key}/${member.id}`}>Detail</Button>
+                      <Button
+                        style={{ textDecoration: "none" }}
+                        type="link"
+                        href={`/room/${member.url_key}/${member.id}`}
+                      >
+                        Detail
+                      </Button>
                     </td>
                   </tr>
                 </tbody>
