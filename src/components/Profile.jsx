@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { API } from "utils/api/api";
+import { API, profileApi } from "utils/api/api";
 import { Row, Col, Card, CardImg, CardHeader, CardText, Button } from "reactstrap";
 
 import formatNumber from "utils/formatNumber";
@@ -21,12 +21,12 @@ export default function Profile({ roomId, menu, theme }) {
   useEffect(() => { 
     dispatch(getRoomDetailLoad());
     
-    axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
+    axios.get(profileApi(roomId)).then((res) => {
       const profile = res.data;
       dispatch(getRoomDetailSucces(profile))
     });
 
-    axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
+    axios.get(profileApi(roomId)).then((res) => {
       const profiles = res.data;
       setProfile(profiles);
     });

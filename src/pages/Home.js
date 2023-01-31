@@ -1,19 +1,19 @@
-import axios from 'axios';
-import { API } from 'utils/api/api';
-import React, { useState, useEffect } from 'react';
-import Fade from 'react-reveal/Fade';
+import axios from "axios";
+import { roomListApi, roomAcademyApi } from "utils/api/api";
+import React, { useState, useEffect } from "react";
+import Fade from "react-reveal/Fade";
 
-import MainLayout from 'pages/layout/MainLayout';
-import RoomLive from 'parts/RoomLive';
-import RoomList from 'parts/RoomList';
-import RoomUpcoming from 'parts/RoomUpcoming';
-import RoomAcademy from 'parts/RoomAcademy';
-import SearchAndFilter from 'parts/SearchAndFilter';
-import { useDispatch, useSelector } from 'react-redux';
-import { getRoomListRegular, getRoomListAcademy } from 'redux/actions/rooms';
+import MainLayout from "pages/layout/MainLayout";
+import RoomLive from "parts/RoomLive";
+import RoomList from "parts/RoomList";
+import RoomUpcoming from "parts/RoomUpcoming";
+import RoomAcademy from "parts/RoomAcademy";
+import SearchAndFilter from "parts/SearchAndFilter";
+import { useDispatch, useSelector } from "react-redux";
+import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
 
 function Home(props) {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [allMember, setAllMember] = useState(true);
   const [isAcademy, setIsAcademy] = useState(false);
   const [isRegular, setIsRegular] = useState(false);
@@ -25,17 +25,17 @@ function Home(props) {
 
   useEffect(() => {
     async function getRoomList() {
-      const room = await axios.get(`${API}/rooms`);
-      dispatch(getRoomListRegular(room.data))
+      const room = await axios.get(roomListApi);
+      dispatch(getRoomListRegular(room.data));
     }
     getRoomList();
-    window.document.title = "JKT48 SHOWROOM"
+    window.document.title = "JKT48 SHOWROOM";
   }, []);
 
   useEffect(() => {
     async function getRoomAcademy() {
-      const room = await axios.get(`${API}/rooms/academy`);
-      dispatch(getRoomListAcademy(room.data))
+      const room = await axios.get(roomAcademyApi);
+      dispatch(getRoomListAcademy(room.data));
     }
     getRoomAcademy();
   }, []);
@@ -100,7 +100,7 @@ function Home(props) {
           ) : isLive ? (
             <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
           ) : (
-            ''
+            ""
           )}
         </Fade>
       </section>

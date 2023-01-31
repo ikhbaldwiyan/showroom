@@ -1,18 +1,18 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
 import { Table } from "reactstrap";
-import { giftLog } from "utils/api/api";
+import { liveGift } from "utils/api/api";
 
 export default function Gift({roomId}) {
   const [gift, setGift] = useState([])
 
   useEffect(() => {
-    axios.get(giftLog(roomId)).then(res => {
-      const giftLog = res.data.gift_log.reverse();
+    axios.get(liveGift(roomId)).then(res => {
+      const giftLog = res.data.reverse();
       setGift(giftLog);
     })
     
-  }, [gift.length])
+  }, [gift.length, roomId])
 
   return (
     gift.length !== 0 ? (
