@@ -12,27 +12,22 @@ export default function UserProfile({ profile, user }) {
     }
     return (
         <>
-            <a
-                type="button"
-                onClick={toggle}
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-            >
+            <a type="button" onClick={toggle}>
                 <li className="row ml-2 button-dropdown">
                     <img
                         src={profile.image}
                         alt="profile"
-                        style={{ width: "2.5rem", height: "2.5rem" }}
+                        style={{ width: "2.2rem", height: "2.2rem" }}
                         className="rounded-circle"
                     />{" "}
                     <div className="col ml-2 profile-link">
                         <span
                             className="row d-inline-block text-truncate"
-                            style={{ maxWidth: "5rem" }}
+                            style={{ maxWidth: "5rem", fontSize:'.8rem'  }}
                         >
                             {profile.name}
                         </span>
-                        <span className="row" style={{ lineHeight: "0px" }}>
+                        <span className="row" style={{ lineHeight: "0px" , fontSize:'.8rem'}}>
                             {user.user_id}
                         </span>
                     </div>

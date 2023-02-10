@@ -15,7 +15,13 @@ function Login(props) {
     const [csrf, setCsrf] = useState("");
 
     const [buttonLoading, setButtonLoading] = useState(false);
-
+    
+    useEffect(() => {
+        const userSession = localStorage.getItem("session");
+        if (userSession) {
+            window.location = '/';
+        }
+    }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();

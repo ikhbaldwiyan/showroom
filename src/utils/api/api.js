@@ -1,5 +1,4 @@
-// const API = "https://jkt48showroom-api.vercel.app/api";
-const API = "http://localhost:8080/api";
+const API = "https://jkt48showroom-api.vercel.app/api";
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
 

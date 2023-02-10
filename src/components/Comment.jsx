@@ -7,6 +7,9 @@ import Skeleton from 'react-content-loader'
 export default function Comment({ roomId }) {
   const [comment, setComment] = useState('');
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [session, setSession] = useState("");
+  const [textComment, setTextComment] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function getComments() {
@@ -20,25 +23,33 @@ export default function Comment({ roomId }) {
     getComments()
   }, [comment]);
 
-  // const sendComment = async (e) => {
-  //   e.preventDefault();
-  //   setButtonLoading(true);
-  //   try {
-  //     const response = await axios.post(SEND_COMMENT, {
-  //       live_id: names.live_id,
-  //       room_url_key: names.room_url_key,
-  //       comment: comment,
-  //       csrf: session.csrf_token,
-  //       cookies_id: session.cookie_login_id,
-  //     });
-  //     setButtonLoading(false);
-  //     console.log(response.data);
+  useEffect(() => {
+    const userSession = localStorage.getItem("session");
+    if (userSession) {
+      const foundSession = JSON.parse(userSession);
+      setSession(foundSession);
+    }
+  }, []);
 
-  //     setComment('')
-  //   } catch (err) {
-  //     setButtonLoading(false);
-  //   }
-  // };
+
+  const sendComment = async (e) => {
+    e.preventDefault();
+    setButtonLoading(true);
+    try {
+      const response = await axios.post(SEND_COMMENT, {
+        room_id: roomId,
+        comment: textComment,
+        csrf: session.csrf_token,
+        cookies_id: session.cookie_login_id,
+      });
+      console.log(response.data);
+      setTextComment('')
+      setButtonLoading(false);
+    } catch (err) {
+      setButtonLoading(false);
+      setError('Please try again');
+    }
+  };
 
   const LoadingMessage = () => (
     <>
@@ -65,51 +76,44 @@ export default function Comment({ roomId }) {
     })
   );
 
-  // const WriteComment = () => {
-  //   return (
-  //     <div>
-  //       <form
-  //         onSubmit={sendComment}
-  //       // style={{ width: 300, display: "flex" }}
-  //       >
-  //         <input
-  //           type="text"
-  //           className="form-control"
-  //           id="exampleInputEmail1"
-  //           placeholder="Comment"
-  //           value={comment}
-  //           onChange={(e) => setComment(e.target.value)}
-  //         />
-  //         <button
-  //           type="submit"
-  //           className="btn btn-secondary rounded-0"
-  //           disabled={buttonLoading ? true : false}
-  //         >
-  //           {buttonLoading ? "....." : "Send"}
-  //         </button>
-  //       </form>
-  //     </div>
-  //   )
-  // }
 
   return (
-    <Card body inverse color="dark" className="scroll">
-      {comment && comment.length !== 0 ? comment.map((item, idx) => (
-        item.comment.length != '2' && item.comment.length != '1' &&
-        <div key={idx}>
-          <h5 style={styles.name}>
-            <img src={item.avatar_url} width="25" alt={item.name} className="mr-2 mb-1" />
-            {item.name}
-          </h5>
-          <p style={styles.comment}>{item.comment}</p>
-          <hr />
-        </div>
-      )) : (
+    <Card body inverse color="dark" className='p-0 mb-5'>
+      <Card body inverse color="dark" className="scroll">
         <div>
-          <LoadingMessage />
-          <CommentList />
+          {comment && comment.length !== 0 ? comment.map((item, idx) => (
+            item.comment.length != '2' && item.comment.length != '1' &&
+            <div key={idx}>
+              <h5 style={styles.name}>
+                <img src={item.avatar_url} width="25" alt={item.name} className="mr-2 mb-1" />
+                {item.name}
+              </h5>
+              <p style={styles.comment}>{item.comment}</p>
+              <hr />
+            </div>
+          )) : (
+            <div>
+              <LoadingMessage />
+              <CommentList />
+            </div>
+          )}
         </div>
-      )}
+      </Card>
+
+      {session ?
+        <div>
+          {error ? <p className='pl-2 pb-0 text-danger'>{error}</p> : ''}
+
+          <form onSubmit={sendComment} style={{ display: "flex" }}>
+            <input type="text" className="form-control" style={{ borderRadius: '0 0 0 .25rem', height: "3rem" }} placeholder="Comment" value={textComment} onChange={(e) => setTextComment(e.target.value)}
+            />
+            <button type="submit" className="btn text-light" style={{ borderRadius: '0 0 .25rem 0', height: "3rem", backgroundColor:'rgb(0, 139, 155)' }} disabled={buttonLoading ? true : false}>
+              {buttonLoading ? "....." : "Send"}
+            </button>
+          </form>
+        </div>
+        : ''}
+
     </Card>
   )
 }
