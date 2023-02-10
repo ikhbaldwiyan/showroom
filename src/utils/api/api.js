@@ -1,6 +1,12 @@
-const API = "https://jkt48showroom-api.vercel.app/api";
+// const API = "https://jkt48showroom-api.vercel.app/api";
+const API = "http://localhost:8080/api";
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
+
+// Laravel API
+const LARAVEL_API = "http://127.0.0.1:8000/api";
+const SEND_COMMENT = LARAVEL_API + "/live/comment";
+const LOGIN = LARAVEL_API + '/login'
 
 // Live API
 const liveDetail = (roomId) => {
@@ -45,7 +51,10 @@ export {
   fanLetter,
   totalRank,
   liveDetail,
-  liveRanking, 
+  liveRanking,
   liveGift,
-  nextLive
+  nextLive,
+  LARAVEL_API,
+  LOGIN,
+  SEND_COMMENT,
 };

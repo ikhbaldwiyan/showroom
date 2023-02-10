@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import Fade from 'react-reveal/Fade';
 import DarkModeToggle from "react-dark-mode-toggle";
 
@@ -8,10 +8,29 @@ import { isMobile } from 'react-device-detect';
 import { AiFillHome } from 'react-icons/ai';
 import { RiBroadcastFill } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
-import { RiFileList3Fill } from "react-icons/ri";
+import { RiFileList3Fill, RiLoginBoxFill } from "react-icons/ri";
 import { BsInfoCircleFill } from "react-icons/bs";
 
 export default function Header({theme, toggleTheme, isMultiRoom}) {
+  const [user, setUser] = useState("");
+  const [profile, setProfile] = useState("");
+  const [session, setSession] = useState("");
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    const userSession = localStorage.getItem("session");
+    const userProfile = localStorage.getItem("profile");
+
+    if (loggedInUser && userSession) {
+      const foundUser = JSON.parse(loggedInUser);
+      const foundSession = JSON.parse(userSession);
+      const foundProfile = JSON.parse(userProfile);
+      setUser(foundUser);
+      setSession(foundSession);
+      setProfile(foundProfile);
+    }
+  }, []); 
+
   let roomUrl = '/room' + window.location.pathname.replace('room/' , '')
   const getNavLinkClass = (path) => {
     return window.location.pathname === path ? " active" : "";
@@ -57,6 +76,11 @@ export default function Header({theme, toggleTheme, isMultiRoom}) {
                 <li className={`nav-item${getNavLinkClass("/about")}`}>
                   <Button className="nav-link" type="link" href="/about">
                     <BsInfoCircleFill style={iconHome} /> About
+                  </Button>
+                </li>
+                <li className={`nav-item${getNavLinkClass("/login")}`}>
+                  <Button className="nav-link" type="link" href="/login">
+                    <RiLoginBoxFill style={iconHome} /> Login
                   </Button>
                 </li>
               </ul>

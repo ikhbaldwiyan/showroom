@@ -67,4 +67,8 @@ export const GlobalStyles = createGlobalStyle`
       background-color: ${({ theme }) => theme.body};
     }
   }
+
+  .card-login{
+    background-color: ${({ theme }) => theme.header};
+  }
   `
