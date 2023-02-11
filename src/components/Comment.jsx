@@ -2,7 +2,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Card } from "reactstrap";
-import { API, SEND_COMMENT, profileApi } from "utils/api/api";
+import { SEND_COMMENT, LIVE_COMMENT, profileApi } from "utils/api/api";
 import Skeleton from "react-content-loader";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
@@ -18,7 +18,7 @@ export default function Comment({ roomId, isMultiRoom }) {
 
   useEffect(() => {
     async function getComments() {
-      await axios.get(`${API}/lives/comments/${roomId}`).then((res) => {
+      await axios.get(LIVE_COMMENT(roomId)).then((res) => {
         const comments = res.data;
         setTimeout(() => {
           setComment(comments);
@@ -26,7 +26,7 @@ export default function Comment({ roomId, isMultiRoom }) {
       });
     }
     getComments();
-  }, [comment, textComment]);
+  }, [comment, textComment, roomId]);
 
   useEffect(() => {
     const userSession = localStorage.getItem("session");

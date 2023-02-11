@@ -4,8 +4,8 @@ const ROOM = `${API}/rooms`;
 
 // Laravel API
 const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
-const SEND_COMMENT = LARAVEL_API + "/live/comment";
-const LOGIN = LARAVEL_API + '/login'
+const SEND_COMMENT = `${LARAVEL_API}/live/comment`;
+const LOGIN = `${LARAVEL_API}/login`;
 
 // Live API
 const liveDetail = (roomId) => {
@@ -19,6 +19,10 @@ const liveRanking = (roomId) => {
 const liveGift = (roomId) => {
   return `${LIVE}/gift/${roomId}`;
 };
+
+const LIVE_COMMENT = (roomId) => {
+  return `${LIVE}/comments/${roomId}`
+}
 
 // Room API
 const roomListApi = ROOM;
@@ -52,6 +56,7 @@ export {
   liveDetail,
   liveRanking,
   liveGift,
+  LIVE_COMMENT,
   nextLive,
   LARAVEL_API,
   LOGIN,
