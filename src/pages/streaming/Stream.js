@@ -17,7 +17,6 @@ export default function Streaming({url}) {
           url={url}
           width="100%"
           height="100%"
-          muted={true}
           playing={true}
         />
       </div>

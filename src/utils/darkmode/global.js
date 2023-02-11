@@ -91,7 +91,8 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  .card-login{
+  .card-login {
     background-color: ${({ theme }) => theme.header};
+    width: 600px;
   }
   `

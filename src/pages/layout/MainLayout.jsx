@@ -4,6 +4,7 @@ import { Container } from 'reactstrap';
 import Header from 'parts/Header';
 import Footer from 'parts/Footer';
 import { isMobile } from 'react-device-detect';
+import { ToastContainer } from "react-toastify";
 
 function MainLayout(props) {
   return (
@@ -24,6 +25,7 @@ function MainLayout(props) {
             </>
           ): (
             <>
+              <ToastContainer position="top-right" autoClose={3000} />
               <Header {...props} />
               <Container>
                 {props.children}

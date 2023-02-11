@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Card } from 'reactstrap';
 import { API, SEND_COMMENT } from 'utils/api/api';
 import Skeleton from 'react-content-loader'
+import Loading from "./Loading";
 
 export default function Comment({ roomId }) {
   const [comment, setComment] = useState('');
@@ -21,7 +22,7 @@ export default function Comment({ roomId }) {
       });
     }
     getComments()
-  }, [comment]);
+  }, [comment, textComment]);
 
   useEffect(() => {
     const userSession = localStorage.getItem("session");
@@ -54,9 +55,9 @@ export default function Comment({ roomId }) {
   const LoadingMessage = () => (
     <>
       <h5 style={styles.name}>
-        <img src="https://image.showroom-cdn.com/showroom-prod/image/avatar/1028686.png?v=87" width="30" className="mr-2 mb-1" />
+        <img src="https://image.showroom-cdn.com/showroom-prod/image/avatar/1028686.png?v=87" width="30" className="mr-2 mb-1" alt="avatar" />
         Tunggu Wots
-        <img src="https://image.showroom-cdn.com/showroom-prod/image/avatar/1028686.png?v=87" width="30" className="ml-2 mb-1" />
+        <img src="https://image.showroom-cdn.com/showroom-prod/image/avatar/1028686.png?v=87" width="30" className="ml-2 mb-1" alt="avatar" />
       </h5>
       <hr />
     </>
@@ -100,20 +101,35 @@ export default function Comment({ roomId }) {
         </div>
       </Card>
 
-      {session ?
+      {session ? (
+
         <div>
-          {error ? <p className='pl-2 pb-0 text-danger'>{error}</p> : ''}
+          {error ? (
+            <p className='pl-2 pb-0 text-danger'>
+              {error}
+            </p>
+          ) : ''}
 
           <form onSubmit={sendComment} style={{ display: "flex" }}>
-            <input type="text" className="form-control" style={{ borderRadius: '0 0 0 .25rem', height: "3rem" }} placeholder="Comment" value={textComment} onChange={(e) => setTextComment(e.target.value)}
+            <input
+              type="text"
+              className="form-control"
+              style={{ borderRadius: '0 0 0 .25rem', height: "3rem" }}
+              placeholder="Comment"
+              value={textComment}
+              onChange={(e) => setTextComment(e.target.value)}
             />
-            <button type="submit" className="btn text-light" style={{ borderRadius: '0 0 .25rem 0', height: "3rem", backgroundColor:'rgb(0, 139, 155)' }} disabled={buttonLoading ? true : false}>
-              {buttonLoading ? "....." : "Send"}
+            <button
+              type="submit"
+              className="btn text-light"
+              style={{ borderRadius: '0 0 .25rem 0', height: "3rem", backgroundColor: 'rgb(0, 139, 155)', width: "90px" }}
+              disabled={buttonLoading ? true : false}
+            >
+              {buttonLoading ? <Loading color="white" size={8} /> : "Send"}
             </button>
           </form>
         </div>
-        : ''}
-
+      ) : ''}
     </Card>
   )
 }
