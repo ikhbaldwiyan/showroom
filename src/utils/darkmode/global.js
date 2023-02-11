@@ -7,6 +7,25 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  ::-webkit-scrollbar {
+      width: 20px;
+  }
+
+  ::-webkit-scrollbar-track {
+      background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+      background-color: #d6dee1;
+      border-radius: 20px;
+      border: 6px solid transparent;
+      background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+      background-color: #a8bbbf;
+  }
+
   body {
     background: ${({ theme }) => theme.body};
     color: ${({ theme }) => theme.text};
@@ -50,6 +69,10 @@ export const GlobalStyles = createGlobalStyle`
           }
         }
       }
+
+      .profile-link{
+        color: ${({ theme }) => theme.text};
+      }
     }
   }
 
@@ -66,5 +89,9 @@ export const GlobalStyles = createGlobalStyle`
     .list-group-item {
       background-color: ${({ theme }) => theme.body};
     }
+  }
+
+  .card-login{
+    background-color: ${({ theme }) => theme.header};
   }
   `
