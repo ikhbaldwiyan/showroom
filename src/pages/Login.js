@@ -17,6 +17,7 @@ function Login(props) {
   const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
+    window.document.title = "Login JKT48 SHOWROOM";
     const userSession = localStorage.getItem("session");
     if (userSession) {
       window.location = "/";
