@@ -43,7 +43,7 @@ export default function Comment({ roomId }) {
     setButtonLoading(true);
     try {
       const response = await axios.post(SEND_COMMENT, {
-        room_id: roomId,
+        room_id: roomId.toString(),
         comment: textComment,
         csrf: session.csrf_token,
         cookies_id: session.cookie_login_id,
