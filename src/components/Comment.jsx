@@ -2,17 +2,19 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Card } from "reactstrap";
-import { API, SEND_COMMENT } from "utils/api/api";
+import { API, SEND_COMMENT, profileApi } from "utils/api/api";
 import Skeleton from "react-content-loader";
 import Loading from "./Loading";
+import { toast } from "react-toastify";
 
-export default function Comment({ roomId }) {
+export default function Comment({ roomId, isMultiRoom }) {
   const [comment, setComment] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
   const [session, setSession] = useState("");
   const [textComment, setTextComment] = useState("");
   const [error, setError] = useState("");
   const [myName, setMyName] = useState("");
+  const [profile, setProfile] = useState("");
 
   useEffect(() => {
     async function getComments() {
@@ -38,6 +40,13 @@ export default function Comment({ roomId }) {
 
   }, []);
 
+  useEffect(() => {
+    axios.get(profileApi(roomId)).then((res) => {
+      const profile = res.data;
+      setProfile(profile)
+    });
+  }, [roomId])
+  
   const sendComment = async (e) => {
     e.preventDefault();
     setButtonLoading(true);
@@ -51,6 +60,13 @@ export default function Comment({ roomId }) {
       console.log(response.data);
       setTextComment("");
       setButtonLoading(false);
+
+      if (isMultiRoom == true) {
+        toast.success(`Send comment to ${profile?.room_url_key.replace("JKT48_", "")} success`, {
+          theme: "colored"
+        });
+      }
+
     } catch (err) {
       setButtonLoading(false);
       setError("Please try again");
