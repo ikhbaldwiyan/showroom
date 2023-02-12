@@ -3,13 +3,11 @@ const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
 
 // Laravel API
-const LARAVEL_API = "http://127.0.0.1:8000/api";
-// const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
-const SEND_COMMENT = LARAVEL_API + "/live/comment";
-const LOGIN = LARAVEL_API + '/login'
-const GET_OFFICIAL = LARAVEL_API + '/room_official'
-const FARM = LARAVEL_API + '/farming'
-
+const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
+const SEND_COMMENT = `${LARAVEL_API}/live/comment`;
+const LOGIN = `${LARAVEL_API}/login`;
+const GET_OFFICIAL = LARAVEL_API + "/room_official";
+const FARM = LARAVEL_API + "/farming";
 // Live API
 const liveDetail = (roomId) => {
   return `${LIVE}/${roomId}`;
@@ -21,6 +19,10 @@ const liveRanking = (roomId) => {
 
 const liveGift = (roomId) => {
   return `${LIVE}/gift/${roomId}`;
+};
+
+const LIVE_COMMENT = (roomId) => {
+  return `${LIVE}/comments/${roomId}`;
 };
 
 // Room API
@@ -55,10 +57,11 @@ export {
   liveDetail,
   liveRanking,
   liveGift,
+  LIVE_COMMENT,
   nextLive,
   LARAVEL_API,
   LOGIN,
   SEND_COMMENT,
   GET_OFFICIAL,
-  FARM
+  FARM,
 };

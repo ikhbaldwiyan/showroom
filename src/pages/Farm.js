@@ -18,7 +18,8 @@ function Farm(props) {
   const [progress, setProgress] = useState(0);
   const [currentRoomId, setCurrentRoomId] = useState('');
   const [completedRoomIds, setCompletedRoomIds] = useState([]);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState('');
+  const [allData, setAllData] = useState([]);
 
   useEffect(() => {
     const userSession = localStorage.getItem("session");
@@ -50,6 +51,7 @@ function Farm(props) {
     }
   };
 
+
   const test = async () => {
     for (let i = 0; i < officialRoom.length; i++) {
       setLoading(true);
@@ -58,14 +60,17 @@ function Farm(props) {
       setCurrentRoomId(roomId);
       console.log(roomId, 'FIRST');
 
-      await new Promise(resolve => setTimeout(resolve, 50000));
+      await new Promise(resolve => setTimeout(resolve, 5000));
 
       console.log(roomId, 'SECOND');
+      setAllData(prevData => [...prevData, `Berhasil Mengambil ${roomId}`]);
+
       setCompletedRoomIds(prevRoomIds => [...prevRoomIds, roomId]);
+
       setProgress(prevProgress => prevProgress + (100 / officialRoom.length));
       setCurrentRoomId(null);
     }
-    setLoading(false);
+    // setLoading(false);
   };
 
   return (
@@ -95,14 +100,16 @@ function Farm(props) {
           </tbody>
         </Table> */}
 
-        <div className="col-6">
-          {loading ? (
+        <div className="col-12">
+          {loading ? 
+          (
             <div>
               <p className="text-light">Loading...</p>
               {currentRoomId ? (
                 <p>Fetching data for roomId: {currentRoomId}</p>
               ) : null}
               <p>Completed roomIds: {completedRoomIds.join(", ")}</p>
+              <p>Completed Data: {allData.join(", ")}</p>
               <div style={{ width: "100%", height: "20px", background: "#ddd" }}>
                 <div
                   style={{
