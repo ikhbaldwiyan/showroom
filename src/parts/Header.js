@@ -47,7 +47,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
           <nav className="navbar navbar-expand-lg navbar-light">
             <Logo />
             <DarkModeToggle
-              className={!isMobile && "ml-2"}
+              className={!isMobile && "ml-3"}
               onChange={toggleTheme}
               checked={theme === "dark"}
               size={48}
@@ -84,7 +84,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                   </Button>
                 </li>
                 {profile ? (
-                  <UserProfile profile={profile} user={user} />
+                  <UserProfile profile={profile} data={user} />
                 ) : (
                   <li className={`nav-item${getNavLinkClass("/login")}`}>
                     <Button className="nav-link" type="link" href="/login">

@@ -1,6 +1,7 @@
 const API = "https://jkt48showroom-api.vercel.app/api";
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
+const SHOWROOM_API = "https://www.showroom-live.com/api"
 
 // Laravel API
 const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
@@ -45,6 +46,12 @@ const nextLive = (roomId) => {
   return `${ROOM}/next_live/${roomId}`;
 };
 
+// User Profile API
+
+const USER_PROFILE = (roomId) => {
+  return `${SHOWROOM_API}/user/profile?user_id=${roomId}`
+}
+
 export {
   API,
   roomListApi,
@@ -61,4 +68,5 @@ export {
   LARAVEL_API,
   LOGIN,
   SEND_COMMENT,
+  USER_PROFILE
 };
