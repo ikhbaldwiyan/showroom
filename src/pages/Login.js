@@ -53,12 +53,13 @@ function Login(props) {
         localStorage.setItem("profile", JSON.stringify(response.data.profile));
 
         toast.success(`Login Success, Welcome ${response.data.profile.name}`, {
-          theme: "colored"
+          theme: "colored",
+          autoClose: 1800
         });
 
         setTimeout(() => {
           window.location = "/";
-        }, 4000);
+        }, 2500);
       }
 
       if (response.data.user.error) {

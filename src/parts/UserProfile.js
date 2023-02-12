@@ -1,10 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 import { USER_PROFILE } from "utils/api/api";
 
-export default function UserProfile({ profile, data }) {
+export default function UserProfile({ data }) {
   const [modal, setModal] = useState(false);
   const [user, setUser] = useState([]);
   const toggle = () => setModal(!modal);
@@ -16,6 +22,7 @@ export default function UserProfile({ profile, data }) {
     localStorage.setItem("theme", theme);
     toast.success("Logout success", {
       theme: "colored",
+      autoClose: 1200,
     });
     setTimeout(() => {
       window.location.reload(false);
@@ -36,7 +43,10 @@ export default function UserProfile({ profile, data }) {
       <a type="button" onClick={toggle}>
         <li className="row mx-2 button-dropdown mt-1">
           <img
-            src={user.avatar_url ?? "https://static.showroom-live.com/image/avatar/1.png?v=92"}
+            src={
+              user.avatar_url ??
+              "https://static.showroom-live.com/assets/img/no_profile.jpg"
+            }
             alt="profile"
             style={{ width: "2.2rem", height: "2.2rem" }}
             className="rounded-circle"
@@ -63,10 +73,34 @@ export default function UserProfile({ profile, data }) {
           style={{ backgroundColor: "#24a2b7", color: "white" }}
           toggle={toggle}
         >
-          Log Out
+          Apakah anda ingin Logout ?
         </ModalHeader>
-        <ModalBody className="text-dark my-2">
-          Apakah Anda yakin ingin logout ?
+        <ModalBody className="text-dark my-2 justify-content-center">
+          <img
+            src={
+              user.image ??
+              "https://static.showroom-live.com/assets/img/no_profile.jpg"
+            }
+            width="100px"
+            alt="profile"
+            className="rounded-circle"
+          />{" "}
+          <img
+            width="100px"
+            src={
+              user.avatar_url ??
+              "https://static.showroom-live.com/image/avatar/1.png?v=92"
+            }
+            alt="avatar"
+            className="rounded-circle"
+          />{" "}
+          <div className="py-3">
+            {console.log(user)}
+            <p><b>Account ID</b>: {data.account_id}</p>
+            <p><b>Nickname</b>: {user.name}</p>
+            <p><b>About me:</b> {user.description}</p>
+            <p><b>Level:</b> {user.fan_level}</p>
+          </div>
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={toggle}>
