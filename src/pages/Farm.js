@@ -50,46 +50,31 @@ function Farm(props) {
     }
   };
 
+  const test = async () => {
+    for (let i = 0; i < officialRoom.length; i++) {
+      setLoading(true);
+      const roomId = officialRoom[i];
 
-  const fetchData = async (roomId) => {
-    setCurrentRoomId(roomId);
-    try {
-      const response = await axios.post(FARM, {
-        cookies_login_id: cookiesLoginId,
-        room_id: roomId
-      });
+      setCurrentRoomId(roomId);
+      console.log(roomId, 'FIRST');
 
-      const data = response.data;
-      console.log(data);
+      await new Promise(resolve => setTimeout(resolve, 50000));
 
+      console.log(roomId, 'SECOND');
       setCompletedRoomIds(prevRoomIds => [...prevRoomIds, roomId]);
       setProgress(prevProgress => prevProgress + (100 / officialRoom.length));
       setCurrentRoomId(null);
-
-      return data;
-    } catch (err) {
-      console.log(error);
     }
-  }
-
-  async function fetchAllData() {
-    setLoading(true);
-
-    const promises = officialRoom.map(roomId => fetchData(roomId));
-    const results = await Promise.all(promises);
-
-    setData(results);
     setLoading(false);
-  }
-
+  };
 
   return (
-    <MainLayout {...props} style={{ color:'white' }}>
+    <MainLayout {...props} style={{ color: 'white' }}>
       <Container>
         <Button onClick={getOfficials} className="btn mb-5 text-light float-start" style={{ backgroundColor: "#24a2b7" }}>
           FETCH ROOM
         </Button>
-        <Button onClick={fetchAllData} className="btn mb-5 text-light float-right" style={{ backgroundColor: "#24a2b7" }}>
+        <Button onClick={test} className="btn mb-5 text-light float-right" style={{ backgroundColor: "#24a2b7" }}>
           RUN TOOLS
         </Button>
 
