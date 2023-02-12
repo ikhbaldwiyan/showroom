@@ -42,14 +42,18 @@ function Farm(props) {
       const foundSuccess = JSON.parse(successRoom);
       setSuccessRoom(foundSuccess);
     }
+
   }, []);
 
-  const renderSwitch = (message) => {
-    switch (message) {
-      case 'foo':
-        return 'bar';
-      default:
-        return 'foo';
+  const textColor = (message) => {
+    if (message.includes('Sukses')) {
+      return 'text-success'
+    } else if(message.includes('Gagal')){
+      return 'text-danger'
+    } else if(message.includes('Sedang')){
+      return 'text-warning'
+    }else{
+      return 'text-light'
     }
   }
 
@@ -73,9 +77,9 @@ function Farm(props) {
 
   const test = async () => {
     // setSuccessRoom(successRoom.push('HAHAH'));
-    // setSuccessRoom(prevData => [...prevData, '2103']);
-    // localStorage.setItem("succes_room", JSON.stringify(successRoom.push('HAHAH')));
-    // console.log('Tambah');
+
+    var storedArray = localStorage.getItem('success_room');
+    storedArray = JSON.parse(storedArray) || [];
 
     for (let i = 0; i < officialRoom.length; i++) {
       setLoading(true);
@@ -104,10 +108,10 @@ function Farm(props) {
         console.log(data2, 'SECOND');
 
         if (data2.message.includes('Sukses')) {
-          // localStorage.setItem('success_room', JSON.stringify()) 
-          // setCountSuccess(countSuccess + 1)
-          // localStorage.setItem("count_success", JSON.stringify(countSuccess + 1));
-          // console.log('Tambah');
+          storedArray.push(roomId);
+          storedArray = JSON.stringify(storedArray);
+          localStorage.setItem('success_room', storedArray);
+          setSuccessRoom(storedArray);
         }
 
         if (data2.message.includes('Gagal')) {
@@ -119,8 +123,10 @@ function Farm(props) {
       }
 
       if (data.message.includes('Sukses')) {
-        setCountSuccess(countSuccess + 1)
-        localStorage.setItem("count_success", JSON.stringify(countSuccess + 1));
+        storedArray.push(roomId);
+        storedArray = JSON.stringify(storedArray);
+        localStorage.setItem('success_room', storedArray);
+        setSuccessRoom(storedArray);
       }
 
       if (data.message.includes('Gagal')) {
@@ -163,7 +169,10 @@ function Farm(props) {
           </Table>
 
           <div className="col-8">
-            Sukses Room : {successRoom}
+            Sukses Room :
+            <p>
+              {successRoom}
+            </p>
             {loading ?
               (
                 <div>
@@ -192,7 +201,7 @@ function Farm(props) {
                     {allMessage.map(
                       (message, idx) => (
                         <li key={idx}>
-                          <p className={message.includes('Sukses') ? 'text-success' : 'text-light'}>
+                          <p className={textColor(message)}>
                             {message}
                           </p>
                         </li>
