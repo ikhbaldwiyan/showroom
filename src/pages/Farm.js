@@ -311,13 +311,6 @@ function Farm(props) {
                     />
                   </div> */}
 
-            {/* <div className="my-3">
-                <p className="p-0 m-0">Telah farm di Room :</p>
-                <span>
-                  {completedRoomIds.join(", ")}
-                </span>
-              </div> */}
-
             <div className="">
               <p >Status Log :</p>
               <ul className="pl-3">
