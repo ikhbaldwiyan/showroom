@@ -60,9 +60,6 @@ function Farm(props) {
         targetTime.setDate(targetTime.getDate() + 1);
       }
 
-      // console.log(currentTime, currentTime.getTime());
-      // console.log(targetTime, targetTime.getTime());
-
       let timeUntilTarget = targetTime.getTime() - currentTime.getTime();
       console.log(timeUntilTarget);
 
@@ -124,8 +121,8 @@ function Farm(props) {
     localStorage.setItem("official_room", JSON.stringify(updatedArray));
   };
 
+  
   const intervalId = useRef(null);
-
   const decrementTime = () => {
     clearInterval(intervalId.current);
     setTime(50);
@@ -180,16 +177,18 @@ function Farm(props) {
 
         if (data2.message.includes('Gagal')) {
           deleteArray()
+          console.log(data2.until);
           setAllMessage(prevData => [...prevData, data2.message]);
           toast.error(
-            data2.message.split(": ")[1] ??
-            "An error occured. Please go back and try again.",
+            data2.until ??
+            "Please try again after the displayed time",
             {
               theme: "colored"
             }
           );
           localStorage.setItem('limit_until', JSON.stringify(data2.until));
           setLimitUntil(data2.until)
+          setLoading(false);
           return;
         }
 
@@ -215,73 +214,46 @@ function Farm(props) {
       if (data.message.includes('Gagal')) {
         deleteArray()
         toast.error(
-          data.message.split(": ")[1] ??
-          "An error occured. Please go back and try again.",
+          data.until ??
+          "Please try again after the displayed time",
           {
             theme: "colored"
           }
         );
         localStorage.setItem('limit_until', JSON.stringify(data.until));
         setLimitUntil(data.until)
+        setLoading(false);
         return;
       }
 
       if (data.message.includes('Offline')) {
         deleteArray()
       }
+
       setCompletedRoomIds(prevRoomIds => [...prevRoomIds, roomId]);
 
       setProgress(prevProgress => prevProgress + (100 / officialRoom.length));
       setCurrentRoomId(null);
+      setLoading(false);
     }
+    setLoading(false);
   };
-
-  const setWithExpiry = (key, value, ttl) => {
-    const now = new Date()
-
-    // `item` is an object which contains the original value
-    // as well as the time when it's supposed to expire
-    const item = {
-      value: value,
-      expiry: now.getTime() + ttl,
-    }
-    localStorage.setItem(key, JSON.stringify(item))
-  }
-
-  const getWithExpiry = (key) => {
-    const itemStr = localStorage.getItem(key)
-    // if the item doesn't exist, return null
-    if (!itemStr) {
-      return null
-    }
-
-    const item = JSON.parse(itemStr)
-    const now = new Date()
-    // compare the expiry time of the item with the current time
-    if (now.getTime() > item.expiry) {
-      // If the item is expired, delete the item from storage
-      // and return null
-      localStorage.removeItem(key)
-      return null
-    }
-    return item.value
-  }
 
   return (
     <MainLayout {...props} style={{ color: 'white' }}>
 
       <div className="row mb-5 justify-content-between">
-        <Button onClick={getOfficials} className="btn text-light" disabled={btnLoadingRoom ? true : false} style={{ backgroundColor: "#24a2b7" }}>
+        <button onClick={getOfficials} className="btn text-light" disabled={btnLoadingRoom ? true : false} style={{ backgroundColor: "#24a2b7" }}>
           {btnLoadingRoom ? <Loading color="white" size={8} /> : "Fetch Room"}
-        </Button>
-        <Button onClick={startFarming} className="btn text-light" style={{ backgroundColor: "#24a2b7" }}>
-          RUN TOOLS
-        </Button>
+        </button>
+        <button onClick={startFarming} className="btn text-light" disabled={loading ? true : false} style={{ backgroundColor: "#24a2b7" }}>
+          {loading ? <Loading color="white" size={8} /> : "RUN FARM"}
+        </button>
       </div>
 
       {
         limitUntil ? (
-          <div className="row mb-5 justify-content-center text-warning">
+          <div className="row mb-5 justify-content-center text-danger">
             <h3>
               {limitUntil}
             </h3>
@@ -309,9 +281,10 @@ function Farm(props) {
         </Table>
 
         <div className="col-9">
-          Sukses farming di Room :
-          <p>
-            {/* {successRoom.join(", ")} */}
+          <p className="text-success">
+            Sukses farming di Room :
+          </p>
+          <p className="text-success">
             {JSON.stringify(successRoom).replaceAll(',', ',  ').replaceAll('"', '')}
           </p>
 
@@ -321,9 +294,11 @@ function Farm(props) {
           </p>
 
 
-          {currentRoomId ? (
-            time == 0 ? '' : <p>Sedang farming di Room {currentRoomId} silahkan menunggu {time} detik</p>
-          ) : null}
+          <div className="mt-5">
+            {currentRoomId ? (
+              time == 0 ? '' : <p className="text-light" style={{ fontWeight: 'bold' }}>Sedang farming di Room {currentRoomId} silahkan menunggu {time} detik</p>
+            ) : null}
+          </div>
 
           <div>
             {/* <div style={{ width: "100%", height: "20px", background: "#ddd" }}>
@@ -344,11 +319,11 @@ function Farm(props) {
               </div> */}
 
             <div className="">
-              <p>Status:</p>
-              <ul>
+              <p >Status Log :</p>
+              <ul className="pl-3">
                 {allMessage.map(
                   (message, idx) => (
-                    <li key={idx}>
+                    <li key={idx} >
                       <p className={textColor(message)}>
                         {message}
                       </p>
