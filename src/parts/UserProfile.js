@@ -1,16 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { USER_PROFILE } from "utils/api/api";
 
-export default function UserProfile({ data }) {
+export default function UserProfile({ data, profile }) {
   const [modal, setModal] = useState(false);
   const [user, setUser] = useState([]);
   const toggle = () => setModal(!modal);
@@ -40,11 +34,11 @@ export default function UserProfile({ data }) {
 
   return (
     <>
-      <a type="button" onClick={toggle}>
+      <div type="button" onClick={toggle}>
         <li className="row mx-2 button-dropdown mt-1">
           <img
             src={
-              user.avatar_url ??
+              profile.avatar_url ??
               "https://static.showroom-live.com/assets/img/no_profile.jpg"
             }
             alt="profile"
@@ -56,17 +50,17 @@ export default function UserProfile({ data }) {
               className="row d-inline-block text-truncate"
               style={{ maxWidth: "5rem", fontSize: ".9rem" }}
             >
-              <b>{user?.name ?? "User"}</b>
+              <b>{profile?.name ?? "User"}</b>
             </span>
             <span
               className="row"
               style={{ lineHeight: "0px", fontSize: ".8rem" }}
             >
-              Level {user?.fan_level ?? "0"}
+              Level {profile?.fan_level ?? "0"}
             </span>
           </div>
         </li>
-      </a>
+      </div>
 
       <Modal isOpen={modal}>
         <ModalHeader
@@ -75,31 +69,83 @@ export default function UserProfile({ data }) {
         >
           Apakah anda ingin Logout ?
         </ModalHeader>
-        <ModalBody className="text-dark my-2 justify-content-center">
-          <img
-            src={
-              user.image ??
-              "https://static.showroom-live.com/assets/img/no_profile.jpg"
-            }
-            width="100px"
-            alt="profile"
-            className="rounded-circle"
-          />{" "}
-          <img
-            width="100px"
-            src={
-              user.avatar_url ??
-              "https://static.showroom-live.com/image/avatar/1.png?v=92"
-            }
-            alt="avatar"
-            className="rounded-circle"
-          />{" "}
-          <div className="py-3">
-            {console.log(user)}
-            <p><b>Account ID</b>: {data.account_id}</p>
-            <p><b>Nickname</b>: {user.name}</p>
-            <p><b>About me:</b> {user.description}</p>
-            <p><b>Level:</b> {user.fan_level}</p>
+        <ModalBody classNameName="text-dark my-2 justify-content-center">
+          <div className="container py-2">
+            <div className="row d-flex justify-content-center align-items-center">
+              <div className="col mb-4 mb-lg-0" style={{ color: "#282c34" }}>
+                <div className="card mb-3" style={{ borderRadius: ".5rem" }}>
+                  <div className="row">
+                    <div
+                      className="col-md-4 gradient-custom text-center text-white"
+                      style={{
+                        borderTopLeftRadius: ".5rem",
+                        borderBottomLeftRadius: ".5rem",
+                        color: "#282c34",
+                        backgroundColor: "#24a2b7",
+                      }}
+                    >
+                      <h5 className="mt-3">Profile</h5>
+                      <p>ID : {data.account_id}</p>
+                      <img
+                        src={
+                          user.image ??
+                          "https://static.showroom-live.com/assets/img/no_profile.jpg"
+                        }
+                        alt="Profile"
+                        className="img-fluid mb-3 rounded-circle"
+                        style={{ width: "80px" }}
+                      />
+                      <h5 className="py-3">Avatar</h5>
+                      <img
+                        src={
+                          user.avatar_url ??
+                          "https://static.showroom-live.com/image/avatar/1.png?v=92"
+                        }
+                        alt="Avatar"
+                        className="img-fluid mb-3 rounded-circle"
+                        style={{ width: "80px" }}
+                      />
+                      <i className="far fa-edit mb-5"></i>
+                    </div>
+                    <div className="col-md-8">
+                      <div className="card-body p-4">
+                        <h6>Information</h6>
+                        <hr className="mt-0 mb-4" />
+                        <div className="row pt-1">
+                          <div className="col-6 mb-3">
+                            <h6>Name</h6>
+                            <p className="text-muted">{user.name}</p>
+                          </div>
+                          <div className="col-6 mb-3">
+                            <h6>Level</h6>
+                            <p className="text-muted">{user.fan_level}</p>
+                          </div>
+                        </div>
+                        <h6>About Me</h6>
+                        <hr className="mt-0 mb-4" />
+                        <div className="row pt-1">
+                          <div className="col-12 mb-3">
+                            <p className="text-muted">{user.description}</p>
+                          </div>
+                          
+                        </div>
+                        <div className="d-flex justify-content-start">
+                          <a href="#!">
+                            <i className="fab fa-facebook-f fa-lg me-3"></i>
+                          </a>
+                          <a href="#!">
+                            <i className="fab fa-twitter fa-lg me-3"></i>
+                          </a>
+                          <a href="#!">
+                            <i className="fab fa-instagram fa-lg"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </ModalBody>
         <ModalFooter>

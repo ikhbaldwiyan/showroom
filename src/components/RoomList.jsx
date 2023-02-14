@@ -125,7 +125,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
           setIsRegular={setIsRegular}
         />
 
-        <div className="scroll">
+        <div className="scroll-room">
           {isMultiRoom && (
             <FormGroup>
               <Input

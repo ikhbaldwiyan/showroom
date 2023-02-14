@@ -212,7 +212,13 @@ section {
 }
 
 .scroll {
-  max-height: 500px;
+  max-height: 450px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.scroll-room {
+  max-height: 600px;
   overflow-y: auto;
   margin-bottom: 15px;
 }
