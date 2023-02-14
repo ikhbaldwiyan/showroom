@@ -25,7 +25,17 @@ function Farm(props) {
   const [countSuccess, setCountSuccess] = useState(0);
   const intervalId = useRef(null);
 
+  const [starA, setStarA] = useState(0);
+  const [starB, setStarB] = useState(0);
+  const [starC, setStarC] = useState(0);
+  const [starD, setStarD] = useState(0);
+  const [starE, setStarE] = useState(0);
+
+  const [isReady, setIsReady] = useState(false);
+  const [starLoading, setStarLoading] = useState(false);
+
   useEffect(() => {
+    setStarLoading(true)
     const userSession = localStorage.getItem("session");
     const officialRoom = localStorage.getItem("official_room");
     const successRoom = localStorage.getItem("success_room");
@@ -36,6 +46,10 @@ function Farm(props) {
       const foundSession = JSON.parse(userSession);
       setSession(foundSession);
       setCookiesLoginId(foundSession.cookie_login_id);
+    }
+
+    if (!userSession) {
+      window.location = "/";
     }
 
     if (officialRoom) {
@@ -70,7 +84,40 @@ function Farm(props) {
       const foundLimit = JSON.parse(limited);
       setLimitUntil(foundLimit);
     }
+
+    setIsReady(true);
   }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      getFirstStar()
+    }
+
+  }, [isReady])
+
+  const getFirstStar = async (data) => {
+    let rooms = [];
+    if (data) {
+      rooms = data
+    }
+    else{
+      rooms = officialRoom
+    }
+    for (let i = 0; i < rooms.length; i++) {
+      const roomId = rooms[i];
+      const response = await axios.post(FARM, {
+        cookies_login_id: cookiesLoginId,
+        room_id: roomId,
+      });
+
+      const data = response.data;
+      if (!data.message.includes("Offline")) {
+        setAllStar(data)
+        return;
+      }
+    }
+    setStarLoading(false)
+  };
 
   const setExpire = (until) => {
     let formatTime = until.replaceAll(".", "").split("after ");
@@ -110,6 +157,7 @@ function Farm(props) {
         );
         setOfficialRoom(response.data.room_id);
         console.log(response.data.room_id);
+        getFirstStar(response.data.room_id);
         setBtnLoadingRoom(false);
       }
     } catch (err) {
@@ -152,6 +200,29 @@ function Farm(props) {
     }, 1000);
   };
 
+  const setAllStar = (data) => {
+    setStarLoading(true)
+    if (data.star == true) return;
+    setStarA(data.star[0].free_num)
+    setStarB(data.star[4].free_num)
+    setStarC(data.star[1].free_num)
+    setStarD(data.star[2].free_num)
+    setStarE(data.star[3].free_num)
+    setStarLoading(false)
+  }
+
+  const setGagal = (data) => {
+    toast.error(
+      data.until ?? "Please try again after the displayed time",
+      {
+        theme: "colored",
+      }
+    );
+    localStorage.setItem("limit_until", JSON.stringify(data.until));
+    setLimitUntil(data.until);
+    setExpire(data.until);
+  }
+
   const startFarming = async () => {
     for (let i = 0; i < officialRoom.length; i++) {
       setLoading(true);
@@ -165,7 +236,7 @@ function Farm(props) {
 
       const data = response.data;
       console.log(data, "FIRST");
-
+      setAllStar(data)
       setAllMessage((prevData) => [...prevData, data.message]);
 
       if (data.message.includes("Sedang")) {
@@ -193,15 +264,7 @@ function Farm(props) {
         if (data2.message.includes("Gagal")) {
           deleteArray();
           setAllMessage((prevData) => [...prevData, data2.message]);
-          toast.error(
-            data2.until ?? "Please try again after the displayed time",
-            {
-              theme: "colored",
-            }
-          );
-          localStorage.setItem("limit_until", JSON.stringify(data2.until));
-          setLimitUntil(data2.until);
-          setExpire(data2.until);
+          setGagal(data2)
           setLoading(false);
           return;
         }
@@ -228,12 +291,7 @@ function Farm(props) {
 
       if (data.message.includes("Gagal")) {
         deleteArray();
-        toast.error(data.until ?? "Please try again after the displayed time", {
-          theme: "colored",
-        });
-        localStorage.setItem("limit_until", JSON.stringify(data.until));
-        setExpire(data.until);
-        setLimitUntil(data.until);
+        setGagal(data)
         setLoading(false);
         return;
       }
@@ -250,65 +308,91 @@ function Farm(props) {
 
   return (
     <MainLayout {...props} style={{ color: "white" }}>
-      <div className="row mb-5 justify-content-between">
-        <button
-          onClick={getOfficials}
-          className="btn text-light"
-          disabled={btnLoadingRoom ? true : false || limitUntil ? true : false}
-          style={{ backgroundColor: "#24a2b7" }}
-        >
-          {btnLoadingRoom ? <Loading color="white" size={8} /> : "Fetch Room"}
-        </button>
-        
-        {officialRoom.length > 0 ? (
-          <button
-            onClick={startFarming}
-            className="btn text-light"
-            disabled={loading ? true : false}
-            style={{ backgroundColor: "#24a2b7" }}
-          >
-            {loading ? <Loading color="white" size={8} /> : "RUN FARM"}
-          </button>
-        ) : ''}
-      </div>
 
       {limitUntil ? (
-        <div className="row mb-5 justify-content-center text-danger">
+        <div className="row mb-5 mt-5 justify-content-center text-danger">
           <h3>{limitUntil}</h3>
         </div>
       ) : (
-        ""
+        <div className="row justify-content-between">
+          <button
+            onClick={getOfficials}
+            className="btn text-light"
+            disabled={btnLoadingRoom ? true : false || limitUntil ? true : false}
+            style={{ backgroundColor: "#24a2b7" }}
+          >
+            {btnLoadingRoom ? <Loading color="white" size={8} /> : "Fetch Room"}
+          </button>
+
+          {officialRoom.length > 0 ? (
+            <button
+              onClick={startFarming}
+              className="btn text-light"
+              disabled={loading ? true : false}
+              style={{ backgroundColor: "#24a2b7" }}
+            >
+              {loading ? <Loading color="white" size={8} /> : "RUN FARM"}
+            </button>
+          ) : ''}
+        </div>
       )}
 
       {officialRoom.length > 0 ? (
-        <div className="row">
-          <Table bordered className="col-3">
-            <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
-              <tr style={{ textAlign: "center" }}>
-                <th>LIST ROOM FARM</th>
-              </tr>
-            </thead>
-            <tbody
-              style={{
-                textAlign: "center",
-                color: props.theme === "dark" && "white",
-              }}
-            >
-              {officialRoom.map((room, idx) => (
-                <tr key={idx}>
-                  <td>{room}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+        <div className="row mt-3">
+          <div className="col-4">
+            <p>Free Gift : </p>
+            <div className="row mb-3 justify-content-center">
+              <div className="starA d-flex flex-column align-items-center p-1">
+                <img src="https://static.showroom-live.com/image/gift/1_s.png?v=1" width='50px' height='50px' alt="" />
+                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{starA}</p>}
+              </div>
+              <div className="starC d-flex flex-column align-items-center p-1">
+                <img src="https://static.showroom-live.com/image/gift/1001_s.png?v=1" width='50px' height='50px' alt="" />
+                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{starC}</p>}
+              </div>
+              <div className="starC d-flex flex-column align-items-center p-1">
+                <img src="https://static.showroom-live.com/image/gift/1002_s.png?v=1" width='50px' height='50px' alt="" />
+                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{starD}</p>}
+              </div>
+              <div className="starC d-flex flex-column align-items-center p-1">
+                <img src="https://static.showroom-live.com/image/gift/1003_s.png?v=1" width='50px' height='50px' alt="" />
+                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{starE}</p>}
+              </div>
+              <div className="starB d-flex flex-column align-items-center p-1">
+                <img src="https://static.showroom-live.com/image/gift/2_s.png?v=1" width='50px' height='50px' alt="" />
+                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{starB}</p>}
+              </div>
+            </div>
 
-          <div className="col-9 pl-5">
+            <Table bordered>
+              <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
+                <tr style={{ textAlign: "center" }}>
+                  <th>LIST ROOM FARM</th>
+                </tr>
+              </thead>
+              <tbody
+                style={{
+                  textAlign: "center",
+                  color: props.theme === "dark" && "white",
+                }}
+              >
+                {officialRoom.map((room, idx) => (
+                  <tr key={idx}>
+                    <td>{room}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+
+          </div>
+
+          <div className="col-8 pl-5">
             {currentRoomId ? (
               time == 0 ? (
                 ""
               ) : (
                 <div className="mb-3">
-                  <p className="text-light" style={{ fontWeight: "bold" }}>
+                  <p style={{ fontWeight: "bold" }}>
                     Sedang farming di Room {currentRoomId} silahkan menunggu{" "}
                     {time} detik
                   </p>
@@ -316,31 +400,37 @@ function Farm(props) {
               )
             ) : null}
 
-            <div className="">
-              <p className="text-success m-0">Sukses farming di Room :</p>
-              <p className="text-success">
-                {JSON.stringify(successRoom)
-                  .replaceAll(",", ",  ")
-                  .replaceAll('"', "")}
-              </p>
-            </div>
-            <div>
-              <p>Progress Farm : </p>
-              <div
-                style={{ width: "100%", height: "20px", borderRadius: "10px" }}
-                className="col mb-5 p-0 bg-secondary" >
+            {successRoom.length > 0 ?
+              <div className="">
+                <p className="text-success m-0">Sukses farming di Room :</p>
+                <p className="text-success">
+                  {JSON.stringify(successRoom)
+                    .replaceAll(",", ",  ")
+                    .replaceAll('"', "")}
+                </p>
                 <div
-                  style={{
-                    width: `${(countSuccess / 10) * 100}%`,
-                    height: "100%",
-                    borderRadius: "10px",
-                    background: "#4CAF50",
-                  }}
-                >
-                  <p className="text-center m-1">{(countSuccess / 10) * 100}%</p>
+                  style={{ width: "100%", height: "25px", borderRadius: "15px" }}
+                  className="col mb-5 p-0 bg-secondary" >
+                  <div
+                    style={{
+                      width: limitUntil ? "100%" : `${(countSuccess / 10) * 100}%`,
+                      height: "100%",
+                      borderRadius: "15px",
+                      background: "#4CAF50",
+                    }}
+                  >
+                    {limitUntil ?
+                      <p className="text-center text-light m-3">100%</p>
+                      :
+                      <p className="text-center text-light m-3">{(countSuccess / 10) * 100 > 100 ? 100 : (countSuccess / 10) * 100}%</p>
+                    }
+                  </div>
                 </div>
               </div>
+              : ''}
 
+
+            {allMessage.length > 0 ?
               <div className="mt-5">
                 <p>Status Log :</p>
                 <ul className="pl-3">
@@ -351,11 +441,11 @@ function Farm(props) {
                   ))}
                 </ul>
               </div>
-            </div>
+              : ''}
           </div>
         </div>
       ) :
-        <div className="row mb-5 justify-content-center text-light">
+        <div className="row mb-5 mt-5">
           <h3>Please click "Fetch Room" before start farming</h3>
         </div>
       }
