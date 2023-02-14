@@ -4,7 +4,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { Loading } from "components";
 import { FARM, GET_OFFICIAL } from "utils/api/api";
 import axios from "axios";
-import Button from "elements/Button";
 import { toast } from "react-toastify";
 
 function Farm(props) {
@@ -13,23 +12,25 @@ function Farm(props) {
   const [officialRoom, setOfficialRoom] = useState([]);
 
   const [btnLoadingRoom, setBtnLoadingRoom] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [successRoom, setSuccessRoom] = useState([]);
 
-  const [loading, setLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
-
-  const [currentRoomId, setCurrentRoomId] = useState('');
-  const [completedRoomIds, setCompletedRoomIds] = useState([]);
+  const [currentRoomId, setCurrentRoomId] = useState("");
   const [allMessage, setAllMessage] = useState([]);
   const [time, setTime] = useState(0);
 
-  const [limitUntil, setLimitUntil] = useState([]);
+  const [limitUntil, setLimitUntil] = useState("");
+  const [until, setUntil] = useState("");
+  const [countSuccess, setCountSuccess] = useState(0);
+  const intervalId = useRef(null);
 
   useEffect(() => {
     const userSession = localStorage.getItem("session");
     const officialRoom = localStorage.getItem("official_room");
     const successRoom = localStorage.getItem("success_room");
     const limited = localStorage.getItem("limit_until");
+    const untilLocal = localStorage.getItem("until");
 
     if (userSession) {
       const foundSession = JSON.parse(userSession);
@@ -45,53 +46,68 @@ function Farm(props) {
     if (successRoom) {
       const foundSuccess = JSON.parse(successRoom) || [];
       setSuccessRoom(foundSuccess);
+      setCountSuccess(foundSuccess.length);
+    }
+
+    if (untilLocal) {
+      setUntil(until);
+
+      let unt = new Date(untilLocal);
+
+      let currentTime = new Date();
+      let timeUntilTarget = unt.getTime() - currentTime.getTime();
+
+      setTimeout(() => {
+        localStorage.removeItem("official_room");
+        localStorage.removeItem("success_room");
+        localStorage.removeItem("limit_until");
+        localStorage.removeItem("until");
+        console.log("deleted");
+      }, timeUntilTarget);
     }
 
     if (limited) {
       const foundLimit = JSON.parse(limited);
       setLimitUntil(foundLimit);
-      let formatTime = foundLimit.replaceAll('.', '').split('after ')
-
-      let currentTime = new Date();
-      let currentDate = currentTime.toISOString().substr(0, 10);
-      let targetTime = new Date(currentDate + " " + formatTime[1] + ":00");
-
-      if (currentTime.getTime() > targetTime.getTime()) {
-        targetTime.setDate(targetTime.getDate() + 1);
-      }
-
-      let timeUntilTarget = targetTime.getTime() - currentTime.getTime();
-      console.log(timeUntilTarget);
-
-      setTimeout(() => {
-        localStorage.removeItem('official_room');
-        localStorage.removeItem('success_room');
-        localStorage.removeItem('limit_until');
-        console.log('deleted');
-      }, timeUntilTarget);
     }
-
   }, []);
 
+  const setExpire = (until) => {
+    let formatTime = until.replaceAll(".", "").split("after ");
+
+    let currentTime = new Date();
+    let currentDate = currentTime.toISOString().substr(0, 10);
+    let targetTime = new Date(currentDate + " " + formatTime[1]);
+
+    if (currentTime.getTime() > targetTime.getTime()) {
+      targetTime.setDate(targetTime.getDate() + 1);
+    }
+
+    localStorage.setItem("until", targetTime);
+    setUntil(targetTime);
+  };
 
   const textColor = (message) => {
-    if (message.includes('Sukses')) {
-      return 'text-success'
-    } else if (message.includes('Gagal')) {
-      return 'text-danger'
-    } else if (message.includes('Sedang')) {
-      return 'text-warning'
+    if (message.includes("Sukses")) {
+      return "text-success";
+    } else if (message.includes("Gagal")) {
+      return "text-danger";
+    } else if (message.includes("Sedang")) {
+      return "text-warning";
     } else {
-      return 'text-secondary'
+      return "text-secondary";
     }
-  }
+  };
 
   const getOfficials = async () => {
     try {
       setBtnLoadingRoom(true);
       const response = await axios.get(GET_OFFICIAL);
       if (response.data.room_id) {
-        localStorage.setItem("official_room", JSON.stringify(response.data.room_id))
+        localStorage.setItem(
+          "official_room",
+          JSON.stringify(response.data.room_id)
+        );
         setOfficialRoom(response.data.room_id);
         console.log(response.data.room_id);
         setBtnLoadingRoom(false);
@@ -102,14 +118,15 @@ function Farm(props) {
   };
 
   const setLocalAndState = (roomId) => {
-    var storedArray = localStorage.getItem('success_room');
+    var storedArray = localStorage.getItem("success_room");
     storedArray = JSON.parse(storedArray) || [];
 
     storedArray.push(roomId);
+    setCountSuccess(storedArray.length);
     storedArray = JSON.stringify(storedArray);
-    localStorage.setItem('success_room', storedArray);
+    localStorage.setItem("success_room", storedArray);
     setSuccessRoom(storedArray);
-  }
+  };
 
   const deleteArray = () => {
     let arrayLocal = localStorage.getItem("official_room");
@@ -121,13 +138,11 @@ function Farm(props) {
     localStorage.setItem("official_room", JSON.stringify(updatedArray));
   };
 
-  
-  const intervalId = useRef(null);
   const decrementTime = () => {
     clearInterval(intervalId.current);
     setTime(50);
     intervalId.current = setInterval(() => {
-      setTime(time => {
+      setTime((time) => {
         if (time > 0) {
           return time - 1;
         }
@@ -145,94 +160,88 @@ function Farm(props) {
       setCurrentRoomId(roomId);
       const response = await axios.post(FARM, {
         cookies_login_id: cookiesLoginId,
-        room_id: roomId
+        room_id: roomId,
       });
 
       const data = response.data;
-      console.log(data, 'FIRST');
+      console.log(data, "FIRST");
 
-      setAllMessage(prevData => [...prevData, data.message]);
+      setAllMessage((prevData) => [...prevData, data.message]);
 
-      if (data.message.includes('Sedang')) {
-        setTime(50)
-        decrementTime()
+      if (data.message.includes("Sedang")) {
+        setTime(50);
+        decrementTime();
 
-        await new Promise(resolve => setTimeout(resolve, 50 * 1000));
+        await new Promise((resolve) => setTimeout(resolve, 50 * 1000));
 
         const response2 = await axios.post(FARM, {
           cookies_login_id: cookiesLoginId,
-          room_id: roomId
+          room_id: roomId,
         });
 
         const data2 = response2.data;
-        console.log(data2, 'SECOND');
+        console.log(data2, "SECOND");
 
-        if (data2.message.includes('Sukses')) {
-          deleteArray()
-          setLocalAndState(roomId)
+        if (data2.message.includes("Sukses")) {
+          deleteArray();
+          setLocalAndState(roomId);
           toast.success(`Sukses Farm Di Room : ${roomId}`, {
-            theme: "colored"
+            theme: "colored",
           });
         }
 
-        if (data2.message.includes('Gagal')) {
-          deleteArray()
-          console.log(data2.until);
-          setAllMessage(prevData => [...prevData, data2.message]);
+        if (data2.message.includes("Gagal")) {
+          deleteArray();
+          setAllMessage((prevData) => [...prevData, data2.message]);
           toast.error(
-            data2.until ??
-            "Please try again after the displayed time",
+            data2.until ?? "Please try again after the displayed time",
             {
-              theme: "colored"
+              theme: "colored",
             }
           );
-          localStorage.setItem('limit_until', JSON.stringify(data2.until));
-          setLimitUntil(data2.until)
+          localStorage.setItem("limit_until", JSON.stringify(data2.until));
+          setLimitUntil(data2.until);
+          setExpire(data2.until);
           setLoading(false);
           return;
         }
 
-        if (data2.message.includes('Sedang')) {
-          deleteArray()
+        if (data2.message.includes("Sedang")) {
+          deleteArray();
+          data2.message = "[" + roomId + "] Skip Room";
         }
 
-        if (data2.message.includes('Offline')) {
-          deleteArray()
+        if (data2.message.includes("Offline")) {
+          deleteArray();
         }
 
-        setAllMessage(prevData => [...prevData, data2.message]);
+        setAllMessage((prevData) => [...prevData, data2.message]);
       }
 
-      if (data.message.includes('Sukses')) {
-        deleteArray()
-        setLocalAndState(roomId)
+      if (data.message.includes("Sukses")) {
+        deleteArray();
+        setLocalAndState(roomId);
         toast.success(`Sukses Farm Di Room : ${roomId}`, {
-          theme: "colored"
+          theme: "colored",
         });
       }
 
-      if (data.message.includes('Gagal')) {
-        deleteArray()
-        toast.error(
-          data.until ??
-          "Please try again after the displayed time",
-          {
-            theme: "colored"
-          }
-        );
-        localStorage.setItem('limit_until', JSON.stringify(data.until));
-        setLimitUntil(data.until)
+      if (data.message.includes("Gagal")) {
+        deleteArray();
+        toast.error(data.until ?? "Please try again after the displayed time", {
+          theme: "colored",
+        });
+        localStorage.setItem("limit_until", JSON.stringify(data.until));
+        setExpire(data.until);
+        setLimitUntil(data.until);
         setLoading(false);
         return;
       }
 
-      if (data.message.includes('Offline')) {
-        deleteArray()
+      if (data.message.includes("Offline")) {
+        deleteArray();
       }
 
-      setCompletedRoomIds(prevRoomIds => [...prevRoomIds, roomId]);
-
-      setProgress(prevProgress => prevProgress + (100 / officialRoom.length));
       setCurrentRoomId(null);
       setLoading(false);
     }
@@ -240,95 +249,116 @@ function Farm(props) {
   };
 
   return (
-    <MainLayout {...props} style={{ color: 'white' }}>
-
+    <MainLayout {...props} style={{ color: "white" }}>
       <div className="row mb-5 justify-content-between">
-        <button onClick={getOfficials} className="btn text-light" disabled={btnLoadingRoom ? true : false} style={{ backgroundColor: "#24a2b7" }}>
+        <button
+          onClick={getOfficials}
+          className="btn text-light"
+          disabled={btnLoadingRoom ? true : false || limitUntil ? true : false}
+          style={{ backgroundColor: "#24a2b7" }}
+        >
           {btnLoadingRoom ? <Loading color="white" size={8} /> : "Fetch Room"}
         </button>
-        <button onClick={startFarming} className="btn text-light" disabled={loading ? true : false} style={{ backgroundColor: "#24a2b7" }}>
-          {loading ? <Loading color="white" size={8} /> : "RUN FARM"}
-        </button>
+        
+        {officialRoom.length > 0 ? (
+          <button
+            onClick={startFarming}
+            className="btn text-light"
+            disabled={loading ? true : false}
+            style={{ backgroundColor: "#24a2b7" }}
+          >
+            {loading ? <Loading color="white" size={8} /> : "RUN FARM"}
+          </button>
+        ) : ''}
       </div>
 
-      {
-        limitUntil ? (
-          <div className="row mb-5 justify-content-center text-danger">
-            <h3>
-              {limitUntil}
-            </h3>
-          </div>
-        ) : ''
-      }
+      {limitUntil ? (
+        <div className="row mb-5 justify-content-center text-danger">
+          <h3>{limitUntil}</h3>
+        </div>
+      ) : (
+        ""
+      )}
 
-
-      <div className="row">
-        <Table bordered className="col-3">
-          <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
-            <tr style={{ textAlign: "center" }}>
-              <th>LIST ROOM FARM</th>
-            </tr>
-          </thead>
-          <tbody style={{ textAlign: "center", color: props.theme === "dark" && "white" }}>
-            {officialRoom.map(
-              (room, idx) => (
+      {officialRoom.length > 0 ? (
+        <div className="row">
+          <Table bordered className="col-3">
+            <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
+              <tr style={{ textAlign: "center" }}>
+                <th>LIST ROOM FARM</th>
+              </tr>
+            </thead>
+            <tbody
+              style={{
+                textAlign: "center",
+                color: props.theme === "dark" && "white",
+              }}
+            >
+              {officialRoom.map((room, idx) => (
                 <tr key={idx}>
                   <td>{room}</td>
                 </tr>
-              )
-            )}
-          </tbody>
-        </Table>
+              ))}
+            </tbody>
+          </Table>
 
-        <div className="col-9">
-          <p className="text-success">
-            Sukses farming di Room :
-          </p>
-          <p className="text-success">
-            {JSON.stringify(successRoom).replaceAll(',', ',  ').replaceAll('"', '')}
-          </p>
-
-          Jumlah Sukes Melakukan Faming :
-          <p>
-            {successRoom.length}
-          </p>
-
-
-          <div className="mt-5">
+          <div className="col-9 pl-5">
             {currentRoomId ? (
-              time == 0 ? '' : <p className="text-light" style={{ fontWeight: 'bold' }}>Sedang farming di Room {currentRoomId} silahkan menunggu {time} detik</p>
+              time == 0 ? (
+                ""
+              ) : (
+                <div className="mb-3">
+                  <p className="text-light" style={{ fontWeight: "bold" }}>
+                    Sedang farming di Room {currentRoomId} silahkan menunggu{" "}
+                    {time} detik
+                  </p>
+                </div>
+              )
             ) : null}
-          </div>
-
-          <div>
-            {/* <div style={{ width: "100%", height: "20px", background: "#ddd" }}>
-                    <div
-                      style={{
-                        width: `${progress}%`,
-                        height: "100%",
-                        background: "#4CAF50"
-                      }}
-                    />
-                  </div> */}
 
             <div className="">
-              <p >Status Log :</p>
-              <ul className="pl-3">
-                {allMessage.map(
-                  (message, idx) => (
-                    <li key={idx} >
-                      <p className={textColor(message)}>
-                        {message}
-                      </p>
-                    </li>
-                  )
-                )}
-              </ul>
+              <p className="text-success m-0">Sukses farming di Room :</p>
+              <p className="text-success">
+                {JSON.stringify(successRoom)
+                  .replaceAll(",", ",  ")
+                  .replaceAll('"', "")}
+              </p>
             </div>
+            <div>
+              <p>Progress Farm : </p>
+              <div
+                style={{ width: "100%", height: "20px", borderRadius: "10px" }}
+                className="col mb-5 p-0 bg-secondary" >
+                <div
+                  style={{
+                    width: `${(countSuccess / 10) * 100}%`,
+                    height: "100%",
+                    borderRadius: "10px",
+                    background: "#4CAF50",
+                  }}
+                >
+                  <p className="text-center m-1">{(countSuccess / 10) * 100}%</p>
+                </div>
+              </div>
 
+              <div className="mt-5">
+                <p>Status Log :</p>
+                <ul className="pl-3">
+                  {allMessage.map((message, idx) => (
+                    <li key={idx}>
+                      <p className={textColor(message)}>{message}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      ) :
+        <div className="row mb-5 justify-content-center text-light">
+          <h3>Please click "Fetch Room" before start farming</h3>
+        </div>
+      }
     </MainLayout>
   );
 }
