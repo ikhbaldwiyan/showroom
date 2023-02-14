@@ -95,7 +95,7 @@ export default function UserProfile({ data, profile }) {
                         className="img-fluid mb-3 rounded-circle"
                         style={{ width: "80px" }}
                       />
-                      <h5 className="py-3">Avatar</h5>
+                      <h5 className="mt-3">Avatar</h5>
                       <img
                         src={
                           user.avatar_url ??
@@ -127,18 +127,14 @@ export default function UserProfile({ data, profile }) {
                           <div className="col-12 mb-3">
                             <p className="text-muted">{user.description}</p>
                           </div>
-                          
                         </div>
                         <div className="d-flex justify-content-start">
-                          <a href="#!">
-                            <i className="fab fa-facebook-f fa-lg me-3"></i>
-                          </a>
-                          <a href="#!">
-                            <i className="fab fa-twitter fa-lg me-3"></i>
-                          </a>
-                          <a href="#!">
-                            <i className="fab fa-instagram fa-lg"></i>
-                          </a>
+                          {user?.sns_list?.map((item, idx) => (
+                            <a key={idx} href={item.url} target="_blank" rel="noreferrer">
+                              <img width={40} alt="twitter" src={item.icon}  />
+                            </a>
+                          ))}
+                          {console.log(user)}
                         </div>
                       </div>
                     </div>
