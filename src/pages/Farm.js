@@ -25,12 +25,14 @@ function Farm(props) {
   const [countSuccess, setCountSuccess] = useState(0);
   const intervalId = useRef(null);
 
-  const [starA, setStarA] = useState(0);
-  const [starB, setStarB] = useState(0);
-  const [starC, setStarC] = useState(0);
-  const [starD, setStarD] = useState(0);
-  const [starE, setStarE] = useState(0);
-
+  const [star, setStar] = useState({
+    a: 0,
+    b: 0,
+    c: 0,
+    d: 0,
+    e: 0
+  });
+  
   const [isReady, setIsReady] = useState(false);
   const [starLoading, setStarLoading] = useState(false);
 
@@ -100,7 +102,7 @@ function Farm(props) {
     if (data) {
       rooms = data
     }
-    else{
+    else {
       rooms = officialRoom
     }
     for (let i = 0; i < rooms.length; i++) {
@@ -203,13 +205,22 @@ function Farm(props) {
   const setAllStar = (data) => {
     setStarLoading(true)
     if (data.star == true) return;
-    setStarA(data.star[0].free_num)
-    setStarB(data.star[4].free_num)
-    setStarC(data.star[1].free_num)
-    setStarD(data.star[2].free_num)
-    setStarE(data.star[3].free_num)
+    // setStarA(data.star[0].free_num)
+    // setStarB(data.star[4].free_num)
+    // setStarC(data.star[1].free_num)
+    // setStarD(data.star[2].free_num)
+    // setStarE(data.star[3].free_num)
+    setStar({
+      ...star,
+      a: data.star[0].free_num,
+      b: data.star[4].free_num,
+      c: data.star[1].free_num,
+      d: data.star[2].free_num,
+      e: data.star[3].free_num,
+    })
     setStarLoading(false)
   }
+
 
   const setGagal = (data) => {
     toast.error(
@@ -344,23 +355,23 @@ function Farm(props) {
             <div className="row mb-3 justify-content-center">
               <div className="starA d-flex flex-column align-items-center p-1">
                 <img src="https://static.showroom-live.com/image/gift/1_s.png?v=1" width='50px' height='50px' alt="" />
-                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{starA}</p>}
+                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{star.a}</p>}
               </div>
               <div className="starC d-flex flex-column align-items-center p-1">
                 <img src="https://static.showroom-live.com/image/gift/1001_s.png?v=1" width='50px' height='50px' alt="" />
-                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{starC}</p>}
+                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{star.b}</p>}
               </div>
               <div className="starC d-flex flex-column align-items-center p-1">
                 <img src="https://static.showroom-live.com/image/gift/1002_s.png?v=1" width='50px' height='50px' alt="" />
-                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{starD}</p>}
+                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{star.c}</p>}
               </div>
               <div className="starC d-flex flex-column align-items-center p-1">
                 <img src="https://static.showroom-live.com/image/gift/1003_s.png?v=1" width='50px' height='50px' alt="" />
-                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{starE}</p>}
+                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{star.d}</p>}
               </div>
               <div className="starB d-flex flex-column align-items-center p-1">
                 <img src="https://static.showroom-live.com/image/gift/2_s.png?v=1" width='50px' height='50px' alt="" />
-                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{starB}</p>}
+                {starLoading ? <Loading color={props.theme === "dark" ? "white" : "black"} size={3} /> : <p>{star.e}</p>}
               </div>
             </div>
 
