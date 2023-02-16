@@ -10,6 +10,7 @@ function Farm(props) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
   const [session, setSession] = useState("");
   const [officialRoom, setOfficialRoom] = useState([]);
+  const [officialRoomId, setOfficialRoomId] = useState([]);
 
   const [btnLoadingRoom, setBtnLoadingRoom] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,7 @@ function Farm(props) {
     d: 0,
     e: 0
   });
-  
+
   const [isReady, setIsReady] = useState(false);
   const [starLoading, setStarLoading] = useState(false);
 
@@ -106,7 +107,7 @@ function Farm(props) {
       rooms = officialRoom
     }
     for (let i = 0; i < rooms.length; i++) {
-      const roomId = rooms[i];
+      const roomId = rooms[i].room_id;
       const response = await axios.post(FARM, {
         cookies_login_id: cookiesLoginId,
         room_id: roomId,
@@ -152,14 +153,14 @@ function Farm(props) {
     try {
       setBtnLoadingRoom(true);
       const response = await axios.get(GET_OFFICIAL);
-      if (response.data.room_id) {
+      if (response.data) {
         localStorage.setItem(
           "official_room",
-          JSON.stringify(response.data.room_id)
+          JSON.stringify(response.data)
         );
-        setOfficialRoom(response.data.room_id);
-        console.log(response.data.room_id);
-        getFirstStar(response.data.room_id);
+        setOfficialRoom(response.data);
+        console.log(response.data);
+        getFirstStar(response.data);
         setBtnLoadingRoom(false);
       }
     } catch (err) {
@@ -205,11 +206,6 @@ function Farm(props) {
   const setAllStar = (data) => {
     setStarLoading(true)
     if (data.star == true) return;
-    // setStarA(data.star[0].free_num)
-    // setStarB(data.star[4].free_num)
-    // setStarC(data.star[1].free_num)
-    // setStarD(data.star[2].free_num)
-    // setStarE(data.star[3].free_num)
     setStar({
       ...star,
       a: data.star[0].free_num,
@@ -237,12 +233,14 @@ function Farm(props) {
   const startFarming = async () => {
     for (let i = 0; i < officialRoom.length; i++) {
       setLoading(true);
-      const roomId = officialRoom[i];
+      const roomId = officialRoom[i].room_id;
+      const roomName = officialRoom[i].room_name;
 
-      setCurrentRoomId(roomId);
+      setCurrentRoomId(roomName);
       const response = await axios.post(FARM, {
         cookies_login_id: cookiesLoginId,
         room_id: roomId,
+        room_name: roomName
       });
 
       const data = response.data;
@@ -259,6 +257,7 @@ function Farm(props) {
         const response2 = await axios.post(FARM, {
           cookies_login_id: cookiesLoginId,
           room_id: roomId,
+          room_name: roomName
         });
 
         const data2 = response2.data;
@@ -267,7 +266,7 @@ function Farm(props) {
         if (data2.message.includes("Sukses")) {
           deleteArray();
           setLocalAndState(roomId);
-          toast.success(`Sukses Farm Di Room : ${roomId}`, {
+          toast.success(`Sukses Farm Di Room : ${roomName}`, {
             theme: "colored",
           });
         }
@@ -282,7 +281,7 @@ function Farm(props) {
 
         if (data2.message.includes("Sedang")) {
           deleteArray();
-          data2.message = "[" + roomId + "] Skip Room";
+          data2.message = "[" + roomName + "] Skip Room";
         }
 
         if (data2.message.includes("Offline")) {
@@ -295,7 +294,7 @@ function Farm(props) {
       if (data.message.includes("Sukses")) {
         deleteArray();
         setLocalAndState(roomId);
-        toast.success(`Sukses Farm Di Room : ${roomId}`, {
+        toast.success(`Sukses Farm Di Room : ${roomName}`, {
           theme: "colored",
         });
       }
@@ -319,7 +318,6 @@ function Farm(props) {
 
   return (
     <MainLayout {...props} style={{ color: "white" }}>
-
       {limitUntil ? (
         <div className="row mb-5 mt-5 justify-content-center text-danger">
           <h3>{limitUntil}</h3>
@@ -350,7 +348,7 @@ function Farm(props) {
 
       {officialRoom.length > 0 ? (
         <div className="row mt-3">
-          <div className="col-4">
+          <div className="col-5 p-0">
             <p>Free Gift : </p>
             <div className="row mb-3 justify-content-center">
               <div className="starA d-flex flex-column align-items-center p-1">
@@ -376,9 +374,10 @@ function Farm(props) {
             </div>
 
             <Table bordered>
-              <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
+              <thead style={{ backgroundColor: "#24a2b7", color: "white"}}>
                 <tr style={{ textAlign: "center" }}>
-                  <th>LIST ROOM FARM</th>
+                  <th>ROOM NAME</th>
+                  <th style={{ width:'100px' }}>ROOM ID</th>
                 </tr>
               </thead>
               <tbody
@@ -389,7 +388,8 @@ function Farm(props) {
               >
                 {officialRoom.map((room, idx) => (
                   <tr key={idx}>
-                    <td>{room}</td>
+                    <td className="text-left">{room.room_name}</td>
+                    <td>{room.room_id}</td>
                   </tr>
                 ))}
               </tbody>
@@ -397,7 +397,7 @@ function Farm(props) {
 
           </div>
 
-          <div className="col-8 pl-5">
+          <div className="col-7 pl-5">
             {currentRoomId ? (
               time == 0 ? (
                 ""
@@ -438,8 +438,7 @@ function Farm(props) {
                   </div>
                 </div>
               </div>
-              : ''}
-
+            : ''}
 
             {allMessage.length > 0 ?
               <div className="mt-5">
