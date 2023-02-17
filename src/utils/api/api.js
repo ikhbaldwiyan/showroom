@@ -6,6 +6,7 @@ const SHOWROOM_API = "https://www.showroom-live.com/api"
 // Laravel API
 const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
 const SEND_COMMENT = `${LARAVEL_API}/live/comment`;
+const UPDATE_PROFILE =  `${LARAVEL_API}/profile/update`;
 const LOGIN = `${LARAVEL_API}/login`;
 
 // Live API
@@ -68,5 +69,6 @@ export {
   LARAVEL_API,
   LOGIN,
   SEND_COMMENT,
-  USER_PROFILE
+  USER_PROFILE,
+  UPDATE_PROFILE
 };

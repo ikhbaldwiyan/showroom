@@ -1,26 +1,65 @@
 import axios from "axios";
+import { Loading } from "components";
 import React, { useEffect, useState } from "react";
+import { FaEdit, FaUserCheck, FaWindowClose } from "react-icons/fa";
+import { RiLogoutBoxFill } from "react-icons/ri";
 import { toast } from "react-toastify";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { USER_PROFILE } from "utils/api/api";
+import { UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
 
-export default function UserProfile({ data, profile }) {
+export default function UserProfile({ data, session }) {
   const [modal, setModal] = useState(false);
   const [user, setUser] = useState([]);
+  const [isEdit, setIsEdit] = useState(false);
+  const [loading, setIsLoading] = useState(false);
   const toggle = () => setModal(!modal);
 
-  const handleLogOut = () => {
-    toggle();
-    var theme = localStorage.getItem("theme");
-    localStorage.clear();
-    localStorage.setItem("theme", theme);
-    toast.success("Logout success", {
-      theme: "colored",
-      autoClose: 1200,
+  const [profile, setProfile] = useState({
+    csrf_token: "",
+    cookies_id: "",
+    residence: "",
+    user_id: "",
+    name: "",
+    description: ""
+  });
+
+  useEffect(() => {
+    const userProfile = localStorage.getItem("profile");
+    const foundProfile = JSON.parse(userProfile);
+    userProfile && setProfile(foundProfile);
+  }, []);
+
+  const handleChange = (event) => {
+    setProfile({
+      ...profile,
+      csrf_token: session.csrf_token,
+      cookies_id: session.cookie_login_id,
+      residence: 48,
+      [event.target.name]: event.target.value
     });
-    setTimeout(() => {
-      window.location.reload(false);
-    }, 2000);
+  };
+
+  const updateProfile = async (event) => {
+    setIsLoading(!loading);
+    event.preventDefault();
+    try {
+      const response = await axios.post(UPDATE_PROFILE, profile);
+      if (response) {
+        localStorage.setItem("profile", JSON.stringify(profile));
+        setIsEdit(!isEdit);
+        setModal(!modal);
+        toast.info(response.data.message, {
+          theme: "colored",
+          autoClose: 1200,
+          icon: <FaUserCheck size={30} />
+        });
+      }
+    } catch (error) {
+      toast.error(error.message, {
+        theme: "colored"
+      });
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -30,7 +69,22 @@ export default function UserProfile({ data, profile }) {
       });
     }
     getUser();
-  }, [data.user_id]);
+  }, [data.user_id, modal]);
+
+  const handleLogOut = () => {
+    toggle();
+    var theme = localStorage.getItem("theme");
+    localStorage.clear();
+    localStorage.setItem("theme", theme);
+    toast.success("Logout success", {
+      theme: "colored",
+      autoClose: 1200,
+      icon: <RiLogoutBoxFill size={30} />
+    });
+    setTimeout(() => {
+      window.location.reload(false);
+    }, 2000);
+  };
 
   return (
     <>
@@ -67,7 +121,7 @@ export default function UserProfile({ data, profile }) {
           style={{ backgroundColor: "#24a2b7", color: "white" }}
           toggle={toggle}
         >
-          Apakah anda ingin Logout ?
+          User Profile {profile.name}
         </ModalHeader>
         <ModalBody classNameName="text-dark my-2 justify-content-center">
           <div className="container py-2">
@@ -81,21 +135,22 @@ export default function UserProfile({ data, profile }) {
                         borderTopLeftRadius: ".5rem",
                         borderBottomLeftRadius: ".5rem",
                         color: "#282c34",
-                        backgroundColor: "#24a2b7",
+                        backgroundColor: "#24a2b7"
                       }}
                     >
-                      <h5 className="mt-3">Profile</h5>
-                      <p>ID : {data.account_id}</p>
+                      <h5 className="my-3">Profile</h5>
                       <img
                         src={
                           user.image ??
                           "https://static.showroom-live.com/assets/img/no_profile.jpg"
                         }
                         alt="Profile"
-                        className="img-fluid mb-3 rounded-circle"
-                        style={{ width: "80px" }}
+                        className="img-fluid mb-2 rounded-circle"
+                        width={80}
                       />
-                      <h5 className="mt-3">Avatar</h5>
+                      <p>ID : {data.account_id}</p>
+
+                      <h5 className="mt-5 mb-3">Avatar</h5>
                       <img
                         src={
                           user.avatar_url ??
@@ -103,39 +158,126 @@ export default function UserProfile({ data, profile }) {
                         }
                         alt="Avatar"
                         className="img-fluid mb-3 rounded-circle"
-                        style={{ width: "80px" }}
+                        width={80}
                       />
+                      <h6>Level {user.fan_level}</h6>
+
                       <i className="far fa-edit mb-5"></i>
                     </div>
                     <div className="col-md-8">
                       <div className="card-body p-4">
-                        <h6>Information</h6>
+                        <div
+                          className="d-flex justify-content-between"
+                          style={{ cursor: "pointer" }}
+                        >
+                          <h6>Information</h6>
+                          {!isEdit ? (
+                            <div
+                              className="ml-3"
+                              onClick={() => setIsEdit(!isEdit)}
+                            >
+                              <FaEdit
+                                className="mx-2 mb-1"
+                                color="teal"
+                                size={18}
+                              />
+                            </div>
+                          ) : (
+                            <FaWindowClose
+                              className="mx-2 mt-1"
+                              color="red"
+                              size={18}
+                              onClick={() => {
+                                setIsEdit(!isEdit);
+                              }}
+                            />
+                          )}
+                        </div>
                         <hr className="mt-0 mb-4" />
                         <div className="row pt-1">
-                          <div className="col-6 mb-3">
-                            <h6>Name</h6>
-                            <p className="text-muted">{user.name}</p>
-                          </div>
-                          <div className="col-6 mb-3">
-                            <h6>Level</h6>
-                            <p className="text-muted">{user.fan_level}</p>
-                          </div>
+                          {isEdit ? (
+                            <div className="col-12 mb-3">
+                              <h6>Name</h6>
+                              <input
+                                type="text"
+                                name="name"
+                                value={profile.name}
+                                className="form-control my-2 mt-3"
+                                onChange={handleChange}
+                              />
+                            </div>
+                          ) : (
+                            <div className="col-12 mb-3">
+                              <h6>Name</h6>
+                              <p className="text-muted mt-3">{user.name}</p>
+                            </div>
+                          )}
                         </div>
                         <h6>About Me</h6>
                         <hr className="mt-0 mb-4" />
                         <div className="row pt-1">
                           <div className="col-12 mb-3">
-                            <p className="text-muted">{user.description}</p>
+                            {isEdit ? (
+                              <textarea
+                                name="description"
+                                cols="30"
+                                rows="5"
+                                className="form-control"
+                                onChange={handleChange}
+                              >
+                                {user.description}
+                              </textarea>
+                            ) : (
+                              <p className="text-muted">{user.description}</p>
+                            )}
                           </div>
                         </div>
-                        <div className="d-flex justify-content-start">
-                          {user?.sns_list?.map((item, idx) => (
-                            <a key={idx} href={item.url} target="_blank" rel="noreferrer">
-                              <img width={40} alt="twitter" src={item.icon}  />
-                            </a>
-                          ))}
-                          {console.log(user)}
-                        </div>
+                        {isEdit ? (
+                          <Button
+                            disabled={loading}
+                            style={{
+                              backgroundColor: "#008080",
+                              border: "none"
+                            }}
+                            onClick={updateProfile}
+                          >
+                            {loading ? (
+                              <>
+                                <Loading color="white" size="6" />
+                                <Loading color="white" size="6" />
+                              </>
+                            ) : (
+                              "Update Profile"
+                            )}
+                          </Button>
+                        ) : (
+                          <div>
+                            <div className="d-flex justify-content-start">
+                              {user?.sns_list?.map((item, idx) => (
+                                <a
+                                  key={idx}
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  <img
+                                    width={40}
+                                    alt="twitter"
+                                    src={item.icon}
+                                  />
+                                </a>
+                              ))}
+                            </div>
+                            <hr className="mt-0 my-4" />
+                            <Button color="danger" onClick={handleLogOut}>
+                              <RiLogoutBoxFill
+                                size={20}
+                                style={{ marginBottom: "3" }}
+                              />{" "}
+                              Logout
+                            </Button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -146,10 +288,7 @@ export default function UserProfile({ data, profile }) {
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={toggle}>
-            No
-          </Button>
-          <Button color="info" onClick={handleLogOut}>
-            Yes
+            Close
           </Button>
         </ModalFooter>
       </Modal>

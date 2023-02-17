@@ -5,6 +5,7 @@ import axios from "axios";
 import { LOGIN } from "utils/api/api";
 import { toast } from "react-toastify";
 import { Loading } from "components";
+import { RiLoginBoxFill } from "react-icons/ri";
 
 function Login(props) {
   const [accountId, setAccountId] = useState("");
@@ -52,9 +53,10 @@ function Login(props) {
         localStorage.setItem("session", JSON.stringify(response.data.session));
         localStorage.setItem("profile", JSON.stringify(response.data.profile));
 
-        toast.success(`Login Success, Welcome ${response.data.profile.name}`, {
+        toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
           theme: "colored",
-          autoClose: 1800
+          autoClose: 1800,
+          icon: <RiLoginBoxFill size={30} />
         });
 
         setTimeout(() => {

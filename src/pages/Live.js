@@ -54,7 +54,8 @@ function Live(props) {
 
   const messages = () =>
     toast.error("Room Offline", {
-      theme: "colored"
+      theme: "colored",
+      autoClose: 1200
     });
 
   return (
