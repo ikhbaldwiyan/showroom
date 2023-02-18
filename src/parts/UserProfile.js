@@ -164,8 +164,6 @@ export default function UserProfile({ data, session }) {
                         width={80}
                       />
                       <h6>Level {user.fan_level}</h6>
-
-                      <i className="far fa-edit mb-5"></i>
                     </div>
                     <div className="col-md-8">
                       <div className="card-body p-4">
@@ -237,6 +235,7 @@ export default function UserProfile({ data, session }) {
                         </div>
                         {isEdit ? (
                           <Button
+                            block
                             disabled={loading}
                             style={{
                               backgroundColor: "#008080",
@@ -295,7 +294,11 @@ export default function UserProfile({ data, session }) {
           </Button>
         </ModalFooter>
         <Modal isOpen={modalLogout}>
-          <ModalHeader toggle={toggleLogout} className="text-light" style={{backgroundColor: "#DC3545"}}>
+          <ModalHeader
+            toggle={toggleLogout}
+            className="text-light"
+            style={{ backgroundColor: "#DC3545" }}
+          >
             Log Out
           </ModalHeader>
           <ModalBody className="text-dark my-2">
