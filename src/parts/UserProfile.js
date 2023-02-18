@@ -1,7 +1,8 @@
 import axios from "axios";
 import { Loading } from "components";
+import EditAvatar from "components/EditAvatar";
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaUserCheck, FaWindowClose } from "react-icons/fa";
+import { FaEdit, FaUserCheck, FaUserEdit, FaWindowClose } from "react-icons/fa";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { toast } from "react-toastify";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
@@ -12,6 +13,7 @@ export default function UserProfile({ data, session }) {
   const [modalLogout, setModalLogout] = useState(false);
   const [user, setUser] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
+  const [isEditAvatar, setIsEditAvatar] = useState(false);
   const [loading, setIsLoading] = useState(false);
 
   const toggle = () => setModal(!modal);
@@ -72,7 +74,7 @@ export default function UserProfile({ data, session }) {
       });
     }
     getUser();
-  }, [data.user_id, modal]);
+  }, [data.user_id, modal, isEditAvatar]);
 
   const handleLogOut = () => {
     toggle();
@@ -153,134 +155,151 @@ export default function UserProfile({ data, session }) {
                       />
                       <p>ID : {data.account_id}</p>
 
-                      <h5 className="mt-5 mb-3">Avatar</h5>
+                      <div className="d-flex mt-5 mb-2 justify-content-center">
+                        <h5 className="ml-3">Avatar</h5>
+                        <FaUserEdit
+                          cursor="pointer"
+                          onClick={() => setIsEditAvatar(!isEditAvatar)}
+                          className="mx-2 mt-1"
+                          color="black"
+                          size={18}
+                        />
+                      </div>
                       <img
                         src={
                           user.avatar_url ??
                           "https://static.showroom-live.com/image/avatar/1.png?v=92"
                         }
                         alt="Avatar"
-                        className="img-fluid mb-3 rounded-circle"
-                        width={80}
+                        className="img-fluid mb-3 "
+                        width={70}
                       />
                       <h6>Level {user.fan_level}</h6>
                     </div>
                     <div className="col-md-8">
-                      <div className="card-body p-4">
-                        <div
-                          className="d-flex justify-content-between"
-                          style={{ cursor: "pointer" }}
-                        >
-                          <h6>Information</h6>
-                          {!isEdit ? (
-                            <div
-                              className="ml-3"
-                              onClick={() => setIsEdit(!isEdit)}
-                            >
-                              <FaEdit
-                                className="mx-2 mb-1"
-                                color="teal"
-                                size={18}
-                              />
-                            </div>
-                          ) : (
-                            <FaWindowClose
-                              className="mx-2 mt-1"
-                              color="red"
-                              size={18}
-                              onClick={() => {
-                                setIsEdit(!isEdit);
-                              }}
-                            />
-                          )}
-                        </div>
-                        <hr className="mt-0 mb-4" />
-                        <div className="row pt-1">
-                          {isEdit ? (
-                            <div className="col-12 mb-3">
-                              <h6>Name</h6>
-                              <input
-                                type="text"
-                                name="name"
-                                value={profile.name}
-                                className="form-control my-2 mt-3"
-                                onChange={handleChange}
-                              />
-                            </div>
-                          ) : (
-                            <div className="col-12 mb-3">
-                              <h6>Name</h6>
-                              <p className="text-muted mt-3">{user.name}</p>
-                            </div>
-                          )}
-                        </div>
-                        <h6>About Me</h6>
-                        <hr className="mt-0 mb-4" />
-                        <div className="row pt-1">
-                          <div className="col-12 mb-3">
-                            {isEdit ? (
-                              <textarea
-                                name="description"
-                                cols="30"
-                                rows="5"
-                                className="form-control"
-                                onChange={handleChange}
-                              >
-                                {user.description}
-                              </textarea>
-                            ) : (
-                              <p className="text-muted">{user.description}</p>
-                            )}
-                          </div>
-                        </div>
-                        {isEdit ? (
-                          <Button
-                            block
-                            disabled={loading}
-                            style={{
-                              backgroundColor: "#008080",
-                              border: "none"
-                            }}
-                            onClick={updateProfile}
+                      {!isEditAvatar ? (
+                        <div className="card-body p-4">
+                          <div
+                            className="d-flex justify-content-between"
+                            style={{ cursor: "pointer" }}
                           >
-                            {loading ? (
-                              <>
-                                <Loading color="white" size="6" />
-                                <Loading color="white" size="6" />
-                              </>
+                            <h6>Information</h6>
+                            {!isEdit ? (
+                              <div
+                                className="ml-3"
+                                onClick={() => setIsEdit(!isEdit)}
+                              >
+                                <FaEdit
+                                  className="mx-2 mb-1"
+                                  color="teal"
+                                  size={18}
+                                />
+                              </div>
                             ) : (
-                              "Update Profile"
+                              <FaWindowClose
+                                className="mx-2 mt-1"
+                                color="red"
+                                size={18}
+                                onClick={() => {
+                                  setIsEdit(!isEdit);
+                                }}
+                              />
                             )}
-                          </Button>
-                        ) : (
-                          <div>
-                            <div className="d-flex justify-content-start">
-                              {user?.sns_list?.map((item, idx) => (
-                                <a
-                                  key={idx}
-                                  href={item.url}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  <img
-                                    width={40}
-                                    alt="twitter"
-                                    src={item.icon}
-                                  />
-                                </a>
-                              ))}
-                            </div>
-                            <hr className="mt-0 my-4" />
-                            <Button color="danger" onClick={toggleLogout}>
-                              <RiLogoutBoxFill
-                                size={20}
-                                style={{ marginBottom: "3" }}
-                              />{" "}
-                              Logout
-                            </Button>
                           </div>
-                        )}
-                      </div>
+                          <hr className="mt-0 mb-4" />
+                          <div className="row pt-1">
+                            {isEdit ? (
+                              <div className="col-12 mb-3">
+                                <h6>Name</h6>
+                                <input
+                                  type="text"
+                                  name="name"
+                                  value={profile.name}
+                                  className="form-control my-2 mt-3"
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            ) : (
+                              <div className="col-12 mb-3">
+                                <h6>Name</h6>
+                                <p className="text-muted mt-3">{user.name}</p>
+                              </div>
+                            )}
+                          </div>
+                          <h6>About Me</h6>
+                          <hr className="mt-0 mb-4" />
+                          <div className="row pt-1">
+                            <div className="col-12 mb-3">
+                              {isEdit ? (
+                                <textarea
+                                  name="description"
+                                  cols="30"
+                                  rows="5"
+                                  className="form-control"
+                                  onChange={handleChange}
+                                >
+                                  {user.description}
+                                </textarea>
+                              ) : (
+                                <p className="text-muted">{user.description}</p>
+                              )}
+                            </div>
+                          </div>
+                          {isEdit ? (
+                            <Button
+                              block
+                              disabled={loading}
+                              style={{
+                                backgroundColor: "#008080",
+                                border: "none"
+                              }}
+                              onClick={updateProfile}
+                            >
+                              {loading ? (
+                                <>
+                                  <Loading color="white" size="6" />
+                                  <Loading color="white" size="6" />
+                                </>
+                              ) : (
+                                "Update Profile"
+                              )}
+                            </Button>
+                          ) : (
+                            <div>
+                              <div className="d-flex justify-content-start">
+                                {user?.sns_list?.map((item, idx) => (
+                                  <a
+                                    key={idx}
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    <img
+                                      width={40}
+                                      alt="twitter"
+                                      src={item.icon}
+                                    />
+                                  </a>
+                                ))}
+                              </div>
+                              <hr className="mt-0 my-4" />
+                              <Button color="danger" onClick={toggleLogout}>
+                                <RiLogoutBoxFill
+                                  size={20}
+                                  style={{ marginBottom: "3" }}
+                                />{" "}
+                                Logout
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <EditAvatar
+                          session={session}
+                          isEditAvatar={isEditAvatar}
+                          setIsEditAvatar={setIsEditAvatar}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
