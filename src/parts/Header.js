@@ -84,7 +84,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                   </Button>
                 </li>
                 {profile ? (
-                  <UserProfile profile={profile} data={user} session={session} />
+                  <UserProfile profile={profile} data={user} session={session} theme={theme} />
                 ) : (
                   <li className={`nav-item${getNavLinkClass("/login")}`}>
                     <Button className="nav-link" type="link" href="/login">

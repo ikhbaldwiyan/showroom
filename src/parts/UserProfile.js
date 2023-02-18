@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
 
-export default function UserProfile({ data, session }) {
+export default function UserProfile({ data, session, theme }) {
   const [modal, setModal] = useState(false);
   const [modalLogout, setModalLogout] = useState(false);
   const [user, setUser] = useState([]);
@@ -123,7 +123,10 @@ export default function UserProfile({ data, session }) {
 
       <Modal isOpen={modal}>
         <ModalHeader
-          style={{ backgroundColor: "#24a2b7", color: "white" }}
+          style={{
+            backgroundColor: theme === "light" ? "#24a2b7" : "#282C34",
+            color: "white"
+          }}
           toggle={toggle}
         >
           User Profile {profile.name}
@@ -137,10 +140,13 @@ export default function UserProfile({ data, session }) {
                     <div
                       className="col-md-4 gradient-custom text-center text-white"
                       style={{
+                        background:
+                          "linear-gradient(to bottom, #24a2b7, #20242A)",
                         borderTopLeftRadius: ".5rem",
                         borderBottomLeftRadius: ".5rem",
                         color: "#282c34",
-                        backgroundColor: "#24a2b7"
+                        backgroundColor:
+                          theme === "light" ? "#24a2b7" : "#282C34"
                       }}
                     >
                       <h5 className="my-3">Profile</h5>
@@ -161,7 +167,7 @@ export default function UserProfile({ data, session }) {
                           cursor="pointer"
                           onClick={() => setIsEditAvatar(!isEditAvatar)}
                           className="mx-2 mt-1"
-                          color="black"
+                          color="silver"
                           size={18}
                         />
                       </div>
@@ -298,6 +304,8 @@ export default function UserProfile({ data, session }) {
                           session={session}
                           isEditAvatar={isEditAvatar}
                           setIsEditAvatar={setIsEditAvatar}
+                          theme={theme}
+                          profile={profile}
                         />
                       )}
                     </div>
