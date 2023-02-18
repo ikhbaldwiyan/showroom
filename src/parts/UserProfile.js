@@ -9,10 +9,13 @@ import { UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
 
 export default function UserProfile({ data, session }) {
   const [modal, setModal] = useState(false);
+  const [modalLogout, setModalLogout] = useState(false);
   const [user, setUser] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [loading, setIsLoading] = useState(false);
+
   const toggle = () => setModal(!modal);
+  const toggleLogout = () => setModalLogout(!modalLogout);
 
   const [profile, setProfile] = useState({
     csrf_token: "",
@@ -269,7 +272,7 @@ export default function UserProfile({ data, session }) {
                               ))}
                             </div>
                             <hr className="mt-0 my-4" />
-                            <Button color="danger" onClick={handleLogOut}>
+                            <Button color="danger" onClick={toggleLogout}>
                               <RiLogoutBoxFill
                                 size={20}
                                 style={{ marginBottom: "3" }}
@@ -291,6 +294,22 @@ export default function UserProfile({ data, session }) {
             Close
           </Button>
         </ModalFooter>
+        <Modal isOpen={modalLogout}>
+          <ModalHeader toggle={toggleLogout} className="text-light" style={{backgroundColor: "#DC3545"}}>
+            Log Out
+          </ModalHeader>
+          <ModalBody className="text-dark my-2">
+            Apakah Anda yakin ingin logout ?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={toggleLogout}>
+              Close
+            </Button>
+            <Button color="info" onClick={handleLogOut}>
+              Yes
+            </Button>
+          </ModalFooter>
+        </Modal>
       </Modal>
     </>
   );
