@@ -124,7 +124,7 @@ export default function UserProfile({ data, session, theme }) {
       <Modal isOpen={modal}>
         <ModalHeader
           style={{
-            backgroundColor: theme === "light" ? "#24a2b7" : "#282C34",
+            backgroundColor: "#24a2b7",
             color: "white"
           }}
           toggle={toggle}
