@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Loading } from "components";
 import React, { useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { FaEdit, FaUserCheck, FaWindowClose } from "react-icons/fa";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { toast } from "react-toastify";
@@ -140,9 +141,13 @@ export default function UserProfile({ data, session }) {
                       className="col-md-4 gradient-custom text-center text-white"
                       style={{
                         borderTopLeftRadius: ".5rem",
-                        borderBottomLeftRadius: ".5rem",
+                        borderBottomLeftRadius: !isMobile && ".5rem",
                         color: "#282c34",
                         backgroundColor: "#24a2b7",
+                        width: "289px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        borderTopRightRadius: isMobile && ".5rem"
                       }}
                     >
                       <h5 className="my-3">Profile</h5>
