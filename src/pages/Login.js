@@ -91,7 +91,7 @@ function Login(props) {
             className="mb-5 mt-4 card-login"
             style={{ padding: "2rem", borderRadius: "10px" }}
           >
-            <h1 className="py-3">Login Showroom</h1>
+            <h3 className="py-3">Login Showroom</h3>
             <p style={{ textAlign: "justify" }}>
               Silakan login menggunakan akun showroom Anda untuk mengakses fitur
               kirim komentar. Tenang, data Anda akan segera dikirimkan ke situs
@@ -100,58 +100,69 @@ function Login(props) {
             </p>
             <br />
             <form onSubmit={handleLogin}>
-              <div className="form-group mb-4">
-                <label>
-                  <h6>Account ID</h6>
-                </label>
-                <input
-                  type="text"
-                  required
-                  className="form-control"
-                  placeholder="Account ID"
-                  value={accountId}
-                  onChange={(e) => setAccountId(e.target.value)}
-                />
+              <div className="row">
+                <div className="col-12 mb-4">
+                  <label>
+                    <h6>Account ID</h6>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    className="form-control"
+                    placeholder="Account ID"
+                    value={accountId}
+                    onChange={(e) => setAccountId(e.target.value)}
+                  />
+                </div>
+                <div className="col-12">
+                  <label>
+                    <h6>Password</h6>
+                  </label>
+                  <input
+                    type="password"
+                    required
+                    className="form-control"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="form-group">
-                <label>
-                  <h6>Password</h6>
-                </label>
-                <input
-                  type="password"
-                  required
-                  className="form-control"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+              <div className="row">
+                <div className="col-12">
+                  <p className="mt-3" style={{ color: "red" }}>{error ? error : ""}</p>
+                  <div className="mt-2" id="captcha" style={{ display: "none" }}>
+                    <label className="form-label">
+                      Tolong verifikasi captcha di bawah ini
+                    </label>
+                    <img
+                      src={captcha}
+                      alt=""
+                      style={{ minWidth: "100%", border: 0 }}
+                      width="100%"
+                    />
+                    <input
+                      type="text"
+                      className="form-control mt-3"
+                      placeholder="Capctha"
+                      value={captchaWord}
+                      onChange={(e) => setCaptchaWord(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
-              <p style={{ color: "red" }}>{error ? error : ""}</p>
-              <div className="mt-4" id="captcha" style={{ display: "none" }}>
-                <label className="form-label">
-                  Tolong verifikasi captcha di bawah ini
-                </label>
-                <img
-                  src={captcha}
-                  alt=""
-                  style={{ minWidth: "100%", border: 0 }}
-                />
-                <input
-                  type="text"
-                  className="form-control mt-3"
-                  placeholder="Capctha"
-                  value={captchaWord}
-                  onChange={(e) => setCaptchaWord(e.target.value)}
-                />
+              <div className="row">
+                <div className="col-12">
+                  <button
+                    type="submit"
+                    className="btn btn-block text-light mt-5 mb-4 py-2"
+                    style={{ backgroundColor: "#24a2b7" }}
+                    disabled={buttonLoading ? true : false}
+                  >
+                    {buttonLoading ? <Loading color="white" size={8} /> : "Login"}
+                  </button>
+                </div>
               </div>
-              <button
-                type="submit"
-                className="btn btn-block text-light mt-5 mb-4 py-2"
-                style={{ backgroundColor: "#24a2b7" }}
-                disabled={buttonLoading ? true : false}
-              >
-                {buttonLoading ? <Loading color="white" size={8} /> : "Login"}
-              </button>
             </form>
           </div>
         </div>
