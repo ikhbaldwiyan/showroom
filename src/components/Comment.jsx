@@ -6,6 +6,8 @@ import { SEND_COMMENT, LIVE_COMMENT, profileApi } from "utils/api/api";
 import Skeleton from "react-content-loader";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
+import { FiSend } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 export default function Comment({ roomId, isMultiRoom }) {
   const [comment, setComment] = useState("");
@@ -37,16 +39,15 @@ export default function Comment({ roomId, isMultiRoom }) {
       setMyName(foundUser.user_id);
       setSession(foundSession);
     }
-
   }, []);
 
   useEffect(() => {
     axios.get(profileApi(roomId)).then((res) => {
       const profile = res.data;
-      setProfile(profile)
+      setProfile(profile);
     });
-  }, [roomId])
-  
+  }, [roomId]);
+
   const sendComment = async (e) => {
     e.preventDefault();
     setButtonLoading(true);
@@ -161,7 +162,7 @@ export default function Comment({ roomId, isMultiRoom }) {
               type="text"
               className="form-control"
               style={{ borderRadius: "0 0 0 .25rem", height: "3rem" }}
-              placeholder="Comment"
+              placeholder="Write comment"
               value={textComment}
               onChange={(e) => setTextComment(e.target.value)}
             />
@@ -176,7 +177,11 @@ export default function Comment({ roomId, isMultiRoom }) {
               }}
               disabled={buttonLoading ? true : false}
             >
-              {buttonLoading ? <Loading color="white" size={8} /> : "Send"}
+              {buttonLoading ? (
+                <Loading color="white" size={8} />
+              ) : (
+                <FiSend size={20} />
+              )}
             </button>
           </form>
         </>
@@ -190,18 +195,20 @@ export default function Comment({ roomId, isMultiRoom }) {
               placeholder="Login here if you want comment"
               disabled={true}
             />
-            <button
-              type="button"
-              className="btn text-light"
-              style={{
-                borderRadius: "0 0 .25rem 0",
-                height: "3rem",
-                backgroundColor: "#24a2b7",
-                width: "90px",
-              }}
-            >
-             Login
-            </button>
+            <Link to="/login">
+              <button
+                type="button"
+                className="btn text-light"
+                style={{
+                  borderRadius: "0 0 .25rem 0",
+                  height: "3rem",
+                  backgroundColor: "#24a2b7",
+                  width: "90px",
+                }}
+              >
+                Login
+              </button>
+            </Link>
           </form>
         </>
       )}
@@ -211,8 +218,8 @@ export default function Comment({ roomId, isMultiRoom }) {
 
 const styles = {
   name: {
-    display: 'inline',
-    color: '#24a2b7',
+    display: "inline",
+    color: "#24a2b7",
     fontWeight: 500,
     fontSize: "17px",
   },
