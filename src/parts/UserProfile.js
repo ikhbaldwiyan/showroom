@@ -23,7 +23,7 @@ export default function UserProfile({ data, session }) {
     residence: "",
     user_id: "",
     name: "",
-    description: ""
+    description: "",
   });
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function UserProfile({ data, session }) {
       csrf_token: session.csrf_token,
       cookies_id: session.cookie_login_id,
       residence: 48,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -54,12 +54,12 @@ export default function UserProfile({ data, session }) {
         toast.info(response.data.message, {
           theme: "colored",
           autoClose: 1200,
-          icon: <FaUserCheck size={30} />
+          icon: <FaUserCheck size={30} />,
         });
       }
     } catch (error) {
       toast.error(error.message, {
-        theme: "colored"
+        theme: "colored",
       });
     }
     setIsLoading(false);
@@ -67,9 +67,13 @@ export default function UserProfile({ data, session }) {
 
   useEffect(() => {
     async function getUser() {
-      await axios.get(USER_PROFILE(data.user_id)).then((res) => {
-        setUser(res.data);
-      });
+      await axios
+        .post(USER_PROFILE, {
+          user_id: data.user_id,
+        })
+        .then((res) => {
+          setUser(res.data);
+        });
     }
     getUser();
   }, [data.user_id, modal]);
@@ -82,7 +86,7 @@ export default function UserProfile({ data, session }) {
     toast.success("Logout success", {
       theme: "colored",
       autoClose: 1200,
-      icon: <RiLogoutBoxFill size={30} />
+      icon: <RiLogoutBoxFill size={30} />,
     });
     setTimeout(() => {
       window.location.reload(false);
@@ -138,7 +142,7 @@ export default function UserProfile({ data, session }) {
                         borderTopLeftRadius: ".5rem",
                         borderBottomLeftRadius: ".5rem",
                         color: "#282c34",
-                        backgroundColor: "#24a2b7"
+                        backgroundColor: "#24a2b7",
                       }}
                     >
                       <h5 className="my-3">Profile</h5>
@@ -239,7 +243,7 @@ export default function UserProfile({ data, session }) {
                             disabled={loading}
                             style={{
                               backgroundColor: "#008080",
-                              border: "none"
+                              border: "none",
                             }}
                             onClick={updateProfile}
                           >
