@@ -67,6 +67,13 @@
   z-index: 99;
 }
 
+.sticky-comment {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 5px;
+  z-index: 99;
+}
+
 header {
   border-bottom: 2px solid $gray-300;
   width: 100%;
@@ -212,7 +219,7 @@ section {
 }
 
 .scroll {
-  max-height: 450px;
+  max-height: 600px;
   overflow-y: auto;
   margin-bottom: 15px;
 }

@@ -157,7 +157,7 @@ export default function Comment({ roomId, isMultiRoom }) {
         <>
           {error ? <p className="pl-2 pb-0 text-danger">{error}</p> : ""}
 
-          <form className="d-flex" onSubmit={sendComment}>
+          <form className="d-flex sticky-comment" onSubmit={sendComment}>
             <input
               type="text"
               className="form-control"
