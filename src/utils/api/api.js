@@ -9,6 +9,9 @@ const SEND_COMMENT = `${LARAVEL_API}/live/comment`;
 const LOGIN = `${LARAVEL_API}/login`;
 const GET_OFFICIAL = LARAVEL_API + "/room_official";
 const FARM = LARAVEL_API + "/farming";
+const SEND_GIFT = LARAVEL_API + "/live/send_gift";
+const BULK_GIFT = LARAVEL_API + "/live/bulk_gift";
+
 // Live API
 const liveDetail = (roomId) => {
   return `${LIVE}/${roomId}`;
@@ -65,4 +68,6 @@ export {
   SEND_COMMENT,
   GET_OFFICIAL,
   FARM,
+  SEND_GIFT,
+  BULK_GIFT,
 };

@@ -2,10 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Card } from "reactstrap";
-import { FARM } from "utils/api/api";
+import { FARM, SEND_GIFT } from "utils/api/api";
 import Loading from "./Loading";
+import shot from '../assets/audio/shot.mp3';
+import combo from '../assets/audio/combo.mp3';
 
-function StarButton({ roomId, cookiesLoginId, theme }) {
+function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
   const [stars, setStars] = useState([
     {
       gift_id: "",
@@ -40,6 +42,14 @@ function StarButton({ roomId, cookiesLoginId, theme }) {
   ]);
   const [starLoading, setStarLoading] = useState(false);
   const [isCounting, setIsCounting] = useState(false);
+  const [disableCount, setDisableCount] = useState(false);
+  const [clickCount, setClickCount] = useState({
+    a: 0,
+    b: 0,
+    c: 0,
+    d: 0,
+    e: 0,
+  });
 
   useEffect(() => {
     getFirstStar();
@@ -65,18 +75,36 @@ function StarButton({ roomId, cookiesLoginId, theme }) {
     setStarLoading(false);
   };
 
-  useEffect(() => {
-    let timeoutId;
+  const sendStar = async (e) => {
+    console.log(e.target.name);
+    console.log(clickCount[e.target.name] + 1);
 
-    if (isCounting) {
-      timeoutId = setTimeout(() => {
-        setIsCounting(false);
-        console.log(stars);
-      }, 1000);
-    }
+    const response = await axios.post(SEND_GIFT, {
+      cookies_id: cookiesLoginId,
+      csrf_token: csrfToken,
+      room_id: roomId,
+      gift_name: e.target.name,
+      num: clickCount[e.target.name] + 1,
+    });
 
-    return () => clearTimeout(timeoutId);
-  }, [stars, isCounting]);
+    const data = response.data;
+    console.log(data);
+  };
+
+  // useEffect(() => {
+
+  // }, [stars, isCounting]);
+
+  const disable = () => {
+    setDisableCount(true)
+
+    let timeoutDisable;
+    timeoutDisable = setTimeout(() => {
+      setDisableCount(false);
+    }, 2000);
+
+    return () => clearTimeout(timeoutDisable);
+  }
 
   const setAllStar = (data) => {
     setStarLoading(true);
@@ -98,16 +126,39 @@ function StarButton({ roomId, cookiesLoginId, theme }) {
     setStars((prevState) => {
       return prevState.map((starObj) => {
         if (starObj.name === e.target.name) {
-          return {
-            ...starObj,
-            count: starObj.count - 1,
-          };
+          if (starObj.count > 0) {
+            setClickCount({
+              ...clickCount, [e.target.name]: clickCount[e.target.name] + 1
+            })
+
+            if (clickCount[e.target.name] == 9) {
+              sendStar(e);
+              disable()
+              setClickCount({
+                ...clickCount, [e.target.name]: 0
+              })
+            }
+
+            if (clickCount[e.target.name] == 9) {
+              const audio = new Audio(combo);
+              audio.volume = 1;
+              audio.play();
+            } else {
+              const audio = new Audio(shot);
+              audio.volume = 1;
+              audio.play();
+            }
+
+            return {
+              ...starObj,
+              count: starObj.count - 1,
+            };
+
+          }
         }
         return starObj;
       });
     });
-
-    console.log(stars);
   };
 
   return (
@@ -134,7 +185,7 @@ function StarButton({ roomId, cookiesLoginId, theme }) {
             width="50px"
             height="50px"
             style={{ cursor: "pointer" }}
-            onClick={handleClick}
+            onClick={disableCount ? void (0) : handleClick}
             name={gift.name}
             alt="stars"
           />

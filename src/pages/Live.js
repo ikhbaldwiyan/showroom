@@ -30,6 +30,7 @@ function Live(props) {
   const [loading, setLoading] = useState(false);
   const [hideMenu, setHideMenu] = useState(false);
   const [cookiesLoginId, setCookiesLoginId] = useState("");
+  const [csrfToken, setCsrfToken] = useState("");
   const [session, setSession] = useState("");
 
   useEffect(() => {
@@ -38,6 +39,7 @@ function Live(props) {
       const foundSession = JSON.parse(userSession);
       setSession(foundSession);
       setCookiesLoginId(foundSession.cookie_login_id);
+      setCsrfToken(foundSession.csrf_token);
     }
   }, [])
 
@@ -91,7 +93,7 @@ function Live(props) {
                     setHideMenu={setHideMenu}
                     theme={props.theme}
                   />
-                  <StarButton roomId={roomId} cookiesLoginId={cookiesLoginId} theme={props.theme} />
+                  <StarButton roomId={roomId} cookiesLoginId={cookiesLoginId} csrfToken={csrfToken} theme={props.theme} />
                 </>
               ))
             ) : !url ? (
