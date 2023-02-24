@@ -101,7 +101,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
     let timeoutDisable;
     timeoutDisable = setTimeout(() => {
       setDisableCount(false);
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(timeoutDisable);
   }
