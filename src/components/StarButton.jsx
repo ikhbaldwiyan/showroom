@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Card } from "reactstrap";
-import { FARM, SEND_GIFT } from "utils/api/api";
+import { BULK_GIFT, FARM, SEND_GIFT } from "utils/api/api";
 import Loading from "./Loading";
 import shot from '../assets/audio/shot.mp3';
 import combo from '../assets/audio/combo.mp3';
+import bulkImage from '../assets/images/bulk.svg';
 
 function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
   const [stars, setStars] = useState([
@@ -53,9 +54,9 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
   const [activeButton, setActiveButton] = useState(null);
 
   useEffect(() => {
-    setDisableCount(true);
+    setDisableCount(true)
     getFirstStar();
-    setDisableCount(false);
+    setDisableCount(false)
   }, [roomId, cookiesLoginId]);
 
   const getFirstStar = async () => {
@@ -66,28 +67,92 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
       room_id: roomId,
     });
 
-    const data = response.data;
-    if (!data.message.includes("Offline")) {
-      setAllStar(data);
-      return;
-    }
-    if (data.message.includes("Sukses")) {
-      toast.info(`You got free star`, {
-        theme: "colored",
-      });
-    }
-
+    setAllStar(response.data);
     setStarLoading(false);
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
       getFirstStar();
-    }, 1000 * 60);
+    }, 1000 * 80);
     return () => clearInterval(interval);
   }, []);
 
-  const sendStar = async (e) => {
+  useEffect(() => {
+    let timeoutId;
+
+    if (isCounting) {
+      timeoutId = setTimeout(() => {
+        setIsCounting(false);
+        console.log('stop');
+        setDisableCount(true)
+        
+        Object.entries(clickCount).map(([key, value]) => {
+          if (value < 10 && value > 0) {
+            sendStar(key, value)
+            
+            setClickCount({
+              a: 0,
+              b: 0,
+              c: 0,
+              d: 0,
+              e: 0,
+            })
+            
+          }
+        })
+      }, 1000);
+    }
+    return () => clearTimeout(timeoutId);
+  }, [stars, isCounting]);
+
+  const setAllStar = (data) => {
+    setStarLoading(true);
+    if (data.star.length === 0) return;
+    const updatedStar = stars.map((gift, index) => {
+      return {
+        ...gift,
+        gift_id: data.star[index].gift_id,
+        count: data.star[index].free_num,
+      };
+    });
+    setStars(updatedStar);
+    setStarLoading(false);
+  };
+
+
+  const sendAllStar = async () => {
+    setStarLoading(true);
+    setDisableCount(true)
+
+    try {
+      const response = await axios.post(BULK_GIFT, {
+        cookies_id: cookiesLoginId,
+        csrf_token: csrfToken,
+        room_id: roomId,
+      });
+
+      if (response.data.ok) {
+        console.log(response.data);
+
+        const res = await axios.post(FARM, {
+          cookies_login_id: cookiesLoginId,
+          room_id: roomId,
+        });
+
+        setAllStar(res.data);
+
+        setDisableCount(false)
+        setStarLoading(false)
+      }
+
+    } catch {
+      setDisableCount(false)
+      setStarLoading(false)
+    }
+  }
+
+  const send10Star = async (e) => {
     console.log(e.target.name);
     console.log(clickCount[e.target.name] + 1);
 
@@ -125,7 +190,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
   };
 
 
-  const sendGiftUnder10 = async (key, value) => {
+  const sendStar = async (key, value) => {
     const response = await axios.post(SEND_GIFT, {
       cookies_id: cookiesLoginId,
       csrf_token: csrfToken,
@@ -155,49 +220,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
     }
   }
 
-  useEffect(() => {
-    let timeoutId;
-
-    if (isCounting) {
-      timeoutId = setTimeout(() => {
-        setIsCounting(false);
-        console.log('stop');
-        setDisableCount(true)
-
-        Object.entries(clickCount).map(([key, value]) => {
-          if (value < 10 && value > 0) {
-            sendGiftUnder10(key, value)
-
-            setClickCount({
-              a: 0,
-              b: 0,
-              c: 0,
-              d: 0,
-            })
-
-          }
-        })
-      }, 1000);
-    }
-
-    return () => clearTimeout(timeoutId);
-  }, [stars, isCounting]);
-
-  const setAllStar = (data) => {
-    setStarLoading(true);
-    if (data.star.length === 0) return;
-    const updatedStar = stars.map((gift, index) => {
-      return {
-        ...gift,
-        gift_id: data.star[index].gift_id,
-        count: data.star[index].free_num,
-      };
-    });
-    setStars(updatedStar);
-    setStarLoading(false);
-  };
-
-  const handleClick = (e) => {
+  const handleStarClick = (e) => {
     setIsCounting(true);
     setActiveButton(e.target.name);
     setStars((prevState) => {
@@ -209,7 +232,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
             })
 
             if (clickCount[e.target.name] == 9) {
-              sendStar(e);
+              send10Star(e);
               setDisableCount(true)
 
               setClickCount({
@@ -217,6 +240,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
                 b: 0,
                 c: 0,
                 d: 0,
+                e: 0,
               })
             }
 
@@ -246,7 +270,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
     <Card
       style={{
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "space-evenly",
         flexDirection: "inherit",
         padding: "20px",
         backgroundColor: theme === "dark" ? "#343A40" : "white",
@@ -254,32 +278,47 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
       }}
       className="my-4"
     >
-      {stars.map((gift) => (
-        <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
-          <input
-            type="image"
-            src={
-              gift.gift_id
-                ? `https://static.showroom-live.com/image/gift/${gift.gift_id}_s.png?v=1`
-                : gift.url
-            }
-            disabled={activeButton != gift.name && activeButton != null}
-            width="50px"
-            height="50px"
-            style={{ cursor: "pointer" }}
-            onClick={disableCount ? void (0) : handleClick}
-            name={gift.name}
-            alt="stars"
-          />
-          <b className="mb-0">
-            {starLoading ? (
-              <Loading color={theme === "dark" ? "white" : "black"} size={6} />
-            ) : (
-              gift.count
-            )}
-          </b>
-        </div>
-      ))}
+      <div className="row">
+        {stars.map((gift) => (
+          <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
+            <input
+              type="image"
+              src={
+                gift.gift_id
+                  ? `https://static.showroom-live.com/image/gift/${gift.gift_id}_s.png?v=1`
+                  : gift.url
+              }
+              disabled={activeButton != gift.name && activeButton != null}
+              width="50px"
+              height="50px"
+              style={{ cursor: "pointer" }}
+              onClick={disableCount ? void (0) : handleStarClick}
+              name={gift.name}
+              alt="stars"
+            />
+            <b className="mb-0">
+              {starLoading ? (
+                <Loading color={theme === "dark" ? "white" : "black"} size={6} />
+              ) : (
+                gift.count
+              )}
+            </b>
+          </div>
+        ))}
+      </div>
+
+      <button
+        className="btn"
+        onClick={sendAllStar}
+        disabled={disableCount ? true : false || activeButton != null}
+        style={{
+          borderRadius: "100%",
+          backgroundColor: "#24a2b7",
+          width: "76px",
+          height: "76px",
+        }}>
+        <img src={bulkImage} height={50} width={50} />
+      </button>
     </Card>
   );
 }

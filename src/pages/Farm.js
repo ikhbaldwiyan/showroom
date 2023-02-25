@@ -152,6 +152,7 @@ function Farm(props) {
   const getOfficials = async () => {
     try {
       setBtnLoadingRoom(true);
+      setStarLoading(true)
       const response = await axios.get(GET_OFFICIAL);
       if (response.data) {
         localStorage.setItem(
