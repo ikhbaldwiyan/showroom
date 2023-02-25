@@ -209,10 +209,10 @@ function Farm(props) {
     setStar({
       ...star,
       a: data.star[0].free_num,
-      b: data.star[4].free_num,
-      c: data.star[1].free_num,
-      d: data.star[2].free_num,
-      e: data.star[3].free_num,
+      b: data.star[1].free_num,
+      c: data.star[2].free_num,
+      d: data.star[3].free_num,
+      e: data.star[4].free_num,
     })
     setStarLoading(false)
   }

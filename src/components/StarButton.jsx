@@ -50,13 +50,17 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
     d: 0,
     e: 0,
   });
+  const [activeButton, setActiveButton] = useState(null);
 
   useEffect(() => {
+    setDisableCount(true);
     getFirstStar();
+    setDisableCount(false);
   }, [roomId, cookiesLoginId]);
 
   const getFirstStar = async () => {
     setStarLoading(true);
+
     const response = await axios.post(FARM, {
       cookies_login_id: cookiesLoginId,
       room_id: roomId,
@@ -72,8 +76,16 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
         theme: "colored",
       });
     }
+
     setStarLoading(false);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getFirstStar();
+    }, 1000 * 60);
+    return () => clearInterval(interval);
+  }, []);
 
   const sendStar = async (e) => {
     console.log(e.target.name);
@@ -87,24 +99,89 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
       num: clickCount[e.target.name] + 1,
     });
 
-    const data = response.data;
-    console.log(data);
+    if (response.data.ok) {
+      console.log(response.data);
+      let data = response.data;
+
+      setStars(prevState => [
+        ...prevState.map(star => {
+          if (star.name === e.target.name) {
+            return {
+              ...star,
+              count: data.remaining_num
+            }
+          }
+          return star
+        })
+      ]);
+
+      setDisableCount(false)
+      setActiveButton(null)
+    }
+    else {
+      setDisableCount(false)
+      setActiveButton(null)
+    }
   };
 
-  // useEffect(() => {
 
-  // }, [stars, isCounting]);
+  const sendGiftUnder10 = async (key, value) => {
+    const response = await axios.post(SEND_GIFT, {
+      cookies_id: cookiesLoginId,
+      csrf_token: csrfToken,
+      room_id: roomId,
+      gift_name: key,
+      num: value,
+    });
 
-  const disable = () => {
-    setDisableCount(true)
+    if (response.data.ok) {
+      let data = response.data;
+      console.log(response.data);
 
-    let timeoutDisable;
-    timeoutDisable = setTimeout(() => {
-      setDisableCount(false);
-    }, 3000);
+      setStars(prevState => [
+        ...prevState.map(star => {
+          if (star.name === key) {
+            return {
+              ...star,
+              count: data.remaining_num
+            }
+          }
+          return star
+        })
+      ]);
 
-    return () => clearTimeout(timeoutDisable);
+      setDisableCount(false)
+      setActiveButton(null)
+    }
   }
+
+  useEffect(() => {
+    let timeoutId;
+
+    if (isCounting) {
+      timeoutId = setTimeout(() => {
+        setIsCounting(false);
+        console.log('stop');
+        setDisableCount(true)
+
+        Object.entries(clickCount).map(([key, value]) => {
+          if (value < 10 && value > 0) {
+            sendGiftUnder10(key, value)
+
+            setClickCount({
+              a: 0,
+              b: 0,
+              c: 0,
+              d: 0,
+            })
+
+          }
+        })
+      }, 1000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [stars, isCounting]);
 
   const setAllStar = (data) => {
     setStarLoading(true);
@@ -122,7 +199,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
 
   const handleClick = (e) => {
     setIsCounting(true);
-
+    setActiveButton(e.target.name);
     setStars((prevState) => {
       return prevState.map((starObj) => {
         if (starObj.name === e.target.name) {
@@ -133,9 +210,13 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
 
             if (clickCount[e.target.name] == 9) {
               sendStar(e);
-              disable()
+              setDisableCount(true)
+
               setClickCount({
-                ...clickCount, [e.target.name]: 0
+                a: 0,
+                b: 0,
+                c: 0,
+                d: 0,
               })
             }
 
@@ -182,6 +263,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
                 ? `https://static.showroom-live.com/image/gift/${gift.gift_id}_s.png?v=1`
                 : gift.url
             }
+            disabled={activeButton != gift.name && activeButton != null}
             width="50px"
             height="50px"
             style={{ cursor: "pointer" }}
