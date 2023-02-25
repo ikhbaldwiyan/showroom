@@ -73,7 +73,9 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      setDisableCount(true)
       getFirstStar();
+      setDisableCount(false)
     }, 1000 * 80);
     return () => clearInterval(interval);
   }, []);
@@ -86,11 +88,11 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
         setIsCounting(false);
         console.log('stop');
         setDisableCount(true)
-        
+
         Object.entries(clickCount).map(([key, value]) => {
           if (value < 10 && value > 0) {
             sendStar(key, value)
-            
+
             setClickCount({
               a: 0,
               b: 0,
@@ -98,7 +100,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
               d: 0,
               e: 0,
             })
-            
+
           }
         })
       }, 1000);
@@ -142,48 +144,59 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
 
         setAllStar(res.data);
 
+        toast.success(`Sukses Mengirim Semua Star`, {
+          theme: "colored",
+        });
+
         setDisableCount(false)
         setStarLoading(false)
       }
 
     } catch {
+      toast.error(
+        "Gagal mengirim star",
+        {
+          theme: "colored",
+        }
+      );
       setDisableCount(false)
       setStarLoading(false)
     }
   }
 
-  const send10Star = async (e) => {
+  const sendTenStar = async (e) => {
     console.log(e.target.name);
     console.log(clickCount[e.target.name] + 1);
 
-    const response = await axios.post(SEND_GIFT, {
-      cookies_id: cookiesLoginId,
-      csrf_token: csrfToken,
-      room_id: roomId,
-      gift_name: e.target.name,
-      num: clickCount[e.target.name] + 1,
-    });
+    try {
+      const response = await axios.post(SEND_GIFT, {
+        cookies_id: cookiesLoginId,
+        csrf_token: csrfToken,
+        room_id: roomId,
+        gift_name: e.target.name,
+        num: clickCount[e.target.name] + 1,
+      });
 
-    if (response.data.ok) {
-      console.log(response.data);
-      let data = response.data;
+      if (response.data.ok) {
+        console.log(response.data);
+        let data = response.data;
 
-      setStars(prevState => [
-        ...prevState.map(star => {
-          if (star.name === e.target.name) {
-            return {
-              ...star,
-              count: data.remaining_num
+        setStars(prevState => [
+          ...prevState.map(star => {
+            if (star.name === e.target.name) {
+              return {
+                ...star,
+                count: data.remaining_num
+              }
             }
-          }
-          return star
-        })
-      ]);
+            return star
+          })
+        ]);
 
-      setDisableCount(false)
-      setActiveButton(null)
-    }
-    else {
+        setDisableCount(false)
+        setActiveButton(null)
+      }
+    } catch {
       setDisableCount(false)
       setActiveButton(null)
     }
@@ -191,38 +204,44 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
 
 
   const sendStar = async (key, value) => {
-    const response = await axios.post(SEND_GIFT, {
-      cookies_id: cookiesLoginId,
-      csrf_token: csrfToken,
-      room_id: roomId,
-      gift_name: key,
-      num: value,
-    });
+    try {
+      const response = await axios.post(SEND_GIFT, {
+        cookies_id: cookiesLoginId,
+        csrf_token: csrfToken,
+        room_id: roomId,
+        gift_name: key,
+        num: value,
+      });
 
-    if (response.data.ok) {
-      let data = response.data;
-      console.log(response.data);
+      if (response.data.ok) {
+        let data = response.data;
+        console.log(response.data);
 
-      setStars(prevState => [
-        ...prevState.map(star => {
-          if (star.name === key) {
-            return {
-              ...star,
-              count: data.remaining_num
+        setStars(prevState => [
+          ...prevState.map(star => {
+            if (star.name === key) {
+              return {
+                ...star,
+                count: data.remaining_num
+              }
             }
-          }
-          return star
-        })
-      ]);
+            return star
+          })
+        ]);
 
+        setDisableCount(false)
+        setActiveButton(null)
+      }
+    } catch {
       setDisableCount(false)
       setActiveButton(null)
     }
   }
 
-  const handleStarClick = (e) => {
+  const clickStar = (e) => {
     setIsCounting(true);
     setActiveButton(e.target.name);
+
     setStars((prevState) => {
       return prevState.map((starObj) => {
         if (starObj.name === e.target.name) {
@@ -232,7 +251,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
             })
 
             if (clickCount[e.target.name] == 9) {
-              send10Star(e);
+              sendTenStar(e);
               setDisableCount(true)
 
               setClickCount({
@@ -292,7 +311,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
               width="50px"
               height="50px"
               style={{ cursor: "pointer" }}
-              onClick={disableCount ? void (0) : handleStarClick}
+              onClick={disableCount ? void (0) : clickStar}
               name={gift.name}
               alt="stars"
             />

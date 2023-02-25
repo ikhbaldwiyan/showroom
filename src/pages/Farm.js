@@ -398,7 +398,7 @@ function Farm(props) {
 
           </div>
 
-          <div className="col-7 pl-5">
+          <div className="col-7 pl-5 mt-5">
             {currentRoomId ? (
               time == 0 ? (
                 ""
@@ -412,7 +412,7 @@ function Farm(props) {
               )
             ) : null}
 
-            {successRoom.length > 0 ?
+            {/* {successRoom.length > 0 ?
               <div className="">
                 <p className="text-success m-0">Sukses farming di Room :</p>
                 <p className="text-success">
@@ -439,10 +439,10 @@ function Farm(props) {
                   </div>
                 </div>
               </div>
-            : ''}
+            : ''} */}
 
             {allMessage.length > 0 ?
-              <div className="mt-5">
+              <div className="mt-5 pt-1">
                 <p>Status Log :</p>
                 <ul className="pl-3">
                   {allMessage.map((message, idx) => (
