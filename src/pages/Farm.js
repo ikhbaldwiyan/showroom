@@ -412,7 +412,7 @@ function Farm(props) {
               )
             ) : null}
 
-            {/* {successRoom.length > 0 ?
+            {successRoom.length > 0 ?
               <div className="">
                 <p className="text-success m-0">Sukses farming di Room :</p>
                 <p className="text-success">
@@ -420,7 +420,7 @@ function Farm(props) {
                     .replaceAll(",", ",  ")
                     .replaceAll('"', "")}
                 </p>
-                <div
+                {/* <div
                   style={{ width: "100%", height: "25px", borderRadius: "15px" }}
                   className="col mb-5 p-0 bg-secondary" >
                   <div
@@ -437,12 +437,12 @@ function Farm(props) {
                       <p className="text-center text-light m-3">{(countSuccess / 10) * 100 > 100 ? 100 : (countSuccess / 10) * 100}%</p>
                     }
                   </div>
-                </div>
+                </div> */}
               </div>
-            : ''} */}
+            : ''}
 
             {allMessage.length > 0 ?
-              <div className="mt-5 pt-1">
+              <div className="mt-1 pt-1">
                 <p>Status Log :</p>
                 <ul className="pl-3">
                   {allMessage.map((message, idx) => (
