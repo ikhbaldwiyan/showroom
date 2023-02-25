@@ -187,7 +187,7 @@ export default function Comment({ roomId, isMultiRoom }) {
         </>
       ) : (
         <>
-          <form className="d-flex">
+          <form className="d-flex sticky-comment">
             <input
               type="text"
               className="form-control"

@@ -169,7 +169,7 @@ export default function UserProfile({ data, session }) {
                           "https://static.showroom-live.com/image/avatar/1.png?v=92"
                         }
                         alt="Avatar"
-                        className="img-fluid mb-3 rounded-circle"
+                        className="img-fluid mb-3"
                         width={80}
                       />
                       <h6>Level {user.fan_level}</h6>
