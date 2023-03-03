@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Card } from "reactstrap";
+import { Button, Card, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { BULK_GIFT, FARM, SEND_GIFT } from "utils/api/api";
 import Loading from "./Loading";
 import shot from '../assets/audio/shot.mp3';
@@ -52,6 +52,8 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
     e: 0,
   });
   const [activeButton, setActiveButton] = useState(null);
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
 
   useEffect(() => {
     setDisableCount(true)
@@ -124,6 +126,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
 
 
   const sendAllStar = async () => {
+    setModal(!modal)
     setStarLoading(true);
     setDisableCount(true)
 
@@ -328,7 +331,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
 
       <button
         className="btn"
-        onClick={sendAllStar}
+        onClick={toggle}
         disabled={disableCount ? true : false || activeButton != null}
         style={{
           borderRadius: "100%",
@@ -336,8 +339,24 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
           width: "76px",
           height: "76px",
         }}>
-        <img src={bulkImage} height={50} width={50} />
+        <img src={bulkImage} height={50} width={50} alt="bulk gift" />
       </button>
+      <div>
+        <Modal isOpen={modal} toggle={toggle}>
+          <ModalHeader style={{ backgroundColor: "#24a2b7" }} toggle={toggle}>Send All Stars</ModalHeader>
+          <ModalBody className="text-dark">
+            Are you sure want to send all gift ?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={sendAllStar}>
+              Yes
+            </Button>
+            <Button color="danger" onClick={toggle}>
+              No
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </div>
     </Card>
   );
 }

@@ -17,7 +17,7 @@ import {
   StageUser,
   TotalRank,
   Gift,
-  Setlist,
+  Setlist
 } from "components";
 import { isMobile } from "react-device-detect";
 import StarButton from "components/StarButton";
@@ -41,7 +41,7 @@ function Live(props) {
       setCookiesLoginId(foundSession.cookie_login_id);
       setCsrfToken(foundSession.csrf_token);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     axios.get(liveDetail(roomId)).then((res) => {
@@ -93,7 +93,14 @@ function Live(props) {
                     setHideMenu={setHideMenu}
                     theme={props.theme}
                   />
-                  <StarButton roomId={roomId} cookiesLoginId={cookiesLoginId} csrfToken={csrfToken} theme={props.theme} />
+                  {session && (
+                    <StarButton
+                      roomId={roomId}
+                      cookiesLoginId={cookiesLoginId}
+                      csrfToken={csrfToken}
+                      theme={props.theme}
+                    />
+                  )}
                 </>
               ))
             ) : !url ? (
