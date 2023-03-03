@@ -6,6 +6,7 @@ import { LOGIN } from "utils/api/api";
 import { toast } from "react-toastify";
 import { Loading } from "components";
 import { RiLoginBoxFill } from "react-icons/ri";
+import { useHistory } from "react-router-dom";
 
 function Login(props) {
   const [accountId, setAccountId] = useState("");
@@ -16,6 +17,7 @@ function Login(props) {
   const [cookiesId, setCookiesId] = useState("");
   const [csrf, setCsrf] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
+  const navigate = useHistory();
 
   useEffect(() => {
     window.document.title = "Login JKT48 SHOWROOM";
@@ -60,7 +62,7 @@ function Login(props) {
         });
 
         setTimeout(() => {
-          window.location = "/";
+          navigate.push('/')
         }, 2500);
       }
 

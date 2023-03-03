@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { FaEdit, FaUserCheck, FaWindowClose } from "react-icons/fa";
 import { RiLogoutBoxFill } from "react-icons/ri";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
@@ -17,6 +18,7 @@ export default function UserProfile({ data, session }) {
 
   const toggle = () => setModal(!modal);
   const toggleLogout = () => setModalLogout(!modalLogout);
+  const navigate = useHistory();
 
   const [profile, setProfile] = useState({
     csrf_token: "",
@@ -90,7 +92,7 @@ export default function UserProfile({ data, session }) {
       icon: <RiLogoutBoxFill size={30} />,
     });
     setTimeout(() => {
-      window.location.reload(false);
+      navigate.push('/login');
     }, 2000);
   };
 
