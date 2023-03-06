@@ -12,7 +12,7 @@ import Loading from "./Loading";
 import { AiOutlineHistory } from "react-icons/ai";
 import SkeletonBox from "parts/skeleton/SkeletonBox";
 
-const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile }) => {
+const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile, setProfile }) => {
   const [avatar, setAvatar] = useState([]);
   const [totalAvatar, setTotalAvatar] = useState(0);
   const [limit, setLimit] = useState(12);
@@ -25,12 +25,12 @@ const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile }) => {
   const [avatarLoading, setAvatarLoading] = useState("");
   const [icon, setIcon] = useState(<IoIosUnlock size={18} className="mb-1" />);
   const [isRandom, setIsRandom] = useState(false);
+  const [offset, setOffset] = useState();
   const totalPages = Math.ceil(totalAvatar / limit);
 
   useEffect(() => {
     const fetchAvatar = async () => {
       try {
-        const offset = (page - 1) * limit;
         const response = await axios.post(GET_AVATAR, {
           csrf_token: session.csrf_token,
           cookies_id: session.cookie_login_id,
@@ -56,16 +56,22 @@ const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile }) => {
     setLoadingPage(false);
 
     if (type === "all") {
+      setAvatarLoading(true);
       setTitle("Unlocked");
       setIcon(<IoIosUnlock size={18} className="mb-1" />);
+      setOffset((page - 1) * limit);
     } else if (type === "fav") {
+      setAvatarLoading(true);
       setTitle("Favorite");
       setIcon(<FaStar className="mb-1" />);
+      setOffset(0);
     } else if (type === "recent_used") {
+      setAvatarLoading(true);
       setTitle("History");
       setIcon(<AiOutlineHistory size={19} className="mb-1" />);
+      setOffset(0);
     }
-  }, [isEditAvatar, page, type]);
+  }, [isEditAvatar, page, type, offset, limit]);
 
   const handleAvatarSelect = (event, avatarId, avatarImage) => {
     event.preventDefault();
@@ -141,6 +147,7 @@ const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile }) => {
       const sessionProfile = JSON.parse(localStorage.getItem("profile"));
       sessionProfile.avatar_url = currentAvatar;
       localStorage.setItem("profile", JSON.stringify(sessionProfile));
+      setProfile(profile)
     } catch (error) {
       toast.error(error.message, {
         theme: "colored",

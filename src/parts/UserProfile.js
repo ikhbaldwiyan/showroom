@@ -32,7 +32,7 @@ export default function UserProfile({ data, session, theme }) {
     const userProfile = localStorage.getItem("profile");
     const foundProfile = JSON.parse(userProfile);
     userProfile && setProfile(foundProfile);
-  }, []);
+  }, [isEditAvatar]);
 
   const handleChange = (event) => {
     setProfile({
@@ -306,6 +306,7 @@ export default function UserProfile({ data, session, theme }) {
                           setIsEditAvatar={setIsEditAvatar}
                           theme={theme}
                           profile={profile}
+                          setProfile={setProfile}
                         />
                       )}
                     </div>
