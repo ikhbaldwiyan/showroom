@@ -12,7 +12,13 @@ import Loading from "./Loading";
 import { AiOutlineHistory } from "react-icons/ai";
 import SkeletonBox from "parts/skeleton/SkeletonBox";
 
-const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile, setProfile }) => {
+const EditAvatar = ({
+  session,
+  isEditAvatar,
+  setIsEditAvatar,
+  profile,
+  setProfile,
+}) => {
   const [avatar, setAvatar] = useState([]);
   const [totalAvatar, setTotalAvatar] = useState(0);
   const [limit, setLimit] = useState(12);
@@ -25,11 +31,12 @@ const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile, setProfil
   const [avatarLoading, setAvatarLoading] = useState("");
   const [icon, setIcon] = useState(<IoIosUnlock size={18} className="mb-1" />);
   const [isRandom, setIsRandom] = useState(false);
-  const [offset, setOffset] = useState();
   const totalPages = Math.ceil(totalAvatar / limit);
 
   useEffect(() => {
     const fetchAvatar = async () => {
+      const offset = (page - 1) * limit
+      
       try {
         const response = await axios.post(GET_AVATAR, {
           csrf_token: session.csrf_token,
@@ -56,22 +63,18 @@ const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile, setProfil
     setLoadingPage(false);
 
     if (type === "all") {
-      setAvatarLoading(true);
       setTitle("Unlocked");
       setIcon(<IoIosUnlock size={18} className="mb-1" />);
-      setOffset((page - 1) * limit);
     } else if (type === "fav") {
       setAvatarLoading(true);
       setTitle("Favorite");
       setIcon(<FaStar className="mb-1" />);
-      setOffset(0);
     } else if (type === "recent_used") {
       setAvatarLoading(true);
       setTitle("History");
       setIcon(<AiOutlineHistory size={19} className="mb-1" />);
-      setOffset(0);
     }
-  }, [isEditAvatar, page, type, offset, limit]);
+  }, [isEditAvatar, page, type]);
 
   const handleAvatarSelect = (event, avatarId, avatarImage) => {
     event.preventDefault();
@@ -147,7 +150,7 @@ const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile, setProfil
       const sessionProfile = JSON.parse(localStorage.getItem("profile"));
       sessionProfile.avatar_url = currentAvatar;
       localStorage.setItem("profile", JSON.stringify(sessionProfile));
-      setProfile(profile)
+      setProfile(profile);
     } catch (error) {
       toast.error(error.message, {
         theme: "colored",
@@ -246,7 +249,10 @@ const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile, setProfil
       <div className="row">
         <div className="col-12">
           <Button
-            onClick={() => setType("all")}
+            onClick={() => {
+              setType("all");
+              setPage(1);
+            }}
             outline={type !== "all"}
             className="mr-1"
             color="danger"
@@ -254,7 +260,10 @@ const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile, setProfil
             All
           </Button>
           <Button
-            onClick={() => setType("fav")}
+            onClick={() => {
+              setType("fav");
+              setPage(1);
+            }}
             outline={type !== "fav"}
             className="mx-1"
             color="warning"
@@ -262,7 +271,10 @@ const EditAvatar = ({ session, isEditAvatar, setIsEditAvatar, profile, setProfil
             Favorite
           </Button>
           <Button
-            onClick={() => setType("recent_used")}
+            onClick={() => {
+              setType("recent_used");
+              setPage(1);
+            }}
             outline={type !== "recent_used"}
             className="mx-1"
             color="info"
