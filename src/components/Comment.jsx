@@ -63,12 +63,22 @@ export default function Comment({ roomId, isMultiRoom }) {
       setButtonLoading(false);
 
       if (isMultiRoom == true) {
-        toast.success(`Send comment to ${profile?.room_url_key.replace("JKT48_", "")} success`, {
-          theme: "colored"
+        toast.success(
+          `Send comment to ${profile?.room_url_key.replace(
+            "JKT48_",
+            ""
+          )} success`,
+          {
+            theme: "colored",
+          }
+        );
+      }
+    } catch (err) {
+      if (textComment.length > 50) {
+        toast.error(`Comment terlalu panjang max 50 karakter gan`, {
+          theme: "colored",
         });
       }
-
-    } catch (err) {
       setButtonLoading(false);
       setError("Please try again");
     }
