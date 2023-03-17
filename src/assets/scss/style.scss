@@ -67,6 +67,13 @@
   z-index: 99;
 }
 
+.sticky-comment {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  z-index: 99;
+}
+
 header {
   border-bottom: 2px solid $gray-300;
   width: 100%;
@@ -212,7 +219,7 @@ section {
 }
 
 .scroll {
-  max-height: 450px;
+  max-height: 600px;
   overflow-y: auto;
   margin-bottom: 15px;
 }
@@ -321,4 +328,23 @@ main {
   .btn-onlive {
     display: none !important;
    }
+}
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input {
+  padding-right: 2.5rem;
+}
+
+.input-with-icon .password-toggle-icon {
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  color: #aaa;
+  cursor: pointer;
 }

@@ -6,16 +6,20 @@ import { LOGIN } from "utils/api/api";
 import { toast } from "react-toastify";
 import { Loading } from "components";
 import { RiLoginBoxFill } from "react-icons/ri";
+import { useHistory } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Login(props) {
   const [accountId, setAccountId] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [captchaWord, setCaptchaWord] = useState("");
   const [captcha, setCaptcha] = useState("");
   const [error, setError] = useState("");
   const [cookiesId, setCookiesId] = useState("");
   const [csrf, setCsrf] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
+  const navigate = useHistory();
 
   useEffect(() => {
     window.document.title = "Login JKT48 SHOWROOM";
@@ -60,7 +64,7 @@ function Login(props) {
         });
 
         setTimeout(() => {
-          window.location = "/";
+          navigate.push("/");
         }, 2500);
       }
 
@@ -118,20 +122,38 @@ function Login(props) {
                   <label>
                     <h6>Password</h6>
                   </label>
-                  <input
-                    type="password"
-                    required
-                    className="form-control"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                  <div className="input-with-icon">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      className="form-control"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <span
+                      className="password-toggle-icon"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <FaEyeSlash fill="black" />
+                      ) : (
+                        <FaEye fill="black" />
+                      )}
+                    </span>
+                  </div>
                 </div>
               </div>
               <div className="row">
                 <div className="col-12">
-                  <p className="mt-3" style={{ color: "red" }}>{error ? error : ""}</p>
-                  <div className="mt-2" id="captcha" style={{ display: "none" }}>
+                  <p className="mt-3" style={{ color: "red" }}>
+                    {error ? error : ""}
+                  </p>
+                  <div
+                    className="mt-2"
+                    id="captcha"
+                    style={{ display: "none" }}
+                  >
                     <label className="form-label">
                       Tolong verifikasi captcha di bawah ini
                     </label>
@@ -159,7 +181,11 @@ function Login(props) {
                     style={{ backgroundColor: "#24a2b7" }}
                     disabled={buttonLoading ? true : false}
                   >
-                    {buttonLoading ? <Loading color="white" size={8} /> : "Login"}
+                    {buttonLoading ? (
+                      <Loading color="white" size={8} />
+                    ) : (
+                      "Login"
+                    )}
                   </button>
                 </div>
               </div>

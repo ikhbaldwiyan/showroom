@@ -63,12 +63,22 @@ export default function Comment({ roomId, isMultiRoom }) {
       setButtonLoading(false);
 
       if (isMultiRoom == true) {
-        toast.success(`Send comment to ${profile?.room_url_key.replace("JKT48_", "")} success`, {
-          theme: "colored"
+        toast.success(
+          `Send comment to ${profile?.room_url_key.replace(
+            "JKT48_",
+            ""
+          )} success`,
+          {
+            theme: "colored",
+          }
+        );
+      }
+    } catch (err) {
+      if (textComment.length > 50) {
+        toast.error(`Comment terlalu panjang max 50 karakter gan`, {
+          theme: "colored",
         });
       }
-
-    } catch (err) {
       setButtonLoading(false);
       setError("Please try again");
     }
@@ -157,7 +167,7 @@ export default function Comment({ roomId, isMultiRoom }) {
         <>
           {error ? <p className="pl-2 pb-0 text-danger">{error}</p> : ""}
 
-          <form className="d-flex" onSubmit={sendComment}>
+          <form className="d-flex sticky-comment" onSubmit={sendComment}>
             <input
               type="text"
               className="form-control"
@@ -187,7 +197,7 @@ export default function Comment({ roomId, isMultiRoom }) {
         </>
       ) : (
         <>
-          <form className="d-flex">
+          <form className="d-flex sticky-comment">
             <input
               type="text"
               className="form-control"
