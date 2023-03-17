@@ -17,7 +17,7 @@ export default function SummaryRank({roomId}) {
     return (
       summary ? (
         <Table dark>
-          <div className="scroll">
+          <div className="scroll-room">
             <thead style={{backgroundColor: '#24a2b7', color: 'white', borderTop: 'none'}}>
               <tr>
                 <th>Rank</th>
