@@ -5,9 +5,9 @@ import { Row, Col, Table, FormGroup, Input } from "reactstrap";
 import { RiBroadcastFill } from "react-icons/ri";
 import { MdOutlineSearchOff } from "react-icons/md";
 import { API } from "utils/api/api";
-import { FcSearch } from 'react-icons/fc';
 
 import Loading from "./Loading";
+import Search from "./Search";
 import LiveButton from "elements/Button";
 import getSchedule from "utils/getSchedule";
 import RoomListTable from "./RoomListTable";
@@ -102,16 +102,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   return (
     <Row>
       <Col>
-        <FormGroup className="search-room-list mt-2">
-          <FcSearch style={{ marginLeft: "1rem", position: "absolute" }} color="#03665c" size="1.5em" />
-          <Input
-            style={{ width: '100%', padding: '1rem 1rem 1rem 3rem', }}
-            type="text"
-            placeholder="Search Room"
-            onChange={handleSearch}
-          />
-        </FormGroup>
-
+        <Search setSearch={setSearch} placeholder="Search room" />
         <FilterRoomList
           isRoomLive={isLive}
           isLive={isOnLive}
