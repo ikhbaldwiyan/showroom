@@ -2,6 +2,7 @@ import axios from "axios";
 import { roomListApi, roomAcademyApi } from "utils/api/api";
 import React, { useState, useEffect } from "react";
 import Fade from "react-reveal/Fade";
+import { Container } from "reactstrap";
 
 import MainLayout from "pages/layout/MainLayout";
 import RoomLive from "parts/RoomLive";
@@ -11,8 +12,6 @@ import RoomAcademy from "parts/RoomAcademy";
 import SearchAndFilter from "parts/SearchAndFilter";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
-import { Container, UncontrolledAlert } from "reactstrap";
-import { FaInfoCircle } from "react-icons/fa";
 import AlertInfo from "components/AlertInfo";
 
 function Home(props) {

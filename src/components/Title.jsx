@@ -67,7 +67,7 @@ function Title({
   return (
     <div className="mb-1">
       {!hideName && (
-        <h4 style={{ display: "inline" }}>
+        <h4 className="d-inline title">
           <b className="mr-1">
             {profile &&
             profile.room_url_key !== 0 &&
