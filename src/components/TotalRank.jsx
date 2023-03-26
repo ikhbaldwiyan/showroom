@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react'
-import { API } from "utils/api/api";
+import { TOTAL_RANK } from "utils/api/api";
 import { Table, Card } from "reactstrap";
 import formatViews from "utils/formatViews";
 
@@ -8,10 +8,14 @@ export default function SummaryRank({roomId}) {
     const [summary, setSummary] = useState('')
 
     useEffect(() => {
-      axios.get(`${API}/rooms/total-rank/${roomId}`).then(res => {
-        const totalRank = res.data
-        setSummary(totalRank)
-      });
+      try {
+        axios.get(TOTAL_RANK(roomId)).then(res => {
+          const totalRank = res.data
+          setSummary(totalRank)
+        });
+      } catch (error) {
+        console.log(error)
+      }
     }, []);
   
     return (
