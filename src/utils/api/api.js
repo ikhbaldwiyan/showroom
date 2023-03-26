@@ -1,4 +1,4 @@
-const API = "https://jkt48showroom-api.vercel.app/api";
+const API = "https://jkt48-showroom-api.vercel.app/api";
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
 
@@ -11,6 +11,8 @@ const GET_OFFICIAL = LARAVEL_API + "/room_official";
 const FARM = LARAVEL_API + "/farming";
 const SEND_GIFT = LARAVEL_API + "/live/send_gift";
 const BULK_GIFT = LARAVEL_API + "/live/bulk_gift";
+const UPDATE_PROFILE =  `${LARAVEL_API}/profile/update`;
+const USER_PROFILE = `${LARAVEL_API}/profile/user`
 
 // Live API
 const liveDetail = (roomId) => {
@@ -66,8 +68,6 @@ export {
   LARAVEL_API,
   LOGIN,
   SEND_COMMENT,
-  GET_OFFICIAL,
-  FARM,
-  SEND_GIFT,
-  BULK_GIFT,
+  USER_PROFILE,
+  UPDATE_PROFILE
 };

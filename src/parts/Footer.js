@@ -1,18 +1,18 @@
-import React from 'react';
-import Button from 'elements/Button';
-import Logo from 'parts/Logo';
+import React from "react";
+import Button from "elements/Button";
+import Logo from "parts/Logo";
 
 export default function Footer() {
   return (
     <footer>
       <div className="container">
         <div className="row">
-          <div className="col-auto" style={{width: 380}}>
+          <div className="col-auto" style={{ width: 380 }}>
             <Logo />
             <p className="brand-tagline">
-              Solusi bagi Laptop / Hp Kentang yang ingin <br/>
-              ngidol dengan website Showroom versi ringan <br />
-              dan tampilan User Interface yang berbeda
+              JKT48 SHOWROOM adalah website fanmade yang bertujuan untuk
+              memfilter room member JKT48. disini kalian bisa mencoba ngidol dengan 
+              pengalaman baru dan User Interface yang berbeda
             </p>
           </div>
           <div className="col-auto mr-2">
@@ -48,6 +48,16 @@ export default function Footer() {
                   Privacy
                 </Button>
               </li>
+              <li className="list-group-item">
+                <Button
+                  type="link"
+                  href="https://discord.com/invite/ZNEjfvHm"
+                  isExternal
+                  target="_blank"
+                >
+                  Discord Group
+                </Button>
+              </li>
             </ul>
           </div>
         </div>
@@ -58,5 +68,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

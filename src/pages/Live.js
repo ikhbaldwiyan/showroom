@@ -17,9 +17,10 @@ import {
   StageUser,
   TotalRank,
   Gift,
-  Setlist
+  Setlist,
 } from "components";
 import { isMobile } from "react-device-detect";
+import AlertInfo from "components/AlertInfo";
 import StarButton from "components/StarButton";
 
 function Live(props) {
@@ -44,13 +45,17 @@ function Live(props) {
   }, []);
 
   useEffect(() => {
-    axios.get(liveDetail(roomId)).then((res) => {
-      const streamUrl = res.data;
-      setUrl(streamUrl);
-    });
-    !url && setMenu("room");
-    !url && messages();
-  }, [roomId, url]);
+    try {
+      axios.get(liveDetail(roomId)).then((res) => {
+        const streamUrl = res.data;
+        setUrl(streamUrl);
+      });
+      !url && setMenu("room");
+      !url && messages();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [roomId]);
 
   useEffect(() => {
     window.document.title = "JKT48 SHOWROOM";
@@ -68,7 +73,8 @@ function Live(props) {
 
   const messages = () =>
     toast.error("Room Offline", {
-      theme: "colored"
+      theme: "colored",
+      autoClose: 1200,
     });
 
   return (
@@ -83,10 +89,10 @@ function Live(props) {
         )}
         <Row>
           <Col lg="8">
-            {url ? (
-              url.slice(0, 1).map((item, idx) => (
+            {url.length ? (
+              url?.slice(0, 1)?.map((item, idx) => (
                 <>
-                  <Stream key={idx} url={item.url} />
+                  <Stream key={idx} url={item?.url} />
                   <Title
                     roomId={roomId}
                     hideMenu={hideMenu}
@@ -116,6 +122,7 @@ function Live(props) {
             )}
           </Col>
           <Col lg="4">
+            <AlertInfo />
             <Menu
               menu={menu}
               setMenu={setMenu}

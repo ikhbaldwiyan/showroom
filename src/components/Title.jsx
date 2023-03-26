@@ -10,63 +10,105 @@ import Settings from "./Settings";
 import LastSeen from "./LastSeen";
 import getTimes from "utils/getTimes";
 
-function Title({ roomId, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu, theme }) {
+function Title({
+  roomId,
+  hideMenu,
+  setHideMenu,
+  hideMultiMenu,
+  setHideMultiMenu,
+  theme,
+}) {
   const [profile, setProfile] = useState("");
-  const [title, setTitle] = useState('');
-  
-  const [isTime , setIsTime] = useState(false);
+  const [title, setTitle] = useState("");
+
+  const [isTime, setIsTime] = useState(false);
   const [hideTime, setHideTime] = useState(true);
   const [hideName, setHideName] = useState(false);
   const [hideViews, setHideViews] = useState(false);
 
   const propSettings = {
-    hideTime, setHideTime, hideName, setHideName, hideViews, setHideViews, profile, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu
-  }
+    hideTime,
+    setHideTime,
+    hideName,
+    setHideName,
+    hideViews,
+    setHideViews,
+    profile,
+    hideMenu,
+    setHideMenu,
+    hideMultiMenu,
+    setHideMultiMenu,
+  };
 
-  const icon = {fontSize: 20, marginBottom: 4, marginRight: 2}
+  const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };
 
   useEffect(() => {
-    axios.get(`${API}/lives/info/${roomId}`).then((res) => {
-      const profiles = res.data;
-      setProfile(profiles);
-      setTitle(profiles.title);
-    },[profile]);
-
-  }, [profile, roomId, title])
+    try {
+      axios.get(`${API}/lives/info/${roomId}`).then(
+        (res) => {
+          const profiles = res.data;
+          setProfile(profiles);
+          setTitle(profiles.title);
+        },
+        [profile]
+      );
+    } catch (error) {
+      console.log(error)
+    }
+  }, [roomId, title]);
 
   useEffect(() => {
-    let title = profile && profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48';
-    let name = title ? `${profile.room_url_key.slice(6)} JKT48 Room` : profile.room_name;
-    window.document.title = name ?? 'JKT48 SHOWROOM';
-  }, [profile])
+    let title =
+      profile && profile?.room_url_key &&
+      profile?.room_url_key?.includes("JKT48") &&
+      profile?.room_url_key !== "officialJKT48";
+    let name = title
+      ? `${profile?.room_url_key?.slice(6)} JKT48 Room`
+      : profile?.room_name;
+    window.document.title = name ?? "JKT48 SHOWROOM";
+  }, [profile]);
 
   return (
     <div className="mb-1">
-      {!hideName &&
-        <h4 style={{ display: 'inline' }}>
+      {!hideName && (
+        <h4 className="d-inline title">
           <b className="mr-1">
-            {profile && profile.room_url_key !== 0 && profile.room_url_key.includes('JKT48') && profile.room_url_key !== 'officialJKT48' ? profile.room_url_key.slice(6) + ' JKT48' : profile && profile.room_name} |
+            {profile &&
+            profile?.room_url_key !== 0 &&
+            profile?.room_url_key?.includes("JKT48") &&
+            profile?.room_url_key !== "officialJKT48"
+              ? profile?.room_url_key?.slice(6) + " JKT48"
+              : profile && profile?.room_name}{" "}
+            |
           </b>
         </h4>
-      }
+      )}
 
-      {!hideTime &&
+      {!hideTime && (
         <LastSeen theme={theme} times={profile.current_live_started_at} />
-      }
+      )}
 
-      {!hideViews &&
-        <Views onClick={() => setIsTime(!isTime)} className="btn-sm btn-info ml-2 mr-2 mb-2" style={{borderRadius: 5}}>
+      {!hideViews && (
+        <Views
+          onClick={() => setIsTime(!isTime)}
+          className="btn-sm btn-info ml-2 mr-2 mb-2"
+          style={{ borderRadius: 5 }}
+        >
           {!isTime ? (
             <>
-              <FaUserFriends style={icon} /> {profile.views ? formatViews(profile.views) : '0'}
+              <FaUserFriends style={icon} />{" "}
+              {profile.views ? formatViews(profile.views) : "0"}
             </>
           ) : (
             <>
-              <IoTimeSharp style={icon} /> {profile.current_live_started_at ? getTimes(profile.current_live_started_at) : '00:00'}
+              <IoTimeSharp style={icon} />{" "}
+              {profile.current_live_started_at
+                ? getTimes(profile.current_live_started_at)
+                : "00:00"}
             </>
           )}
         </Views>
-      }
+      )}
       <Settings {...propSettings} />
     </div>
   );

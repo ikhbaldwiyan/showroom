@@ -2,6 +2,7 @@ import axios from "axios";
 import { roomListApi, roomAcademyApi } from "utils/api/api";
 import React, { useState, useEffect } from "react";
 import Fade from "react-reveal/Fade";
+import { Container } from "reactstrap";
 
 import MainLayout from "pages/layout/MainLayout";
 import RoomLive from "parts/RoomLive";
@@ -11,6 +12,7 @@ import RoomAcademy from "parts/RoomAcademy";
 import SearchAndFilter from "parts/SearchAndFilter";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
+import AlertInfo from "components/AlertInfo";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -58,7 +60,8 @@ function Home(props) {
 
   return (
     <MainLayout {...props}>
-      <section className="container">
+      <Container>
+        <AlertInfo />
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
@@ -103,7 +106,7 @@ function Home(props) {
             ""
           )}
         </Fade>
-      </section>
+      </Container>
     </MainLayout>
   );
 }
