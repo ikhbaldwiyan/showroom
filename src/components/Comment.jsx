@@ -10,7 +10,7 @@ import { FiSend } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 export default function Comment({ roomId, isMultiRoom }) {
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [session, setSession] = useState("");
   const [textComment, setTextComment] = useState("");
@@ -20,12 +20,16 @@ export default function Comment({ roomId, isMultiRoom }) {
 
   useEffect(() => {
     async function getComments() {
-      await axios.get(LIVE_COMMENT(roomId)).then((res) => {
-        const comments = res.data;
-        setTimeout(() => {
-          setComment(comments);
-        }, 2000);
-      });
+      try {
+        await axios.get(LIVE_COMMENT(roomId)).then((res) => {
+          const comments = res.data;
+          setTimeout(() => {
+            setComment(comments);
+          }, 2000);
+        });
+      } catch (error) {
+        console.log(error)
+      }
     }
     getComments();
   }, [comment, textComment, roomId]);
@@ -127,11 +131,11 @@ export default function Comment({ roomId, isMultiRoom }) {
     <Card body inverse color="dark" className="p-0 mb-5">
       <Card body inverse color="dark" className="scroll">
         <div>
-          {comment.length != 0 ? (
+          {comment?.length != 0 ? (
             comment?.map(
               (item, idx) =>
-                item.comment.length != "2" &&
-                item.comment.length != "1" && (
+                item?.comment?.length != "2" &&
+                item?.comment?.length != "1" && (
                   <div key={idx}>
                     <h5
                       style={{

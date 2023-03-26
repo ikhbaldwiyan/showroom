@@ -41,7 +41,7 @@ function Live(props) {
     } catch (error) {
       console.log(error);
     }
-  }, [roomId, url]);
+  }, [roomId]);
 
   useEffect(() => {
     window.document.title = "JKT48 SHOWROOM";
@@ -76,7 +76,7 @@ function Live(props) {
         <Row>
           <Col lg="8">
             {url.length ? (
-              url?.slice(0, 1).map((item, idx) => (
+              url?.slice(0, 1)?.map((item, idx) => (
                 <>
                   <Stream key={idx} url={item?.url} />
                   <Title
