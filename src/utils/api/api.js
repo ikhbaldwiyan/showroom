@@ -39,9 +39,9 @@ const fanLetter = (roomId) => {
   return `${ROOM}/fan-letters/${roomId}`;
 };
 
-const totalRank = (roomId) => {
-  return `${LIVE}/total-rank/${roomId}`;
-};
+const TOTAL_RANK = (roomId) => {
+  return `${ROOM}/total-rank/${roomId}`
+}
 
 const nextLive = (roomId) => {
   return `${ROOM}/next_live/${roomId}`;
@@ -54,7 +54,7 @@ export {
   roomAcademyApi,
   profileApi,
   fanLetter,
-  totalRank,
+  TOTAL_RANK,
   liveDetail,
   liveRanking,
   liveGift,
@@ -64,5 +64,5 @@ export {
   LOGIN,
   SEND_COMMENT,
   USER_PROFILE,
-  UPDATE_PROFILE
+  UPDATE_PROFILE,
 };

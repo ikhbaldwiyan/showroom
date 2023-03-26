@@ -9,10 +9,14 @@ export default function Gift({roomId}) {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    axios.get(liveGift(roomId)).then(res => {
-      const giftLog = res.data.reverse();
-      setGift(giftLog);
-    })
+    try {
+      axios.get(liveGift(roomId)).then(res => {
+        const giftLog = res.data.reverse();
+        setGift(giftLog);
+      })
+    } catch (error) {
+      console.log(error)
+    }
     
   }, [gift.length, roomId])
 
