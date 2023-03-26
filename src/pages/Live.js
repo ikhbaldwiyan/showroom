@@ -20,6 +20,7 @@ import {
   Setlist
 } from "components";
 import { isMobile } from "react-device-detect";
+import AlertInfo from "components/AlertInfo";
 
 function Live(props) {
   let { id } = useParams();
@@ -95,6 +96,7 @@ function Live(props) {
             )}
           </Col>
           <Col lg="4">
+            <AlertInfo />
             <Menu
               menu={menu}
               setMenu={setMenu}
