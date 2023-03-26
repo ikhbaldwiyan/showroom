@@ -70,10 +70,10 @@ function Live(props) {
         )}
         <Row>
           <Col lg="8">
-            {url ? (
-              url.slice(0, 1).map((item, idx) => (
+            {url.length ? (
+              url?.slice(0, 1).map((item, idx) => (
                 <>
-                  <Stream key={idx} url={item.url} />
+                  <Stream key={idx} url={item?.url} />
                   <Title
                     roomId={roomId}
                     hideMenu={hideMenu}

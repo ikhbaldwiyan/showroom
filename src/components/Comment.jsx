@@ -127,8 +127,8 @@ export default function Comment({ roomId, isMultiRoom }) {
     <Card body inverse color="dark" className="p-0 mb-5">
       <Card body inverse color="dark" className="scroll">
         <div>
-          {comment && comment.length != 0 ? (
-            comment.map(
+          {comment.length != 0 ? (
+            comment?.map(
               (item, idx) =>
                 item.comment.length != "2" &&
                 item.comment.length != "1" && (
