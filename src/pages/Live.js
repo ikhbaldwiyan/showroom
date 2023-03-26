@@ -17,7 +17,7 @@ import {
   StageUser,
   TotalRank,
   Gift,
-  Setlist
+  Setlist,
 } from "components";
 import { isMobile } from "react-device-detect";
 import AlertInfo from "components/AlertInfo";
@@ -31,12 +31,16 @@ function Live(props) {
   const [hideMenu, setHideMenu] = useState(false);
 
   useEffect(() => {
-    axios.get(liveDetail(roomId)).then((res) => {
-      const streamUrl = res.data;
-      setUrl(streamUrl);
-    });
-    !url && setMenu("room");
-    !url && messages();
+    try {
+      axios.get(liveDetail(roomId)).then((res) => {
+        const streamUrl = res.data;
+        setUrl(streamUrl);
+      });
+      !url && setMenu("room");
+      !url && messages();
+    } catch (error) {
+      console.log(error);
+    }
   }, [roomId, url]);
 
   useEffect(() => {
@@ -56,7 +60,7 @@ function Live(props) {
   const messages = () =>
     toast.error("Room Offline", {
       theme: "colored",
-      autoClose: 1200
+      autoClose: 1200,
     });
 
   return (
