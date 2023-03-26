@@ -94,7 +94,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                   <Button
                     className="nav-link"
                     type="link"
-                    href="/room/jkt48/332503"
+                    href="/room/officialJKT48/332503"
                   >
                     <RiBroadcastFill style={iconHome} /> Live Stream
                   </Button>

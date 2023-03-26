@@ -11,6 +11,8 @@ import RoomAcademy from "parts/RoomAcademy";
 import SearchAndFilter from "parts/SearchAndFilter";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
+import { Container, UncontrolledAlert } from "reactstrap";
+import { FaInfoCircle } from "react-icons/fa";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -58,7 +60,18 @@ function Home(props) {
 
   return (
     <MainLayout {...props}>
-      <section className="container">
+      <Container>
+        <UncontrolledAlert color="primary">
+          <FaInfoCircle size="20px" className="mb-1 mr-2" />
+          Join komunitas discord untuk update info project ini:
+          <a
+            href="https://discord.com/invite/ZNEjfvHm"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <b className="mx-1">JOIN GRUP</b>
+          </a>
+        </UncontrolledAlert>
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
@@ -103,7 +116,7 @@ function Home(props) {
             ""
           )}
         </Fade>
-      </section>
+      </Container>
     </MainLayout>
   );
 }
