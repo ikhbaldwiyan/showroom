@@ -67,6 +67,13 @@
   z-index: 99;
 }
 
+.sticky-comment {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  z-index: 99;
+}
+
 header {
   border-bottom: 2px solid $gray-300;
   width: 100%;
@@ -212,7 +219,13 @@ section {
 }
 
 .scroll {
-  max-height: 650px;
+  max-height: 600px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.scroll-room {
+  max-height: 600px;
   overflow-y: auto;
   margin-bottom: 15px;
 }
@@ -291,4 +304,51 @@ main {
     color: $gray-500;
     font-weight: 300;
   }
+}
+
+@media (max-width: 767px) {
+  .navbar-nav {
+    gap: 10px; 
+    margin-top: 10px !important;
+    margin-bottom: 24px !important;
+    box-shadow: 0px 1px 5px rgba(192, 192, 192, 0.5);
+  }
+
+  .title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .dark-mode {
+    display: none !important;
+  }
+
+  .search-wrapper {
+    padding-left: auto !important;
+    padding-right: auto !important;
+  }
+
+  .btn-onlive {
+    display: none !important;
+   }
+}
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input {
+  padding-right: 2.5rem;
+}
+
+.input-with-icon .password-toggle-icon {
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  color: #aaa;
+  cursor: pointer;
 }

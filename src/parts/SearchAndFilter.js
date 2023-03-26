@@ -49,7 +49,7 @@ function SearchAndFilter({
   return (
     !isMobile ? (
       <div className="row mt-4">
-        <div className="col-5 search-wrapper">
+        <div className="col-md-5 col-sm-12 search-wrapper">
           <FcSearch className="search-bar" color="#03665c" size="1.5em" />
           <input
             style={{ width: '100%', padding: '1rem 1rem 1rem 3rem' }}
@@ -59,7 +59,7 @@ function SearchAndFilter({
             className="form-control"
           />
         </div>
-        <div className="col-7 search-wrapper">
+        <div className="col-md-7 col-sm-12 search-wrapper">
           <Button
             className="mx-2"
             color="danger"
@@ -86,7 +86,7 @@ function SearchAndFilter({
            <RiGlobalLine className="mb-1" /> <span className="text-filter">REGULAR</span>
           </Button>
           <Button
-            className="mx-2"
+            className="mx-2 btn-onlive"
             style={{backgroundColor: '#CD0C0D', border: 'none'}}
             onClick={filterIsLive}
             disabled={isLive ? 'disabled' : ''}

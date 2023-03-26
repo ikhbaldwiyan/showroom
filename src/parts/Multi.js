@@ -96,7 +96,7 @@ export default function Multi({
           isMultiRoom={isMultiRoom}
         />
       ) : menu === "chat" ? (
-        <LiveChat roomId={roomId} />
+        <LiveChat roomId={roomId} isMultiRoom />
       ) : menu === "rank" ? (
         <StageUser roomId={roomId} />
       ) : menu === "gift" ? (

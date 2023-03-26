@@ -1,13 +1,11 @@
 import React from 'react'
 import PulseLoader from "react-spinners/PulseLoader";
 
-export default function Loading() {
+export default function Loading({ color, size }) {
   return (
-    <div style={{marginBottom: 10, marginTop: 10}}>
-      <PulseLoader
-        size={12}
-        color="#D1D7E0"
-      />
-    </div>
+    <PulseLoader
+      size={size ?? 12}
+      color={color ?? "#D1D7E0"}
+    />
   )
 }
