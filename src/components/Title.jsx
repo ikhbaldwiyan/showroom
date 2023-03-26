@@ -43,19 +43,23 @@ function Title({
   const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };
 
   useEffect(() => {
-    axios.get(`${API}/lives/info/${roomId}`).then(
-      (res) => {
-        const profiles = res.data;
-        setProfile(profiles);
-        setTitle(profiles.title);
-      },
-      [profile]
-    );
+    try {
+      axios.get(`${API}/lives/info/${roomId}`).then(
+        (res) => {
+          const profiles = res.data;
+          setProfile(profiles);
+          setTitle(profiles.title);
+        },
+        [profile]
+      );
+    } catch (error) {
+      console.log(error)
+    }
   }, [profile, roomId, title]);
 
   useEffect(() => {
     let title =
-      profile &&
+      profile && profile?.room_url_key &&
       profile?.room_url_key?.includes("JKT48") &&
       profile?.room_url_key !== "officialJKT48";
     let name = title
@@ -70,11 +74,11 @@ function Title({
         <h4 className="d-inline title">
           <b className="mr-1">
             {profile &&
-            profile.room_url_key !== 0 &&
-            profile.room_url_key.includes("JKT48") &&
-            profile.room_url_key !== "officialJKT48"
-              ? profile.room_url_key.slice(6) + " JKT48"
-              : profile && profile.room_name}{" "}
+            profile?.room_url_key !== 0 &&
+            profile?.room_url_key?.includes("JKT48") &&
+            profile?.room_url_key !== "officialJKT48"
+              ? profile?.room_url_key?.slice(6) + " JKT48"
+              : profile && profile?.room_name}{" "}
             |
           </b>
         </h4>
