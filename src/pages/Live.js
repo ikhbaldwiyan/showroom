@@ -21,6 +21,7 @@ import {
 } from "components";
 import { isMobile } from "react-device-detect";
 import AlertInfo from "components/AlertInfo";
+import StarButton from "components/StarButton";
 
 function Live(props) {
   let { id } = useParams();
@@ -29,6 +30,19 @@ function Live(props) {
   const [menu, setMenu] = useState("room");
   const [loading, setLoading] = useState(false);
   const [hideMenu, setHideMenu] = useState(false);
+  const [cookiesLoginId, setCookiesLoginId] = useState("");
+  const [csrfToken, setCsrfToken] = useState("");
+  const [session, setSession] = useState("");
+
+  useEffect(() => {
+    const userSession = localStorage.getItem("session");
+    if (userSession) {
+      const foundSession = JSON.parse(userSession);
+      setSession(foundSession);
+      setCookiesLoginId(foundSession.cookie_login_id);
+      setCsrfToken(foundSession.csrf_token);
+    }
+  }, []);
 
   useEffect(() => {
     try {
@@ -85,6 +99,14 @@ function Live(props) {
                     setHideMenu={setHideMenu}
                     theme={props.theme}
                   />
+                  {session && (
+                    <StarButton
+                      roomId={roomId}
+                      cookiesLoginId={cookiesLoginId}
+                      csrfToken={csrfToken}
+                      theme={props.theme}
+                    />
+                  )}
                 </>
               ))
             ) : !url ? (

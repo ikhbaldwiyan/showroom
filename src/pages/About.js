@@ -99,6 +99,39 @@ function About(props) {
               </a>{" "}
               (JKT48 SHOWROOM API)
             </li>
+            <li>
+              <a
+                style={{ wordBreak: "break-word" }}
+                rel="noreferrer"
+                href="https://github.com/AldyRevigustian/Showroom-Api"
+                target="_blank"
+              >
+                https://github.com/AldyRevigustian/Showroom-Api
+              </a>{" "}
+              (SHOWROOM LOGIN API)
+            </li>
+          </ul>
+          <p>Contributors :</p>
+          <ul>
+            <li>
+              <a
+                href="https://github.com/AldyRevigustian"
+                rel="noreferrer"
+                target="_blank"
+                style={{  color:'#24a2b7' }}
+              >
+                <img
+                  src="https://avatars.githubusercontent.com/u/72060143?v=4"
+                  alt=""
+                  style={{
+                    borderRadius: "50%",
+                    height: "30px",
+                    marginRight: "10px",
+                  }}
+                />
+                <span>Aldy Revigustian</span>
+              </a>{" "}
+            </li>
           </ul>
         </div>
       </Container>
