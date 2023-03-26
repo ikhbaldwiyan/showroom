@@ -11,8 +11,8 @@ const GET_OFFICIAL = LARAVEL_API + "/room_official";
 const FARM = LARAVEL_API + "/farming";
 const SEND_GIFT = LARAVEL_API + "/live/send_gift";
 const BULK_GIFT = LARAVEL_API + "/live/bulk_gift";
-const UPDATE_PROFILE =  `${LARAVEL_API}/profile/update`;
-const USER_PROFILE = `${LARAVEL_API}/profile/user`
+const UPDATE_PROFILE = `${LARAVEL_API}/profile/update`;
+const USER_PROFILE = `${LARAVEL_API}/profile/user`;
 
 // Live API
 const liveDetail = (roomId) => {
@@ -69,5 +69,9 @@ export {
   LOGIN,
   SEND_COMMENT,
   USER_PROFILE,
-  UPDATE_PROFILE
+  UPDATE_PROFILE,
+  GET_OFFICIAL,
+  FARM,
+  SEND_GIFT,
+  BULK_GIFT,
 };

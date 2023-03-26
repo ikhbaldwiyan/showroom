@@ -288,76 +288,93 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
     });
   };
 
+
   return (
-    <Card
+    <div
       style={{
-        display: "flex",
-        justifyContent: "space-evenly",
-        flexDirection: "inherit",
-        padding: "20px",
-        backgroundColor: theme === "dark" ? "#343A40" : "white",
-        borderRadius: "10px"
+        display: 'flex',
+        flexDirection: 'row',
       }}
-      className="my-4"
     >
-      <div className="row">
-        {stars.map((gift) => (
-          <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
-            <input
-              type="image"
-              src={
-                gift.gift_id
-                  ? `https://static.showroom-live.com/image/gift/${gift.gift_id}_s.png?v=1`
-                  : gift.url
-              }
-              disabled={activeButton != gift.name && activeButton != null}
-              width="50px"
-              height="50px"
-              style={{ cursor: "pointer" }}
-              onClick={disableCount ? void (0) : clickStar}
-              name={gift.name}
-              alt="stars"
-            />
-            <b className="mb-0">
-              {starLoading ? (
-                <Loading color={theme === "dark" ? "white" : "black"} size={6} />
-              ) : (
-                gift.count
-              )}
-            </b>
-          </div>
-        ))}
-      </div>
+      <Card
+        style={{
+          padding: "20px",
+          display: 'flex',
+          flex: '1',
+          alignItems: 'center',
+          backgroundColor: theme === "dark" ? "#343A40" : "white",
+          borderRadius: "10px 0px 0px 10px",
+        }}
+        className="my-4">
+        <div className="row">
+          {stars.map((gift) => (
+            <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
+              <input
+                type="image"
+                src={
+                  gift.gift_id
+                    ? `https://static.showroom-live.com/image/gift/${gift.gift_id}_s.png?v=1`
+                    : gift.url
+                }
+                disabled={activeButton != gift.name && activeButton != null}
+                width="50px"
+                height="50px"
+                style={{ cursor: "pointer" }}
+                onClick={disableCount ? void (0) : clickStar}
+                name={gift.name}
+                alt="stars"
+              />
+              <b className="mb-0">
+                {starLoading ? (
+                  <Loading color={theme === "dark" ? "white" : "black"} size={6} />
+                ) : (
+                  gift.count
+                )}
+              </b>
+            </div>
+          ))}
+        </div>
+      </Card >
 
       <button
-        className="btn"
+        className="btn my-4"
         onClick={toggle}
         disabled={disableCount ? true : false || activeButton != null}
         style={{
-          borderRadius: "100%",
+          borderRadius: "0px 10px 10px 0px",
           backgroundColor: "#24a2b7",
-          width: "76px",
-          height: "76px",
+          width: "70px",
         }}>
-        <img src={bulkImage} height={50} width={50} alt="bulk gift" />
+        <img src={bulkImage} height={44} width={44} alt="bulk gift" />
       </button>
+
+      {/* <Card style={{
+        padding: "20px",
+        backgroundColor: "#24a2b7",
+        borderRadius: "0px 10px 10px 0px",
+        width: '100px'
+      }}
+      className="my-4"
+      >
+      </Card> */}
       <div>
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader style={{ backgroundColor: "#24a2b7" }} toggle={toggle}>Send All Stars</ModalHeader>
           <ModalBody className="text-dark">
-            Are you sure want to send all gift ?
+            Apakah Anda yakin ingin mengirim semua star ?
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={sendAllStar}>
-              Yes
+            <Button color="secondary" onClick={toggle}>
+              Close
             </Button>
-            <Button color="danger" onClick={toggle}>
-              No
+            <Button color="info" onClick={sendAllStar}>
+              Yes
             </Button>
           </ModalFooter>
         </Modal>
       </div>
-    </Card>
+    </div>
+
   );
 }
 

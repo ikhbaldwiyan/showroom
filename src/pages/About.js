@@ -118,7 +118,7 @@ function About(props) {
                 href="https://github.com/AldyRevigustian"
                 rel="noreferrer"
                 target="_blank"
-                style={{ textDecoration: "none", color:'#24a2b7' }}
+                style={{  color:'#24a2b7' }}
               >
                 <img
                   src="https://avatars.githubusercontent.com/u/72060143?v=4"

@@ -3,7 +3,6 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Card } from "reactstrap";
 import { SEND_COMMENT, LIVE_COMMENT, profileApi } from "utils/api/api";
-import { SEND_COMMENT, LIVE_COMMENT, profileApi } from "utils/api/api";
 import Skeleton from "react-content-loader";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
