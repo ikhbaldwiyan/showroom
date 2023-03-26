@@ -33,11 +33,6 @@ export default function Footer() {
                   Multi Room
                 </Button>
               </li>
-              <li className="list-group-item">
-                <Button type="link" href="/farm">
-                  Showroom Farmer
-                </Button>
-              </li>
             </ul>
           </div>
           <div className="col-auto mr-5">

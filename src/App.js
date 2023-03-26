@@ -12,7 +12,6 @@ import MultiRoom from 'pages/MultiRoom';
 import About from 'pages/About';
 import GoogleAnalytics from 'utils/GoogleAnalytics';
 import Login from 'pages/Login';
-import Farm from 'pages/Farm';
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -30,7 +29,6 @@ function App(props) {
         <Route path="/multi-room" component={() => <MultiRoom {...props} />} />
         <Route path="/about" component={() => <About {...props} />} />
         <Route path="/login" component={() => <Login {...props} />} />
-        <Route path="/farm" component={() => <Farm {...props} />} />
       </div>
     </ThemeProvider>
   );
