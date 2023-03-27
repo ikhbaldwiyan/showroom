@@ -6,7 +6,7 @@ function About(props) {
   return (
     <MainLayout {...props}>
       <Container>
-        <div style={{ height: "650px" }}>
+        <div className="mb-4" style={{ height: "auto" }}>
           <h3>About</h3>
           <p>
             JKT48 SHOWROOM adalah website fanmade yang bertujuan untuk memfilter
@@ -30,7 +30,7 @@ function About(props) {
             dan masih terus di develop sampe saat ini. <br />
             Jika kalian ingin mendukung perkembangan project ini untuk masalah
             server dan lainnya <br />
-            kalian juga bisa donasi di link berikut{" "}
+            kalian bisa donasi di link saweria berikut{" "}
             <a
               href="https://saweria.co/Inzoid"
               rel="noreferrer"
@@ -98,6 +98,58 @@ function About(props) {
                 https://github.com/ikhbaldwiyan/jkt48-showroom-api
               </a>{" "}
               (JKT48 SHOWROOM API)
+            </li>
+            <li>
+              <a
+                style={{ wordBreak: "break-word" }}
+                rel="noreferrer"
+                href="https://github.com/AldyRevigustian/Showroom-Api"
+                target="_blank"
+              >
+                https://github.com/AldyRevigustian/Showroom-Api
+              </a>{" "}
+              (SHOWROOM LOGIN API)
+            </li>
+          </ul>
+          <p>Contributors :</p>
+          <ul>
+            <li>
+              <a
+                href="https://github.com/AldyRevigustian"
+                rel="noreferrer"
+                target="_blank"
+                style={{ color: "#24a2b7" }}
+              >
+                <img
+                  src="https://avatars.githubusercontent.com/u/72060143?v=4"
+                  alt=""
+                  style={{
+                    borderRadius: "50%",
+                    height: "30px",
+                    marginRight: "10px",
+                  }}
+                />
+                <span>Aldy Revigustian</span>
+              </a>{" "}
+            </li>
+            <li className="mt-2">
+              <a
+                href="https://github.com/ikhbaldwiyan"
+                rel="noreferrer"
+                target="_blank"
+                style={{ color: "#24a2b7" }}
+              >
+                <img
+                  src="https://avatars.githubusercontent.com/u/56676582?v=4"
+                  alt=""
+                  style={{
+                    borderRadius: "50%",
+                    height: "30px",
+                    marginRight: "10px",
+                  }}
+                />
+                <span>Ikhbal Dwiyantoro</span>
+              </a>{" "}
             </li>
           </ul>
         </div>
