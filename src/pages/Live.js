@@ -100,7 +100,7 @@ function Live(props) {
             )}
           </Col>
           <Col lg="4">
-            <AlertInfo />
+            <AlertInfo page="Detail Screen" label="Detail" />
             <Menu
               menu={menu}
               setMenu={setMenu}

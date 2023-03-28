@@ -8,6 +8,7 @@ import Loading from "./Loading";
 import { toast } from "react-toastify";
 import { FiSend } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { gaEvent } from "utils/gaEvent";
 
 export default function Comment({ roomId, isMultiRoom }) {
   const [comment, setComment] = useState([]);
@@ -55,6 +56,7 @@ export default function Comment({ roomId, isMultiRoom }) {
   const sendComment = async (e) => {
     e.preventDefault();
     setButtonLoading(true);
+    gaEvent("Comment", "Send Comment", "Detail")
     try {
       const response = await axios.post(SEND_COMMENT, {
         room_id: roomId.toString(),
