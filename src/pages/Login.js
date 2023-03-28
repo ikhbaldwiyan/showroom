@@ -57,6 +57,7 @@ function Login(props) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("session", JSON.stringify(response.data.session));
         localStorage.setItem("profile", JSON.stringify(response.data.profile));
+        gaEvent("Login Screen", "Login Success", "Login")
 
         toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
           theme: "colored",
@@ -84,6 +85,7 @@ function Login(props) {
       }
     } catch (err) {
       console.log(error);
+      gaEvent("Login Screen", "Login Failed", "Login")
       setButtonLoading(false);
     }
   };
@@ -181,7 +183,7 @@ function Login(props) {
                     className="btn btn-block text-light mt-5 mb-4 py-2"
                     style={{ backgroundColor: "#24a2b7" }}
                     disabled={buttonLoading ? true : false}
-                    onClick={() => gaEvent("Login Screen", "Log In Button", "Button")}
+                    onClick={() => gaEvent("Login Screen", "Log In Button", "Login")}
                   >
                     {buttonLoading ? (
                       <Loading color="white" size={8} />
