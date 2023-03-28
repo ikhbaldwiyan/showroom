@@ -2,12 +2,16 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Button, Card, CardHeader, CardText, Modal, ModalBody, ModalHeader } from 'reactstrap'
 import { API } from "utils/api/api";
+import { gaEvent } from "utils/gaEvent";
 import getSchedule from 'utils/getSchedule'
 
 function FanLetter({ header, text, profile, roomId, theme, room_name }) {
 	const [modal, setModal] = useState(false);
 	const [fanLetter, setFanLetter] = useState([]);
-	const toggle = () => setModal(!modal);
+	const toggle = () => {
+		setModal(!modal)
+		gaEvent("Profile", `${room_name.replace('Room', '')}Fan Letter`, "Detail")
+	};
 
 	useEffect(() => {
 		axios.get(`${API}/rooms/fan-letters/${roomId}`).then(res => {

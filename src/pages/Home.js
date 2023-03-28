@@ -61,7 +61,7 @@ function Home(props) {
   return (
     <MainLayout {...props}>
       <Container className="mb-4">
-        <AlertInfo />
+        <AlertInfo page="Home Screen" label="Home" />
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
