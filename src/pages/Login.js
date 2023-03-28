@@ -8,6 +8,7 @@ import { Loading } from "components";
 import { RiLoginBoxFill } from "react-icons/ri";
 import { useHistory } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { gaEvent } from "utils/gaEvent";
 
 function Login(props) {
   const [accountId, setAccountId] = useState("");
@@ -180,6 +181,7 @@ function Login(props) {
                     className="btn btn-block text-light mt-5 mb-4 py-2"
                     style={{ backgroundColor: "#24a2b7" }}
                     disabled={buttonLoading ? true : false}
+                    onClick={() => gaEvent("Login Screen", "Log In Button", "Button")}
                   >
                     {buttonLoading ? (
                       <Loading color="white" size={8} />
