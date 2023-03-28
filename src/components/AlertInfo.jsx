@@ -1,18 +1,19 @@
 import React from "react";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaDiscord } from "react-icons/fa";
 import { UncontrolledAlert } from "reactstrap";
+import { gaEvent } from "utils/gaEvent";
 
 const AlertInfo = () => {
   return (
     <UncontrolledAlert color="primary">
-      <FaInfoCircle size="20px" className="mb-1 mr-2" />
-      Join komunitas discord untuk update info project:
+      <FaDiscord size="23px" className="mb-1" />
       <a
         href="https://discord.com/invite/ZNEjfvHm"
         target="_blank"
         rel="noreferrer"
+        onClick={() => gaEvent("Home Screen", "Discord Link Click", "Home") }
       >
-        <b className="mx-1">JOIN DISINI</b>
+        <b className="mx-1">Join komunitas discord untuk update info fitur baru</b>
       </a>
     </UncontrolledAlert>
   );
