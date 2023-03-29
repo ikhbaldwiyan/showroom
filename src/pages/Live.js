@@ -99,7 +99,7 @@ function Live(props) {
                     setHideMenu={setHideMenu}
                     theme={props.theme}
                   />
-                  {session && (
+                  {session && !isMobile && (
                     <StarButton
                       roomId={roomId}
                       cookiesLoginId={cookiesLoginId}
@@ -129,6 +129,7 @@ function Live(props) {
               isLive={url}
               roomId={roomId}
               hideMenu={hideMenu}
+              session={session}
             />
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />
@@ -140,6 +141,13 @@ function Live(props) {
               <Gift roomId={roomId} />
             ) : menu === "total" ? (
               <TotalRank roomId={roomId} />
+            ) : menu === "star" ? (
+              <StarButton
+                roomId={roomId}
+                cookiesLoginId={cookiesLoginId}
+                csrfToken={csrfToken}
+                theme={props.theme}
+              />
             ) : (
               <Setlist />
             )}

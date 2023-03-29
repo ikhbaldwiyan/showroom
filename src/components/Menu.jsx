@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "reactstrap";
-import { AiFillGift, AiFillTrophy } from "react-icons/ai";
+import { AiFillGift, AiFillStar, AiFillTrophy } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { FaListAlt } from "react-icons/fa";
 import { API } from "utils/api/api";
+import { isMobile } from "react-device-detect";
 
-function Menu({ menu, setMenu, isLive, roomId, hideMenu }) {
+function Menu({ menu, setMenu, isLive, roomId, hideMenu, session }) {
   const [roomName, setRoomName] = useState("");
 
   useEffect(() => {
@@ -92,6 +93,15 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu }) {
               {item.icon} {item.name}
             </Button>
           ))}
+        {isMobile && session && (
+          <Button
+            style={menu === "star" ? buttonActive : buttonStyle}
+            className="menu"
+            onClick={() => setMenu("star")}
+          >
+            <AiFillStar /> Star
+          </Button>
+        )}
       </Col>
     </Row>
   );
