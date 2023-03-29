@@ -1,12 +1,13 @@
 import React from "react";
 import { Container } from "reactstrap";
 import MainLayout from "./layout/MainLayout";
+import { gaEvent } from "utils/gaEvent";
 
 function About(props) {
   return (
     <MainLayout {...props}>
       <Container>
-        <div style={{ height: "650px" }}>
+        <div className="mb-4" style={{ height: "auto" }}>
           <h3>About</h3>
           <p>
             JKT48 SHOWROOM adalah website fanmade yang bertujuan untuk memfilter
@@ -19,10 +20,12 @@ function About(props) {
           <p>
             Website JKT48 Showroom ini di kembangkan oleh
             <a
-              style={{ color: "#24a2b7" }}
               href="https://twitter.com/inzoid"
               rel="noreferrer"
               target="_blank"
+              onClick={() =>
+                gaEvent("About Link", "Twitter Inzoid Click", "About")
+              }
             >
               {" "}
               <b>Inzoid</b>{" "}
@@ -30,11 +33,14 @@ function About(props) {
             dan masih terus di develop sampe saat ini. <br />
             Jika kalian ingin mendukung perkembangan project ini untuk masalah
             server dan lainnya <br />
-            kalian juga bisa donasi di link berikut{" "}
+            kalian bisa donasi di link saweria berikut{" "}
             <a
               href="https://saweria.co/Inzoid"
               rel="noreferrer"
               target="_blank"
+              onClick={() =>
+                gaEvent("About Link", "Donation Link Click", "About")
+              }
             >
               https://saweria.co/Inzoid
             </a>
@@ -46,6 +52,9 @@ function About(props) {
                 href="https://discord.com/invite/ZNEjfvHm"
                 rel="noreferrer"
                 target="_blank"
+                onClick={() =>
+                  gaEvent("About Link", "Discord Link Click", "About")
+                }
               >
                 Join Discord Grup
               </a>{" "}
@@ -83,6 +92,9 @@ function About(props) {
                 href="https://github.com/ikhbaldwiyan/showroom"
                 rel="noreferrer"
                 target="_blank"
+                onClick={() =>
+                  gaEvent("About Link", "Github Web Click", "About")
+                }
               >
                 https://github.com/ikhbaldwiyan/showroom
               </a>{" "}
@@ -94,6 +106,9 @@ function About(props) {
                 rel="noreferrer"
                 href="https://github.com/ikhbaldwiyan/jkt48-showroom-api"
                 target="_blank"
+                onClick={() =>
+                  gaEvent("About Link", "Github API JS Click", "About")
+                }
               >
                 https://github.com/ikhbaldwiyan/jkt48-showroom-api
               </a>{" "}
@@ -105,6 +120,9 @@ function About(props) {
                 rel="noreferrer"
                 href="https://github.com/AldyRevigustian/Showroom-Api"
                 target="_blank"
+                onClick={() =>
+                  gaEvent("About Link", "Github API Laravel Click", "About")
+                }
               >
                 https://github.com/AldyRevigustian/Showroom-Api
               </a>{" "}
@@ -118,7 +136,9 @@ function About(props) {
                 href="https://github.com/AldyRevigustian"
                 rel="noreferrer"
                 target="_blank"
-                style={{  color:'#24a2b7' }}
+                onClick={() =>
+                  gaEvent("About Link", "Contributor Aldy Click", "About")
+                }
               >
                 <img
                   src="https://avatars.githubusercontent.com/u/72060143?v=4"
@@ -130,6 +150,27 @@ function About(props) {
                   }}
                 />
                 <span>Aldy Revigustian</span>
+              </a>{" "}
+            </li>
+            <li className="mt-2">
+              <a
+                href="https://github.com/ikhbaldwiyan"
+                rel="noreferrer"
+                target="_blank"
+                onClick={() =>
+                  gaEvent("About Link", "Contributor Ikhbal Click", "About")
+                }
+              >
+                <img
+                  src="https://avatars.githubusercontent.com/u/56676582?v=4"
+                  alt=""
+                  style={{
+                    borderRadius: "50%",
+                    height: "30px",
+                    marginRight: "10px",
+                  }}
+                />
+                <span>Ikhbal Dwiyantoro</span>
               </a>{" "}
             </li>
           </ul>

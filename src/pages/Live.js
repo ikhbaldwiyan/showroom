@@ -55,7 +55,7 @@ function Live(props) {
     } catch (error) {
       console.log(error);
     }
-  }, [roomId]);
+  }, [roomId, url]);
 
   useEffect(() => {
     window.document.title = "JKT48 SHOWROOM";
@@ -89,7 +89,7 @@ function Live(props) {
         )}
         <Row>
           <Col lg="8">
-            {url.length ? (
+            {url ? (
               url?.slice(0, 1)?.map((item, idx) => (
                 <>
                   <Stream key={idx} url={item?.url} />
@@ -122,7 +122,7 @@ function Live(props) {
             )}
           </Col>
           <Col lg="4">
-            <AlertInfo />
+            <AlertInfo page="Detail Screen" label="Detail" />
             <Menu
               menu={menu}
               setMenu={setMenu}
