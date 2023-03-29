@@ -1,14 +1,25 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Button, Card, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import {
+  Button,
+  Card,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "reactstrap";
 import { BULK_GIFT, FARM, SEND_GIFT } from "utils/api/api";
 import Loading from "./Loading";
-import shot from '../assets/audio/shot.mp3';
-import combo from '../assets/audio/combo.mp3';
-import bulkImage from '../assets/images/bulk.svg';
+import shot from "../assets/audio/shot.mp3";
+import combo from "../assets/audio/combo.mp3";
+import bulkImage from "../assets/images/bulk.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { getClickCount, getStarsLoad, getStarsSuccess } from "redux/actions/setStars";
 
 function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
+  const { starsRedux, clickCountRedux } = useSelector((state) => state.stars);
+
   const [stars, setStars] = useState([
     {
       gift_id: "",
@@ -54,11 +65,13 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
   const [activeButton, setActiveButton] = useState(null);
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setDisableCount(true)
+    setDisableCount(true);
     getFirstStar();
-    setDisableCount(false)
+    setDisableCount(false);
+    dispatch(getStarsLoad());
   }, [roomId, cookiesLoginId]);
 
   const getFirstStar = async () => {
@@ -75,9 +88,9 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setDisableCount(true)
+      setDisableCount(true);
       getFirstStar();
-      setDisableCount(false)
+      setDisableCount(false);
     }, 1000 * 80);
     return () => clearInterval(interval);
   }, []);
@@ -88,23 +101,22 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
     if (isCounting) {
       timeoutId = setTimeout(() => {
         setIsCounting(false);
-        console.log('stop');
-        setDisableCount(true)
+        console.log("stop");
+        setDisableCount(true);
 
         Object.entries(clickCount).map(([key, value]) => {
           if (value < 10 && value > 0) {
-            sendStar(key, value)
+            sendStar(key, value);
 
-            setClickCount({
+            dispatch(getClickCount({
               a: 0,
               b: 0,
               c: 0,
               d: 0,
               e: 0,
-            })
-
+            }));
           }
-        })
+        });
       }, 1000);
     }
     return () => clearTimeout(timeoutId);
@@ -113,7 +125,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
   const setAllStar = (data) => {
     setStarLoading(true);
     if (data.star.length === 0) return;
-    const updatedStar = stars.map((gift, index) => {
+    const updatedStar = starsRedux.map((gift, index) => {
       return {
         ...gift,
         gift_id: data.star[index].gift_id,
@@ -121,14 +133,14 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
       };
     });
     setStars(updatedStar);
+    dispatch(getStarsSuccess(updatedStar));
     setStarLoading(false);
   };
 
-
   const sendAllStar = async () => {
-    setModal(!modal)
+    setModal(!modal);
     setStarLoading(true);
-    setDisableCount(true)
+    setDisableCount(true);
 
     try {
       const response = await axios.post(BULK_GIFT, {
@@ -151,21 +163,17 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
           theme: "colored",
         });
 
-        setDisableCount(false)
-        setStarLoading(false)
+        setDisableCount(false);
+        setStarLoading(false);
       }
-
     } catch {
-      toast.error(
-        "Gagal mengirim star",
-        {
-          theme: "colored",
-        }
-      );
-      setDisableCount(false)
-      setStarLoading(false)
+      toast.error("Gagal mengirim star", {
+        theme: "colored",
+      });
+      setDisableCount(false);
+      setStarLoading(false);
     }
-  }
+  };
 
   const sendTenStar = async (e) => {
     console.log(e.target.name);
@@ -184,27 +192,26 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
         console.log(response.data);
         let data = response.data;
 
-        setStars(prevState => [
-          ...prevState.map(star => {
+        setStars((prevState) => [
+          ...prevState.map((star) => {
             if (star.name === e.target.name) {
               return {
                 ...star,
-                count: data.remaining_num
-              }
+                count: data.remaining_num,
+              };
             }
-            return star
-          })
+            return star;
+          }),
         ]);
 
-        setDisableCount(false)
-        setActiveButton(null)
+        setDisableCount(false);
+        setActiveButton(null);
       }
     } catch {
-      setDisableCount(false)
-      setActiveButton(null)
+      setDisableCount(false);
+      setActiveButton(null);
     }
   };
-
 
   const sendStar = async (key, value) => {
     try {
@@ -220,26 +227,26 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
         let data = response.data;
         console.log(response.data);
 
-        setStars(prevState => [
-          ...prevState.map(star => {
+        setStars((prevState) => [
+          ...prevState.map((star) => {
             if (star.name === key) {
               return {
                 ...star,
-                count: data.remaining_num
-              }
+                count: data.remaining_num,
+              };
             }
-            return star
-          })
+            return star;
+          }),
         ]);
 
-        setDisableCount(false)
-        setActiveButton(null)
+        setDisableCount(false);
+        setActiveButton(null);
       }
     } catch {
-      setDisableCount(false)
-      setActiveButton(null)
+      setDisableCount(false);
+      setActiveButton(null);
     }
-  }
+  };
 
   const clickStar = (e) => {
     setIsCounting(true);
@@ -250,12 +257,13 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
         if (starObj.name === e.target.name) {
           if (starObj.count > 0) {
             setClickCount({
-              ...clickCount, [e.target.name]: clickCount[e.target.name] + 1
-            })
+              ...clickCount,
+              [e.target.name]: clickCount[e.target.name] + 1,
+            });
 
             if (clickCount[e.target.name] == 9) {
               sendTenStar(e);
-              setDisableCount(true)
+              setDisableCount(true);
 
               setClickCount({
                 a: 0,
@@ -263,7 +271,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
                 c: 0,
                 d: 0,
                 e: 0,
-              })
+              });
             }
 
             if (clickCount[e.target.name] == 9) {
@@ -280,7 +288,6 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
               ...starObj,
               count: starObj.count - 1,
             };
-
           }
         }
         return starObj;
@@ -288,26 +295,26 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
     });
   };
 
-
   return (
     <div
       style={{
-        display: 'flex',
-        flexDirection: 'row',
+        display: "flex",
+        flexDirection: "row",
       }}
     >
       <Card
         style={{
           padding: "20px",
-          display: 'flex',
-          flex: '1',
-          alignItems: 'center',
+          display: "flex",
+          flex: "1",
+          alignItems: "center",
           backgroundColor: theme === "dark" ? "#343A40" : "white",
           borderRadius: "10px 0px 0px 10px",
         }}
-        className="my-4">
+        className="my-4"
+      >
         <div className="row">
-          {stars.map((gift) => (
+          {starsRedux.map((gift) => (
             <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
               <input
                 type="image"
@@ -320,13 +327,16 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
                 width="50px"
                 height="50px"
                 style={{ cursor: "pointer" }}
-                onClick={disableCount ? void (0) : clickStar}
+                onClick={disableCount ? void 0 : clickStar}
                 name={gift.name}
                 alt="stars"
               />
               <b className="mb-0">
                 {starLoading ? (
-                  <Loading color={theme === "dark" ? "white" : "black"} size={6} />
+                  <Loading
+                    color={theme === "dark" ? "white" : "black"}
+                    size={6}
+                  />
                 ) : (
                   gift.count
                 )}
@@ -334,7 +344,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
             </div>
           ))}
         </div>
-      </Card >
+      </Card>
 
       <button
         className="btn my-4"
@@ -344,7 +354,8 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
           borderRadius: "0px 10px 10px 0px",
           backgroundColor: "#24a2b7",
           width: "70px",
-        }}>
+        }}
+      >
         <img src={bulkImage} height={44} width={44} alt="bulk gift" />
       </button>
 
@@ -359,7 +370,9 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
       </Card> */}
       <div>
         <Modal isOpen={modal} toggle={toggle}>
-          <ModalHeader style={{ backgroundColor: "#24a2b7" }} toggle={toggle}>Send All Stars</ModalHeader>
+          <ModalHeader style={{ backgroundColor: "#24a2b7" }} toggle={toggle}>
+            Send All Stars
+          </ModalHeader>
           <ModalBody className="text-dark">
             Apakah Anda yakin ingin mengirim semua star ?
           </ModalBody>
@@ -374,7 +387,6 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
         </Modal>
       </div>
     </div>
-
   );
 }
 

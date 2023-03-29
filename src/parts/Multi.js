@@ -26,7 +26,7 @@ export default function Multi({
   const [cookiesLoginId, setCookiesLoginId] = useState("");
   const [csrfToken, setCsrfToken] = useState("");
   const [url, setUrl] = useState([]);
-  const [roomId, setRoomId] = useState("");
+  const [roomId, setRoomId] = useState("318605");
   const [menu, setMenu] = useState("room");
   const [loading, setLoading] = useState(false);
   const [hideMenu, setHideMenu] = useState(false);
@@ -115,8 +115,13 @@ export default function Multi({
         <Gift roomId={roomId} />
       ) : menu === "total" ? (
         <TotalRank roomId={roomId} />
-      ) : menu == "star" ? (
-        <StarButton roomId={roomId} theme={theme} cookiesLoginId={cookiesLoginId} csrfToken={csrfToken} />
+      ) : menu === "star" ? (
+        <StarButton
+          roomId={roomId}
+          theme={theme}
+          cookiesLoginId={cookiesLoginId}
+          csrfToken={csrfToken}
+        />
       ) : (
         <Setlist />
       )}
