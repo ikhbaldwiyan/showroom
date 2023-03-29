@@ -46,6 +46,11 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, session }) {
       menu: "gift",
       icon: <AiFillGift style={iconStyle} />,
     },
+    {
+      name: "Star",
+      menu: "star",
+      icon: <AiFillStar style={iconStyle} />,
+    },
   ];
 
   const buttonStyle = {
