@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "reactstrap";
-import { AiFillGift, AiFillTrophy } from "react-icons/ai";
+import { AiFillGift, AiFillStar, AiFillTrophy } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { FaListAlt } from "react-icons/fa";
 import { API } from "utils/api/api";
@@ -44,6 +44,11 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu }) {
       name: "Gift",
       menu: "gift",
       icon: <AiFillGift style={iconStyle} />,
+    },
+    {
+      name: "Star",
+      menu: "star",
+      icon: <AiFillStar style={iconStyle} />,
     },
   ];
 
