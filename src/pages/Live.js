@@ -75,7 +75,7 @@ function Live(props) {
         )}
         <Row>
           <Col lg="8">
-            {url ? (
+            {url && url.length > 0 ? (
               url?.slice(0, 1)?.map((item, idx) => (
                 <>
                   <Stream key={idx} url={item?.url} />

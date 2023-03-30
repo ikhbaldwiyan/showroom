@@ -29,7 +29,7 @@ export default function Comment({ roomId, isMultiRoom }) {
           }, 2000);
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
     getComments();
@@ -56,7 +56,11 @@ export default function Comment({ roomId, isMultiRoom }) {
   const sendComment = async (e) => {
     e.preventDefault();
     setButtonLoading(true);
-    gaEvent("Comment", "Send Comment", "Detail")
+    if (isMultiRoom) {
+      gaEvent("Comment", "Send Comment Multi", "Multi Room Comment");
+    } else {
+      gaEvent("Comment", "Send Comment Regular", "Live");
+    }
     try {
       const response = await axios.post(SEND_COMMENT, {
         room_id: roomId.toString(),
