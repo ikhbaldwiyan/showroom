@@ -13,9 +13,17 @@ export const getStarsSuccess = (stars) => {
   };
 };
 
-export const getClickCount = (count) => {
+export const getClickCount = (count, name) => {
   return {
     type: STATE.SEND_STAR,
+    name,
+    payload: count,
+  };
+}
+
+export const getClickCountStar = (count) => {
+  return {
+    type: STATE.CLICK_COUNT_STAR,
     payload: count,
   };
 }

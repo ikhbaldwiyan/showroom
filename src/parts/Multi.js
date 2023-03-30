@@ -26,7 +26,7 @@ export default function Multi({
   const [cookiesLoginId, setCookiesLoginId] = useState("");
   const [csrfToken, setCsrfToken] = useState("");
   const [url, setUrl] = useState([]);
-  const [roomId, setRoomId] = useState("318605");
+  const [roomId, setRoomId] = useState("");
   const [menu, setMenu] = useState("room");
   const [loading, setLoading] = useState(false);
   const [hideMenu, setHideMenu] = useState(false);

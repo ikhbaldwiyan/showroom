@@ -15,7 +15,7 @@ import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
 import bulkImage from "../assets/images/bulk.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { getClickCount, getStarsLoad, getStarsSuccess } from "redux/actions/setStars";
+import { getClickCount, getClickCountStar, getStarsLoad, getStarsSuccess } from "redux/actions/setStars";
 
 function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
   const { starsRedux, clickCountRedux } = useSelector((state) => state.stars);
@@ -79,7 +79,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
 
     const response = await axios.post(FARM, {
       cookies_login_id: cookiesLoginId,
-      room_id: roomId,
+      room_id: roomId.toString(),
     });
 
     setAllStar(response.data);
@@ -108,7 +108,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
           if (value < 10 && value > 0) {
             sendStar(key, value);
 
-            dispatch(getClickCount({
+            dispatch(getClickCountStar({
               a: 0,
               b: 0,
               c: 0,
@@ -183,7 +183,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
       const response = await axios.post(SEND_GIFT, {
         cookies_id: cookiesLoginId,
         csrf_token: csrfToken,
-        room_id: roomId,
+        room_id: roomId.toString(),
         gift_name: e.target.name,
         num: clickCount[e.target.name] + 1,
       });
@@ -284,10 +284,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
               audio.play();
             }
 
-            return {
-              ...starObj,
-              count: starObj.count - 1,
-            };
+            return dispatch(getClickCount(starObj.count - 1, starObj.name));
           }
         }
         return starObj;
