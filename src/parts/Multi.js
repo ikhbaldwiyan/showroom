@@ -115,8 +115,13 @@ export default function Multi({
         <Gift roomId={roomId} />
       ) : menu === "total" ? (
         <TotalRank roomId={roomId} />
-      ) : menu == "star" ? (
-        <StarButton roomId={roomId} theme={theme} cookiesLoginId={cookiesLoginId} csrfToken={csrfToken} />
+      ) : menu === "star" ? (
+        <StarButton
+          roomId={roomId}
+          theme={theme}
+          cookiesLoginId={cookiesLoginId}
+          csrfToken={csrfToken}
+        />
       ) : (
         <Setlist />
       )}

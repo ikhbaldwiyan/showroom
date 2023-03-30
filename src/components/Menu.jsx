@@ -7,7 +7,15 @@ import { FaListAlt } from "react-icons/fa";
 import { API } from "utils/api/api";
 import { isMobile } from "react-device-detect";
 
-function Menu({ menu, setMenu, isLive, roomId, hideMenu, session }) {
+function Menu({
+  menu,
+  setMenu,
+  isLive,
+  roomId,
+  hideMenu,
+  session,
+  isMultiRoom,
+}) {
   const [roomName, setRoomName] = useState("");
 
   useEffect(() => {
@@ -53,6 +61,10 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, session }) {
     },
   ];
 
+  const filteredMenu = isMultiRoom
+    ? listMenu.filter((item) => item.menu !== "star")
+    : listMenu.filter((item) => !isMobile || item.menu !== "gift");
+
   const buttonStyle = {
     backgroundColor: "teal",
     border: "none",
@@ -86,26 +98,30 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, session }) {
             </Button>
           </>
         )}
-        {isLive.length !== 0 &&
-          !hideMenu &&
-          listMenu.map((item, idx) => (
-            <Button
-              key={idx}
-              style={menu === item.menu ? buttonActive : buttonStyle}
-              className="menu"
-              onClick={() => setMenu(item.menu)}
-            >
-              {item.icon} {item.name}
-            </Button>
-          ))}
-        {isMobile && session && (
-          <Button
-            style={menu === "star" ? buttonActive : buttonStyle}
-            className="menu"
-            onClick={() => setMenu("star")}
-          >
-            <AiFillStar /> Star
-          </Button>
+        {isLive.length !== 0 && (
+          <>
+            {!hideMenu &&
+              filteredMenu.map((item, idx) => (
+                <Button
+                  key={idx}
+                  style={menu === item.menu ? buttonActive : buttonStyle}
+                  className="menu"
+                  onClick={() => setMenu(item.menu)}
+                >
+                  {item.icon} {item.name}
+                </Button>
+              ))}
+
+            {isMobile && session && (
+              <Button
+                style={menu === "star" ? buttonActive : buttonStyle}
+                className="menu"
+                onClick={() => setMenu("star")}
+              >
+                <AiFillStar /> Star
+              </Button>
+            )}
+          </>
         )}
       </Col>
     </Row>

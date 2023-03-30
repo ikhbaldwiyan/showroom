@@ -130,6 +130,7 @@ function Live(props) {
               roomId={roomId}
               hideMenu={hideMenu}
               session={session}
+              isMultiRoom
             />
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />
