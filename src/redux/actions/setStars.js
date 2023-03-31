@@ -21,9 +21,27 @@ export const getClickCount = (count, name) => {
   };
 }
 
-export const getClickCountStar = (count) => {
+export const getClickCountStar = (name) => {
   return {
     type: STATE.CLICK_COUNT_STAR,
-    payload: count,
+    payload: {
+      name,
+    },
+  };
+}
+
+export const sendStarSuccess = (name, count) => {
+  return {
+    type: STATE.SEND_STAR_SUCCESS,
+    payload: {
+      name,
+      count
+    },
+  }
+}
+
+export const clearCountStar = () => {
+  return {
+    type: STATE.CLEAR_COUNT_STAR,
   };
 }

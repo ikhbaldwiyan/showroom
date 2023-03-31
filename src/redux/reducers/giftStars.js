@@ -1,35 +1,35 @@
 import { ACTION_TYPES as STATE } from "redux/constans/actionTypes";
 
 const intialState = {
-  isLoading: false,
+  isLoadingStars: false,
   isError: false,
   starsRedux: [
     {
-      gift_id: "1",
+      gift_id: "",
       name: "a",
-      count: 100,
+      count: 0,
       url: "https://static.showroom-live.com/image/gift/1_s.png?v=1",
     },
     {
-      gift_id: "2",
+      gift_id: "",
       name: "b",
-      count: 100,
+      count: 0,
       url: "https://static.showroom-live.com/image/gift/1001_s.png?v=1",
     },
     {
-      gift_id: "3",
+      gift_id: "",
       name: "c",
       count: 0,
       url: "https://static.showroom-live.com/image/gift/1002_s.png?v=1",
     },
     {
-      gift_id: "4",
+      gift_id: "",
       name: "d",
       count: 0,
       url: "https://static.showroom-live.com/image/gift/1003_s.png?v=1",
     },
     {
-      gift_id: "5",
+      gift_id: "",
       name: "e",
       count: 0,
       url: "https://static.showroom-live.com/image/gift/2_s.png?v=1",
@@ -49,23 +49,37 @@ function reducer(state = intialState, action) {
     case STATE.GET_ALL_STARS_LOAD:
       return {
         ...state,
-        isLoading: true,
+        isLoadingStars: true,
       };
     case STATE.GET_ALL_STARS_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        isLoadingStars: false,
         starsRedux: action.payload,
       };
-    case STATE.CLICK_COUNT_STAR:
+    case STATE.SEND_STAR:
       return {
         ...state,
-        isLoading: false,
-        clickCountRedux: action.payload,
       };
-    case STATE.SEND_STAR:
+    case STATE.SEND_STAR_SUCCESS:
+      const current_num = state.starsRedux.map(star => {
+        if (star.name === action.payload.name) {
+          return {
+            ...star,
+            count: action.payload.count
+          }
+        }
+        return star;
+      });
+
+      return {
+        ...state,
+        isLoadingStars: false,
+        starsRedux: current_num,
+      };
+    case STATE.CLICK_COUNT_STAR:
       const stars = state.starsRedux.map(star => {
-        if (star.name === action.name) {
+        if (star.name === action.payload.name) {
           return {
             ...star,
             count: star.count - 1
@@ -76,9 +90,22 @@ function reducer(state = intialState, action) {
       return {
         ...state,
         starsRedux: stars,
+        clickCountRedux: {
+          ...state.clickCountRedux,
+          [action.payload.name]: state.clickCountRedux[action.payload.name] + 1,
+        }
       };
-    case STATE.CLEAR_ROOM_DETAIL:
-      return intialState;
+    case STATE.CLEAR_COUNT_STAR:
+      return {
+        ...state,
+        clickCountRedux: {
+          a: 0,
+          b: 0,
+          c: 0,
+          d: 0,
+          e: 0,
+        }
+      };
     default:
       return state;
   }
