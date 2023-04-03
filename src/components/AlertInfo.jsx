@@ -9,7 +9,7 @@ const AlertInfo = ({ page, label }) => {
       <FaDiscord size="23px" className="mb-1 mr-2" />
       Join grup Discord untuk update info fitur baru
       <a
-        href="https://discord.com/invite/ZNEjfvHm"
+        href="https://discord.gg/gM9UGku4"
         target="_blank"
         rel="noreferrer"
         onClick={() => gaEvent(page, "Discord Link Click", label)}
