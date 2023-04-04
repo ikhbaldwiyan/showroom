@@ -8,6 +8,7 @@ const SEND_COMMENT = `${LARAVEL_API}/live/comment`;
 const UPDATE_PROFILE =  `${LARAVEL_API}/profile/update`;
 const LOGIN = `${LARAVEL_API}/login`;
 const USER_PROFILE = `${LARAVEL_API}/profile/user`
+const ROOM_FOLLOW = `${LARAVEL_API}/live/follow`
 
 // Live API
 const liveDetail = (roomId) => {
@@ -64,5 +65,6 @@ export {
   LOGIN,
   SEND_COMMENT,
   USER_PROFILE,
-  UPDATE_PROFILE
+  UPDATE_PROFILE,
+  ROOM_FOLLOW
 };

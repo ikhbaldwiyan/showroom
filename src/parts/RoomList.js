@@ -12,7 +12,7 @@ function RoomList({ room, theme, isSearch, isSearchAcademy }) {
         <div className="container-grid">
           {room.map((item, idx) => (
             <Room idx={idx} item={item} style="column-4">
-              {item.is_live && (
+              {item.is_live || item.is_online && (
                 <div className="tag" style={{ backgroundColor: '#CC2636' }}>
                   On Live
                 </div>
