@@ -14,7 +14,7 @@ import {
   RoomAcademy,
   RoomFollow,
   RoomUpcoming,
-  SearchAndFilter
+  SearchAndFilter,
 } from "parts";
 
 function Home(props) {
@@ -117,7 +117,11 @@ function Home(props) {
           ) : isRegular ? (
             <RoomList isSearch={search} room={filtered} theme={props.theme} />
           ) : isLive ? (
-            <RoomFollow isLogin={isLogin} session={session} />
+            <RoomFollow
+              isLogin={isLogin}
+              session={session}
+              theme={props.theme}
+            />
           ) : (
             ""
           )}

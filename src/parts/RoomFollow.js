@@ -1,17 +1,27 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { isMobile } from "react-device-detect";
 import { FaPersonBooth } from "react-icons/fa";
 import { IoLogIn } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
+import {
+  getRoomFollowedLoad,
+  getRoomFollowedSuccess,
+  getRoomFollowedFailed,
+} from "redux/actions/roomFollowed";
 import { ROOM_FOLLOW } from "utils/api/api";
 import RoomList from "./RoomList";
+import SkeletonList from "./skeleton/SkeletonList";
 
-const RoomFollow = ({ session, isLogin }) => {
-  const [room, setRoom] = useState([]);
+const RoomFollow = ({ session, isLogin, theme }) => {
+  const dispatch = useDispatch();
+  const { data, isLoading } = useSelector((state) => state.roomFollowed);
 
   useEffect(() => {
     async function getRoomFollow() {
+      dispatch(getRoomFollowedLoad());
       try {
         const response = await axios.post(ROOM_FOLLOW, {
           cookies_id: session.cookie_login_id,
@@ -19,9 +29,10 @@ const RoomFollow = ({ session, isLogin }) => {
         const jktRoom = response.data.rooms.filter((room) =>
           room.room_url_key.includes("JKT48")
         );
-        setRoom(jktRoom);
+        dispatch(getRoomFollowedSuccess(jktRoom));
       } catch (error) {
         console.log(error);
+        dispatch(getRoomFollowedFailed());
       }
     }
     getRoomFollow();
@@ -39,9 +50,14 @@ const RoomFollow = ({ session, isLogin }) => {
         </div>
       </div>
     </div>
-  ) : room.length > 0 ? (
-    <RoomList room={room} isRoomFollowed/>
-  ) : (
+  ) : data.length >= 1 ? (
+    <RoomList room={data} isRoomFollowed />
+  ) : isLoading ? (
+    <>
+      <h3 className="py-4">Follow List</h3>
+      {!isMobile && <SkeletonList theme={theme} />}
+    </>
+  ) : data.length === 0 ? (
     <div className="container">
       <div className="row">
         <div className="col-12 mt-5 text-center align-items-center">
@@ -50,6 +66,8 @@ const RoomFollow = ({ session, isLogin }) => {
         </div>
       </div>
     </div>
+  ) : (
+    ""
   );
 };
 
