@@ -24,6 +24,8 @@ function reducer(state = intialState, action) {
         ...state,
         isError: true,
       };
+    case ACTION_TYPES.CLEAR_FOLLOWED_ROOM:
+      return intialState
     default:
       return state;
   }

@@ -19,3 +19,9 @@ export const getRoomFollowedFailed = () => {
   };
 };
 
+export const clearFollowedRoom = () => {
+  return {
+    type: ACTION_TYPES.CLEAR_FOLLOWED_ROOM,
+  };
+};
+

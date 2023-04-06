@@ -43,7 +43,7 @@ const RoomFollow = ({ session, isLogin, theme }) => {
       <div className="row">
         <div className="col-12 mt-5 text-center align-items-center">
           <IoLogIn size={100} />
-          <h3 className="py-3">Please Login To see</h3>
+          <h4 className="py-3">Room Not Found! <br /> Please login to see</h4>
           <Link to="/login">
             <Button color="info">Login</Button>
           </Link>
