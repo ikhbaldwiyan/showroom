@@ -5,10 +5,11 @@ const ROOM = `${API}/rooms`;
 // Laravel API
 const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
 const SEND_COMMENT = `${LARAVEL_API}/live/comment`;
-const UPDATE_PROFILE =  `${LARAVEL_API}/profile/update`;
+const UPDATE_PROFILE = `${LARAVEL_API}/profile/update`;
 const LOGIN = `${LARAVEL_API}/login`;
-const USER_PROFILE = `${LARAVEL_API}/profile/user`
-const ROOM_FOLLOW = `${LARAVEL_API}/live/follow`
+const USER_PROFILE = `${LARAVEL_API}/profile/user`;
+const ROOM_FOLLOW = `${LARAVEL_API}/live/followed_rooms`;
+const FOLLOW = `${LARAVEL_API}/live/follow`;
 
 // Live API
 const liveDetail = (roomId) => {
@@ -24,16 +25,16 @@ const liveGift = (roomId) => {
 };
 
 const LIVE_COMMENT = (roomId) => {
-  return `${LIVE}/comments/${roomId}`
-}
+  return `${LIVE}/comments/${roomId}`;
+};
 
 // Room API
 const roomListApi = ROOM;
 const roomAcademyApi = `${ROOM}/academy`;
 const roomLivesApi = `${ROOM}/onlives`;
 
-const profileApi = (roomId) => {
-  return `${ROOM}/profile/${roomId}`;
+const profileApi = (roomId, cookies) => {
+  return `${ROOM}/profile/${roomId}/${cookies ?? 0}`;
 };
 
 const fanLetter = (roomId) => {
@@ -66,5 +67,6 @@ export {
   SEND_COMMENT,
   USER_PROFILE,
   UPDATE_PROFILE,
-  ROOM_FOLLOW
+  ROOM_FOLLOW,
+  FOLLOW
 };

@@ -116,8 +116,8 @@ function Home(props) {
             />
           ) : isRegular ? (
             <RoomList isSearch={search} room={filtered} theme={props.theme} />
-          ) : isLive && isLogin ? (
-            <RoomFollow session={session} />
+          ) : isLive ? (
+            <RoomFollow isLogin={isLogin} session={session} />
           ) : (
             ""
           )}

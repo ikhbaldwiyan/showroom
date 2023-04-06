@@ -47,7 +47,7 @@ export default function Comment({ roomId, isMultiRoom }) {
   }, []);
 
   useEffect(() => {
-    axios.get(profileApi(roomId)).then((res) => {
+    axios.get(profileApi(roomId, session.cookie_login_id)).then((res) => {
       const profile = res.data;
       setProfile(profile);
     });
