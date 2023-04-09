@@ -34,7 +34,7 @@ function RoomListTable({ data, children, setRoomId, idx, roomId }) {
       <tr>
         <td>
           <img
-            src={data.image_url ?? data.image}
+            src={data.image_url ?? data.image ?? data.image_m}
             style={{ borderRadius: "10px" }}
             alt={data.name}
             width="120"

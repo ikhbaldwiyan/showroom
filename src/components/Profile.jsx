@@ -39,7 +39,7 @@ export default function Profile({ roomId, menu, theme, session }) {
     dispatch(getRoomDetailLoad());
 
     const params = {
-      room_id: roomId,
+      room_id: roomId.toString(),
       cookie: session.cookie_login_id,
     };
 

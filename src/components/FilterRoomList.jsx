@@ -3,6 +3,7 @@ import { Button } from 'reactstrap'
 import { RiGlobalLine } from 'react-icons/ri';
 import { AiFillAppstore } from 'react-icons/ai';
 import { IoSchoolSharp } from 'react-icons/io5';
+import { HiUserGroup } from "react-icons/hi";
 
 function FilterRoomList({
   allMember,
@@ -13,7 +14,6 @@ function FilterRoomList({
   setIsRegular,
   isLive,
   setIsLive,
-  isRoomLive
 }) {
   const filterAllMember = () => {
     setIsRegular(false);
@@ -82,17 +82,17 @@ function FilterRoomList({
           {item.icon} <span className="text-filter">{item.name}</span>
         </Button>
       ))}
-      {isRoomLive && (
-        <Button
-          size="sm"
-          className="mr-1"
-          onClick={filterIsLive}
-          disabled={isLive ? 'disabled' : ''}
-          style={{ backgroundColor: '#CD0C0D', border: 'none' }}
-        >
-          <span className="text-filter">LIVES</span>
-        </Button>
-      )}
+      <Button
+        size="sm"
+        className="mr-1"
+        onClick={filterIsLive}
+        disabled={isLive ? 'disabled' : ''}
+        color="primary"
+      >
+        <span className="text-filter mx-1">
+          <HiUserGroup size={20} />
+        </span>
+      </Button>
     </div>
   )
 }

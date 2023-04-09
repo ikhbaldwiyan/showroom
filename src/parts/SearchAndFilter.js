@@ -2,9 +2,10 @@ import React from 'react';
 import { FcSearch } from 'react-icons/fc';
 import { Button } from 'reactstrap';
 import { RiGlobalLine } from 'react-icons/ri';
-import { AiFillAppstore, AiOutlineUsergroupAdd } from 'react-icons/ai';
+import { AiFillAppstore } from 'react-icons/ai';
 import { IoSchoolSharp } from 'react-icons/io5';
 import { isMobile } from 'react-device-detect';
+import { HiUserGroup } from "react-icons/hi";
 
 function SearchAndFilter({
   handleSearch,
@@ -92,7 +93,7 @@ function SearchAndFilter({
             onClick={filterIsLive}
             disabled={isLive ? 'disabled' : ''}
           >
-            <AiOutlineUsergroupAdd className="mb-1" /> <span className="text-filter">Room Followed</span>
+            <HiUserGroup className="mb-1" /> <span className="text-filter">Room Followed</span>
           </Button>
         </div>
       </div>

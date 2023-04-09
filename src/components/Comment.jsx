@@ -53,7 +53,7 @@ export default function Comment({ roomId, isMultiRoom }) {
   useEffect(() => {
     axios
       .post(PROFILE_API, {
-        room_id: roomId,
+        room_id: roomId.toString(),
         cookie: session.cookie_login_id,
       })
       .then((res) => {
