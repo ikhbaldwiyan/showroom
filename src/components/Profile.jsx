@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { API, FOLLOW, profileApi } from "utils/api/api";
+import { API, FOLLOW, PROFILE_API } from "utils/api/api";
 import {
   Row,
   Col,
@@ -38,12 +38,17 @@ export default function Profile({ roomId, menu, theme, session }) {
   useEffect(() => {
     dispatch(getRoomDetailLoad());
 
-    axios.get(profileApi(roomId, session?.cookie_login_id)).then((res) => {
+    const params = {
+      room_id: roomId,
+      cookie: session.cookie_login_id,
+    };
+
+    axios.post(PROFILE_API, params).then((res) => {
       const profile = res.data;
       dispatch(getRoomDetailSucces(profile, profile.is_follow ? 1 : 0));
     });
 
-    axios.get(profileApi(roomId, session?.cookie_login_id)).then((res) => {
+    axios.post(PROFILE_API, params).then((res) => {
       const profiles = res.data;
       setProfile(profiles);
     });

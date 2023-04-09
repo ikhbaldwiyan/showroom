@@ -10,6 +10,7 @@ const LOGIN = `${LARAVEL_API}/login`;
 const USER_PROFILE = `${LARAVEL_API}/profile/user`;
 const ROOM_FOLLOW = `${LARAVEL_API}/live/followed_rooms`;
 const FOLLOW = `${LARAVEL_API}/live/follow`;
+const PROFILE_API = `${LARAVEL_API}/profile/room`;
 
 // Live API
 const liveDetail = (roomId) => {
@@ -32,11 +33,6 @@ const LIVE_COMMENT = (roomId) => {
 const roomListApi = ROOM;
 const roomAcademyApi = `${ROOM}/academy`;
 const roomLivesApi = `${ROOM}/onlives`;
-
-const profileApi = (roomId, cookies) => {
-  return `${ROOM}/profile/${roomId}/${cookies ?? 0}`;
-};
-
 const fanLetter = (roomId) => {
   return `${ROOM}/fan-letters/${roomId}`;
 };
@@ -54,7 +50,6 @@ export {
   roomListApi,
   roomLivesApi,
   roomAcademyApi,
-  profileApi,
   fanLetter,
   totalRank,
   liveDetail,
@@ -68,5 +63,6 @@ export {
   USER_PROFILE,
   UPDATE_PROFILE,
   ROOM_FOLLOW,
-  FOLLOW
+  FOLLOW,
+  PROFILE_API,
 };
