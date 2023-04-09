@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getRoomLiveSuccess, getRoomLiveFailed } from "redux/actions/roomLives";
 import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
 import { getRoomFollowedSuccess } from "redux/actions/roomFollowed";
+import { getSession } from "utils/getSession";
 
 export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   const [search, setSearch] = useState("");
@@ -67,11 +68,10 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   useEffect(() => {
     async function getRoomFollowed() {
       const response = await axios.post(ROOM_FOLLOW, {
-        cookies_id:
-          "sr_id=wp9KnS6tWIz9khiC6IXrLTp1c7-I4mXW2LNS6BWAfNid1hQN5S64ylYCNLKEaOoV",
+        cookies_id: getSession()?.cookie_login_id,
       });
-      const jktRoom = response.data.rooms.filter((room) =>
-        room.room_url_key.includes("JKT48")
+      const jktRoom = response?.data?.rooms?.filter((room) =>
+        room?.room_url_key?.includes("JKT48")
       );
       dispatch(getRoomFollowedSuccess(jktRoom));
     }

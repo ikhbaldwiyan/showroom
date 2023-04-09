@@ -4,7 +4,7 @@ const intialState = {
   isLoading: false,
   isError: false,
   profile: [],
-  room_name: 'JKT48',
+  room_name: 'JKT48 SHOWROOM',
   isFollow: 0
 };
 
