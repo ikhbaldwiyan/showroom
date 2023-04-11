@@ -52,7 +52,7 @@ export default function Footer() {
                 <li className="list-group-item">
                   <Button
                     type="link"
-                    href="https://discord.gg/gM9UGku4"
+                    href={process.env.DISCORD_LINK}
                     isExternal
                     target="_blank"
                   >
