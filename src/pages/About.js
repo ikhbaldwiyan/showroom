@@ -49,7 +49,7 @@ function About(props) {
           <ul>
             <li>
               <a
-                href={process.env.DISCORD_LINK}
+                href={process.env.REACT_APP_DISCORD_LINK}
                 rel="noreferrer"
                 target="_blank"
                 onClick={() =>
