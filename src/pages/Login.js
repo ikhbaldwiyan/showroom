@@ -6,7 +6,7 @@ import { LOGIN } from "utils/api/api";
 import { toast } from "react-toastify";
 import { Loading } from "components";
 import { RiLoginBoxFill } from "react-icons/ri";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { gaEvent } from "utils/gaEvent";
 
@@ -178,9 +178,19 @@ function Login(props) {
               </div>
               <div className="row">
                 <div className="col-12">
+                  <p className="mt-3 mr-3">
+                    Dont have an account ? 
+                    <Link to="/register">
+                      <span className="ml-2">Register here</span>
+                    </Link>
+                  </p>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12">
                   <button
                     type="submit"
-                    className="btn btn-block text-light mt-5 mb-4 py-2"
+                    className="btn btn-block text-light mt-3 mb-4 py-2"
                     style={{ backgroundColor: "#24a2b7" }}
                     disabled={buttonLoading ? true : false}
                     onClick={() => gaEvent("Login Screen", "Login Button", "Login")}
