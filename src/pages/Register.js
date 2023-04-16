@@ -1,12 +1,13 @@
 import axios from "axios";
 import { Loading } from "components";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { RiLoginBoxFill } from "react-icons/ri";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Container, Input } from "reactstrap";
-import { REGISTER } from "utils/api/api";
+import { LOGIN, REGISTER } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
 import MainLayout from "./layout/MainLayout";
 
@@ -21,6 +22,10 @@ const Register = (props) => {
   const [error, setError] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
   const navigate = useHistory();
+
+  useEffect(() => {
+    window.document.title = "Register JKT48 SHOWROOM";
+  }, []);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -37,25 +42,41 @@ const Register = (props) => {
       response.data.error && showToastError(response.data.error);
 
       if (response.data.status.ok) {
-        setButtonLoading(false);
+        toast.success(`Register Success! You have been automatically logged in.`, {
+          theme: "colored",
+          autoClose: 1800,
+          icon: <RiLoginBoxFill size={30} />
+        });
         gaEvent("Register Screen", "Register Success", "Register");
-
-        toast.info(
-          `Register Success Please login ${response.data.profile.name}`,
-          {
-            theme: "colored",
-            autoClose: 1800
-          }
-        );
-
-        setTimeout(() => {
-          navigate.push("/login");
-        }, 2500);
+        autoLogin();
       }
     } catch (err) {
       gaEvent("Register Screen", "Register Failed", "Register");
       setButtonLoading(false);
     }
+  };
+
+  const autoLogin = async () => {
+    const response = await axios.post(LOGIN, {
+      account_id: accountId,
+      password: password
+    });
+
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("session", JSON.stringify(response.data.session));
+    localStorage.setItem("profile", JSON.stringify(response.data.profile));
+    gaEvent("Register Screen", "Auto Login Success", "Register");
+
+    toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
+      theme: "colored",
+      autoClose: 1800,
+      icon: <RiLoginBoxFill size={30} />
+    });
+
+    setTimeout(() => {
+      setButtonLoading(false);
+      navigate.push("/");
+    }, 2500);
   };
 
   const showToastError = (error) => {
