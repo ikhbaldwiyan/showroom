@@ -1,10 +1,9 @@
 import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Loading } from "components";
-import React, { useEffect } from "react";
-import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { RiLoginBoxFill } from "react-icons/ri";
-import { useHistory } from "react-router-dom";
+import { RiLoginBoxFill, RiUser3Fill } from "react-icons/ri";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Container, Input } from "reactstrap";
 import { LOGIN, REGISTER } from "utils/api/api";
@@ -25,7 +24,7 @@ const Register = (props) => {
 
   useEffect(() => {
     window.document.title = "Register JKT48 SHOWROOM";
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }, []);
 
   const handleRegister = async (e) => {
@@ -43,11 +42,14 @@ const Register = (props) => {
       response.data.error && showToastError(response.data.error);
 
       if (response.data.status.ok) {
-        toast.success(`Register Success! You have been automatically logged in.`, {
-          theme: "colored",
-          autoClose: 1800,
-          icon: <RiLoginBoxFill size={30} />
-        });
+        toast.success(
+          "Register Success! You have been automatically logged in.",
+          {
+            theme: "colored",
+            autoClose: 1800,
+            icon: <RiLoginBoxFill size={30} />
+          }
+        );
         gaEvent("Register Screen", "Register Success", "Register");
         autoLogin();
       }
@@ -109,7 +111,9 @@ const Register = (props) => {
             className="mb-5 mt-4 card-login"
             style={{ padding: "2rem", borderRadius: "10px" }}
           >
-            <h3 className="py-3">Register Showroom</h3>
+            <h3 className="py-3 text-center">
+              <RiUser3Fill className="mb-1" /> Register Showroom
+            </h3>
             <form onSubmit={handleRegister}>
               <div className="row">
                 <div className="col-12">
@@ -199,9 +203,19 @@ const Register = (props) => {
               </div>
               <div className="row">
                 <div className="col-12">
+                  <p className="mt-4 mr-3">
+                    Already have an account ?
+                    <Link to="/login">
+                      <span className="ml-2">Login here</span>
+                    </Link>
+                  </p>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12">
                   <button
                     type="submit"
-                    className="btn btn-block text-light mt-5 mb-4 py-2"
+                    className="btn btn-block text-light mt-3 mb-4 py-2"
                     style={{ backgroundColor: "#24a2b7" }}
                     disabled={buttonLoading ? true : false}
                     onClick={() =>

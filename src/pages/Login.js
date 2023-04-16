@@ -9,6 +9,7 @@ import { RiLoginBoxFill } from "react-icons/ri";
 import { Link, useHistory } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { gaEvent } from "utils/gaEvent";
+import { IoMdLogIn } from "react-icons/io";
 
 function Login(props) {
   const [accountId, setAccountId] = useState("");
@@ -28,6 +29,7 @@ function Login(props) {
     if (userSession) {
       window.location = "/";
     }
+    window.scrollTo(0, 0);
   }, []);
 
   const handleLogin = async (e) => {
@@ -57,7 +59,7 @@ function Login(props) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("session", JSON.stringify(response.data.session));
         localStorage.setItem("profile", JSON.stringify(response.data.profile));
-        gaEvent("Login Screen", "Login Success", "Login")
+        gaEvent("Login Screen", "Login Success", "Login");
 
         toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
           theme: "colored",
@@ -85,7 +87,7 @@ function Login(props) {
       }
     } catch (err) {
       console.log(error);
-      gaEvent("Login Screen", "Login Failed", "Login")
+      gaEvent("Login Screen", "Login Failed", "Login");
       setButtonLoading(false);
     }
   };
@@ -98,14 +100,15 @@ function Login(props) {
             className="mb-5 mt-4 card-login"
             style={{ padding: "2rem", borderRadius: "10px" }}
           >
-            <h3 className="py-3">Login Showroom</h3>
-            <p style={{ textAlign: "justify" }}>
+            <h3 className="py-3 text-center">
+              <IoMdLogIn className="mb-1" /> Login Showroom
+            </h3>
+            <p className="text-justify mb-4" >
               Silakan login menggunakan akun showroom Anda untuk mengakses fitur
               kirim komentar. Tenang, data Anda akan segera dikirimkan ke situs
               showroom dan tidak akan disimpan dalam basis data kami, sehingga
               privasi dan keamanan informasi Anda tetap terjaga.
             </p>
-            <br />
             <form onSubmit={handleLogin}>
               <div className="row">
                 <div className="col-12 mb-4">
@@ -179,7 +182,7 @@ function Login(props) {
               <div className="row">
                 <div className="col-12">
                   <p className="mt-3 mr-3">
-                    Dont have an account ? 
+                    Dont have an account ?
                     <Link to="/register">
                       <span className="ml-2">Register here</span>
                     </Link>
@@ -193,7 +196,9 @@ function Login(props) {
                     className="btn btn-block text-light mt-3 mb-4 py-2"
                     style={{ backgroundColor: "#24a2b7" }}
                     disabled={buttonLoading ? true : false}
-                    onClick={() => gaEvent("Login Screen", "Login Button", "Login")}
+                    onClick={() =>
+                      gaEvent("Login Screen", "Login Button", "Login")
+                    }
                   >
                     {buttonLoading ? (
                       <Loading color="white" size={8} />
