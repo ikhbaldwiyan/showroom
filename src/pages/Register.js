@@ -25,6 +25,7 @@ const Register = (props) => {
 
   useEffect(() => {
     window.document.title = "Register JKT48 SHOWROOM";
+    window.scrollTo(0, 0)
   }, []);
 
   const handleRegister = async (e) => {
