@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { API, profileApi } from "utils/api/api";
+import { API, FOLLOW, PROFILE_API } from "utils/api/api";
 import {
   Row,
   Col,
@@ -23,9 +23,12 @@ import {
   clearRoomDetail,
 } from "redux/actions/roomDetail";
 import FanLetter from "./FanLetter";
+import { toast } from "react-toastify";
+import { IoPersonAdd } from "react-icons/io5";
+import { RiUserUnfollowFill } from "react-icons/ri";
 
-export default function Profile({ roomId, menu, theme }) {
-  const { profile, isLoading, room_name } = useSelector(
+export default function Profile({ roomId, menu, theme, session }) {
+  const { profile, isLoading, room_name, isFollow } = useSelector(
     (state) => state.roomDetail
   );
   const [schedule, setSchedule] = useState("");
@@ -35,12 +38,17 @@ export default function Profile({ roomId, menu, theme }) {
   useEffect(() => {
     dispatch(getRoomDetailLoad());
 
-    axios.get(profileApi(roomId)).then((res) => {
+    const params = {
+      room_id: roomId.toString(),
+      cookie: session.cookie_login_id,
+    };
+
+    axios.post(PROFILE_API, params).then((res) => {
       const profile = res.data;
-      dispatch(getRoomDetailSucces(profile));
+      dispatch(getRoomDetailSucces(profile, profile.is_follow ? 1 : 0));
     });
 
-    axios.get(profileApi(roomId)).then((res) => {
+    axios.post(PROFILE_API, params).then((res) => {
       const profiles = res.data;
       setProfile(profiles);
     });
@@ -61,6 +69,31 @@ export default function Profile({ roomId, menu, theme }) {
   useEffect(() => {
     window.document.title = room_name;
   }, [profile]);
+
+  const handleFollowRoom = (flag) => {
+    try {
+      axios.post(FOLLOW, {
+        flag,
+        room_id: roomId.toString(),
+        csrf_token: session.csrf_token,
+        cookies_id: session.cookie_login_id,
+      });
+      dispatch(getRoomDetailSucces(profile, flag));
+
+      const setting = {
+        theme: "colored",
+        autoClose: 1200,
+      };
+
+      if (flag === 1) {
+        toast.success(`Success Follow ${room_name}`, setting);
+      } else {
+        toast.info(`Success Unfollow ${room_name}`, setting);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return isLoading && !isMultiRoom ? (
     <SkeletonProfile theme={theme} />
@@ -107,6 +140,24 @@ export default function Profile({ roomId, menu, theme }) {
               >
                 Open Showroom
               </Button>
+
+              {session.length !== 0 &&
+                (!isLoading && isFollow === 0 ? (
+                  <Button
+                    className="btn-block mt-2"
+                    color="primary"
+                    onClick={() => handleFollowRoom(1)}
+                  >
+                    <IoPersonAdd className="mb-1" /> Follow
+                  </Button>
+                ) : (
+                  <Button
+                    className="btn-block mt-2"
+                    onClick={() => handleFollowRoom(0)}
+                  >
+                    <RiUserUnfollowFill size={18} className="mb-1" /> Unfollow
+                  </Button>
+                ))}
               <Button className="btn-block mt-2" color="danger" disabled>
                 Offline
               </Button>

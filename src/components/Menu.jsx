@@ -4,19 +4,19 @@ import { Row, Col, Button } from "reactstrap";
 import { AiFillGift, AiFillTrophy } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { FaListAlt } from "react-icons/fa";
-import { API } from "utils/api/api";
+import { PROFILE_API } from "utils/api/api";
 
 function Menu({ menu, setMenu, isLive, roomId, hideMenu }) {
   const [roomName, setRoomName] = useState("");
 
   useEffect(() => {
-    axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
+    axios.post(PROFILE_API, { room_id: roomId.toString() }).then((res) => {
       const profiles = res.data;
       const roomName =
-        profiles?.room_url_key !== "officialJKT48" &&
-        profiles?.room_url_key?.includes("JKT48")
-          ? profiles?.room_url_key.slice(6) + " JKT48"
-          : profiles?.room_name;
+        profiles.room_url_key !== "officialJKT48" &&
+        profiles.room_url_key.includes("JKT48")
+          ? profiles.room_url_key.slice(6) + " JKT48"
+          : profiles.room_name;
       setRoomName(roomName);
     });
   }, [roomId]);

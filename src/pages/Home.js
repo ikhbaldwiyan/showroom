@@ -5,14 +5,17 @@ import Fade from "react-reveal/Fade";
 import { Container } from "reactstrap";
 
 import MainLayout from "pages/layout/MainLayout";
-import RoomLive from "parts/RoomLive";
-import RoomList from "parts/RoomList";
-import RoomUpcoming from "parts/RoomUpcoming";
-import RoomAcademy from "parts/RoomAcademy";
-import SearchAndFilter from "parts/SearchAndFilter";
+import AlertInfo from "components/AlertInfo";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
-import AlertInfo from "components/AlertInfo";
+import {
+  RoomList,
+  RoomLive,
+  RoomAcademy,
+  RoomFollow,
+  RoomUpcoming,
+  SearchAndFilter,
+} from "parts";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -20,6 +23,8 @@ function Home(props) {
   const [isAcademy, setIsAcademy] = useState(false);
   const [isRegular, setIsRegular] = useState(false);
   const [isLive, setIsLive] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const [session, setSession] = useState();
 
   const roomRegular = useSelector((state) => state.roomRegular.data);
   const roomAcademy = useSelector((state) => state.roomAcademy.data);
@@ -40,6 +45,17 @@ function Home(props) {
       dispatch(getRoomListAcademy(room.data));
     }
     getRoomAcademy();
+  }, []);
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    const userSession = localStorage.getItem("session");
+    const session = JSON.parse(userSession);
+
+    if (loggedInUser) {
+      setSession(session);
+      setIsLogin(true);
+    }
   }, []);
 
   const handleSearch = (event) => {
@@ -101,7 +117,11 @@ function Home(props) {
           ) : isRegular ? (
             <RoomList isSearch={search} room={filtered} theme={props.theme} />
           ) : isLive ? (
-            <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
+            <RoomFollow
+              isLogin={isLogin}
+              session={session}
+              theme={props.theme}
+            />
           ) : (
             ""
           )}

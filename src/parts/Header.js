@@ -104,9 +104,9 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     <HiUsers style={iconHome} /> Multi Room
                   </Button>
                 </li>
-                <li className={`nav-item${getNavLinkClass("/list-room")}`}>
-                  <Button className="nav-link" type="link" href="/list-room">
-                    <RiFileList3Fill style={iconHome} /> Room List
+                <li className={`nav-item${getNavLinkClass("/follow")}`}>
+                  <Button className="nav-link" type="link" href="/follow">
+                    <RiFileList3Fill style={iconHome} /> Follow
                   </Button>
                 </li>
                 <li className={`nav-item${getNavLinkClass("/about")}`}>

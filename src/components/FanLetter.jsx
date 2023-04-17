@@ -10,7 +10,7 @@ function FanLetter({ header, text, profile, roomId, theme, room_name }) {
 	const [fanLetter, setFanLetter] = useState([]);
 	const toggle = () => {
 		setModal(!modal)
-		gaEvent("Profile", `${room_name.replace('Room', '')}Fan Letter`, "Detail")
+		gaEvent("Profile", `${room_name?.replace('Room', '')}Fan Letter`, "Detail")
 	};
 
 	useEffect(() => {
@@ -24,7 +24,7 @@ function FanLetter({ header, text, profile, roomId, theme, room_name }) {
 		<>
 			<Button onClick={toggle} className="btn-block mt-2" color="info">Show More Message</Button>
 			<Modal isOpen={modal} toggle={toggle}>
-				<ModalHeader style={header} toggle={toggle}>Fans Letter {room_name.replace('Room', '')}</ModalHeader>
+				<ModalHeader style={header} toggle={toggle}>Fans Letter {room_name?.replace('Room', '')}</ModalHeader>
 				<ModalBody className="scroll-fan-letter" style={{ backgroundColor: theme == 'dark' ? '#282C34' : '' }}>
 					{fanLetter ? fanLetter.map((item, idx) => (
 						<div key={idx}>

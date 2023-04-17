@@ -2,9 +2,10 @@ import React from 'react';
 import { FcSearch } from 'react-icons/fc';
 import { Button } from 'reactstrap';
 import { RiGlobalLine } from 'react-icons/ri';
-import { AiFillAppstore, AiFillVideoCamera } from 'react-icons/ai';
+import { AiFillAppstore } from 'react-icons/ai';
 import { IoSchoolSharp } from 'react-icons/io5';
 import { isMobile } from 'react-device-detect';
+import { HiUserGroup } from "react-icons/hi";
 
 function SearchAndFilter({
   handleSearch,
@@ -87,11 +88,12 @@ function SearchAndFilter({
           </Button>
           <Button
             className="mx-2 btn-onlive"
-            style={{backgroundColor: '#CD0C0D', border: 'none'}}
+            style={{border: 'none'}}
+            color="primary"
             onClick={filterIsLive}
             disabled={isLive ? 'disabled' : ''}
           >
-            <AiFillVideoCamera className="mb-1" /> <span className="text-filter">ROOM ON LIVE</span>
+            <HiUserGroup className="mb-1" /> <span className="text-filter">Room Followed</span>
           </Button>
         </div>
       </div>

@@ -13,7 +13,7 @@ export default function Room({ idx, item, children, style }) {
             {children}
             <figure className="img-wrapper">
               <img
-                src={item.image_url ?? item.image}
+                src={item.image_url ?? item.image ?? item.image_l}
                 alt={item.name}
                 className="img-cover"
               />
@@ -25,7 +25,7 @@ export default function Room({ idx, item, children, style }) {
                 className="strecthed-link d-block text-white"
                 href={`room/${item.url_key ?? item.room_url_key}/${item.id ?? item.room_id}`}
               >
-                <h5>{item.url_key ? item.url_key.substr(6) + ' JKT48' : item.room_url_key.substr(6) + ' JKT48'}</h5>
+                <h5>{item.url_key ? item.url_key.substr(6) + ' JKT48' : item.room_url_key.replace("JKT48_", "").replace("JKT48", "") + ' JKT48'}</h5>
               </Button>
             </div>
           </Link>

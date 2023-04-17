@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { FaEdit, FaUserCheck, FaWindowClose } from "react-icons/fa";
 import { RiLogoutBoxFill } from "react-icons/ri";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { clearFollowedRoom } from "redux/actions/roomFollowed";
 import { UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
 
 export default function UserProfile({ data, session }) {
@@ -18,7 +20,9 @@ export default function UserProfile({ data, session }) {
 
   const toggle = () => setModal(!modal);
   const toggleLogout = () => setModalLogout(!modalLogout);
+
   const navigate = useHistory();
+  const dispatch = useDispatch();
 
   const [profile, setProfile] = useState({
     csrf_token: "",
@@ -94,6 +98,8 @@ export default function UserProfile({ data, session }) {
     setTimeout(() => {
       navigate.push('/login');
     }, 2000);
+
+    dispatch(clearFollowedRoom());
   };
 
   return (

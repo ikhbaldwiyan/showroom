@@ -4,7 +4,8 @@ const intialState = {
   isLoading: false,
   isError: false,
   profile: [],
-  room_name: 'JKT48 SHOWROOM'
+  room_name: 'JKT48 SHOWROOM',
+  isFollow: 0
 };
 
 function reducer(state = intialState, action) {
@@ -19,7 +20,8 @@ function reducer(state = intialState, action) {
         ...state,
         isLoading: false,
         profile: action.payload,
-        room_name: action.room_name
+        room_name: action.room_name,
+        isFollow: action.isFollow
       };
     case STATE.GET_ROOM_DETAIL_FAILED:
       return {

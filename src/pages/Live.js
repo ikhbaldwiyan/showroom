@@ -29,6 +29,7 @@ function Live(props) {
   const [menu, setMenu] = useState("room");
   const [loading, setLoading] = useState(false);
   const [hideMenu, setHideMenu] = useState(false);
+  const [session, setSession] = useState([]);
 
   useEffect(() => {
     try {
@@ -63,6 +64,14 @@ function Live(props) {
       autoClose: 1200,
     });
 
+  useEffect(() => {
+    const userSession = localStorage.getItem("session");
+    if (userSession) {
+      const foundSession = JSON.parse(userSession);
+      setSession(foundSession);
+    }
+  }, []);
+
   return (
     <MainLayout {...props}>
       <Container>
@@ -94,6 +103,7 @@ function Live(props) {
                 isLoad={loading}
                 menu={menu}
                 theme={props.theme}
+                session={session}
               />
             ) : (
               <Stream url="" />

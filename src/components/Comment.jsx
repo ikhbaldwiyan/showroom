@@ -2,7 +2,11 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Card } from "reactstrap";
-import { SEND_COMMENT, LIVE_COMMENT, profileApi } from "utils/api/api";
+import {
+  SEND_COMMENT,
+  LIVE_COMMENT,
+  PROFILE_API,
+} from "utils/api/api";
 import Skeleton from "react-content-loader";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
@@ -47,10 +51,15 @@ export default function Comment({ roomId, isMultiRoom }) {
   }, []);
 
   useEffect(() => {
-    axios.get(profileApi(roomId)).then((res) => {
-      const profile = res.data;
-      setProfile(profile);
-    });
+    axios
+      .post(PROFILE_API, {
+        room_id: roomId.toString(),
+        cookie: session.cookie_login_id,
+      })
+      .then((res) => {
+        const profile = res.data;
+        setProfile(profile);
+      });
   }, [roomId]);
 
   const sendComment = async (e) => {
