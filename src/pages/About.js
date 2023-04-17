@@ -49,7 +49,7 @@ function About(props) {
           <ul>
             <li>
               <a
-                href="https://discord.com/invite/ZNEjfvHm"
+                href={process.env.REACT_APP_DISCORD_LINK}
                 rel="noreferrer"
                 target="_blank"
                 onClick={() =>

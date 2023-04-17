@@ -52,7 +52,7 @@ export default function Footer() {
                 <li className="list-group-item">
                   <Button
                     type="link"
-                    href="https://discord.com/invite/ZNEjfvHm"
+                    href={process.env.REACT_APP_DISCORD_LINK}
                     isExternal
                     target="_blank"
                   >

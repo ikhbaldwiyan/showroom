@@ -11,6 +11,7 @@ const USER_PROFILE = `${LARAVEL_API}/profile/user`;
 const ROOM_FOLLOW = `${LARAVEL_API}/room/followed_rooms`;
 const FOLLOW = `${LARAVEL_API}/room/follow`;
 const PROFILE_API = `${LARAVEL_API}/profile/room`;
+const REGISTER = `${LARAVEL_API}/register`
 
 // Live API
 const liveDetail = (roomId) => {
@@ -65,4 +66,5 @@ export {
   ROOM_FOLLOW,
   FOLLOW,
   PROFILE_API,
+  REGISTER
 };
