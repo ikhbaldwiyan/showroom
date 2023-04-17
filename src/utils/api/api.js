@@ -8,8 +8,8 @@ const SEND_COMMENT = `${LARAVEL_API}/live/comment`;
 const UPDATE_PROFILE = `${LARAVEL_API}/profile/update`;
 const LOGIN = `${LARAVEL_API}/login`;
 const USER_PROFILE = `${LARAVEL_API}/profile/user`;
-const ROOM_FOLLOW = `${LARAVEL_API}/live/followed_rooms`;
-const FOLLOW = `${LARAVEL_API}/live/follow`;
+const ROOM_FOLLOW = `${LARAVEL_API}/room/followed_rooms`;
+const FOLLOW = `${LARAVEL_API}/room/follow`;
 const PROFILE_API = `${LARAVEL_API}/profile/room`;
 
 // Live API
@@ -55,8 +55,8 @@ export {
   liveDetail,
   liveRanking,
   liveGift,
-  LIVE_COMMENT,
   nextLive,
+  LIVE_COMMENT,
   LARAVEL_API,
   LOGIN,
   SEND_COMMENT,
