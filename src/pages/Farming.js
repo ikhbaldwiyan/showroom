@@ -1,4 +1,4 @@
-import { Container, Table } from "reactstrap";
+import { Button, Container, Table } from "reactstrap";
 import MainLayout from "./layout/MainLayout";
 import React, { useEffect, useState, useRef } from "react";
 import { Loading } from "components";
@@ -13,7 +13,6 @@ function Farming(props) {
 
   const [btnLoadingRoom, setBtnLoadingRoom] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [successRoom, setSuccessRoom] = useState([]);
 
   const [currentRoomId, setCurrentRoomId] = useState("");
@@ -71,11 +70,13 @@ function Farming(props) {
     const successRoom = localStorage.getItem("success_room");
     const limited = localStorage.getItem("limit_until");
     const untilLocal = localStorage.getItem("until");
+    const farmingLog = localStorage.getItem("farming_log");
 
     if (userSession) {
       const foundSession = JSON.parse(userSession);
       setSession(foundSession);
       setCookiesLoginId(foundSession.cookie_login_id);
+      setAllMessage(JSON.parse(farmingLog))
     }
 
     if (!userSession) {
@@ -168,9 +169,9 @@ function Farming(props) {
     } else if (message.includes("Gagal")) {
       return "text-danger";
     } else if (message.includes("Sedang")) {
-      return "text-warning";
+      return "text-primary";
     } else {
-      return "text-secondary";
+      return "text-warning";
     }
   };
 
@@ -334,7 +335,11 @@ function Farming(props) {
       setLoading(false);
     }
     setLoading(false);
-  };  
+  };
+
+  useEffect(() => {
+    localStorage.setItem("farming_log", JSON.stringify(allMessage));
+  }, [allMessage])
 
   return (
     <MainLayout {...props} style={{ color: "white" }}>
@@ -346,29 +351,29 @@ function Farming(props) {
             </div>
           ) : (
             <div className="row justify-content-between">
-              <button
+              <Button
+                color="primary"
                 onClick={getOfficials}
                 className="btn text-light"
                 disabled={
                   btnLoadingRoom ? true : false || limitUntil ? true : false
                 }
-                style={{ backgroundColor: "#24a2b7" }}
               >
                 {btnLoadingRoom ? (
                   <Loading color="white" size={8} />
                 ) : (
                   "Fetch Room"
                 )}
-              </button>
+              </Button>
               {officialRoom.length > 0 ? (
-                <button
+                <Button
                   onClick={startFarming}
                   className="btn text-light"
                   disabled={loading ? true : false}
                   style={{ backgroundColor: "#24a2b7" }}
                 >
                   {loading ? <Loading color="white" size={8} /> : "RUN FARM"}
-                </button>
+                </Button>
               ) : (
                 ""
               )}
@@ -377,7 +382,7 @@ function Farming(props) {
           {officialRoom.length > 0 ? (
             <div className="row mt-3">
               <div className="col-5 p-0">
-                <p>List Free Gift : </p>
+                <h4>Farming Result : </h4>
                 <div className="row mb-3 justify-content-center">
                   {stars.map(({ image, count }, index) => (
                     <div
@@ -482,11 +487,15 @@ function Farming(props) {
                 )}
                 {allMessage.length > 0 ? (
                   <div className="mt-1 pt-1">
-                    <p>Status Log :</p>
+                    <h5 className="mb-3">Farming Status Log :</h5>
                     <ul className="pl-3">
                       {allMessage.reverse().map((message, idx) => (
                         <li key={idx}>
-                          <p className={textColor(message)}>{message}</p>
+                          {message.includes('Sukses') ? (
+                            <p className={textColor(message)}><b>{message}</b></p>
+                          ) : (
+                            <p className={textColor(message)}>{message}</p>
+                          )}
                         </li>
                       ))}
                     </ul>
