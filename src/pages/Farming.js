@@ -5,6 +5,7 @@ import { Loading } from "components";
 import { FARM, ROOM_OFFICIAL } from "utils/api/api";
 import axios from "axios";
 import { toast } from "react-toastify";
+import formatLongDate from "utils/formatLongDate";
 
 function Farming(props) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
@@ -29,7 +30,7 @@ function Farming(props) {
     b: 0,
     c: 0,
     d: 0,
-    e: 0
+    e: 0,
   });
 
   const [isReady, setIsReady] = useState(false);
@@ -39,28 +40,28 @@ function Farming(props) {
     {
       key: "a",
       image: "https://static.showroom-live.com/image/gift/1_s.png?v=1",
-      count: star.a
+      count: star.a,
     },
     {
       key: "b",
       image: "https://static.showroom-live.com/image/gift/1001_s.png?v=1",
-      count: star.b
+      count: star.b,
     },
     {
       key: "c",
       image: "https://static.showroom-live.com/image/gift/1002_s.png?v=1",
-      count: star.c
+      count: star.c,
     },
     {
       key: "d",
       image: "https://static.showroom-live.com/image/gift/1003_s.png?v=1",
-      count: star.d
+      count: star.d,
     },
     {
       key: "e",
       image: "https://static.showroom-live.com/image/gift/2_s.png?v=1",
-      count: star.e
-    }
+      count: star.e,
+    },
   ];
 
   useEffect(() => {
@@ -76,7 +77,7 @@ function Farming(props) {
       const foundSession = JSON.parse(userSession);
       setSession(foundSession);
       setCookiesLoginId(foundSession.cookie_login_id);
-      setAllMessage(JSON.parse(farmingLog))
+      allMessage.length === 0 && setAllMessage(JSON.parse(farmingLog));
     }
 
     if (!userSession) {
@@ -136,7 +137,7 @@ function Farming(props) {
       const roomId = rooms[i].room_id;
       const response = await axios.post(FARM, {
         cookies_login_id: cookiesLoginId,
-        room_id: roomId
+        room_id: roomId,
       });
 
       const data = response.data;
@@ -170,6 +171,8 @@ function Farming(props) {
       return "text-danger";
     } else if (message.includes("Sedang")) {
       return "text-primary";
+    } else if (message.includes("Offline")) {
+      return "text-secondary";
     } else {
       return "text-warning";
     }
@@ -237,14 +240,14 @@ function Farming(props) {
       b: data.star[1].free_num,
       c: data.star[2].free_num,
       d: data.star[3].free_num,
-      e: data.star[4].free_num
+      e: data.star[4].free_num,
     });
     setStarLoading(false);
   };
 
   const setGagal = (data) => {
     toast.error(data.until ?? "Please try again after the displayed time", {
-      theme: "colored"
+      theme: "colored",
     });
     localStorage.setItem("limit_until", JSON.stringify(data.until));
     setLimitUntil(data.until);
@@ -261,13 +264,20 @@ function Farming(props) {
       const response = await axios.post(FARM, {
         cookies_login_id: cookiesLoginId,
         room_id: roomId,
-        room_name: roomName
+        room_name: roomName,
       });
 
       const data = response.data;
       console.log(data, "FIRST");
       setAllStar(data);
-      setAllMessage((prevData) => [...prevData, data.message]);
+
+      let currentTime = new Date();
+      let timestamp = formatLongDate(currentTime, true);
+
+      setAllMessage((prevData) => [
+        ...prevData,
+        { message: data.message, timestamp },
+      ]);
 
       if (data.message.includes("Sedang")) {
         decrementTime();
@@ -277,7 +287,7 @@ function Farming(props) {
         const response2 = await axios.post(FARM, {
           cookies_login_id: cookiesLoginId,
           room_id: roomId,
-          room_name: roomName
+          room_name: roomName,
         });
 
         const data2 = response2.data;
@@ -287,13 +297,16 @@ function Farming(props) {
           deleteArray();
           setLocalAndState(roomId);
           toast.success(`Sukses Farm Di Room : ${roomName}`, {
-            theme: "colored"
+            theme: "colored",
           });
         }
 
         if (data2.message.includes("Gagal")) {
           deleteArray();
-          setAllMessage((prevData) => [...prevData, data2.message]);
+          setAllMessage((prevData) => [
+            ...prevData,
+            { message: data2.message, timestamp },
+          ]);
           setGagal(data2);
           setLoading(false);
           return;
@@ -308,16 +321,19 @@ function Farming(props) {
           deleteArray();
         }
 
-        setAllMessage((prevData) => [...prevData, data2.message]);
+        setAllMessage((prevData) => [
+          ...prevData,
+          { message: data2.message, timestamp },
+        ]);
       }
 
       if (data.message.includes("Sukses")) {
         deleteArray();
         setLocalAndState(roomId);
         toast.success(`Sukses Farm Di Room : ${roomName}`, {
-          theme: "colored"
+          theme: "colored",
         });
-        console.log(allMessage)
+        console.log(allMessage);
       }
 
       if (data.message.includes("Gagal")) {
@@ -339,7 +355,8 @@ function Farming(props) {
 
   useEffect(() => {
     localStorage.setItem("farming_log", JSON.stringify(allMessage));
-  }, [allMessage])
+    console.log(allMessage);
+  }, [allMessage]);
 
   return (
     <MainLayout {...props} style={{ color: "white" }}>
@@ -382,7 +399,7 @@ function Farming(props) {
           {officialRoom.length > 0 ? (
             <div className="row mt-3">
               <div className="col-5 p-0">
-                <h4>Farming Result : </h4>
+                <h4 className="text-center">Farming Result : </h4>
                 <div className="row mb-3 justify-content-center">
                   {stars.map(({ image, count }, index) => (
                     <div
@@ -408,19 +425,17 @@ function Farming(props) {
                   <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
                     <tr style={{ textAlign: "center" }}>
                       <th>ROOM NAME</th>
-                      <th style={{ width: "100px" }}>ROOM ID</th>
                     </tr>
                   </thead>
                   <tbody
                     style={{
                       textAlign: "center",
-                      color: props.theme === "dark" && "white"
+                      color: props.theme === "dark" && "white",
                     }}
                   >
                     {officialRoom.map((room, idx) => (
                       <tr key={idx}>
                         <td className="text-left">{room.room_name}</td>
-                        <td>{room.room_id}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -428,34 +443,36 @@ function Farming(props) {
               </div>
 
               <div className="col-7 pl-5 mt-5">
-                {successRoom.length > 0 && (
-                  <>
-                    <p className="text-success m-0">Sukses farming di Room :</p>
+                {successRoom && successRoom.length > 0 ? (
+                  <div className="d-flex">
+                    <p className="mr-1">Total Success Farming Room :</p>
                     <p className="text-success">
-                      {JSON.stringify(successRoom)
-                        .replaceAll(",", ",  ")
-                        .replaceAll('"', "")}
+                      {successRoom.length}
                     </p>
-                  </>
+                  </div>
+                ) : (
+                  ""
                 )}
+
                 {currentRoomId
                   ? time !== 0 && (
                       <div className="mb-3">
                         <p style={{ fontWeight: "bold" }}>
-                          Sedang farming di Room {currentRoomId} silahkan
-                          menunggu {time} detik
+                          Proses farming in Room <span className="text-primary">{currentRoomId}</span> <br />
+                          please wait{" "}
+                          <span className="text-main">{time} second</span>
                         </p>
                       </div>
                     )
                   : null}
 
-                {successRoom.length > 0 ? (
-                  <div className="">
+                {successRoom && successRoom.length ? (
+                  <div>
                     <div
                       style={{
                         width: "100%",
                         height: "25px",
-                        borderRadius: "15px"
+                        borderRadius: "15px",
                       }}
                       className="col mb-5 p-0 bg-secondary"
                     >
@@ -466,7 +483,7 @@ function Farming(props) {
                             : `${(countSuccess / 10) * 100}%`,
                           height: "100%",
                           borderRadius: "15px",
-                          background: "#4CAF50"
+                          background: "#4CAF50",
                         }}
                       >
                         {limitUntil ? (
@@ -485,19 +502,37 @@ function Farming(props) {
                 ) : (
                   ""
                 )}
+                
                 {allMessage.length > 0 ? (
                   <div className="mt-1 pt-1">
                     <h5 className="mb-3">Farming Status Log :</h5>
                     <ul className="pl-3">
-                      {allMessage.reverse().map((message, idx) => (
-                        <li key={idx}>
-                          {message.includes('Sukses') ? (
-                            <p className={textColor(message)}><b>{message}</b></p>
-                          ) : (
-                            <p className={textColor(message)}>{message}</p>
-                          )}
-                        </li>
-                      ))}
+                      {allMessage
+                        .reverse()
+                        .map(({ message, timestamp }, idx) => (
+                          <li key={idx}>
+                            {message.includes("Sukses") ? (
+                              <div className="d-flex align-items-center">
+                                <p className={textColor(message)}>
+                                  <b>{message}</b>
+                                </p>
+                                <p className="mx-1" style={{ fontSize: 14 }}>
+                                  {timestamp}
+                                </p>
+                              </div>
+                            ) : (
+                              <div className="d-flex align-items-center">
+                                <p className={textColor(message)}>{message}</p>
+                                <p
+                                  className="mx-1 mt-1"
+                                  style={{ fontSize: 14 }}
+                                >
+                                  {timestamp}
+                                </p>
+                              </div>
+                            )}
+                          </li>
+                        ))}
                     </ul>
                   </div>
                 ) : (
