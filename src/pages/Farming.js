@@ -108,6 +108,7 @@ function Farming(props) {
         localStorage.removeItem("success_room");
         localStorage.removeItem("limit_until");
         localStorage.removeItem("until");
+        localStorage.removeItem("farming_log");
         console.log("deleted");
       }, timeUntilTarget);
     }
@@ -141,7 +142,7 @@ function Farming(props) {
       });
 
       const data = response.data;
-      if (!data.message.includes("Offline")) {
+      if (!data.message.includes("Offline") && !data.message.includes("Skip")) {
         setAllStar(data);
         return;
       }
@@ -397,8 +398,8 @@ function Farming(props) {
             </div>
           )}
           {officialRoom.length > 0 ? (
-            <div className="row mt-3">
-              <div className="col-5 p-0">
+            <div className="row mt-4">
+              <div className="col-md-4 col-sm-12 p-0">
                 <h4 className="text-center">Farming Result : </h4>
                 <div className="row mb-3 justify-content-center">
                   {stars.map(({ image, count }, index) => (
@@ -421,10 +422,10 @@ function Farming(props) {
                   ))}
                 </div>
 
-                <Table bordered>
-                  <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
+                <Table className="mt-4" bordered>
+                  <thead  style={{ backgroundColor: "teal", color: "white" }}>
                     <tr style={{ textAlign: "center" }}>
-                      <th>ROOM NAME</th>
+                      <th>List Online Room</th>
                     </tr>
                   </thead>
                   <tbody
@@ -435,19 +436,19 @@ function Farming(props) {
                   >
                     {officialRoom.map((room, idx) => (
                       <tr key={idx}>
-                        <td className="text-left">{room.room_name}</td>
+                        <td className="text-center">{room.room_name}</td>
                       </tr>
                     ))}
                   </tbody>
                 </Table>
               </div>
 
-              <div className="col-7 pl-5 mt-5">
+              <div className="col-md-8 col-sm-12 mt-5">
                 {successRoom && successRoom.length > 0 ? (
                   <div className="d-flex">
                     <p className="mr-1">Total Success Farming Room :</p>
                     <p className="text-success">
-                      {successRoom.length}
+                      {countSuccess}
                     </p>
                   </div>
                 ) : (
@@ -505,35 +506,24 @@ function Farming(props) {
                 
                 {allMessage.length > 0 ? (
                   <div className="mt-1 pt-1">
-                    <h5 className="mb-3">Farming Status Log :</h5>
-                    <ul className="pl-3">
-                      {allMessage
-                        .reverse()
-                        .map(({ message, timestamp }, idx) => (
-                          <li key={idx}>
-                            {message.includes("Sukses") ? (
-                              <div className="d-flex align-items-center">
-                                <p className={textColor(message)}>
-                                  <b>{message}</b>
-                                </p>
-                                <p className="mx-1" style={{ fontSize: 14 }}>
-                                  {timestamp}
-                                </p>
-                              </div>
-                            ) : (
-                              <div className="d-flex align-items-center">
-                                <p className={textColor(message)}>{message}</p>
-                                <p
-                                  className="mx-1 mt-1"
-                                  style={{ fontSize: 14 }}
-                                >
-                                  {timestamp}
-                                </p>
-                              </div>
-                            )}
-                          </li>
-                        ))}
-                    </ul>
+                    <Table bordered>
+                      <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
+                        <tr className="text-center">
+                          <th>Farming Log Message</th>
+                          <th>Time</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {allMessage
+                          .reverse()
+                          .map(({ message, timestamp }, idx) => (
+                            <tr key={idx}>
+                              <td className={textColor(message)}>{message}</td>
+                              <td className="text-light" style={{ fontSize: 14 }}>{timestamp}</td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </Table>
                   </div>
                 ) : (
                   ""
