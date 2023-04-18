@@ -384,210 +384,207 @@ function Farming(props) {
   return (
     <MainLayout {...props} style={{ color: "white" }}>
       <Container>
-        <Container>
-          {limitUntil ? (
-            <div className="row mb-5 mt-5 justify-content-center text-danger">
+        {limitUntil ? (
+          <>
+            <div className="row my-4 justify-content-center text-danger text-center">
               <h3>{limitUntil}</h3>
             </div>
-          ) : (
-            <div className="row justify-content-between">
-              <Button
-                color="primary"
-                onClick={getOfficials}
-                className="btn text-light"
-                disabled={
-                  btnLoadingRoom ? true : false || limitUntil ? true : false
-                }
-              >
-                {btnLoadingRoom ? (
-                  <Loading color="white" size={8} />
-                ) : (
-                  "Fetch Room"
-                )}
-              </Button>
-              {officialRoom.length > 0 ? (
-                <Button
-                  onClick={handleCheckStar}
-                  className="btn text-light"
-                  disabled={loading ? true : false}
-                  style={{ backgroundColor: "#24a2b7" }}
-                >
-                  {loading ? <Loading color="white" size={8} /> : "RUN FARM"}
-                </Button>
+            <hr style={{borderColor: "silver"}} />
+          </>
+        ) : (
+          <div className="row justify-content-between">
+            <Button
+              color="primary"
+              onClick={getOfficials}
+              className="btn text-light"
+              disabled={
+                btnLoadingRoom ? true : false || limitUntil ? true : false
+              }
+            >
+              {btnLoadingRoom ? (
+                <Loading color="white" size={8} />
               ) : (
-                ""
+                "Fetch Room"
               )}
-            </div>
-          )}
+            </Button>
+            {officialRoom.length > 0 ? (
+              <Button
+                onClick={handleCheckStar}
+                className="btn text-light"
+                disabled={loading ? true : false}
+                style={{ backgroundColor: "#24a2b7" }}
+              >
+                {loading ? <Loading color="white" size={8} /> : "RUN FARM"}
+              </Button>
+            ) : (
+              ""
+            )}
+          </div>
+        )}
 
-          {officialRoom.length > 0 ? (
-            <>
-              <div className="row mt-4">
-                <div className="col-md-4 col-sm-12">
-                  <h4 className="text-center">Farming Result : </h4>
-                  <div className="row mb-3 justify-content-center">
-                    {stars.map(({ image, count }, index) => (
-                      <div
-                        key={index}
-                        className={`star${
-                          index === 0 ? "A" : "B"
-                        } d-flex flex-column align-items-center p-1`}
-                      >
-                        <img src={image} width="50px" height="50px" alt="" />
-                        {starLoading ? (
-                          <Loading
-                            color={props.theme === "dark" ? "white" : "black"}
-                            size={3}
-                          />
-                        ) : (
-                          <p>{count}</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="col-md-8 col-sm-12">
-                  {successRoom && successRoom.length > 0 ? (
-                    <div className="d-flex">
-                      <p className="mr-1">Total Success Farming Room :</p>
-                      <p className="text-success">{countSuccess}</p>
+        {officialRoom.length > 0 ? (
+          <>
+            <div className="row mt-4">
+              <div className="col-md-4 col-sm-12">
+                <h4 className="text-center">Farming Result : </h4>
+                <div className="row mb-3 justify-content-center">
+                  {stars.map(({ image, count }, index) => (
+                    <div
+                      key={index}
+                      className={`star${
+                        index === 0 ? "A" : "B"
+                      } d-flex flex-column align-items-center p-1`}
+                    >
+                      <img src={image} width="50px" height="50px" alt="" />
+                      {starLoading ? (
+                        <Loading
+                          color={props.theme === "dark" ? "white" : "black"}
+                          size={3}
+                        />
+                      ) : (
+                        <p>{count}</p>
+                      )}
                     </div>
-                  ) : (
-                    ""
-                  )}
-                  {currentRoomId
-                    ? time !== 0 && (
-                        <div className="mb-3">
-                          <p style={{ fontWeight: "bold" }}>
-                            Process farming in{" "}
-                            <span className="text-primary">
-                              {currentRoomId}
-                            </span>{" "}
-                            <br />
-                            please wait{" "}
-                            <span className="text-main">{time} second</span>
-                          </p>
-                        </div>
-                      )
-                    : null}
-                  <div>
+                  ))}
+                </div>
+              </div>
+              <div className="col-md-8 col-sm-12">
+                {successRoom && successRoom.length > 0 ? (
+                  <div className="d-flex">
+                    <p className="mr-1">Total Success Farming Room :</p>
+                    <p className="text-success">{countSuccess}</p>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {currentRoomId
+                  ? time !== 0 && (
+                      <div className="mb-3">
+                        <p style={{ fontWeight: "bold" }}>
+                          Process farming in{" "}
+                          <span className="text-primary">{currentRoomId}</span>{" "}
+                          <br />
+                          please wait{" "}
+                          <span className="text-main">{time} second</span>
+                        </p>
+                      </div>
+                    )
+                  : null}
+                <div>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "25px",
+                      borderRadius: "15px"
+                    }}
+                    className="col mb-5 p-0 bg-secondary"
+                  >
                     <div
                       style={{
-                        width: "100%",
-                        height: "25px",
-                        borderRadius: "15px"
+                        width: limitUntil
+                          ? "100%"
+                          : `${(countSuccess / 10) * 100}%`,
+                        height: "100%",
+                        borderRadius: "15px",
+                        background: "#4CAF50"
                       }}
-                      className="col mb-5 p-0 bg-secondary"
                     >
-                      <div
-                        style={{
-                          width: limitUntil
-                            ? "100%"
-                            : `${(countSuccess / 10) * 100}%`,
-                          height: "100%",
-                          borderRadius: "15px",
-                          background: "#4CAF50"
-                        }}
-                      >
-                        {limitUntil ? (
-                          <p className="text-center text-light m-3">100%</p>
-                        ) : (
-                          <p className="text-left mx-3 text-light">
-                            {(countSuccess / 10) * 100 > 100
-                              ? 100
-                              : (countSuccess / 10) * 100}
-                            %
-                          </p>
-                        )}
-                      </div>
+                      {limitUntil ? (
+                        <p className="text-center text-light m-3">100%</p>
+                      ) : (
+                        <p className="text-left mx-3 text-light">
+                          {(countSuccess / 10) * 100 > 100
+                            ? 100
+                            : (countSuccess / 10) * 100}
+                          %
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="col-md-4 col-sm-12 p-0">
-                  <Table bordered>
-                    <thead style={{ backgroundColor: "teal", color: "white" }}>
-                      <tr style={{ textAlign: "center" }}>
-                        <th>List Online Room</th>
-                      </tr>
-                    </thead>
-                    <tbody
-                      style={{
-                        textAlign: "center",
-                        color: props.theme === "dark" && "white"
-                      }}
-                    >
-                      {officialRoom.map((room, idx) => (
-                        <tr key={idx}>
-                          <td className="text-center">{room.room_name}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </div>
-                <div className="col-md-8 col-sm-12">
-                  {allMessage.length > 0 ? (
-                    <div>
-                      <Table bordered>
-                        <thead
-                          style={{ backgroundColor: "#24a2b7", color: "white" }}
-                        >
-                          <tr className="text-center">
-                            <th>Farming Log Message</th>
-                            <th>Time</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {allMessage
-                            .reverse()
-                            .map(({ message, timestamp }, idx) => (
-                              <tr key={idx}>
-                                <td className={textColor(message)}>
-                                  {message}
-                                </td>
-                                <td
-                                  className="text-light"
-                                  style={{ fontSize: 14 }}
-                                >
-                                  {timestamp}
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </Table>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </div>
-            </>
-          ) : (
-            <div className="row mb-5 mt-5">
-              <h3>Please click "Fetch Room" before start farming</h3>
             </div>
-          )}
+            <div className="row">
+              <div className="col-md-4 col-sm-12 ">
+                <Table bordered>
+                  <thead style={{ backgroundColor: "teal", color: "white" }}>
+                    <tr style={{ textAlign: "center" }}>
+                      <th>List Online Room</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    style={{
+                      textAlign: "center",
+                      color: props.theme === "dark" && "white"
+                    }}
+                  >
+                    {officialRoom.map((room, idx) => (
+                      <tr key={idx}>
+                        <td className="text-center">{room.room_name}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+              <div className="col-md-8 col-sm-12">
+                {allMessage.length > 0 ? (
+                  <div>
+                    <Table bordered>
+                      <thead
+                        style={{ backgroundColor: "#24a2b7", color: "white" }}
+                      >
+                        <tr className="text-center">
+                          <th>Farming Log Message</th>
+                          <th>Time</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {allMessage
+                          .reverse()
+                          .map(({ message, timestamp }, idx) => (
+                            <tr key={idx}>
+                              <td className={textColor(message)}>{message}</td>
+                              <td
+                                className="text-light"
+                                style={{ fontSize: 14 }}
+                              >
+                                {timestamp}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </Table>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="row mb-5 mt-5">
+            <h3>Please click "Fetch Room" before start farming</h3>
+          </div>
+        )}
 
-          <Modal isOpen={showModal} toggle={() => setShowModal(false)}>
-            <ModalHeader style={header} toggle={() => setShowModal(false)}>
-              Message
-            </ModalHeader>
-            <ModalBody>
-              <span className="text-dark">
-                Semua stars sudah full apakah tetap running auto farming ?
-              </span>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="info" onClick={startFarming}>
-                Run
-              </Button>
-              <Button color="danger" onClick={() => setShowModal(false)}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </Container>
+        <Modal isOpen={showModal} toggle={() => setShowModal(false)}>
+          <ModalHeader style={header} toggle={() => setShowModal(false)}>
+            Message
+          </ModalHeader>
+          <ModalBody>
+            <span className="text-dark">
+              Semua stars sudah full apakah tetap running auto farming ?
+            </span>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="info" onClick={startFarming}>
+              Run
+            </Button>
+            <Button color="danger" onClick={() => setShowModal(false)}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
       </Container>
     </MainLayout>
   );
