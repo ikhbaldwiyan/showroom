@@ -1,4 +1,12 @@
-import { Button, Container, Table } from "reactstrap";
+import {
+  Button,
+  Container,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Table,
+} from "reactstrap";
 import MainLayout from "./layout/MainLayout";
 import React, { useEffect, useState, useRef } from "react";
 import { Loading } from "components";
@@ -15,6 +23,7 @@ function Farming(props) {
   const [btnLoadingRoom, setBtnLoadingRoom] = useState(false);
   const [loading, setLoading] = useState(false);
   const [successRoom, setSuccessRoom] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const [currentRoomId, setCurrentRoomId] = useState("");
   const [allMessage, setAllMessage] = useState([]);
@@ -255,6 +264,15 @@ function Farming(props) {
     setExpire(data.until);
   };
 
+  const handleCheckStar = () => {
+    if (checkAllStars() === true) {
+      setShowModal(true);
+    } else {
+      setShowModal(false)
+      startFarming();
+    }
+  };
+
   const startFarming = async () => {
     for (let i = 0; i < officialRoom.length; i++) {
       setLoading(true);
@@ -350,14 +368,18 @@ function Farming(props) {
 
       setCurrentRoomId(null);
       setLoading(false);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
     localStorage.setItem("farming_log", JSON.stringify(allMessage));
-    console.log(allMessage);
   }, [allMessage]);
+
+  const checkAllStars = () => {
+    const values = Object.values(star); // Get all values from the `star` object
+    return values.every((value) => value === 99); // Check if all values are 99
+  };
 
   return (
     <MainLayout {...props} style={{ color: "white" }}>
@@ -385,7 +407,7 @@ function Farming(props) {
               </Button>
               {officialRoom.length > 0 ? (
                 <Button
-                  onClick={startFarming}
+                  onClick={handleCheckStar}
                   className="btn text-light"
                   disabled={loading ? true : false}
                   style={{ backgroundColor: "#24a2b7" }}
@@ -397,6 +419,7 @@ function Farming(props) {
               )}
             </div>
           )}
+
           {officialRoom.length > 0 ? (
             <div className="row mt-4">
               <div className="col-md-4 col-sm-12 p-0">
@@ -423,7 +446,7 @@ function Farming(props) {
                 </div>
 
                 <Table className="mt-4" bordered>
-                  <thead  style={{ backgroundColor: "teal", color: "white" }}>
+                  <thead style={{ backgroundColor: "teal", color: "white" }}>
                     <tr style={{ textAlign: "center" }}>
                       <th>List Online Room</th>
                     </tr>
@@ -447,9 +470,7 @@ function Farming(props) {
                 {successRoom && successRoom.length > 0 ? (
                   <div className="d-flex">
                     <p className="mr-1">Total Success Farming Room :</p>
-                    <p className="text-success">
-                      {countSuccess}
-                    </p>
+                    <p className="text-success">{countSuccess}</p>
                   </div>
                 ) : (
                   ""
@@ -459,7 +480,9 @@ function Farming(props) {
                   ? time !== 0 && (
                       <div className="mb-3">
                         <p style={{ fontWeight: "bold" }}>
-                          Proses farming in Room <span className="text-primary">{currentRoomId}</span> <br />
+                          Proses farming in Room{" "}
+                          <span className="text-primary">{currentRoomId}</span>{" "}
+                          <br />
                           please wait{" "}
                           <span className="text-main">{time} second</span>
                         </p>
@@ -467,47 +490,46 @@ function Farming(props) {
                     )
                   : null}
 
-                {successRoom && successRoom.length ? (
-                  <div>
+                <div>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "25px",
+                      borderRadius: "15px",
+                    }}
+                    className="col mb-5 p-0 bg-secondary"
+                  >
                     <div
                       style={{
-                        width: "100%",
-                        height: "25px",
+                        width: limitUntil
+                          ? "100%"
+                          : `${(countSuccess / 10) * 100}%`,
+                        height: "100%",
                         borderRadius: "15px",
+                        background: "#4CAF50",
                       }}
-                      className="col mb-5 p-0 bg-secondary"
                     >
-                      <div
-                        style={{
-                          width: limitUntil
-                            ? "100%"
-                            : `${(countSuccess / 10) * 100}%`,
-                          height: "100%",
-                          borderRadius: "15px",
-                          background: "#4CAF50",
-                        }}
-                      >
-                        {limitUntil ? (
-                          <p className="text-center text-light m-3">100%</p>
-                        ) : (
-                          <p className="text-left mx-3 text-light">
-                            {(countSuccess / 10) * 100 > 100
-                              ? 100
-                              : (countSuccess / 10) * 100}
-                            %
-                          </p>
-                        )}
-                      </div>
+                      {limitUntil ? (
+                        <p className="text-center text-light m-3">100%</p>
+                      ) : (
+                        <p className="text-left mx-3 text-light">
+                          {(countSuccess / 10) * 100 > 100
+                            ? 100
+                            : (countSuccess / 10) * 100}
+                          %
+                        </p>
+                      )}
                     </div>
                   </div>
-                ) : (
-                  ""
-                )}
+                </div>
                 
+
                 {allMessage.length > 0 ? (
                   <div className="mt-1 pt-1">
                     <Table bordered>
-                      <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
+                      <thead
+                        style={{ backgroundColor: "#24a2b7", color: "white" }}
+                      >
                         <tr className="text-center">
                           <th>Farming Log Message</th>
                           <th>Time</th>
@@ -519,7 +541,12 @@ function Farming(props) {
                           .map(({ message, timestamp }, idx) => (
                             <tr key={idx}>
                               <td className={textColor(message)}>{message}</td>
-                              <td className="text-light" style={{ fontSize: 14 }}>{timestamp}</td>
+                              <td
+                                className="text-light"
+                                style={{ fontSize: 14 }}
+                              >
+                                {timestamp}
+                              </td>
                             </tr>
                           ))}
                       </tbody>
@@ -535,10 +562,39 @@ function Farming(props) {
               <h3>Please click "Fetch Room" before start farming</h3>
             </div>
           )}
+          
+          <Modal isOpen={showModal} toggle={() => setShowModal(false)}>
+            <ModalHeader style={header} toggle={() => setShowModal(false)}>
+              Message
+            </ModalHeader>
+            <ModalBody>
+              <span className="text-dark">
+                Semua stars sudah full apakah tetap running auto farming ?
+              </span>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                color="info"
+                onClick={startFarming}
+              >
+                Run
+              </Button>
+              <Button color="danger" onClick={() => setShowModal(false)}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </Modal>
         </Container>
       </Container>
     </MainLayout>
   );
 }
+
+const header = {
+  backgroundColor: "#24a2b7",
+  color: "white",
+  borderTopLeftRadius: 5,
+  borderTopRightRadius: 5,
+};
 
 export default Farming;
