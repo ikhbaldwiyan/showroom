@@ -14,6 +14,7 @@ import GoogleAnalytics from 'utils/GoogleAnalytics';
 import Login from 'pages/Login';
 import Follow from "pages/Follow";
 import Register from "pages/Register";
+import Farming from "pages/Farming";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -33,6 +34,7 @@ function App(props) {
         <Route path="/about" component={() => <About {...props} />} />
         <Route path="/login" component={() => <Login {...props} />} />
         <Route path="/register" component={() => <Register {...props} />} />
+        <Route path="/farming" component={() => <Farming {...props} />} />
       </div>
     </ThemeProvider>
   );
