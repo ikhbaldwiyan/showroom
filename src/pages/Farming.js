@@ -5,7 +5,7 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Table
+  Table,
 } from "reactstrap";
 import MainLayout from "./layout/MainLayout";
 import React, { useEffect, useState, useRef } from "react";
@@ -39,7 +39,7 @@ function Farming(props) {
     b: 0,
     c: 0,
     d: 0,
-    e: 0
+    e: 0,
   });
 
   const [isReady, setIsReady] = useState(false);
@@ -49,28 +49,28 @@ function Farming(props) {
     {
       key: "a",
       image: "https://static.showroom-live.com/image/gift/1_s.png?v=1",
-      count: star.a
+      count: star.a,
     },
     {
       key: "b",
       image: "https://static.showroom-live.com/image/gift/1001_s.png?v=1",
-      count: star.b
+      count: star.b,
     },
     {
       key: "c",
       image: "https://static.showroom-live.com/image/gift/1002_s.png?v=1",
-      count: star.c
+      count: star.c,
     },
     {
       key: "d",
       image: "https://static.showroom-live.com/image/gift/1003_s.png?v=1",
-      count: star.d
+      count: star.d,
     },
     {
       key: "e",
       image: "https://static.showroom-live.com/image/gift/2_s.png?v=1",
-      count: star.e
-    }
+      count: star.e,
+    },
   ];
 
   useEffect(() => {
@@ -147,7 +147,7 @@ function Farming(props) {
       const roomId = rooms[i].room_id;
       const response = await axios.post(FARM, {
         cookies_login_id: cookiesLoginId,
-        room_id: roomId
+        room_id: roomId,
       });
 
       const data = response.data;
@@ -250,14 +250,14 @@ function Farming(props) {
       b: data.star[1].free_num,
       c: data.star[2].free_num,
       d: data.star[3].free_num,
-      e: data.star[4].free_num
+      e: data.star[4].free_num,
     });
     setStarLoading(false);
   };
 
   const setGagal = (data) => {
     toast.error(data.until ?? "Please try again after the displayed time", {
-      theme: "colored"
+      theme: "colored",
     });
     localStorage.setItem("limit_until", JSON.stringify(data.until));
     setLimitUntil(data.until);
@@ -283,7 +283,7 @@ function Farming(props) {
       const response = await axios.post(FARM, {
         cookies_login_id: cookiesLoginId,
         room_id: roomId,
-        room_name: roomName
+        room_name: roomName,
       });
 
       const data = response.data;
@@ -306,7 +306,7 @@ function Farming(props) {
         const response2 = await axios.post(FARM, {
           cookies_login_id: cookiesLoginId,
           room_id: roomId,
-          room_name: roomName
+          room_name: roomName,
         });
 
         const data2 = response2.data;
@@ -316,7 +316,7 @@ function Farming(props) {
           deleteArray();
           setLocalAndState(roomId);
           toast.success(`Sukses Farm Di Room : ${roomName}`, {
-            theme: "colored"
+            theme: "colored",
           });
         }
 
@@ -324,7 +324,7 @@ function Farming(props) {
           deleteArray();
           setAllMessage((prevData) => [
             ...prevData,
-            { message: data2.message, timestamp }
+            { message: data2.message, timestamp },
           ]);
           setGagal(data2);
           setLoading(false);
@@ -342,7 +342,7 @@ function Farming(props) {
 
         setAllMessage((prevData) => [
           ...prevData,
-          { message: data2.message, timestamp }
+          { message: data2.message, timestamp },
         ]);
       }
 
@@ -350,7 +350,7 @@ function Farming(props) {
         deleteArray();
         setLocalAndState(roomId);
         toast.success(`Sukses Farm Di Room : ${roomName}`, {
-          theme: "colored"
+          theme: "colored",
         });
         console.log(allMessage);
       }
@@ -389,37 +389,45 @@ function Farming(props) {
             <div className="row my-4 justify-content-center text-danger text-center">
               <h3>{limitUntil}</h3>
             </div>
-            <hr style={{borderColor: "silver"}} />
+            <hr style={{ borderColor: "silver" }} />
           </>
         ) : (
-          <div className="row justify-content-between">
-            <Button
-              color="primary"
-              onClick={getOfficials}
-              className="btn text-light"
-              disabled={
-                btnLoadingRoom ? true : false || limitUntil ? true : false
-              }
-            >
-              {btnLoadingRoom ? (
-                <Loading color="white" size={8} />
-              ) : (
-                "Fetch Room"
-              )}
-            </Button>
-            {officialRoom.length > 0 ? (
+          <Container>
+            <div className="row justify-content-between">
               <Button
-                onClick={handleCheckStar}
+                style={{
+                  backgroundColor: "teal",
+                }}
+                onClick={getOfficials}
                 className="btn text-light"
-                disabled={loading ? true : false}
-                style={{ backgroundColor: "#24a2b7" }}
+                disabled={
+                  btnLoadingRoom ? true : false || limitUntil ? true : false
+                }
               >
-                {loading ? <Loading color="white" size={8} /> : "RUN FARM"}
+                {btnLoadingRoom ? (
+                  <Loading color="white" size={8} />
+                ) : (
+                  "Fetch Room"
+                )}
               </Button>
-            ) : (
-              ""
-            )}
-          </div>
+              {officialRoom.length > 0 ? (
+                <Button
+                  onClick={handleCheckStar}
+                  className="btn text-light"
+                  disabled={loading ? true : false}
+                  style={{ backgroundColor: "#24a2b7" }}
+                >
+                  {loading || starLoading ? (
+                    <Loading color="white" size={8} />
+                  ) : (
+                    "Start Farming"
+                  )}
+                </Button>
+              ) : (
+                ""
+              )}
+            </div>
+          </Container>
         )}
 
         {officialRoom.length > 0 ? (
@@ -475,7 +483,7 @@ function Farming(props) {
                     style={{
                       width: "100%",
                       height: "25px",
-                      borderRadius: "15px"
+                      borderRadius: "15px",
                     }}
                     className="col mb-5 p-0 bg-secondary"
                   >
@@ -486,7 +494,7 @@ function Farming(props) {
                           : `${(countSuccess / 10) * 100}%`,
                         height: "100%",
                         borderRadius: "15px",
-                        background: "#4CAF50"
+                        background: "#4CAF50",
                       }}
                     >
                       {limitUntil ? (
@@ -505,7 +513,7 @@ function Farming(props) {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-4 col-sm-12 ">
+              <div className="col-md-4 col-sm-12 order-md-1 order-2">
                 <Table bordered>
                   <thead style={{ backgroundColor: "teal", color: "white" }}>
                     <tr style={{ textAlign: "center" }}>
@@ -515,7 +523,7 @@ function Farming(props) {
                   <tbody
                     style={{
                       textAlign: "center",
-                      color: props.theme === "dark" && "white"
+                      color: props.theme === "dark" && "white",
                     }}
                   >
                     {officialRoom.map((room, idx) => (
@@ -526,7 +534,7 @@ function Farming(props) {
                   </tbody>
                 </Table>
               </div>
-              <div className="col-md-8 col-sm-12">
+              <div className="col-md-8 col-sm-12 order-md-2 order-1">
                 {allMessage.length > 0 ? (
                   <div>
                     <Table bordered>
@@ -562,9 +570,11 @@ function Farming(props) {
             </div>
           </>
         ) : (
-          <div className="row mb-5 mt-5">
-            <h3>Please click "Fetch Room" before start farming</h3>
-          </div>
+          <Container>
+            <div className="row mb-5 mt-5">
+              <h3>Please click "Fetch Room" before start farming</h3>
+            </div>
+          </Container>
         )}
 
         <Modal isOpen={showModal} toggle={() => setShowModal(false)}>
@@ -577,7 +587,13 @@ function Farming(props) {
             </span>
           </ModalBody>
           <ModalFooter>
-            <Button color="info" onClick={startFarming}>
+            <Button
+              color="info"
+              onClick={() => {
+                startFarming();
+                setShowModal(false);
+              }}
+            >
               Run
             </Button>
             <Button color="danger" onClick={() => setShowModal(false)}>
@@ -594,7 +610,7 @@ const header = {
   backgroundColor: "#24a2b7",
   color: "white",
   borderTopLeftRadius: 5,
-  borderTopRightRadius: 5
+  borderTopRightRadius: 5,
 };
 
 export default Farming;

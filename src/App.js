@@ -23,19 +23,17 @@ function App(props) {
 
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-      <div className="App">
-        <GlobalStyles />
-        <GoogleAnalytics />
-        <Route path="/" component={() => <Home {...props} /> } exact />
-        <Route path="/room/:name/:id/" component={() => <Live {...props} />} />
-        <Route path="/list-room" component={() => <RoomList {...props} />} />
-        <Route path="/follow" component={() => <Follow {...props} />} />
-        <Route path="/multi-room" component={() => <MultiRoom {...props} />} />
-        <Route path="/about" component={() => <About {...props} />} />
-        <Route path="/login" component={() => <Login {...props} />} />
-        <Route path="/register" component={() => <Register {...props} />} />
-        <Route path="/farming" component={() => <Farming {...props} />} />
-      </div>
+      <GlobalStyles />
+      <GoogleAnalytics />
+      <Route path="/" component={() => <Home {...props} /> } exact />
+      <Route path="/room/:name/:id/" component={() => <Live {...props} />} />
+      <Route path="/list-room" component={() => <RoomList {...props} />} />
+      <Route path="/follow" component={() => <Follow {...props} />} />
+      <Route path="/multi-room" component={() => <MultiRoom {...props} />} />
+      <Route path="/about" component={() => <About {...props} />} />
+      <Route path="/login" component={() => <Login {...props} />} />
+      <Route path="/register" component={() => <Register {...props} />} />
+      <Route path="/farming" component={() => <Farming {...props} />} />
     </ThemeProvider>
   );
 }
