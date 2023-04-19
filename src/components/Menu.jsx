@@ -5,8 +5,9 @@ import { AiFillGift, AiFillStar, AiFillTrophy } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { FaListAlt } from "react-icons/fa";
 import { API } from "utils/api/api";
+import { isMobile } from "react-device-detect";
 
-function Menu({ menu, setMenu, isLive, roomId, hideMenu }) {
+function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
   const [roomName, setRoomName] = useState("");
 
   useEffect(() => {
@@ -40,16 +41,24 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu }) {
       menu: "rank",
       icon: <AiFillTrophy style={iconStyle} />,
     },
-    {
-      name: "Gift",
-      menu: "gift",
-      icon: <AiFillGift style={iconStyle} />,
-    },
-    {
-      name: "Star",
-      menu: "star",
-      icon: <AiFillStar style={iconStyle} />,
-    },
+    ...(isMultiRoom || !isMobile
+      ? [
+          {
+            name: "Gift",
+            menu: "gift",
+            icon: <AiFillGift style={iconStyle} />,
+          },
+        ]
+      : []),
+    ...(isMultiRoom || isMobile
+      ? [
+          {
+            name: "Star",
+            menu: "star",
+            icon: <AiFillStar style={iconStyle} />,
+          },
+        ]
+      : []),
   ];
 
   const buttonStyle = {

@@ -13,6 +13,7 @@ import {
 import { FARM, SEND_GIFT } from "utils/api/api";
 import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
+import { Card } from "reactstrap";
 
 const StarRedux = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
   const dispatch = useDispatch();
@@ -82,6 +83,29 @@ const StarRedux = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
     }
   };
 
+  const sendTenStar = async (key) => {
+    try {
+      const response = await axios.post(SEND_GIFT, {
+        cookies_id: cookiesLoginId,
+        csrf_token: csrfToken,
+        room_id: roomId.toString(),
+        gift_name: key,
+        num: 10,
+      });
+
+      if (response.data.ok) {
+        let data = response.data;
+        dispatch(sendStarSuccess(key, data.remaining_num));
+
+        setDisableCount(false);
+        setActiveButton(null);
+      }
+    } catch {
+      setDisableCount(false);
+      setActiveButton(null);
+    }
+  };
+
   // Fetch First stars with API
   const getFirstStar = async () => {
     const response = await axios.post(FARM, {
@@ -110,7 +134,7 @@ const StarRedux = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
     dispatch(getClickCountStar(e.target.name));
 
     if (clickCountRedux[e.target.name] === 9) {
-      // sendTenStar(e);
+      sendTenStar(e.target.name);
       setDisableCount(true);
       dispatch(clearCountStar());
     }
@@ -127,34 +151,48 @@ const StarRedux = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
   };
 
   return (
-    <div className="row d-flex">
-      {starsRedux.map((gift) => (
-        <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
-          <input
-            type="image"
-            src={
-              gift.gift_id
-                ? `https://static.showroom-live.com/image/gift/${gift.gift_id}_s.png?v=1`
-                : gift.url
-            }
-            width="50px"
-            height="50px"
-            style={{ cursor: "pointer" }}
-            name={gift.name}
-            alt="stars"
-            disabled={activeButton !== gift.name && activeButton != null}
-            onClick={disableCount ? void 0 : clickStar}
-          />
-          <b className="mb-0">
-            {isLoadingStars ? (
-              <Loading color={theme === "dark" ? "white" : "black"} size={6} />
-            ) : (
-              gift.count
-            )}
-          </b>
-        </div>
-      ))}
-    </div>
+    <Card
+      style={{
+        padding: "20px",
+        display: "flex",
+        alignItems: "center",
+        backgroundColor: theme === "dark" ? "#343A40" : "white",
+        borderRadius: "10px",
+      }}
+      className="my-4"
+    >
+      <div className="row">
+        {starsRedux.map((gift) => (
+          <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
+            <input
+              type="image"
+              src={
+                gift.gift_id
+                  ? `https://static.showroom-live.com/image/gift/${gift.gift_id}_s.png?v=1`
+                  : gift.url
+              }
+              width="50px"
+              height="50px"
+              style={{ cursor: "pointer" }}
+              name={gift.name}
+              alt="stars"
+              disabled={activeButton !== gift.name && activeButton != null}
+              onClick={disableCount ? void 0 : clickStar}
+            />
+            <b className="mb-0">
+              {isLoadingStars ? (
+                <Loading
+                  color={theme === "dark" ? "white" : "black"}
+                  size={6}
+                />
+              ) : (
+                gift.count
+              )}
+            </b>
+          </div>
+        ))}
+      </div>
+    </Card>
   );
 };
 

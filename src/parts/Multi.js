@@ -15,7 +15,6 @@ import {
   Gift,
   Setlist,
 } from "components";
-import StarButton from "components/StarButton";
 import StarRedux from "pages/StarRedux";
 
 export default function Multi({
@@ -97,7 +96,7 @@ export default function Multi({
           isLive={url}
           roomId={roomId}
           hideMenu={hideMenu}
-          isMultiRoom={isMultiRoom}
+          isMultiRoom
         />
       ) : (
         ""

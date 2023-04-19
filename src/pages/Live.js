@@ -99,7 +99,7 @@ function Live(props) {
                     setHideMenu={setHideMenu}
                     theme={props.theme}
                   />
-                  {session && (
+                  {session && !isMobile && (
                     <StarButton
                       roomId={roomId}
                       cookiesLoginId={cookiesLoginId}
@@ -141,7 +141,12 @@ function Live(props) {
             ) : menu === "total" ? (
               <TotalRank roomId={roomId} />
             ) : (
-              <Setlist />
+              <StarButton
+                roomId={roomId}
+                cookiesLoginId={cookiesLoginId}
+                csrfToken={csrfToken}
+                theme={props.theme}
+              />
             )}
           </Col>
         </Row>

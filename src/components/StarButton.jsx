@@ -14,12 +14,8 @@ import Loading from "./Loading";
 import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
 import bulkImage from "../assets/images/bulk.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { getClickCount, getClickCountStar, getStarsLoad, getStarsSuccess } from "redux/actions/setStars";
 
 function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
-  const { starsRedux, clickCountRedux } = useSelector((state) => state.stars);
-
   const [stars, setStars] = useState([
     {
       gift_id: "",
@@ -65,13 +61,11 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
   const [activeButton, setActiveButton] = useState(null);
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setDisableCount(true);
     getFirstStar();
     setDisableCount(false);
-    dispatch(getStarsLoad());
   }, [roomId, cookiesLoginId]);
 
   const getFirstStar = async () => {
@@ -79,7 +73,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
 
     const response = await axios.post(FARM, {
       cookies_login_id: cookiesLoginId,
-      room_id: roomId.toString(),
+      room_id: roomId,
     });
 
     setAllStar(response.data);
@@ -108,13 +102,13 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
           if (value < 10 && value > 0) {
             sendStar(key, value);
 
-            dispatch(getClickCountStar({
+            setClickCount({
               a: 0,
               b: 0,
               c: 0,
               d: 0,
               e: 0,
-            }));
+            });
           }
         });
       }, 1000);
@@ -125,7 +119,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
   const setAllStar = (data) => {
     setStarLoading(true);
     if (data.star.length === 0) return;
-    const updatedStar = starsRedux.map((gift, index) => {
+    const updatedStar = stars.map((gift, index) => {
       return {
         ...gift,
         gift_id: data.star[index].gift_id,
@@ -133,7 +127,6 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
       };
     });
     setStars(updatedStar);
-    dispatch(getStarsSuccess(updatedStar));
     setStarLoading(false);
   };
 
@@ -183,7 +176,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
       const response = await axios.post(SEND_GIFT, {
         cookies_id: cookiesLoginId,
         csrf_token: csrfToken,
-        room_id: roomId.toString(),
+        room_id: roomId,
         gift_name: e.target.name,
         num: clickCount[e.target.name] + 1,
       });
@@ -284,7 +277,10 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
               audio.play();
             }
 
-            return dispatch(getClickCount(starObj.count - 1, starObj.name));
+            return {
+              ...starObj,
+              count: starObj.count - 1,
+            };
           }
         }
         return starObj;
@@ -311,7 +307,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
         className="my-4"
       >
         <div className="row">
-          {starsRedux.map((gift) => (
+          {stars.map((gift) => (
             <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
               <input
                 type="image"
@@ -356,15 +352,6 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
         <img src={bulkImage} height={44} width={44} alt="bulk gift" />
       </button>
 
-      {/* <Card style={{
-        padding: "20px",
-        backgroundColor: "#24a2b7",
-        borderRadius: "0px 10px 10px 0px",
-        width: '100px'
-      }}
-      className="my-4"
-      >
-      </Card> */}
       <div>
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader style={{ backgroundColor: "#24a2b7" }} toggle={toggle}>
@@ -374,11 +361,11 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
             Apakah Anda yakin ingin mengirim semua star ?
           </ModalBody>
           <ModalFooter>
-            <Button color="secondary" onClick={toggle}>
-              Close
-            </Button>
             <Button color="info" onClick={sendAllStar}>
               Yes
+            </Button>
+            <Button color="secondary" onClick={toggle}>
+              Close
             </Button>
           </ModalFooter>
         </Modal>
