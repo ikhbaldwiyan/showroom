@@ -228,12 +228,12 @@ function Farming(props) {
 
   const decrementTime = () => {
     clearInterval(intervalId.current);
-    setTime(50);
+    setTime(0);
     intervalId.current = setInterval(() => {
       setTime((time) => {
         console.log(time);
-        if (time > 0) {
-          return setTime(time - 1);
+        if (time < 50) {
+          return setTime(time + 1);
         }
         clearInterval(intervalId.current);
         return 0;
@@ -295,7 +295,7 @@ function Farming(props) {
 
       setAllMessage((prevData) => [
         ...prevData,
-        { message: data.message, timestamp }
+        { message: data.message, timestamp },
       ]);
 
       if (data.message.includes("Sedang")) {
@@ -373,7 +373,17 @@ function Farming(props) {
   };
 
   useEffect(() => {
-    localStorage.setItem("farming_log", JSON.stringify(allMessage));
+    localStorage.setItem(
+      "farming_log",
+      JSON.stringify(
+        allMessage ?? [
+          {
+            messages: "Open Farming Page",
+            timestamp: "Now",
+          },
+        ]
+      )
+    );
   }, [allMessage]);
 
   const checkAllStars = () => {
@@ -465,49 +475,68 @@ function Farming(props) {
                 ) : (
                   ""
                 )}
-                {currentRoomId
-                  ? time !== 0 && (
-                      <div className="mb-3">
-                        <p style={{ fontWeight: "bold" }}>
-                          Process farming in{" "}
-                          <span className="text-primary">{currentRoomId}</span>{" "}
-                          <br />
-                          please wait{" "}
-                          <span className="text-main">{time} second</span>
-                        </p>
-                      </div>
-                    )
-                  : null}
+                {currentRoomId && !until ? (
+                  <div className="mb-3">
+                    <p style={{ fontWeight: "bold" }}>
+                      Process farming in{" "}
+                      <span className="text-primary">{currentRoomId}</span>{" "}
+                      <br />
+                      {/* please wait{" "}
+                      <span className="text-main">{time} second</span> */}
+                    </p>
+                  </div>
+                ) : until ? (
+                  <p className="text-secondary">
+                    Farming stopped please wait until limit time end
+                  </p>
+                ) : (
+                  ""
+                )}
                 <div>
                   <div
                     style={{
                       width: "100%",
                       height: "25px",
                       borderRadius: "15px",
+                      position: "relative",
+                      overflow: "hidden",
                     }}
                     className="col mb-5 p-0 bg-secondary"
                   >
                     <div
                       style={{
-                        width: limitUntil
-                          ? "100%"
-                          : `${(countSuccess / 10) * 100}%`,
+                        width: limitUntil ? "100%" : `${(time / 50) * 100}%`,
                         height: "100%",
                         borderRadius: "15px",
-                        background: "#4CAF50",
+                        background: limitUntil ? "#dc3545" : "#4CAF50",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        transition: "width 1s ease-in-out",
                       }}
                     >
                       {limitUntil ? (
-                        <p className="text-center text-light m-3">100%</p>
+                        <p className="text-center text-light">100%</p>
                       ) : (
                         <p className="text-left mx-3 text-light">
-                          {(countSuccess / 10) * 100 > 100
-                            ? 100
-                            : (countSuccess / 10) * 100}
-                          %
+                          {((time / 50) * 100).toFixed(2) > 100
+                            ? "100%"
+                            : ((time / 50) * 100).toFixed(2) + "%"}
                         </p>
                       )}
                     </div>
+                    {!limitUntil && (
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "15px",
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                        }}
+                      ></div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -535,37 +564,30 @@ function Farming(props) {
                 </Table>
               </div>
               <div className="col-md-8 col-sm-12 order-md-2 order-1">
-                {allMessage.length > 0 ? (
-                  <div>
-                    <Table bordered>
-                      <thead
-                        style={{ backgroundColor: "#24a2b7", color: "white" }}
-                      >
-                        <tr className="text-center">
-                          <th>Farming Log Message</th>
-                          <th>Time</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {allMessage
-                          .reverse()
-                          .map(({ message, timestamp }, idx) => (
-                            <tr key={idx}>
-                              <td className={textColor(message)}>{message}</td>
-                              <td
-                                className="text-light"
-                                style={{ fontSize: 14 }}
-                              >
-                                {timestamp}
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </Table>
-                  </div>
-                ) : (
-                  ""
-                )}
+                <div>
+                  <Table bordered>
+                    <thead
+                      style={{ backgroundColor: "#24a2b7", color: "white" }}
+                    >
+                      <tr className="text-center">
+                        <th>Farming Log Message</th>
+                        <th>Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {allMessage
+                        ?.sort((a, b) => b.timestamp - a.timestamp)
+                        ?.map(({ message, timestamp }, idx) => (
+                          <tr key={idx}>
+                            <td className={textColor(message)}>{message}</td>
+                            <td className="text-light" style={{ fontSize: 14 }}>
+                              {timestamp}
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </Table>
+                </div>
               </div>
             </div>
           </>
