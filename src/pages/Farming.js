@@ -16,6 +16,9 @@ import { toast } from "react-toastify";
 import formatLongDate from "utils/formatLongDate";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { IoReload } from "react-icons/io5";
+import { IoMdStopwatch } from "react-icons/io";
+import { MdOutlineNotStarted } from "react-icons/md";
 
 function Farming(props) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
@@ -130,6 +133,7 @@ function Farming(props) {
     }
 
     setIsReady(true);
+    window.document.title = "Farming Stars"
   }, []);
 
   useEffect(() => {
@@ -429,7 +433,7 @@ function Farming(props) {
               <div className="row justify-content-between">
                 <Button
                   style={{
-                    backgroundColor: "#24a2b7",
+                    backgroundColor: "teal",
                   }}
                   onClick={getOfficials}
                   className="btn text-light"
@@ -440,20 +444,26 @@ function Farming(props) {
                   {btnLoadingRoom ? (
                     <Loading color="white" size={8} />
                   ) : (
-                    "Refresh Room"
+                    <span className="d-flex align-items-center">
+                      <IoReload className="mx-1" /> Refresh
+                    </span>
                   )}
                 </Button>
 
                 <Button
                   onClick={isFarming ? handleStop : handleCheckStar}
                   className="btn text-light"
-                  // disabled={isFarming ? true : false}
-                  style={{ backgroundColor: isFarming ? "#1c8192" : '#197180' }}
+                  style={{ backgroundColor: isFarming ? "#dc3545" : "#24a2b7" }}
                 >
                   {isFarming || starLoading ? (
-                    "Stop Farming"
+                    <span className="d-flex align-items-center">
+                      <IoMdStopwatch className="mx-1" /> Stop Farming
+                    </span>
                   ) : (
-                    "Start Farming"
+                    <span className="d-flex align-items-center">
+                      <MdOutlineNotStarted className="mx-1" size={16} /> Start
+                      Farming
+                    </span>
                   )}
                 </Button>
               </div>
@@ -467,7 +477,7 @@ function Farming(props) {
           <>
             <div className="row mt-2 mb-2">
               <div className="d-flex col-md-12 col-sm-12 align-items-center justify-content-end flex-column">
-                <h4 className="text-center">Total Stars </h4>
+                <h4 className="text-center mt-4">Total Stars</h4>
                 <div className="row mb-2 justify-content-center">
                   {stars.map(({ image, count }, index) => (
                     <div
@@ -500,11 +510,13 @@ function Farming(props) {
                         }
                         text={
                           <tspan dy={3} dx={0}>
-                            {50 - time}s
-                            {/* {((time / 50) * 100) > 100
-                          ? "100"
-                          : ((time / 50) * 100)}
-                        % */}
+                            {time === 50
+                              ? "100%"
+                              : ((time / 50) * 100).toFixed(2) > 100
+                              ? "100%"
+                              : ((time / 50) * 100)
+                                  .toFixed()
+                                  .replace(/.00$/, "") + "%"}
                           </tspan>
                         }
                         strokeWidth={15}
@@ -521,6 +533,7 @@ function Farming(props) {
                     <p style={{ fontWeight: "bold", textAlign: "center" }}>
                       Current room :
                       <p style={{ color: "#24a2b7" }}>[{currentRoomId}]</p>
+                      <span className="text-success">Total Farming Succes {countSuccess}</span>
                     </p>
                   </div>
                 ) : (
@@ -543,7 +556,7 @@ function Farming(props) {
                       color: props.theme === "dark" && "white",
                     }}
                   >
-                    {officialRoom.map((room, idx) => (
+                    {officialRoom?.slice(0, 15).map((room, idx) => (
                       <tr key={idx}>
                         <td className="text-center">{room.room_name}</td>
                       </tr>
@@ -557,7 +570,7 @@ function Farming(props) {
                     <thead
                       style={{ backgroundColor: "#24a2b7", color: "white" }}
                     >
-                      <tr className="text-center">
+                      <tr>
                         <th>Farming Log Message</th>
                         <th>Time</th>
                       </tr>
