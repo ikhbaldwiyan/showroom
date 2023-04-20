@@ -345,6 +345,7 @@ function Farming(props) {
           toast.success(`Sukses Farm Di Room : ${roomName}`, {
             theme: "colored",
           });
+          setStarLoading(true)
         }
 
         if (data2.message.includes("Gagal")) {
@@ -428,7 +429,7 @@ function Farming(props) {
 
   const FarmingTime = () => {
     useEffect(() => {
-      if (allMessage.length > 0) {
+      if (allMessage && allMessage.length > 0) {
         const startTime = allMessage[0].timestamp;
         const endTime = allMessage[allMessage.length - 1].timestamp;
         const start = new Date(`2023-01-01T${startTime}:00`).getTime();
@@ -459,55 +460,56 @@ function Farming(props) {
             <div className="row my-2 justify-content-center text-danger text-center">
               <h3>{limitUntil}</h3>
             </div>
-            <div className="text-center">
-              <p className="text-success">
-                Total Farming Success {countSuccess} Room
-              </p>
-              <Button onClick={toggle} color="primary">
-                Show Success Log
-              </Button>
-            </div>
             <hr style={{ borderColor: "silver" }} />
           </>
         ) : (
           <Container>
             {officialRoom.length > 0 ? (
-              <div className="row justify-content-between">
-                <Button
-                  style={{
-                    backgroundColor: "teal",
-                  }}
-                  onClick={getOfficials}
-                  className="btn text-light"
-                  disabled={
-                    btnLoadingRoom ? true : false || limitUntil ? true : false
-                  }
-                >
-                  {btnLoadingRoom ? (
-                    <Loading color="white" size={8} />
-                  ) : (
-                    <span className="d-flex align-items-center">
-                      <IoReload className="mx-1" /> Refresh
-                    </span>
-                  )}
-                </Button>
-
-                <Button
-                  onClick={isFarming ? handleStop : handleCheckStar}
-                  className="btn text-light"
-                  style={{ backgroundColor: isFarming ? "#dc3545" : "#24a2b7" }}
-                >
-                  {isFarming || starLoading ? (
-                    <span className="d-flex align-items-center">
-                      <IoMdStopwatch className="mx-1" /> Stop Farming
-                    </span>
-                  ) : (
-                    <span className="d-flex align-items-center">
-                      <MdOutlineNotStarted className="mx-1" size={16} /> Start
-                      Farming
-                    </span>
-                  )}
-                </Button>
+              <div className="row">
+                <div className="col-md-4 col-sm-12">
+                  <div className="d-flex justify-content-between">
+                    <Button
+                      style={{
+                        backgroundColor: "teal",
+                      }}
+                      onClick={getOfficials}
+                      className="btn text-light"
+                      disabled={
+                        btnLoadingRoom
+                          ? true
+                          : false || limitUntil
+                          ? true
+                          : false
+                      }
+                    >
+                      {btnLoadingRoom ? (
+                        <Loading color="white" size={8} />
+                      ) : (
+                        <span className="d-flex align-items-center">
+                          <IoReload className="mx-1" /> Refresh
+                        </span>
+                      )}
+                    </Button>
+                    <Button
+                      onClick={isFarming ? handleStop : handleCheckStar}
+                      className="btn text-light"
+                      style={{
+                        backgroundColor: isFarming ? "#dc3545" : "#24a2b7",
+                      }}
+                    >
+                      {isFarming || starLoading ? (
+                        <span className="d-flex align-items-center">
+                          <IoMdStopwatch className="mx-1" /> Stop Farming
+                        </span>
+                      ) : (
+                        <span className="d-flex align-items-center">
+                          <MdOutlineNotStarted className="mx-1" size={16} />{" "}
+                          Start Farming
+                        </span>
+                      )}
+                    </Button>
+                  </div>
+                </div>
               </div>
             ) : (
               ""
@@ -517,9 +519,9 @@ function Farming(props) {
 
         {officialRoom.length > 0 ? (
           <>
-            <div className="row mt-2 mb-2">
-              <div className="d-flex col-md-12 col-sm-12 align-items-center justify-content-end flex-column">
-                <h4 className="text-center mt-4">Total Stars</h4>
+            <div className="row mt-4 mb-2">
+              <div className="d-flex col-md-4 col-sm-12 justify-content-end flex-column">
+                <h4 className="text-center ">Total Stars</h4>
                 <div className="row mb-2 justify-content-center">
                   {stars.map(({ image, count }, index) => (
                     <div
@@ -540,49 +542,82 @@ function Farming(props) {
                     </div>
                   ))}
                 </div>
+              </div>
+              <div className="col-md-4 col-sm-12">
+                {isFarming && !until ? (
+                  <div
+                    style={{ width: 120, height: 120 }}
+                    className="mb-3 mx-auto"
+                  >
+                    <CircularProgressbar
+                      value={
+                        (time / 50) * 100 > 100 ? "100" : (time / 50) * 100
+                      }
+                      text={
+                        <tspan dy={3} dx={0}>
+                          {time === 50
+                            ? "100%"
+                            : ((time / 50) * 100).toFixed(2) > 100
+                            ? "100%"
+                            : ((time / 50) * 100)
+                                .toFixed()
+                                .replace(/.00$/, "") + "%"}
+                        </tspan>
+                      }
+                      strokeWidth={15}
+                      styles={buildStyles({
+                        strokeLinecap: "butt",
+                        textSize: "17px",
+                        textColor: `white`,
+                        pathTransitionDuration: 0.5,
+                        pathColor: `rgba(36, 162, 183,1)`,
+                        trailColor: "#d6d6d6",
+                      })}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    style={{ width: 120, height: 120 }}
+                    className="mb-3 mx-auto"
+                  >
+                    <CircularProgressbar
+                      value={limitUntil ? 100 : 0}
+                      text={
+                        <tspan dy={3} dx={0}>
+                          {limitUntil ? "100%" : "0%"}
+                        </tspan>
+                      }
+                      strokeWidth={15}
+                      styles={buildStyles({
+                        strokeLinecap: "butt",
+                        textSize: "17px",
+                        textColor: `white`,
+                        pathTransitionDuration: 0.5,
+                        pathColor: `#dc3545`,
+                        trailColor: "#d6d6d6",
+                      })}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="col-md-4 col-sm-12 text-center">
                 {isFarming && !until ? (
                   <div className="mb-0">
-                    <div
-                      style={{ width: 120, height: 120 }}
-                      className="mb-3 mx-auto"
-                    >
-                      <CircularProgressbar
-                        value={
-                          (time / 50) * 100 > 100 ? "100" : (time / 50) * 100
-                        }
-                        text={
-                          <tspan dy={3} dx={0}>
-                            {time === 50
-                              ? "100%"
-                              : ((time / 50) * 100).toFixed(2) > 100
-                              ? "100%"
-                              : ((time / 50) * 100)
-                                  .toFixed()
-                                  .replace(/.00$/, "") + "%"}
-                          </tspan>
-                        }
-                        strokeWidth={15}
-                        styles={buildStyles({
-                          strokeLinecap: "butt",
-                          textSize: "17px",
-                          textColor: `white`,
-                          pathTransitionDuration: 0.5,
-                          pathColor: `rgba(36, 162, 183,1)`,
-                          trailColor: "#d6d6d6",
-                        })}
-                      />
-                    </div>
                     <p style={{ fontWeight: "bold", textAlign: "center" }}>
                       Current room :
                       <p style={{ color: "#24a2b7" }}>[{currentRoomId}]</p>
                       <Button color="success mb-3" onClick={toggle}>
                         Total Farming Succes {countSuccess}
                       </Button>
-                      <FarmingTime />
                     </p>
                   </div>
                 ) : (
-                  ""
+                  <React.Fragment>
+                    <Button color="success mb-3" onClick={toggle}>
+                      Total Farming Succes {countSuccess}
+                    </Button>
+                    {until && <FarmingTime />}
+                  </React.Fragment>
                 )}
               </div>
             </div>
@@ -706,10 +741,11 @@ function Farming(props) {
             className="text-dark"
           >
             <h4 className="py-2 text-light text-center">
-              Total Farming Success <br />{" "}
               <b className="text-success">{countSuccess} ROOM</b>
             </h4>
-            <FarmingTime />
+            <div className="text-center">
+              <FarmingTime />
+            </div>
             <Table bordered>
               <thead style={{ color: "white" }}>
                 <tr>
@@ -725,7 +761,7 @@ function Farming(props) {
                         ({ message, timestamp }, idx) =>
                           message.includes("Sukses") && (
                             <tr key={idx}>
-                              <td className={textColor(message)}>{message}</td>
+                              <td className="text-light">{message}</td>
                               <td
                                 className="text-light"
                                 style={{
