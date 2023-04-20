@@ -19,6 +19,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { IoReload } from "react-icons/io5";
 import { IoMdStopwatch } from "react-icons/io";
 import { MdOutlineNotStarted } from "react-icons/md";
+import combo from "../assets/audio/combo.mp3";
 
 function Farming(props) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
@@ -38,6 +39,8 @@ function Farming(props) {
   const [until, setUntil] = useState("");
   const [countSuccess, setCountSuccess] = useState(0);
   const intervalId = useRef(null);
+  const [modalLog, setModalLog] = useState(false);
+  const toggle = () => setModalLog(!modalLog);
 
   const [star, setStar] = useState({
     a: 0,
@@ -133,7 +136,7 @@ function Farming(props) {
     }
 
     setIsReady(true);
-    window.document.title = "Farming Stars"
+    window.document.title = "Farming Stars";
   }, []);
 
   useEffect(() => {
@@ -264,12 +267,13 @@ function Farming(props) {
     setStarLoading(false);
   };
 
-  const setGagal = (data) => {
+  const setFailed = (data) => {
     toast.error(data.until ?? "Please try again after the displayed time", {
       theme: "colored",
     });
     localStorage.setItem("limit_until", JSON.stringify(data.until));
     setLimitUntil(data.until);
+    setModalLog(!modalLog)
     setExpire(data.until);
   };
 
@@ -333,6 +337,9 @@ function Farming(props) {
         if (data2.message.includes("Sukses")) {
           deleteArray();
           setLocalAndState(roomId);
+          const audio = new Audio(combo);
+          audio.volume = 1;
+          audio.play();
           toast.success(`Sukses Farm Di Room : ${roomName}`, {
             theme: "colored",
           });
@@ -344,7 +351,7 @@ function Farming(props) {
             ...prevData,
             { message: data2.message, timestamp },
           ]);
-          setGagal(data2);
+          setFailed(data2);
           setIsFarming(false);
           return;
         }
@@ -375,7 +382,7 @@ function Farming(props) {
 
       if (data.message.includes("Gagal")) {
         deleteArray();
-        setGagal(data);
+        setFailed(data);
         setIsFarming(false);
         return;
       }
@@ -410,6 +417,7 @@ function Farming(props) {
         ]
       )
     );
+    console.log(allMessage)
   }, [allMessage]);
 
   const checkAllStars = () => {
@@ -422,8 +430,16 @@ function Farming(props) {
       <Container>
         {limitUntil ? (
           <>
-            <div className="row my-4 justify-content-center text-danger text-center">
+            <div className="row my-2 justify-content-center text-danger text-center">
               <h3>{limitUntil}</h3>
+            </div>
+            <div className="text-center">
+              <p className="text-success">
+                Total Farming Success {countSuccess} Room
+              </p>
+              <Button onClick={toggle} color="primary">
+                Show Success Log
+              </Button>
             </div>
             <hr style={{ borderColor: "silver" }} />
           </>
@@ -533,7 +549,9 @@ function Farming(props) {
                     <p style={{ fontWeight: "bold", textAlign: "center" }}>
                       Current room :
                       <p style={{ color: "#24a2b7" }}>[{currentRoomId}]</p>
-                      <span className="text-success">Total Farming Succes {countSuccess}</span>
+                      <Button color="success" onClick={toggle}>
+                        Total Farming Succes {countSuccess}
+                      </Button>
                     </p>
                   </div>
                 ) : (
@@ -545,7 +563,7 @@ function Farming(props) {
             <div className="row">
               <div className="col-md-4 col-sm-12 order-md-1 order-2">
                 <Table bordered>
-                  <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
+                  <thead style={{ backgroundColor: "teal", color: "white" }}>
                     <tr style={{ textAlign: "center" }}>
                       <th>Farm Room</th>
                     </tr>
@@ -586,7 +604,10 @@ function Farming(props) {
                                 </td>
                                 <td
                                   className="text-light"
-                                  style={{ fontSize: 14, textAlign: "center" }}
+                                  style={{
+                                    fontSize: 14,
+                                    textAlign: "center",
+                                  }}
                                 >
                                   {timestamp}
                                 </td>
@@ -645,6 +666,60 @@ function Farming(props) {
             </Button>
             <Button color="danger" onClick={() => setShowModal(false)}>
               Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={modalLog} toggle={toggle}>
+          <ModalHeader style={header} toggle={toggle}>
+            {isFarming ? "Farming Succes History" : "Farming Ended"}
+          </ModalHeader>
+          <ModalBody
+            style={{ backgroundColor: "#21252b" }}
+            className="text-dark"
+          >
+            <h4 className="py-3 text-light text-center">
+              Total Farming Success <br /> <b className="text-success">{countSuccess} ROOM</b>
+            </h4>
+            <Table bordered>
+              <thead style={{ color: "white" }}>
+                <tr>
+                  <th>Success Log History</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allMessage && allMessage.length > 0 ? (
+                  <>
+                    {allMessage
+                      ?.map(
+                        ({ message, timestamp }, idx) =>
+                          message.includes("Sukses") && (
+                            <tr key={idx}>
+                              <td className={textColor(message)}>{message}</td>
+                              <td
+                                className="text-light"
+                                style={{
+                                  fontSize: 14,
+                                  textAlign: "center",
+                                }}
+                              >
+                                {timestamp}
+                              </td>
+                            </tr>
+                          )
+                      )
+                      ?.reverse()}
+                  </>
+                ) : (
+                  ""
+                )}
+              </tbody>
+            </Table>
+          </ModalBody>
+          <ModalFooter style={{ backgroundColor: "#21252b" }}>
+            <Button color="secondary" onClick={toggle}>
+              Close
             </Button>
           </ModalFooter>
         </Modal>
