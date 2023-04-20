@@ -20,6 +20,7 @@ import { IoReload } from "react-icons/io5";
 import { IoMdStopwatch } from "react-icons/io";
 import { MdOutlineNotStarted } from "react-icons/md";
 import combo from "../assets/audio/combo.mp3";
+import { useTimer } from "react-timer-hook";
 
 function Farming(props) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
@@ -34,6 +35,7 @@ function Farming(props) {
   const [currentRoomId, setCurrentRoomId] = useState("");
   const [allMessage, setAllMessage] = useState([]);
   const [time, setTime] = useState(0);
+  const [farmingTime, setFarmingTime] = useState(0);
 
   const [limitUntil, setLimitUntil] = useState("");
   const [until, setUntil] = useState("");
@@ -273,7 +275,7 @@ function Farming(props) {
     });
     localStorage.setItem("limit_until", JSON.stringify(data.until));
     setLimitUntil(data.until);
-    setModalLog(!modalLog)
+    setModalLog(!modalLog);
     setExpire(data.until);
   };
 
@@ -417,12 +419,36 @@ function Farming(props) {
         ]
       )
     );
-    console.log(allMessage)
   }, [allMessage]);
 
   const checkAllStars = () => {
     const values = Object.values(star); // Get all values from the `star` object
     return values.every((value) => value === 99); // Check if all values are 99
+  };
+
+  const FarmingTime = () => {
+    useEffect(() => {
+      if (allMessage.length > 0) {
+        const startTime = allMessage[0].timestamp;
+        const endTime = allMessage[allMessage.length - 1].timestamp;
+        const start = new Date(`2023-01-01T${startTime}:00`).getTime();
+        const end = new Date(`2023-01-01T${endTime}:00`).getTime();
+        const diffMs = end - start;
+        const diffMin = Math.floor(diffMs / 60000);
+        setFarmingTime(diffMin);
+      }
+    }, [allMessage]);
+
+    const { minutes } = useTimer({
+      expiryTimestamp: Date.now() + farmingTime * 60000,
+      onExpire: () => setFarmingTime(0),
+    });
+
+    return (
+      <p className="text-primary text-warning">
+        Farming Time: {minutes} Minutes
+      </p>
+    );
   };
 
   return (
@@ -549,9 +575,10 @@ function Farming(props) {
                     <p style={{ fontWeight: "bold", textAlign: "center" }}>
                       Current room :
                       <p style={{ color: "#24a2b7" }}>[{currentRoomId}]</p>
-                      <Button color="success" onClick={toggle}>
+                      <Button color="success mb-3" onClick={toggle}>
                         Total Farming Succes {countSuccess}
                       </Button>
+                      <FarmingTime />
                     </p>
                   </div>
                 ) : (
@@ -678,9 +705,11 @@ function Farming(props) {
             style={{ backgroundColor: "#21252b" }}
             className="text-dark"
           >
-            <h4 className="py-3 text-light text-center">
-              Total Farming Success <br /> <b className="text-success">{countSuccess} ROOM</b>
+            <h4 className="py-2 text-light text-center">
+              Total Farming Success <br />{" "}
+              <b className="text-success">{countSuccess} ROOM</b>
             </h4>
+            <FarmingTime />
             <Table bordered>
               <thead style={{ color: "white" }}>
                 <tr>
