@@ -9,13 +9,14 @@ import {
   ModalFooter,
   ModalHeader,
 } from "reactstrap";
-import { BULK_GIFT, FARM, SEND_GIFT } from "utils/api/api";
+import { BULK_GIFT, FARM, liveRanking, SEND_GIFT } from "utils/api/api";
 import Loading from "./Loading";
 import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
 import bulkImage from "../assets/images/bulk.svg";
+import { motion } from "framer-motion";
 
-function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
+function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   const [stars, setStars] = useState([
     {
       gift_id: "",
@@ -60,6 +61,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
   });
   const [activeButton, setActiveButton] = useState(null);
   const [modal, setModal] = useState(false);
+  const [rank, setRank] = useState();
   const toggle = () => setModal(!modal);
 
   useEffect(() => {
@@ -288,6 +290,21 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
     });
   };
 
+  useEffect(() => {
+    try {
+      axios.get(liveRanking(roomId)).then((res) => {
+        const rank = res.data;
+        for (let i = 0; i < rank.length; i++) {
+          if (rank[i].user.user_id == user.user_id) {
+            setRank(rank[i]);
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [starLoading]);
+
   return (
     <div
       style={{
@@ -308,7 +325,11 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
       >
         <div className="row">
           {stars.map((gift) => (
-            <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
+            <motion.div
+              className="d-flex flex-column align-items-center px-1 my-0 mx-3"
+              onClick={disableCount ? void 0 : clickStar}
+              whileTap={{ scale: 0.9 }}
+            >
               <input
                 type="image"
                 src={
@@ -334,7 +355,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken }) {
                   gift.count
                 )}
               </b>
-            </div>
+            </motion.div>
           ))}
         </div>
       </Card>

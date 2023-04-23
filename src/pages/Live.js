@@ -17,7 +17,6 @@ import {
   StageUser,
   TotalRank,
   Gift,
-  Setlist,
 } from "components";
 import { isMobile } from "react-device-detect";
 import AlertInfo from "components/AlertInfo";
@@ -33,14 +32,18 @@ function Live(props) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
   const [csrfToken, setCsrfToken] = useState("");
   const [session, setSession] = useState("");
+  const [user, setUser] = useState("");
 
   useEffect(() => {
-    const userSession = localStorage.getItem("session");
-    if (userSession) {
-      const foundSession = JSON.parse(userSession);
+    const session = localStorage.getItem("session");
+    const user = localStorage.getItem("user");
+    if (session) {
+      const foundSession = JSON.parse(session);
+      const userSession = JSON.parse(user);
       setSession(foundSession);
       setCookiesLoginId(foundSession.cookie_login_id);
       setCsrfToken(foundSession.csrf_token);
+      setUser(userSession);
     }
   }, []);
 
@@ -105,6 +108,7 @@ function Live(props) {
                       cookiesLoginId={cookiesLoginId}
                       csrfToken={csrfToken}
                       theme={props.theme}
+                      user={user}
                     />
                   )}
                 </>
