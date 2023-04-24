@@ -16,6 +16,7 @@ import combo from "../assets/audio/combo.mp3";
 import bulkImage from "../assets/images/bulk.svg";
 import { motion, useAnimation } from "framer-motion";
 import { AiFillStar } from "react-icons/ai";
+import { getSession } from "utils/getSession";
 
 function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   const [stars, setStars] = useState([
@@ -64,6 +65,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   const [modal, setModal] = useState(false);
   const [rank, setRank] = useState();
   const [avatarY, setAvatarY] = useState(0);
+  const [avatarImage, setAvatarImage] = useState();
   const avatarAnimation = useAnimation();
   const toggle = () => setModal(!modal);
 
@@ -71,6 +73,8 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     setDisableCount(true);
     getFirstStar();
     setDisableCount(false);
+    const session = getSession();
+    setAvatarImage(session?.profile?.avatar_url);
   }, [roomId, cookiesLoginId]);
 
   const getFirstStar = async () => {
@@ -88,14 +92,17 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
 
       toast.info(response.data.data.toast.message, {
         theme: "colored",
-        icon: <AiFillStar />
+        icon: <AiFillStar />,
       });
     }
 
     if (response.data?.until) {
-      toast.error(response.data?.until ?? "Please try again after the displayed time", {
-        theme: "colored",
-      });
+      toast.error(
+        response.data?.until ?? "Please try again after the displayed time",
+        {
+          theme: "colored",
+        }
+      );
     }
 
     setAllStar(response.data);
@@ -353,7 +360,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
           alignItems: "center",
           backgroundColor: theme === "dark" ? "#343A40" : "white",
           borderRadius: "10px 0px 0px 10px",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
         className="my-2"
       >
@@ -366,7 +373,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
               width="40"
               alt="avatar"
               src={
-                rank?.user.avatar_url ??
+                avatarImage ??
                 "https://static.showroom-live.com/image/avatar/1.png?v=95"
               }
               onAnimationStart={() => setAvatarY(avatarY - 20)}
