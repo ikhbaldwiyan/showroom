@@ -15,6 +15,7 @@ import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
 import bulkImage from "../assets/images/bulk.svg";
 import { motion, useAnimation } from "framer-motion";
+import { AiFillStar } from "react-icons/ai";
 
 function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   const [stars, setStars] = useState([
@@ -79,6 +80,18 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       cookies_login_id: cookiesLoginId,
       room_id: roomId,
     });
+
+    if (response?.data?.data?.toast) {
+
+      const audio = new Audio(combo);
+      audio.volume = 1;
+      audio.play();
+
+      toast.info(response.data.data.toast.message, {
+        theme: "colored",
+        icon: <AiFillStar />
+      });
+    }
 
     setAllStar(response.data);
     setStarLoading(false);
