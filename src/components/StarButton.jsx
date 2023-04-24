@@ -14,7 +14,7 @@ import Loading from "./Loading";
 import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
 import bulkImage from "../assets/images/bulk.svg";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
 function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   const [stars, setStars] = useState([
@@ -62,6 +62,8 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   const [activeButton, setActiveButton] = useState(null);
   const [modal, setModal] = useState(false);
   const [rank, setRank] = useState();
+  const [avatarY, setAvatarY] = useState(0);
+  const avatarAnimation = useAnimation();
   const toggle = () => setModal(!modal);
 
   useEffect(() => {
@@ -288,6 +290,19 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
         return starObj;
       });
     });
+    // Trigger avatar animation
+    avatarAnimation.start({
+      y: avatarY - 10,
+      transition: { duration: 0.5, ease: "easeInOut" },
+    });
+
+    // Reset avatar position after animation completes
+    setTimeout(() => {
+      avatarAnimation.start({
+        y: 0,
+        transition: { duration: 0.5, ease: "easeInOut" },
+      });
+    }, 500);
   };
 
   useEffect(() => {
@@ -314,20 +329,38 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     >
       <Card
         style={{
-          padding: "20px",
+          padding: "16px",
           display: "flex",
           flex: "1",
           alignItems: "center",
           backgroundColor: theme === "dark" ? "#343A40" : "white",
           borderRadius: "10px 0px 0px 10px",
+          justifyContent: "center"
         }}
-        className="my-4"
+        className="my-2"
       >
         <div className="row">
+          <div className="d-flex flex-column align-items-center px-1 my-0">
+            <motion.img
+              initial={{ y: 0 }}
+              animate={avatarAnimation}
+              style={{ y: avatarY }}
+              width="40"
+              alt="avatar"
+              src={
+                rank?.user.avatar_url ??
+                "https://static.showroom-live.com/image/avatar/1.png?v=95"
+              }
+              onAnimationStart={() => setAvatarY(avatarY - 20)}
+              onAnimationComplete={() => setAvatarY(0)}
+            />
+            <p className="mt-2 text-info">
+              <b>Rank: {rank?.rank ?? "-"}</b>
+            </p>
+          </div>
           {stars.map((gift) => (
             <motion.div
               className="d-flex flex-column align-items-center px-1 my-0 mx-3"
-              onClick={disableCount ? void 0 : clickStar}
               whileTap={{ scale: 0.9 }}
             >
               <input
@@ -361,7 +394,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       </Card>
 
       <button
-        className="btn my-4"
+        className="btn my-2"
         onClick={toggle}
         disabled={disableCount ? true : false || activeButton != null}
         style={{
