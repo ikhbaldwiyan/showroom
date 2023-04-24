@@ -81,8 +81,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       room_id: roomId,
     });
 
-    if (response?.data?.data?.toast) {
-
+    if (response?.data?.data?.toast && !response?.data?.until) {
       const audio = new Audio(combo);
       audio.volume = 1;
       audio.play();
@@ -90,6 +89,12 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       toast.info(response.data.data.toast.message, {
         theme: "colored",
         icon: <AiFillStar />
+      });
+    }
+
+    if (response.data?.until) {
+      toast.error(response.data?.until ?? "Please try again after the displayed time", {
+        theme: "colored",
       });
     }
 
