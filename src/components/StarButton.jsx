@@ -306,6 +306,20 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
               audio.play();
             }
 
+            // Trigger avatar animation
+            avatarAnimation.start({
+              y: avatarY - 10,
+              transition: { duration: 0.5, ease: "easeInOut" },
+            });
+
+            // Reset avatar position after animation completes
+            setTimeout(() => {
+              avatarAnimation.start({
+                y: 0,
+                transition: { duration: 0.5, ease: "easeInOut" },
+              });
+            }, 500);
+
             return {
               ...starObj,
               count: starObj.count - 1,
@@ -315,19 +329,6 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
         return starObj;
       });
     });
-    // Trigger avatar animation
-    avatarAnimation.start({
-      y: avatarY - 10,
-      transition: { duration: 0.5, ease: "easeInOut" },
-    });
-
-    // Reset avatar position after animation completes
-    setTimeout(() => {
-      avatarAnimation.start({
-        y: 0,
-        transition: { duration: 0.5, ease: "easeInOut" },
-      });
-    }, 500);
   };
 
   useEffect(() => {
