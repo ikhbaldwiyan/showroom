@@ -14,6 +14,7 @@ import { FARM, SEND_GIFT } from "utils/api/api";
 import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
 import { Card } from "reactstrap";
+import { motion } from "framer-motion";
 
 const StarRedux = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
   const dispatch = useDispatch();
@@ -131,22 +132,28 @@ const StarRedux = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
 
   const clickStar = (e) => {
     setIsCounting(true);
-    dispatch(getClickCountStar(e.target.name));
+
+    for (let i = 0; i < starsRedux.length; i++) {
+      if (starsRedux[i].name === e.target.name) {
+        if(starsRedux[i].count > 0) {
+          dispatch(getClickCountStar(e.target.name));
+          if (clickCountRedux[e.target.name] === 9) {
+            const audio = new Audio(combo);
+            audio.volume = 1;
+            audio.play();
+          } else {
+            const audio = new Audio(shot);
+            audio.volume = 1;
+            audio.play();
+          }
+        }
+      }
+    }
 
     if (clickCountRedux[e.target.name] === 9) {
       sendTenStar(e.target.name);
       setDisableCount(true);
       dispatch(clearCountStar());
-    }
-
-    if (clickCountRedux[e.target.name] === 9) {
-      const audio = new Audio(combo);
-      audio.volume = 1;
-      audio.play();
-    } else {
-      const audio = new Audio(shot);
-      audio.volume = 1;
-      audio.play();
     }
   };
 
@@ -163,7 +170,10 @@ const StarRedux = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
     >
       <div className="row">
         {starsRedux.map((gift) => (
-          <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
+          <motion.div
+            className="d-flex flex-column align-items-center px-1 my-0 mx-3"
+            whileTap={{ scale: 0.9 }}
+          >
             <input
               type="image"
               src={
@@ -176,7 +186,7 @@ const StarRedux = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
               style={{ cursor: "pointer" }}
               name={gift.name}
               alt="stars"
-              disabled={activeButton !== gift.name && activeButton != null}
+              disabled={activeButton != gift.name && activeButton != null}
               onClick={disableCount ? void 0 : clickStar}
             />
             <b className="mb-0">
@@ -189,7 +199,7 @@ const StarRedux = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
                 gift.count
               )}
             </b>
-          </div>
+          </motion.div>
         ))}
       </div>
     </Card>
