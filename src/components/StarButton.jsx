@@ -206,6 +206,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     for (let i = 0; i < starsRedux.length; i++) {
       if (starsRedux[i].name === e.target.name) {
         if(starsRedux[i].count > 0) {
+          setActiveButton(e.target.name)
           dispatch(getClickCountStar(e.target.name));
           if (clickCountRedux[e.target.name] === 9) {
             const audio = new Audio(combo);
