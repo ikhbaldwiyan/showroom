@@ -16,7 +16,7 @@ import combo from "../assets/audio/combo.mp3";
 import { Card } from "reactstrap";
 import { motion } from "framer-motion";
 
-const StarRedux = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
+const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
   const dispatch = useDispatch();
   const { starsRedux, clickCountRedux, isLoadingStars } = useSelector(
     (state) => state.stars
@@ -206,4 +206,4 @@ const StarRedux = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
   );
 };
 
-export default StarRedux;
+export default StarMulti;

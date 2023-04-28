@@ -14,8 +14,8 @@ import {
   TotalRank,
   Gift,
   Setlist,
+  StarMulti,
 } from "components";
-import StarRedux from "pages/StarRedux";
 
 export default function Multi({
   layout,
@@ -116,7 +116,7 @@ export default function Multi({
       ) : menu === "total" ? (
         <TotalRank roomId={roomId} />
       ) : menu === "star" ? (
-        <StarRedux
+        <StarMulti
           roomId={roomId}
           theme={theme}
           cookiesLoginId={cookiesLoginId}

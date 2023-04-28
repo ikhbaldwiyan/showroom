@@ -8,7 +8,9 @@ import TotalRank from "./TotalRank";
 import Gift from "./Gift";
 import Loading from "./Loading";
 import Setlist from "./Setlist";
-
+import StarButton from "./StarButton";
+import StarMulti from "./StarMulti";
+ 
 export {
   Profile,
   Title,
@@ -19,5 +21,7 @@ export {
   TotalRank,
   Gift,
   Loading,
-  Setlist
+  Setlist,
+  StarButton,
+  StarMulti
 }

@@ -17,10 +17,10 @@ import {
   StageUser,
   TotalRank,
   Gift,
+  StarButton,
 } from "components";
 import { isMobile } from "react-device-detect";
 import AlertInfo from "components/AlertInfo";
-import StarButton from "components/StarButton";
 
 function Live(props) {
   let { id } = useParams();
