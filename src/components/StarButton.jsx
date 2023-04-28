@@ -17,59 +17,29 @@ import bulkImage from "../assets/images/bulk.svg";
 import { motion, useAnimation } from "framer-motion";
 import { AiFillStar } from "react-icons/ai";
 import { getSession } from "utils/getSession";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCountStar, getClickCountStar, getStarsLoad, getStarsSuccess, sendStarSuccess } from "redux/actions/setStars";
 
 function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
-  const [stars, setStars] = useState([
-    {
-      gift_id: "",
-      name: "a",
-      count: 0,
-      url: "https://static.showroom-live.com/image/gift/1_s.png?v=1",
-    },
-    {
-      gift_id: "",
-      name: "b",
-      count: 0,
-      url: "https://static.showroom-live.com/image/gift/1001_s.png?v=1",
-    },
-    {
-      gift_id: "",
-      name: "c",
-      count: 0,
-      url: "https://static.showroom-live.com/image/gift/1002_s.png?v=1",
-    },
-    {
-      gift_id: "",
-      name: "d",
-      count: 0,
-      url: "https://static.showroom-live.com/image/gift/1003_s.png?v=1",
-    },
-    {
-      gift_id: "",
-      name: "e",
-      count: 0,
-      url: "https://static.showroom-live.com/image/gift/2_s.png?v=1",
-    },
-  ]);
-  const [starLoading, setStarLoading] = useState(false);
+  const { starsRedux, clickCountRedux, isLoadingStars } = useSelector(
+    (state) => state.stars
+  );
+
+  const dispatch = useDispatch();
   const [isCounting, setIsCounting] = useState(false);
   const [disableCount, setDisableCount] = useState(false);
-  const [clickCount, setClickCount] = useState({
-    a: 0,
-    b: 0,
-    c: 0,
-    d: 0,
-    e: 0,
-  });
+ 
   const [activeButton, setActiveButton] = useState(null);
   const [modal, setModal] = useState(false);
   const [rank, setRank] = useState();
   const [avatarY, setAvatarY] = useState(0);
   const [avatarImage, setAvatarImage] = useState();
+  
   const avatarAnimation = useAnimation();
   const toggle = () => setModal(!modal);
 
   useEffect(() => {
+    dispatch(getStarsLoad());
     setDisableCount(true);
     getFirstStar();
     setDisableCount(false);
@@ -78,8 +48,6 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   }, [roomId, cookiesLoginId]);
 
   const getFirstStar = async () => {
-    setStarLoading(true);
-
     const response = await axios.post(FARM, {
       cookies_login_id: cookiesLoginId,
       room_id: roomId,
@@ -106,7 +74,6 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     }
 
     setAllStar(response.data);
-    setStarLoading(false);
   };
 
   useEffect(() => {
@@ -125,43 +92,35 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       timeoutId = setTimeout(() => {
         setIsCounting(false);
         console.log("stop");
-        setDisableCount(true);
+        setDisableCount(false);
 
-        Object.entries(clickCount).map(([key, value]) => {
+        Object.entries(clickCountRedux).map(([key, value]) => {
           if (value < 10 && value > 0) {
+            console.log(value, key);
             sendStar(key, value);
-
-            setClickCount({
-              a: 0,
-              b: 0,
-              c: 0,
-              d: 0,
-              e: 0,
-            });
+            dispatch(clearCountStar());
           }
         });
       }, 1000);
     }
     return () => clearTimeout(timeoutId);
-  }, [stars, isCounting]);
+  }, [starsRedux, isCounting]);
 
   const setAllStar = (data) => {
-    setStarLoading(true);
+    dispatch(getStarsLoad());
     if (data.star.length === 0) return;
-    const updatedStar = stars.map((gift, index) => {
+    const updatedStar = starsRedux.map((gift, index) => {
       return {
         ...gift,
         gift_id: data.star[index].gift_id,
         count: data.star[index].free_num,
       };
     });
-    setStars(updatedStar);
-    setStarLoading(false);
+    dispatch(getStarsSuccess(updatedStar));
   };
 
   const sendAllStar = async () => {
     setModal(!modal);
-    setStarLoading(true);
     setDisableCount(true);
 
     try {
@@ -186,45 +145,28 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
         });
 
         setDisableCount(false);
-        setStarLoading(false);
       }
     } catch {
       toast.error("Gagal mengirim star", {
         theme: "colored",
       });
       setDisableCount(false);
-      setStarLoading(false);
     }
   };
 
-  const sendTenStar = async (e) => {
-    console.log(e.target.name);
-    console.log(clickCount[e.target.name] + 1);
-
+  const sendTenStar = async (key) => {
     try {
       const response = await axios.post(SEND_GIFT, {
         cookies_id: cookiesLoginId,
         csrf_token: csrfToken,
-        room_id: roomId,
-        gift_name: e.target.name,
-        num: clickCount[e.target.name] + 1,
+        room_id: roomId.toString(),
+        gift_name: key,
+        num: 10,
       });
 
       if (response.data.ok) {
-        console.log(response.data);
         let data = response.data;
-
-        setStars((prevState) => [
-          ...prevState.map((star) => {
-            if (star.name === e.target.name) {
-              return {
-                ...star,
-                count: data.remaining_num,
-              };
-            }
-            return star;
-          }),
-        ]);
+        dispatch(sendStarSuccess(key, data.remaining_num));
 
         setDisableCount(false);
         setActiveButton(null);
@@ -240,26 +182,14 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       const response = await axios.post(SEND_GIFT, {
         cookies_id: cookiesLoginId,
         csrf_token: csrfToken,
-        room_id: roomId,
+        room_id: roomId.toString(),
         gift_name: key,
         num: value,
       });
 
       if (response.data.ok) {
         let data = response.data;
-        console.log(response.data);
-
-        setStars((prevState) => [
-          ...prevState.map((star) => {
-            if (star.name === key) {
-              return {
-                ...star,
-                count: data.remaining_num,
-              };
-            }
-            return star;
-          }),
-        ]);
+        dispatch(sendStarSuccess(key, data.remaining_num));
 
         setDisableCount(false);
         setActiveButton(null);
@@ -272,63 +202,43 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
 
   const clickStar = (e) => {
     setIsCounting(true);
-    setActiveButton(e.target.name);
 
-    setStars((prevState) => {
-      return prevState.map((starObj) => {
-        if (starObj.name === e.target.name) {
-          if (starObj.count > 0) {
-            setClickCount({
-              ...clickCount,
-              [e.target.name]: clickCount[e.target.name] + 1,
-            });
+    for (let i = 0; i < starsRedux.length; i++) {
+      if (starsRedux[i].name === e.target.name) {
+        if(starsRedux[i].count > 0) {
+          dispatch(getClickCountStar(e.target.name));
+          if (clickCountRedux[e.target.name] === 9) {
+            const audio = new Audio(combo);
+            audio.volume = 1;
+            audio.play();
+          } else {
+            const audio = new Audio(shot);
+            audio.volume = 1;
+            audio.play();
+          }
 
-            if (clickCount[e.target.name] == 9) {
-              sendTenStar(e);
-              setDisableCount(true);
+          // Trigger avatar animation
+          avatarAnimation.start({
+            y: avatarY - 10,
+            transition: { duration: 0.5, ease: "easeInOut" },
+          });
 
-              setClickCount({
-                a: 0,
-                b: 0,
-                c: 0,
-                d: 0,
-                e: 0,
-              });
-            }
-
-            if (clickCount[e.target.name] == 9) {
-              const audio = new Audio(combo);
-              audio.volume = 1;
-              audio.play();
-            } else {
-              const audio = new Audio(shot);
-              audio.volume = 1;
-              audio.play();
-            }
-
-            // Trigger avatar animation
+          // Reset avatar position after animation completes
+          setTimeout(() => {
             avatarAnimation.start({
-              y: avatarY - 10,
+              y: 0,
               transition: { duration: 0.5, ease: "easeInOut" },
             });
-
-            // Reset avatar position after animation completes
-            setTimeout(() => {
-              avatarAnimation.start({
-                y: 0,
-                transition: { duration: 0.5, ease: "easeInOut" },
-              });
-            }, 500);
-
-            return {
-              ...starObj,
-              count: starObj.count - 1,
-            };
-          }
+          }, 500);
         }
-        return starObj;
-      });
-    });
+      }
+    }
+
+    if (clickCountRedux[e.target.name] === 9) {
+      sendTenStar(e.target.name);
+      setDisableCount(true);
+      dispatch(clearCountStar());
+    }
   };
 
   useEffect(() => {
@@ -336,7 +246,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       axios.get(liveRanking(roomId)).then((res) => {
         const rank = res.data;
         for (let i = 0; i < rank.length; i++) {
-          if (rank[i].user.user_id == user.user_id) {
+          if (rank[i].user.user_id === user.user_id) {
             setRank(rank[i]);
           }
         }
@@ -344,7 +254,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     } catch (error) {
       console.log(error);
     }
-  }, [starLoading]);
+  }, [isLoadingStars]);
 
   return (
     <div
@@ -384,7 +294,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
               <b>Rank: {rank?.rank ?? "-"}</b>
             </p>
           </div>
-          {stars.map((gift) => (
+          {starsRedux.map((gift) => (
             <motion.div
               className="d-flex flex-column align-items-center px-1 my-0 mx-3"
               whileTap={{ scale: 0.9 }}
@@ -405,7 +315,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
                 alt="stars"
               />
               <b className="mb-0">
-                {starLoading ? (
+                {isLoadingStars ? (
                   <Loading
                     color={theme === "dark" ? "white" : "black"}
                     size={6}
