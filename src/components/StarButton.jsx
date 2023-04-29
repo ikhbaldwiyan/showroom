@@ -45,7 +45,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     setDisableCount(false);
     const session = getSession();
     setAvatarImage(session?.profile?.avatar_url);
-  }, [roomId, cookiesLoginId]);
+  }, [cookiesLoginId]);
 
   const getFirstStar = async () => {
     const response = await axios.post(FARM, {

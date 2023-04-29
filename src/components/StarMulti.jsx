@@ -84,7 +84,6 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
         });
       });
 
-
       if (response.data.ok) {
         let data = response.data;
         dispatch(sendStarSuccess(key, data.remaining_num));
@@ -144,9 +143,15 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
       audio.volume = 1;
       audio.play();
 
-      toast.success(response.data.data.toast.message, {
-        theme: "colored",
-        icon: <AiFillStar />,
+      axios.post(PROFILE_API, {
+        room_id: roomId.toString(),
+        cookie: cookiesLoginId,
+      }).then((res) => {
+        const profiles = res.data;
+        toast.success(`${response.data.data.toast.message} from ${profiles.room_url_key.replace("JKT48_" , "")}`, {
+          theme: "colored",
+          icon: <AiFillStar />,
+        });
       });
     }
 
