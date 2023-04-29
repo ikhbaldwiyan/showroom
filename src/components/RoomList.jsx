@@ -88,13 +88,13 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
 
   const filtered = !search
     ? roomRegular
-    : roomRegular.filter((room) =>
+    : roomRegular?.filter((room) =>
         room.name.toLowerCase().includes(search.toLowerCase())
       );
 
   const filteredAcademy = !search
     ? roomAcademy
-    : roomAcademy.filter((room) =>
+    : roomAcademy?.filter((room) =>
         room.room_url_key.toLowerCase().includes(search.toLowerCase())
       );
 
@@ -102,14 +102,14 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
     isLive && !search
       ? roomLives
       : isLive &&
-        roomLives.filter((room) =>
+        roomLives?.filter((room) =>
           room.main_name.toLowerCase().includes(search.toLowerCase())
         );
 
   const filteredFollow = !search
     ? roomFollowed
-    : roomFollowed.filter((room) =>
-        room.room_name.toLowerCase().includes(search.toLowerCase())
+    : roomFollowed?.filter((room) =>
+        room?.room_name?.toLowerCase().includes(search.toLowerCase())
       );
 
   console.log(filteredFollow);

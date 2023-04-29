@@ -10,11 +10,13 @@ import {
   getStarsSuccess,
   sendStarSuccess,
 } from "redux/actions/setStars";
-import { FARM, SEND_GIFT } from "utils/api/api";
+import { FARM, PROFILE_API, SEND_GIFT } from "utils/api/api";
 import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
 import { Card } from "reactstrap";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { AiFillStar } from "react-icons/ai";
 
 const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
   const dispatch = useDispatch();
@@ -71,6 +73,18 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
         num: value,
       });
 
+      axios.post(PROFILE_API, {
+        room_id: roomId.toString(),
+        cookie: cookiesLoginId,
+      }).then((res) => {
+        const profiles = res.data;
+        toast.info(`Send ${value} star to ${profiles.room_url_key.replace("JKT48_" , "")} success`, {
+          theme: "colored",
+          icon: <AiFillStar />,
+        });
+      });
+
+
       if (response.data.ok) {
         let data = response.data;
         dispatch(sendStarSuccess(key, data.remaining_num));
@@ -94,6 +108,17 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
         num: 10,
       });
 
+      axios.post(PROFILE_API, {
+        room_id: roomId.toString(),
+        cookie: cookiesLoginId,
+      }).then((res) => {
+        const profiles = res.data;
+        toast.info(`Send 10 star to ${profiles.room_url_key.replace("JKT48_" , "")} success`, {
+          theme: "colored",
+          icon: <AiFillStar />,
+        });
+      });
+
       if (response.data.ok) {
         let data = response.data;
         dispatch(sendStarSuccess(key, data.remaining_num));
@@ -113,6 +138,26 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
       cookies_login_id: cookiesLoginId,
       room_id: roomId.toString(),
     });
+
+    if (response?.data?.data?.toast && !response?.data?.until) {
+      const audio = new Audio(combo);
+      audio.volume = 1;
+      audio.play();
+
+      toast.info(response.data.data.toast.message, {
+        theme: "colored",
+        icon: <AiFillStar />,
+      });
+    }
+
+    if (response.data?.until) {
+      toast.error(
+        response.data?.until ?? "Please try again after the displayed time",
+        {
+          theme: "colored",
+        }
+      );
+    }
 
     setAllStar(response.data);
   };
