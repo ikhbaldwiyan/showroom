@@ -16,6 +16,11 @@ import { toast } from "react-toastify";
 import formatLongDate from "utils/formatLongDate";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { IoReload } from "react-icons/io5";
+import { IoMdStopwatch } from "react-icons/io";
+import { MdOutlineNotStarted } from "react-icons/md";
+import combo from "../assets/audio/combo.mp3";
+import { useTimer } from "react-timer-hook";
 
 function Farming(props) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
@@ -30,11 +35,14 @@ function Farming(props) {
   const [currentRoomId, setCurrentRoomId] = useState("");
   const [allMessage, setAllMessage] = useState([]);
   const [time, setTime] = useState(0);
+  const [farmingTime, setFarmingTime] = useState(0);
 
   const [limitUntil, setLimitUntil] = useState("");
   const [until, setUntil] = useState("");
   const [countSuccess, setCountSuccess] = useState(0);
   const intervalId = useRef(null);
+  const [modalLog, setModalLog] = useState(false);
+  const toggle = () => setModalLog(!modalLog);
 
   const [star, setStar] = useState({
     a: 0,
@@ -130,6 +138,7 @@ function Farming(props) {
     }
 
     setIsReady(true);
+    window.document.title = "Farming Stars";
   }, []);
 
   useEffect(() => {
@@ -260,12 +269,13 @@ function Farming(props) {
     setStarLoading(false);
   };
 
-  const setGagal = (data) => {
+  const setFailed = (data) => {
     toast.error(data.until ?? "Please try again after the displayed time", {
       theme: "colored",
     });
     localStorage.setItem("limit_until", JSON.stringify(data.until));
     setLimitUntil(data.until);
+    setModalLog(!modalLog);
     setExpire(data.until);
   };
 
@@ -282,6 +292,25 @@ function Farming(props) {
     setTime(0);
     deleteArray();
     setIsFarming(false);
+    window.location.reload(false);
+  };
+
+  const buttonInfo = () => {
+    if (isFarming) {
+      return (
+        <span className="d-flex align-items-center">
+          <IoMdStopwatch className="mx-1" /> Stop Farming
+        </span>
+      );
+    } else if (starLoading) {
+      return <span className="d-flex align-items-center">Please Wait</span>;
+    } else {
+      return (
+        <span className="d-flex align-items-center">
+          <MdOutlineNotStarted className="mx-1" size={16} /> Start Farming
+        </span>
+      );
+    }
   };
 
   const startFarming = async () => {
@@ -329,9 +358,13 @@ function Farming(props) {
         if (data2.message.includes("Sukses")) {
           deleteArray();
           setLocalAndState(roomId);
+          const audio = new Audio(combo);
+          audio.volume = 1;
+          audio.play();
           toast.success(`Sukses Farm Di Room : ${roomName}`, {
             theme: "colored",
           });
+          setStarLoading(true);
         }
 
         if (data2.message.includes("Gagal")) {
@@ -340,7 +373,7 @@ function Farming(props) {
             ...prevData,
             { message: data2.message, timestamp },
           ]);
-          setGagal(data2);
+          setFailed(data2);
           setIsFarming(false);
           return;
         }
@@ -371,15 +404,7 @@ function Farming(props) {
 
       if (data.message.includes("Gagal")) {
         deleteArray();
-        setGagal(data);
-        setIsFarming(false);
-        return;
-      }
-
-      if (checkAllStars == true) {
-        toast.success(`Semua stars anda sudah full`, {
-          theme: "colored",
-        });
+        setFailed(data);
         setIsFarming(false);
         return;
       }
@@ -389,7 +414,6 @@ function Farming(props) {
       }
 
       setCurrentRoomId(null);
-      setIsFarming(false);
       setIsFarming(false);
     }
   };
@@ -411,6 +435,29 @@ function Farming(props) {
   const checkAllStars = () => {
     const values = Object.values(star); // Get all values from the `star` object
     return values.every((value) => value === 99); // Check if all values are 99
+  };
+
+  const FarmingTime = () => {
+    useEffect(() => {
+      if (allMessage && allMessage.length > 0) {
+        const startTime = allMessage[0].timestamp;
+        const endTime = allMessage[allMessage.length - 1].timestamp;
+        const start = new Date(`2023-01-01T${startTime}:00`).getTime();
+        const end = new Date(`2023-01-01T${endTime}:00`).getTime();
+        const diffMs = end - start;
+        const diffMin = Math.floor(diffMs / 60000);
+        setFarmingTime(diffMin);
+      }
+    }, [allMessage]);
+
+    const { minutes } = useTimer({
+      expiryTimestamp: Date.now() + farmingTime * 60000,
+      onExpire: () => setFarmingTime(0),
+    });
+
+    return (
+      <p className="text-warning pt-0 mt-0">Time Spend : {minutes} Minutes</p>
+    );
   };
 
   return (
@@ -440,21 +487,21 @@ function Farming(props) {
                   {btnLoadingRoom ? (
                     <Loading color="white" size={8} />
                   ) : (
-                    "Refresh Room"
+                    <span className="d-flex align-items-center">
+                      <IoReload className="mx-1" /> Refresh
+                    </span>
                   )}
                 </Button>
 
                 <Button
                   onClick={isFarming ? handleStop : handleCheckStar}
                   className="btn text-light"
-                  // disabled={isFarming ? true : false}
-                  style={{ backgroundColor: isFarming ? "#1c8192" : '#197180' }}
+                  disabled={
+                    btnLoadingRoom ? true : false || starLoading ? true : false
+                  }
+                  style={{ backgroundColor: isFarming ? "#dc3545" : "#24a2b7" }}
                 >
-                  {isFarming || starLoading ? (
-                    "Stop Farming"
-                  ) : (
-                    "Start Farming"
-                  )}
+                  {buttonInfo()}
                 </Button>
               </div>
             ) : (
@@ -465,9 +512,48 @@ function Farming(props) {
 
         {officialRoom.length > 0 ? (
           <>
-            <div className="row mt-2 mb-2">
-              <div className="d-flex col-md-12 col-sm-12 align-items-center justify-content-end flex-column">
-                <h4 className="text-center">Total Stars </h4>
+            <div className="row mt-0 mb-2">
+              <div className="col-md-12 col-sm-12 text-center">
+                {isFarming && !until ? (
+                  <div className="mb-0">
+                    <div
+                      style={{ width: 120, height: 120 }}
+                      className="mb-3 mx-auto"
+                    >
+                      <CircularProgressbar
+                        value={
+                          (time / 50) * 100 > 100 ? "100" : (time / 50) * 100
+                        }
+                        text={
+                          <tspan dy={3} dx={0}>
+                            {time === 50
+                              ? "100%"
+                              : ((time / 50) * 100).toFixed(2) > 100
+                              ? "100%"
+                              : ((time / 50) * 100)
+                                  .toFixed()
+                                  .replace(/.00$/, "") + "%"}
+                          </tspan>
+                        }
+                        strokeWidth={15}
+                        styles={buildStyles({
+                          strokeLinecap: "butt",
+                          textSize: "17px",
+                          textColor: `white`,
+                          pathTransitionDuration: 0.5,
+                          pathColor: `rgba(36, 162, 183,1)`,
+                          trailColor: "#d6d6d6",
+                        })}
+                      />
+                    </div>
+                    <p style={{ fontWeight: "bold", textAlign: "center" }}>
+                      Current room :
+                      <p style={{ color: "#24a2b7" }}>[{currentRoomId}]</p>
+                    </p>
+                  </div>
+                ) : (
+                  <h4 className="text-center">Remaining Stars</h4>
+                )}
                 <div className="row mb-2 justify-content-center">
                   {stars.map(({ image, count }, index) => (
                     <div
@@ -488,44 +574,9 @@ function Farming(props) {
                     </div>
                   ))}
                 </div>
-                {isFarming && !until ? (
-                  <div className="mb-0">
-                    <div
-                      style={{ width: 120, height: 120 }}
-                      className="mb-3 mx-auto"
-                    >
-                      <CircularProgressbar
-                        value={
-                          (time / 50) * 100 > 100 ? "100" : (time / 50) * 100
-                        }
-                        text={
-                          <tspan dy={3} dx={0}>
-                            {50 - time}s
-                            {/* {((time / 50) * 100) > 100
-                          ? "100"
-                          : ((time / 50) * 100)}
-                        % */}
-                          </tspan>
-                        }
-                        strokeWidth={15}
-                        styles={buildStyles({
-                          strokeLinecap: "butt",
-                          textSize: "17px",
-                          textColor: `white`,
-                          pathTransitionDuration: 0.5,
-                          pathColor: `rgba(36, 162, 183,1)`,
-                          trailColor: "#d6d6d6",
-                        })}
-                      />
-                    </div>
-                    <p style={{ fontWeight: "bold", textAlign: "center" }}>
-                      Current room :
-                      <p style={{ color: "#24a2b7" }}>[{currentRoomId}]</p>
-                    </p>
-                  </div>
-                ) : (
-                  ""
-                )}
+                <Button color="success mb-3" onClick={toggle}>
+                  Success Farm in {countSuccess} Room
+                </Button>
               </div>
             </div>
 
@@ -543,7 +594,7 @@ function Farming(props) {
                       color: props.theme === "dark" && "white",
                     }}
                   >
-                    {officialRoom.map((room, idx) => (
+                    {officialRoom?.slice(0, 15).map((room, idx) => (
                       <tr key={idx}>
                         <td className="text-center">{room.room_name}</td>
                       </tr>
@@ -557,8 +608,8 @@ function Farming(props) {
                     <thead
                       style={{ backgroundColor: "#24a2b7", color: "white" }}
                     >
-                      <tr className="text-center">
-                        <th>Farming Log Message</th>
+                      <tr>
+                        <th className="text-center">Farming Log</th>
                         <th>Time</th>
                       </tr>
                     </thead>
@@ -573,7 +624,10 @@ function Farming(props) {
                                 </td>
                                 <td
                                   className="text-light"
-                                  style={{ fontSize: 14, textAlign: "center" }}
+                                  style={{
+                                    fontSize: 14,
+                                    textAlign: "center",
+                                  }}
                                 >
                                   {timestamp}
                                 </td>
@@ -591,24 +645,27 @@ function Farming(props) {
             </div>
           </>
         ) : (
-          <div className="d-flex justify-content-center mt-5 mb-5">
-            <Button
-              style={{
-                backgroundColor: "#24a2b7",
-              }}
-              onClick={getOfficials}
-              className="btn text-light"
-              disabled={
-                btnLoadingRoom ? true : false || limitUntil ? true : false
-              }
-            >
-              {btnLoadingRoom ? (
-                <Loading color="white" size={8} />
-              ) : (
-                "Click This Button To Activate Farm"
-              )}
-            </Button>
-          </div>
+          <>
+            <h2 className="text-center">Showroom Farm</h2>
+            <div className="d-flex justify-content-center mt-5 mb-5">
+              <Button
+                style={{
+                  backgroundColor: "#24a2b7",
+                }}
+                onClick={getOfficials}
+                className="btn text-light"
+                disabled={
+                  btnLoadingRoom ? true : false || limitUntil ? true : false
+                }
+              >
+                {btnLoadingRoom ? (
+                  <Loading color="white" size={8} />
+                ) : (
+                  "Click This Button To Activate Farm"
+                )}
+              </Button>
+            </div>
+          </>
         )}
 
         <Modal isOpen={showModal} toggle={() => setShowModal(false)}>
@@ -632,6 +689,61 @@ function Farming(props) {
             </Button>
             <Button color="danger" onClick={() => setShowModal(false)}>
               Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={modalLog} toggle={toggle}>
+          <ModalHeader style={header} toggle={toggle}>
+            {isFarming ? "Farming Succes History" : "Farming Ended"}
+          </ModalHeader>
+          <ModalBody
+            style={{ backgroundColor: "#21252b" }}
+            className="text-dark"
+          >
+            <p className="text-success pb-0 mb-0">
+              Total Room : {countSuccess} Room
+            </p>
+            <FarmingTime />
+            <Table bordered>
+              <thead style={{ backgroundColor: "#24a2b7", color: "white" }}>
+                <tr>
+                  <th className="text-center">Success Log</th>
+                  <th className="text-center">Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allMessage && allMessage.length > 0 ? (
+                  <>
+                    {allMessage
+                      ?.map(
+                        ({ message, timestamp }, idx) =>
+                          message.includes("Sukses") && (
+                            <tr key={idx}>
+                              <td className="text-light">{message}</td>
+                              <td
+                                className="text-light"
+                                style={{
+                                  fontSize: 14,
+                                  textAlign: "center",
+                                }}
+                              >
+                                {timestamp}
+                              </td>
+                            </tr>
+                          )
+                      )
+                      ?.reverse()}
+                  </>
+                ) : (
+                  ""
+                )}
+              </tbody>
+            </Table>
+          </ModalBody>
+          <ModalFooter style={{ backgroundColor: "#21252b" }}>
+            <Button color="secondary" onClick={toggle}>
+              Close
             </Button>
           </ModalFooter>
         </Modal>
