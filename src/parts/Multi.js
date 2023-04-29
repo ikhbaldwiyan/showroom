@@ -47,7 +47,7 @@ export default function Multi({
       setUrl(streamUrl);
     });
     !url && setMenu("room");
-  }, [roomId, url]);
+  }, [roomId]);
 
   useEffect(() => {
     window.document.title = "JKT48 SHOWROOM";
