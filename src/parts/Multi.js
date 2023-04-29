@@ -14,20 +14,32 @@ import {
   StageUser,
   TotalRank,
   Gift,
-  Setlist
+  Setlist,
+  StarMulti,
 } from "components";
 
 export default function Multi({
   layout,
   hideMultiMenu,
   setHideMultiMenu,
-  theme
+  theme,
 }) {
+  const [cookiesLoginId, setCookiesLoginId] = useState("");
+  const [csrfToken, setCsrfToken] = useState("");
   const [url, setUrl] = useState([]);
   const [roomId, setRoomId] = useState("");
   const [menu, setMenu] = useState("room");
   const [loading, setLoading] = useState(false);
   const [hideMenu, setHideMenu] = useState(false);
+
+  useEffect(() => {
+    const userSession = localStorage.getItem("session");
+    if (userSession) {
+      const foundSession = JSON.parse(userSession);
+      setCookiesLoginId(foundSession.cookie_login_id);
+      setCsrfToken(foundSession.csrf_token);
+    }
+  }, []);
 
   useEffect(() => {
     axios.get(liveDetail(roomId)).then((res) => {
@@ -71,7 +83,7 @@ export default function Multi({
           setRoomId={setRoomId}
           isLoad={loading}
           menu={menu}
-          session={getSession}
+          session={getSession().session}
         />
       ) : (
         <Stream url="" />
@@ -86,7 +98,7 @@ export default function Multi({
           isLive={url}
           roomId={roomId}
           hideMenu={hideMenu}
-          isMultiRoom={isMultiRoom}
+          isMultiRoom
         />
       ) : (
         ""
@@ -105,6 +117,13 @@ export default function Multi({
         <Gift roomId={roomId} />
       ) : menu === "total" ? (
         <TotalRank roomId={roomId} />
+      ) : menu === "star" ? (
+        <StarMulti
+          roomId={roomId}
+          theme={theme}
+          cookiesLoginId={cookiesLoginId}
+          csrfToken={csrfToken}
+        />
       ) : (
         <Setlist />
       )}

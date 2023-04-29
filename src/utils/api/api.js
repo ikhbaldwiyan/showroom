@@ -13,6 +13,11 @@ const FOLLOW = `${LARAVEL_API}/room/follow`;
 const PROFILE_API = `${LARAVEL_API}/profile/room`;
 const REGISTER = `${LARAVEL_API}/register`
 
+const FARM = `${LARAVEL_API}/farm/start`
+const ROOM_OFFICIAL =`${LARAVEL_API}/farm/get_room`;
+const BULK_GIFT = `${LARAVEL_API}/live/bulk_gift`;
+const SEND_GIFT = `${LARAVEL_API}/live/send_gift`;
+
 // Live API
 const liveDetail = (roomId) => {
   return `${LIVE}/${roomId}`;
@@ -38,7 +43,7 @@ const fanLetter = (roomId) => {
   return `${ROOM}/fan-letters/${roomId}`;
 };
 
-const totalRank = (roomId) => {
+const TOTAL_RANK = (roomId) => {
   return `${LIVE}/total-rank/${roomId}`;
 };
 
@@ -52,7 +57,7 @@ export {
   roomLivesApi,
   roomAcademyApi,
   fanLetter,
-  totalRank,
+  TOTAL_RANK,
   liveDetail,
   liveRanking,
   liveGift,
@@ -66,5 +71,9 @@ export {
   ROOM_FOLLOW,
   FOLLOW,
   PROFILE_API,
-  REGISTER
+  REGISTER,
+  FARM,
+  ROOM_OFFICIAL,
+  BULK_GIFT,
+  SEND_GIFT
 };

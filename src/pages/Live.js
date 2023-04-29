@@ -17,7 +17,7 @@ import {
   StageUser,
   TotalRank,
   Gift,
-  Setlist,
+  StarButton,
 } from "components";
 import { isMobile } from "react-device-detect";
 import AlertInfo from "components/AlertInfo";
@@ -29,7 +29,23 @@ function Live(props) {
   const [menu, setMenu] = useState("room");
   const [loading, setLoading] = useState(false);
   const [hideMenu, setHideMenu] = useState(false);
-  const [session, setSession] = useState([]);
+  const [cookiesLoginId, setCookiesLoginId] = useState("");
+  const [csrfToken, setCsrfToken] = useState("");
+  const [session, setSession] = useState("");
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    const session = localStorage.getItem("session");
+    const user = localStorage.getItem("user");
+    if (session) {
+      const foundSession = JSON.parse(session);
+      const userSession = JSON.parse(user);
+      setSession(foundSession);
+      setCookiesLoginId(foundSession.cookie_login_id);
+      setCsrfToken(foundSession.csrf_token);
+      setUser(userSession);
+    }
+  }, []);
 
   useEffect(() => {
     try {
@@ -94,6 +110,15 @@ function Live(props) {
                     setHideMenu={setHideMenu}
                     theme={props.theme}
                   />
+                  {session && !isMobile && (
+                    <StarButton
+                      roomId={roomId}
+                      cookiesLoginId={cookiesLoginId}
+                      csrfToken={csrfToken}
+                      theme={props.theme}
+                      user={user}
+                    />
+                  )}
                 </>
               ))
             ) : !url ? (
@@ -129,7 +154,12 @@ function Live(props) {
             ) : menu === "total" ? (
               <TotalRank roomId={roomId} />
             ) : (
-              <Setlist />
+              <StarButton
+                roomId={roomId}
+                cookiesLoginId={cookiesLoginId}
+                csrfToken={csrfToken}
+                theme={props.theme}
+              />
             )}
           </Col>
         </Row>
