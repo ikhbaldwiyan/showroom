@@ -31,6 +31,7 @@ export default function MultiRoom(props) {
   return (
     <MainLayout {...props} isMultiRoom={isMultiRoom}>
       <Container fluid>
+        <AlertInfo page="Multi Room" label="Multi Alert Info" />
         <MultiMenu {...propsMultiRoom} />
         <Row>
           <Multi {...propsMultiRoom} />

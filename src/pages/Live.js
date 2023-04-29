@@ -80,6 +80,14 @@ function Live(props) {
       autoClose: 1200,
     });
 
+  useEffect(() => {
+    const userSession = localStorage.getItem("session");
+    if (userSession) {
+      const foundSession = JSON.parse(userSession);
+      setSession(foundSession);
+    }
+  }, []);
+
   return (
     <MainLayout {...props}>
       <Container>
@@ -92,7 +100,7 @@ function Live(props) {
         )}
         <Row>
           <Col lg="8">
-            {url ? (
+            {url && url.length > 0 ? (
               url?.slice(0, 1)?.map((item, idx) => (
                 <>
                   <Stream key={idx} url={item?.url} />
@@ -120,6 +128,7 @@ function Live(props) {
                 isLoad={loading}
                 menu={menu}
                 theme={props.theme}
+                session={session}
               />
             ) : (
               <Stream url="" />

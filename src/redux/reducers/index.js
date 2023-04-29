@@ -4,6 +4,7 @@ import roomRegular from "./roomRegular";
 import roomAcademy from "./roomAcademy";
 import roomLives from "./roomLives";
 import roomDetail from "./roomDetail";
+import roomFollowed from "./roomFollowed"
 import stars from "./giftStars";
 
 const rootReducers = combineReducers({
@@ -11,6 +12,7 @@ const rootReducers = combineReducers({
   roomAcademy,
   roomLives,
   roomDetail,
+  roomFollowed,
   stars,
 });
 

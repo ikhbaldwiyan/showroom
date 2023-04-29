@@ -39,11 +39,6 @@ const LIVE_COMMENT = (roomId) => {
 const roomListApi = ROOM;
 const roomAcademyApi = `${ROOM}/academy`;
 const roomLivesApi = `${ROOM}/onlives`;
-
-const profileApi = (roomId) => {
-  return `${ROOM}/profile/${roomId}`;
-};
-
 const fanLetter = (roomId) => {
   return `${ROOM}/fan-letters/${roomId}`;
 };
@@ -61,7 +56,6 @@ export {
   roomListApi,
   roomLivesApi,
   roomAcademyApi,
-  profileApi,
   fanLetter,
   TOTAL_RANK,
   liveDetail,

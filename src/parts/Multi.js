@@ -1,7 +1,8 @@
 import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Col } from "reactstrap";
 import { liveDetail } from "utils/api/api";
-import React, { useState, useEffect } from "react";
+import { getSession } from "utils/getSession";
 
 import Stream from "pages/streaming/Stream";
 import {
@@ -82,6 +83,7 @@ export default function Multi({
           setRoomId={setRoomId}
           isLoad={loading}
           menu={menu}
+          session={getSession}
         />
       ) : (
         <Stream url="" />
