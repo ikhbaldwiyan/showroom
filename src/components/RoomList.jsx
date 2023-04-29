@@ -68,7 +68,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   useEffect(() => {
     async function getRoomFollowed() {
       const response = await axios.post(ROOM_FOLLOW, {
-        cookies_id: getSession()?.cookie_login_id,
+        cookies_id: getSession().session?.cookie_login_id,
       });
       const jktRoom = response?.data?.rooms?.filter((room) =>
         room?.room_url_key?.includes("JKT48")

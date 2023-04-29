@@ -83,7 +83,7 @@ export default function Multi({
           setRoomId={setRoomId}
           isLoad={loading}
           menu={menu}
-          session={getSession}
+          session={getSession().session}
         />
       ) : (
         <Stream url="" />

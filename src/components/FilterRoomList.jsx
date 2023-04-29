@@ -83,7 +83,7 @@ function FilterRoomList({
           {item.icon} <span className="text-filter">{item.name}</span>
         </Button>
       ))}
-      {getSession() && (
+      {getSession().session && (
         <Button
           size="sm"
           className="mr-1"
