@@ -58,7 +58,7 @@ function Live(props) {
     } catch (error) {
       console.log(error);
     }
-  }, [roomId, url]);
+  }, [roomId]);
 
   useEffect(() => {
     window.document.title = "JKT48 SHOWROOM";

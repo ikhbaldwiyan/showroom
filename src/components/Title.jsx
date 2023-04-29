@@ -55,7 +55,23 @@ function Title({
     } catch (error) {
       console.log(error)
     }
-  }, [roomId, title, profile]);
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      try {
+        axios.get(`${API}/lives/info/${roomId}`).then((res) => {
+          const profiles = res.data;
+          setProfile(profiles);
+          setTitle(profiles.title);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }, 300000); // fetch every 5 minutes
+  
+    return () => clearInterval(intervalId);
+  }, [roomId]);
 
   useEffect(() => {
     let title =
