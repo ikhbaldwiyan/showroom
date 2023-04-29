@@ -19,6 +19,7 @@ import { AiFillStar } from "react-icons/ai";
 import { getSession } from "utils/getSession";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCountStar, getClickCountStar, getStarsLoad, getStarsSuccess, sendStarSuccess } from "redux/actions/setStars";
+import { gaEvent } from "utils/gaEvent";
 
 function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   const { starsRedux, clickCountRedux, isLoadingStars } = useSelector(
@@ -131,7 +132,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       });
 
       if (response.data.ok) {
-        console.log(response.data);
+        gaEvent("Stars", "Send All Stars", "Live Stream")
 
         const res = await axios.post(FARM, {
           cookies_login_id: cookiesLoginId,
@@ -143,6 +144,10 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
         toast.success(`Sukses Mengirim Semua Star`, {
           theme: "colored",
         });
+
+        const audio = new Audio(combo);
+        audio.volume = 1;
+        audio.play();
 
         setDisableCount(false);
       }
@@ -167,6 +172,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       if (response.data.ok) {
         let data = response.data;
         dispatch(sendStarSuccess(key, data.remaining_num));
+        gaEvent("Stars", "Send Ten Stars", "Live Stream")
 
         setDisableCount(false);
         setActiveButton(null);
@@ -189,6 +195,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
 
       if (response.data.ok) {
         let data = response.data;
+        gaEvent("Stars", "Send Stars", "Live Stream")
         dispatch(sendStarSuccess(key, data.remaining_num));
 
         setDisableCount(false);
