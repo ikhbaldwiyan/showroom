@@ -55,7 +55,7 @@ function Title({
     } catch (error) {
       console.log(error)
     }
-  }, [roomId, title]);
+  }, [roomId, title, profile]);
 
   useEffect(() => {
     let title =
