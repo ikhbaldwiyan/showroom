@@ -113,7 +113,7 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
         cookie: cookiesLoginId,
       }).then((res) => {
         const profiles = res.data;
-        toast.info(`Send 10 star to ${profiles.room_url_key.replace("JKT48_" , "")} success`, {
+        toast.success(`Send 10 star to ${profiles.room_url_key.replace("JKT48_" , "")} success`, {
           theme: "colored",
           icon: <AiFillStar />,
         });
@@ -144,7 +144,7 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
       audio.volume = 1;
       audio.play();
 
-      toast.info(response.data.data.toast.message, {
+      toast.success(response.data.data.toast.message, {
         theme: "colored",
         icon: <AiFillStar />,
       });

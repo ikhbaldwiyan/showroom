@@ -58,7 +58,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       audio.volume = 1;
       audio.play();
 
-      toast.info(response.data.data.toast.message, {
+      toast.success(response.data.data.toast.message, {
         theme: "colored",
         icon: <AiFillStar />,
       });
@@ -127,7 +127,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       const response = await axios.post(BULK_GIFT, {
         cookies_id: cookiesLoginId,
         csrf_token: csrfToken,
-        room_id: roomId,
+        room_id: roomId.toString(),
       });
 
       if (response.data.ok) {
