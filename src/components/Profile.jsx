@@ -26,6 +26,7 @@ import FanLetter from "./FanLetter";
 import { toast } from "react-toastify";
 import { IoPersonAdd } from "react-icons/io5";
 import { RiUserUnfollowFill } from "react-icons/ri";
+import { gaEvent } from "utils/gaEvent";
 
 export default function Profile({ roomId, menu, theme, session }) {
   const { profile, isLoading, room_name, isFollow } = useSelector(
@@ -86,8 +87,10 @@ export default function Profile({ roomId, menu, theme, session }) {
       };
 
       if (flag === 1) {
+        gaEvent("Follow", "Follow Room", "Profile");
         toast.success(`Success Follow ${room_name}`, setting);
       } else {
+        gaEvent("Follow", "Unfollow Room", "Profile");
         toast.info(`Success Unfollow ${room_name}`, setting);
       }
     } catch (error) {

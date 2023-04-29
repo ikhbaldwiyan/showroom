@@ -17,6 +17,7 @@ import { Card } from "reactstrap";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { AiFillStar } from "react-icons/ai";
+import { gaEvent } from "utils/gaEvent";
 
 const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
   const dispatch = useDispatch();
@@ -87,6 +88,7 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
       if (response.data.ok) {
         let data = response.data;
         dispatch(sendStarSuccess(key, data.remaining_num));
+        gaEvent("Stars", "Send Star", "Multi Room")
 
         setDisableCount(false);
         setActiveButton(null);
@@ -121,6 +123,7 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
       if (response.data.ok) {
         let data = response.data;
         dispatch(sendStarSuccess(key, data.remaining_num));
+        gaEvent("Stars", "Send Ten Star", "Multi Room")
 
         setDisableCount(false);
         setActiveButton(null);
