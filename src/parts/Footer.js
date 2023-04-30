@@ -11,19 +11,15 @@ export default function Footer() {
             <div className="col-md-5" style={{ width: 380 }}>
               <Logo />
               <p className="brand-tagline">
-                JKT48 SHOWROOM adalah website fanmade yang bertujuan untuk
-                memfilter room member JKT48. disini kalian bisa mencoba ngidol dengan
-                pengalaman baru dan User Interface yang berbeda
+                JKT48 SHOWROOM hadir untuk memberikan pengalaman ngidol yang
+                lebih seru dan interaktif, dan dengan fitur multiroom,
+                kamu bisa menikmati pengalaman menonton yang lebih menyenangkan
+                dan berbeda dari yang lainnya.
               </p>
             </div>
             <div className="col-auto mr-2">
               <h6 className="mt-2">Explore</h6>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item">
-                  <Button type="link" href="/room/jkt48/332503">
-                    Live Stream
-                  </Button>
-                </li>
                 <li className="list-group-item">
                   <Button type="link" href="/list-room">
                     Room List
@@ -32,6 +28,11 @@ export default function Footer() {
                 <li className="list-group-item">
                   <Button type="link" href="/multi-room">
                     Multi Room
+                  </Button>
+                </li>
+                <li className="list-group-item">
+                  <Button type="link" href="/login">
+                    Login
                   </Button>
                 </li>
               </ul>
@@ -45,8 +46,8 @@ export default function Footer() {
                   </Button>
                 </li>
                 <li className="list-group-item">
-                  <Button type="link" href="/">
-                    Privacy
+                  <Button type="link" href="/login">
+                    Register
                   </Button>
                 </li>
                 <li className="list-group-item">
