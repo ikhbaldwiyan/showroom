@@ -5,7 +5,7 @@ import { gaEvent } from "utils/gaEvent";
 
 function About(props) {
   return (
-    <MainLayout {...props}>
+    <MainLayout title="About" description="jkt48 showroom" keywords="apa itu jkt48 showroom?" {...props}>
       <Container>
         <div className="mb-4" style={{ height: "auto" }}>
           <h3>About</h3>
@@ -14,8 +14,8 @@ function About(props) {
             room member JKT48. <br />
             disini kalian bisa mencoba ngidol dengan pengalaman baru dan User
             Interface yang berbeda, <br />
-            selain itu kalian bisa melihat daftar room member jeketi dan jadwal
-            showroom member yang akan live.
+            selain itu kalian bisa melihat daftar room member jkt48 dan jadwal
+            showroom jkt48 yang akan live.
           </p>
           <p>
             Website JKT48 Showroom ini di kembangkan oleh

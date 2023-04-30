@@ -21,6 +21,7 @@ import {
 } from "components";
 import { isMobile } from "react-device-detect";
 import AlertInfo from "components/AlertInfo";
+import { useSelector } from "react-redux";
 
 function Live(props) {
   let { id } = useParams();
@@ -33,6 +34,7 @@ function Live(props) {
   const [csrfToken, setCsrfToken] = useState("");
   const [session, setSession] = useState("");
   const [user, setUser] = useState("");
+  const { room_name } = useSelector((state) => state.roomDetail);
 
   useEffect(() => {
     const session = localStorage.getItem("session");
@@ -89,7 +91,12 @@ function Live(props) {
   }, []);
 
   return (
-    <MainLayout {...props}>
+    <MainLayout
+      title={room_name}
+      description={`Showroom ${room_name.replace("Room", "")}`}
+      keywords={`Nonton Showroom ${room_name.replace("Room", "")}`}
+      {...props}
+    >
       <Container>
         {!isMobile && (
           <Row>

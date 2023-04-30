@@ -24,7 +24,7 @@ const RoomFollow = ({ session, isLogin, theme }) => {
       dispatch(getRoomFollowedLoad());
       try {
         const response = await axios.post(ROOM_FOLLOW, {
-          cookies_id: session.cookie_login_id,
+          cookies_id: session?.cookie_login_id,
         });
         const jktRoom = response.data.rooms.filter((room) =>
           room.room_url_key.includes("JKT48")
