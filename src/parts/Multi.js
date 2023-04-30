@@ -88,7 +88,7 @@ export default function Multi({
       ) : (
         <Stream url="" />
       )}
-      {url.length === 0 && (
+      {!roomId && (
         <p className="h6 text-center py-2">Please Choose Member Room</p>
       )}
       {roomId ? (

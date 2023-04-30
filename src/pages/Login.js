@@ -106,7 +106,7 @@ function Login(props) {
             </h3>
             <p className="text-justify mb-4" >
               Silakan login menggunakan akun showroom Anda untuk mengakses fitur
-              kirim komentar. Tenang, data Anda akan segera dikirimkan ke situs
+              kirim komentar dan stars. Tenang, data Anda akan segera dikirimkan ke situs
               showroom dan tidak akan disimpan dalam basis data kami, sehingga
               privasi dan keamanan informasi Anda tetap terjaga.
             </p>

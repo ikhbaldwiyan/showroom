@@ -41,7 +41,7 @@ export default function Profile({ roomId, menu, theme, session }) {
 
     const params = {
       room_id: roomId.toString(),
-      cookie: session.cookie_login_id,
+      cookie: session?.cookie_login_id,
     };
 
     axios.post(PROFILE_API, params).then((res) => {
@@ -76,8 +76,8 @@ export default function Profile({ roomId, menu, theme, session }) {
       axios.post(FOLLOW, {
         flag,
         room_id: roomId.toString(),
-        csrf_token: session.csrf_token,
-        cookies_id: session.cookie_login_id,
+        csrf_token: session?.csrf_token,
+        cookies_id: session?.cookie_login_id,
       });
       dispatch(getRoomDetailSucces(profile, flag));
 
@@ -144,7 +144,7 @@ export default function Profile({ roomId, menu, theme, session }) {
                 Open Showroom
               </Button>
 
-              {session.length !== 0 &&
+              {session &&
                 (!isLoading && isFollow === 0 ? (
                   <Button
                     className="btn-block mt-2"

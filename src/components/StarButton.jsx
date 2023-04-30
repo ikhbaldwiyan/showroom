@@ -18,8 +18,15 @@ import { motion, useAnimation } from "framer-motion";
 import { AiFillStar } from "react-icons/ai";
 import { getSession } from "utils/getSession";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCountStar, getClickCountStar, getStarsLoad, getStarsSuccess, sendStarSuccess } from "redux/actions/setStars";
+import {
+  clearCountStar,
+  getClickCountStar,
+  getStarsLoad,
+  getStarsSuccess,
+  sendStarSuccess,
+} from "redux/actions/setStars";
 import { gaEvent } from "utils/gaEvent";
+import { Link } from "react-router-dom";
 
 function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   const { starsRedux, clickCountRedux, isLoadingStars } = useSelector(
@@ -29,13 +36,13 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   const dispatch = useDispatch();
   const [isCounting, setIsCounting] = useState(false);
   const [disableCount, setDisableCount] = useState(false);
- 
+
   const [activeButton, setActiveButton] = useState(null);
   const [modal, setModal] = useState(false);
   const [rank, setRank] = useState();
   const [avatarY, setAvatarY] = useState(0);
   const [avatarImage, setAvatarImage] = useState();
-  
+
   const avatarAnimation = useAnimation();
   const toggle = () => setModal(!modal);
 
@@ -132,7 +139,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       });
 
       if (response.data.ok) {
-        gaEvent("Stars", "Send All Stars", "Live Stream")
+        gaEvent("Stars", "Send All Stars", "Live Stream");
 
         const res = await axios.post(FARM, {
           cookies_login_id: cookiesLoginId,
@@ -172,7 +179,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       if (response.data.ok) {
         let data = response.data;
         dispatch(sendStarSuccess(key, data.remaining_num));
-        gaEvent("Stars", "Send Ten Stars", "Live Stream")
+        gaEvent("Stars", "Send Ten Stars", "Live Stream");
 
         setDisableCount(false);
         setActiveButton(null);
@@ -195,7 +202,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
 
       if (response.data.ok) {
         let data = response.data;
-        gaEvent("Stars", "Send Stars", "Live Stream")
+        gaEvent("Stars", "Send Stars", "Live Stream");
         dispatch(sendStarSuccess(key, data.remaining_num));
 
         setDisableCount(false);
@@ -212,8 +219,8 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
 
     for (let i = 0; i < starsRedux.length; i++) {
       if (starsRedux[i].name === e.target.name) {
-        if(starsRedux[i].count > 0) {
-          setActiveButton(e.target.name)
+        if (starsRedux[i].count > 0) {
+          setActiveButton(e.target.name);
           dispatch(getClickCountStar(e.target.name));
           if (clickCountRedux[e.target.name] === 9) {
             const audio = new Audio(combo);
@@ -254,7 +261,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       axios.get(liveRanking(roomId)).then((res) => {
         const rank = res.data;
         for (let i = 0; i < rank.length; i++) {
-          if (rank[i].user.user_id === user.user_id) {
+          if (rank[i].user.user_id === user?.user_id) {
             setRank(rank[i]);
           }
         }
@@ -264,7 +271,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     }
   }, [isLoadingStars]);
 
-  return (
+  return getSession().session ? (
     <div
       style={{
         display: "flex",
@@ -284,7 +291,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
         className="my-2"
       >
         <div className="row">
-          <div className="d-flex flex-column align-items-center px-1 my-0">
+          <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
             <motion.img
               initial={{ y: 0 }}
               animate={avatarAnimation}
@@ -369,6 +376,26 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
         </Modal>
       </div>
     </div>
+  ) : (
+    <Card
+      style={{
+        padding: "16px",
+        display: "flex",
+        flex: "1",
+        alignItems: "center",
+        backgroundColor: theme === "dark" ? "#343A40" : "white",
+        borderRadius: "10px",
+        justifyContent: "center",
+      }}
+      className="my-2"
+    >
+      <p>Please login first to send stars gift</p>
+      <Link to="/login">
+        <Button color="info">
+          Login here
+        </Button>
+      </Link>
+    </Card>
   );
 }
 

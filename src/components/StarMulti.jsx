@@ -13,11 +13,13 @@ import {
 import { FARM, PROFILE_API, SEND_GIFT } from "utils/api/api";
 import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
-import { Card } from "reactstrap";
+import { Card, Button } from "reactstrap";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { AiFillStar } from "react-icons/ai";
 import { gaEvent } from "utils/gaEvent";
+import { getSession } from "utils/getSession";
+import { Link } from "react-router-dom";
 
 const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
   const dispatch = useDispatch();
@@ -88,7 +90,7 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
       if (response.data.ok) {
         let data = response.data;
         dispatch(sendStarSuccess(key, data.remaining_num));
-        gaEvent("Stars", "Send Star", "Multi Room")
+        gaEvent("Stars", "Send Stars", "Multi Room")
 
         setDisableCount(false);
         setActiveButton(null);
@@ -211,7 +213,7 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
     }
   };
 
-  return (
+  return getSession().session ? (
     <Card
       style={{
         padding: "20px",
@@ -256,6 +258,26 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
           </motion.div>
         ))}
       </div>
+    </Card>
+  ) : (
+    <Card
+      style={{
+        padding: "16px",
+        display: "flex",
+        flex: "1",
+        alignItems: "center",
+        backgroundColor: theme === "dark" ? "#343A40" : "white",
+        borderRadius: "10px",
+        justifyContent: "center",
+      }}
+      className="my-2"
+    >
+      <p>Please login first to send stars gift</p>
+      <Link to="/login">
+        <Button color="info">
+          Login here
+        </Button>
+      </Link>
     </Card>
   );
 };

@@ -41,7 +41,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
       menu: "rank",
       icon: <AiFillTrophy style={iconStyle} />,
     },
-    ...(isMultiRoom || !isMobile
+    ...(!isMultiRoom && !isMobile
       ? [
           {
             name: "Gift",
@@ -50,10 +50,10 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
           },
         ]
       : []),
-    ...(isMultiRoom || isMobile
+    ...(isMultiRoom || isMobile 
       ? [
           {
-            name: "Star",
+            name: !isMobile && !isMultiRoom && "Star",
             menu: "star",
             icon: <AiFillStar style={iconStyle} />,
           },
