@@ -30,7 +30,7 @@ function About(props) {
               {" "}
               <b>Inzoid</b>{" "}
             </a>
-            dan masih terus di develop sampe saat ini. <br />
+            dan masih terus di develop sampai saat ini. <br />
             Jika kalian ingin mendukung perkembangan project ini untuk masalah
             server dan lainnya <br />
             kalian bisa donasi di link saweria berikut{" "}
@@ -82,7 +82,7 @@ function About(props) {
               >
                 https://qiita.com/takeru7584/items/f4ba4c31551204279ed2
               </a>{" "}
-              (Showroom API)
+              (Showroom API Documentation)
             </li>
           </ul>
           <p>Source Code :</p>
@@ -126,7 +126,7 @@ function About(props) {
               >
                 https://github.com/AldyRevigustian/Showroom-Api
               </a>{" "}
-              (SHOWROOM LOGIN API)
+              (SHOWROOM API)
             </li>
           </ul>
           <p>Contributors :</p>

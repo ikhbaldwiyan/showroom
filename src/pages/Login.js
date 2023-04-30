@@ -84,6 +84,7 @@ function Login(props) {
             theme: "colored"
           }
         );
+        setCaptchaWord("");
       }
     } catch (err) {
       console.log(error);
@@ -182,9 +183,9 @@ function Login(props) {
               <div className="row">
                 <div className="col-12">
                   <p className="mt-3 mr-3">
-                    Dont have an account ?
+                    Don't have an account?
                     <Link to="/register">
-                      <span className="ml-2">Register here</span>
+                      <span className="ml-1">Register here</span>
                     </Link>
                   </p>
                 </div>

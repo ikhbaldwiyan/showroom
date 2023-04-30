@@ -155,7 +155,7 @@ export default function UserProfile({ data, session }) {
                         width: "289px",
                         marginLeft: "auto",
                         marginRight: "auto",
-                        borderTopRightRadius: isMobile && ".5rem"
+                        borderTopRightRadius: isMobile && ".5rem",
                       }}
                     >
                       <h5 className="my-3">Profile</h5>
@@ -166,7 +166,7 @@ export default function UserProfile({ data, session }) {
                         }
                         alt="Profile"
                         className="img-fluid mb-2 rounded-circle"
-                        width={80}
+                        style={{ height: "80px", width: "80px" }}
                       />
                       <p>ID : {data.account_id}</p>
 
