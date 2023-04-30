@@ -129,6 +129,7 @@ function Farming(props) {
         localStorage.removeItem("until");
         localStorage.removeItem("farming_log");
         console.log("deleted");
+        window.location.reload(false);
       }, timeUntilTarget);
     }
 
@@ -199,6 +200,24 @@ function Farming(props) {
       return "text-secondary";
     } else {
       return "text-secondary";
+    }
+  };
+
+  const buttonInfo = () => {
+    if (isFarming) {
+      return (
+        <span className="d-flex align-items-center">
+          <IoMdStopwatch className="mx-1" /> Stop Farming
+        </span>
+      );
+    } else if (starLoading) {
+      return <span className="d-flex align-items-center">Please Wait</span>
+    } else {
+      return (
+        <span className="d-flex align-items-center">
+          <MdOutlineNotStarted className="mx-1" size={16} /> Start Farming
+        </span>
+      );
     }
   };
 
@@ -292,6 +311,7 @@ function Farming(props) {
     setTime(0);
     deleteArray();
     setIsFarming(false);
+    window.location.reload(false);
   };
 
   const startFarming = async () => {
@@ -345,7 +365,7 @@ function Farming(props) {
           toast.success(`Sukses Farm Di Room : ${roomName}`, {
             theme: "colored",
           });
-          setStarLoading(true)
+          setStarLoading(true);
         }
 
         if (data2.message.includes("Gagal")) {
@@ -465,51 +485,37 @@ function Farming(props) {
         ) : (
           <Container>
             {officialRoom.length > 0 ? (
-              <div className="row">
-                <div className="col-md-4 col-sm-12">
-                  <div className="d-flex justify-content-between">
-                    <Button
-                      style={{
-                        backgroundColor: "teal",
-                      }}
-                      onClick={getOfficials}
-                      className="btn text-light"
-                      disabled={
-                        btnLoadingRoom
-                          ? true
-                          : false || limitUntil
-                          ? true
-                          : false
-                      }
-                    >
-                      {btnLoadingRoom ? (
-                        <Loading color="white" size={8} />
-                      ) : (
-                        <span className="d-flex align-items-center">
-                          <IoReload className="mx-1" /> Refresh
-                        </span>
-                      )}
-                    </Button>
-                    <Button
-                      onClick={isFarming ? handleStop : handleCheckStar}
-                      className="btn text-light"
-                      style={{
-                        backgroundColor: isFarming ? "#dc3545" : "#24a2b7",
-                      }}
-                    >
-                      {isFarming || starLoading ? (
-                        <span className="d-flex align-items-center">
-                          <IoMdStopwatch className="mx-1" /> Stop Farming
-                        </span>
-                      ) : (
-                        <span className="d-flex align-items-center">
-                          <MdOutlineNotStarted className="mx-1" size={16} />{" "}
-                          Start Farming
-                        </span>
-                      )}
-                    </Button>
-                  </div>
-                </div>
+              <div className="row d-flex justify-content-between">
+                <Button
+                  style={{
+                    backgroundColor: "teal",
+                  }}
+                  onClick={getOfficials}
+                  className="btn text-light"
+                  disabled={
+                    btnLoadingRoom ? true : false || limitUntil ? true : false
+                  }
+                >
+                  {btnLoadingRoom ? (
+                    <Loading color="white" size={8} />
+                  ) : (
+                    <span className="d-flex align-items-center">
+                      <IoReload className="mx-1" /> Refresh
+                    </span>
+                  )}
+                </Button>
+                <Button
+                  onClick={isFarming ? handleStop : handleCheckStar}
+                  className="btn text-light"
+                  disabled={
+                    btnLoadingRoom ? true : false || starLoading ? true : false
+                  }
+                  style={{
+                    backgroundColor: isFarming ? "#dc3545" : "#24a2b7",
+                  }}
+                >
+                  {buttonInfo()}
+                </Button>
               </div>
             ) : (
               ""
@@ -519,9 +525,9 @@ function Farming(props) {
 
         {officialRoom.length > 0 ? (
           <>
-            <div className="row mt-4 mb-2">
+            <div className="row mt-5 mb-2">
               <div className="d-flex col-md-4 col-sm-12 justify-content-end flex-column">
-                <h4 className="text-center ">Total Stars</h4>
+                <h4 className="text-center ">Remaining Stars</h4>
                 <div className="row mb-2 justify-content-center">
                   {stars.map(({ image, count }, index) => (
                     <div
@@ -543,7 +549,7 @@ function Farming(props) {
                   ))}
                 </div>
               </div>
-              <div className="col-md-4 col-sm-12">
+              <div className="col-md-4 col-sm-12 d-flex align-items-center justify-content-center">
                 {isFarming && !until ? (
                   <div
                     style={{ width: 120, height: 120 }}
@@ -600,7 +606,7 @@ function Farming(props) {
                   </div>
                 )}
               </div>
-              <div className="col-md-4 col-sm-12 text-center">
+              <div className="col-md-4 col-sm-12 text-center d-flex align-items-center justify-content-center">
                 {isFarming && !until ? (
                   <div className="mb-0">
                     <p style={{ fontWeight: "bold", textAlign: "center" }}>
