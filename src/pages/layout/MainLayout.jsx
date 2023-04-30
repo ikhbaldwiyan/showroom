@@ -12,6 +12,7 @@ function MainLayout(props) {
     <>
       <Helmet>
         <title>{props.title ?? "JKT48 SHOWROOM"}</title>
+        <meta name="robots" content="index,follow" />
         <meta
           name="description"
           content={props.description ?? "Nonton Showroom JKT48"}
