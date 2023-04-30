@@ -23,7 +23,6 @@ const Register = (props) => {
   const navigate = useHistory();
 
   useEffect(() => {
-    window.document.title = "Register JKT48 SHOWROOM";
     window.scrollTo(0, 0);
   }, []);
 
@@ -36,7 +35,7 @@ const Register = (props) => {
         password: password,
         password_confirm: passwordConfirmation,
         name: name,
-        avatar_id: 1
+        avatar_id: 1,
       });
 
       response.data.error && showToastError(response.data.error);
@@ -47,7 +46,7 @@ const Register = (props) => {
           {
             theme: "colored",
             autoClose: 1800,
-            icon: <RiLoginBoxFill size={30} />
+            icon: <RiLoginBoxFill size={30} />,
           }
         );
         gaEvent("Register Screen", "Register Success", "Register");
@@ -62,7 +61,7 @@ const Register = (props) => {
   const autoLogin = async () => {
     const response = await axios.post(LOGIN, {
       account_id: accountId,
-      password: password
+      password: password,
     });
 
     localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -73,7 +72,7 @@ const Register = (props) => {
     toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
       theme: "colored",
       autoClose: 1800,
-      icon: <RiLoginBoxFill size={30} />
+      icon: <RiLoginBoxFill size={30} />,
     });
 
     setTimeout(() => {
@@ -86,14 +85,14 @@ const Register = (props) => {
     if (error === "Incorrect authentication password") {
       setError(error);
       toast.error("The password confirmation does not match.", {
-        theme: "colored"
+        theme: "colored",
       });
     }
 
     if (error && error !== "Incorrect authentication password") {
       setError(error ?? "An error occured. Please go back and try again.");
       toast.error(error ?? "An error occured. Please go back and try again.", {
-        theme: "colored"
+        theme: "colored",
       });
     }
   };
@@ -104,7 +103,12 @@ const Register = (props) => {
       : "password-toggle-icon";
 
   return (
-    <MainLayout {...props}>
+    <MainLayout
+      title="Register Showroom JKT48"
+      description="daftar showroom jkt48"
+      keywords="cara daftar showroom jkt48, cara daftar akun showroom jkt48"
+      {...props}
+    >
       <Container>
         <div className="d-flex justify-content-center ">
           <div

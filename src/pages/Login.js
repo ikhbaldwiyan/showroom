@@ -24,7 +24,6 @@ function Login(props) {
   const navigate = useHistory();
 
   useEffect(() => {
-    window.document.title = "Login JKT48 SHOWROOM";
     const userSession = localStorage.getItem("session");
     if (userSession) {
       window.location = "/";
@@ -41,7 +40,7 @@ function Login(props) {
         password: password,
         captcha_word: captchaWord,
         cookies_sr_id: cookiesId ?? "",
-        csrf_token: csrf ?? ""
+        csrf_token: csrf ?? "",
       });
 
       if (response.data.user.captcha_url) {
@@ -64,7 +63,7 @@ function Login(props) {
         toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
           theme: "colored",
           autoClose: 1800,
-          icon: <RiLoginBoxFill size={30} />
+          icon: <RiLoginBoxFill size={30} />,
         });
 
         setTimeout(() => {
@@ -81,7 +80,7 @@ function Login(props) {
           response.data.user.error ??
             "An error occured. Please go back and try again.",
           {
-            theme: "colored"
+            theme: "colored",
           }
         );
         setCaptchaWord("");
@@ -94,7 +93,12 @@ function Login(props) {
   };
 
   return (
-    <MainLayout {...props}>
+    <MainLayout
+      title="Login JKT48 SHOWROOM"
+      description="login jkt48 showroom"
+      keywords="login showroom jkt48"
+      {...props}
+    >
       <Container>
         <div className="d-flex justify-content-center ">
           <div
@@ -104,11 +108,11 @@ function Login(props) {
             <h3 className="py-3 text-center">
               <IoMdLogIn className="mb-1" /> Login Showroom
             </h3>
-            <p className="text-justify mb-4" >
+            <p className="text-justify mb-4">
               Silakan login menggunakan akun showroom Anda untuk mengakses fitur
-              kirim komentar dan stars. Tenang, data Anda akan segera dikirimkan ke situs
-              showroom dan tidak akan disimpan dalam basis data kami, sehingga
-              privasi dan keamanan informasi Anda tetap terjaga.
+              kirim komentar dan stars. Tenang, data Anda akan segera dikirimkan
+              ke situs showroom dan tidak akan disimpan dalam basis data kami,
+              sehingga privasi dan keamanan informasi Anda tetap terjaga.
             </p>
             <form onSubmit={handleLogin}>
               <div className="row">

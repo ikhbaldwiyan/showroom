@@ -67,10 +67,6 @@ export default function Profile({ roomId, menu, theme, session }) {
   const isMultiRoom = window.location.pathname == "/multi-room";
   const newProfile = isMultiRoom ? profiles : profile;
 
-  useEffect(() => {
-    window.document.title = room_name;
-  }, [profile]);
-
   const handleFollowRoom = (flag) => {
     try {
       axios.post(FOLLOW, {
