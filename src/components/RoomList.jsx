@@ -112,8 +112,6 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
         room?.room_name?.toLowerCase().includes(search.toLowerCase())
       );
 
-  console.log(filteredFollow);
-
   const SkeletonLoading = ({ type }) => (
     <tbody>
       {Array.from(Array(type === "live" ? roomLives.length : 6), (e, i) => {

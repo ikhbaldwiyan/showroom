@@ -6,6 +6,7 @@ import roomLives from "./roomLives";
 import roomDetail from "./roomDetail";
 import roomFollowed from "./roomFollowed"
 import stars from "./giftStars";
+import liveStream from "./liveStream";
 
 const rootReducers = combineReducers({
   roomRegular,
@@ -14,6 +15,7 @@ const rootReducers = combineReducers({
   roomDetail,
   roomFollowed,
   stars,
+  liveStream,
 });
 
 export default rootReducers;

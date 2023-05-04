@@ -17,15 +17,20 @@ import {
   StageUser,
   TotalRank,
   Gift,
-  StarButton,
+  StarButton
 } from "components";
 import { isMobile } from "react-device-detect";
 import AlertInfo from "components/AlertInfo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearLiveStream,
+  getLiveStreamLoad,
+  getLiveStreamOffline,
+  getLiveStreamOnline
+} from "redux/actions/liveStream";
 
 function Live(props) {
   let { id } = useParams();
-  const [url, setUrl] = useState([]);
   const [roomId, setRoomId] = useState(id);
   const [menu, setMenu] = useState("room");
   const [loading, setLoading] = useState(false);
@@ -34,7 +39,11 @@ function Live(props) {
   const [csrfToken, setCsrfToken] = useState("");
   const [session, setSession] = useState("");
   const [user, setUser] = useState("");
+
+  //redux
+  const dispatch = useDispatch();
   const { room_name } = useSelector((state) => state.roomDetail);
+  const { url, isLive } = useSelector((state) => state.liveStream);
 
   useEffect(() => {
     const session = localStorage.getItem("session");
@@ -50,20 +59,26 @@ function Live(props) {
   }, []);
 
   useEffect(() => {
+    dispatch(getLiveStreamLoad());
     try {
       axios.get(liveDetail(roomId)).then((res) => {
-        const streamUrl = res.data;
-        setUrl(streamUrl);
+        const url = res.data;
+        url
+          ? dispatch(getLiveStreamOnline({ url, room_name }))
+          : dispatch(getLiveStreamOffline());
       });
       !url && setMenu("room");
-      !url && messages();
+      !url.length && messages();
     } catch (error) {
       console.log(error);
     }
+
+    return () => {
+      dispatch(clearLiveStream());
+    };
   }, [roomId]);
 
   useEffect(() => {
-    window.document.title = "JKT48 SHOWROOM";
     menu === "room" && window.scrollTo(0, 0);
 
     setLoading(true);
@@ -79,16 +94,8 @@ function Live(props) {
   const messages = () =>
     toast.error("Room Offline", {
       theme: "colored",
-      autoClose: 1200,
+      autoClose: 1200
     });
-
-  useEffect(() => {
-    const userSession = localStorage.getItem("session");
-    if (userSession) {
-      const foundSession = JSON.parse(userSession);
-      setSession(foundSession);
-    }
-  }, []);
 
   return (
     <MainLayout
@@ -107,7 +114,7 @@ function Live(props) {
         )}
         <Row>
           <Col lg="8">
-            {url && url.length > 0 ? (
+            {isLive ? (
               url?.slice(0, 1)?.map((item, idx) => (
                 <>
                   <Stream key={idx} url={item?.url} />
@@ -128,7 +135,7 @@ function Live(props) {
                   )}
                 </>
               ))
-            ) : !url ? (
+            ) : !isLive ? (
               <Profile
                 roomId={roomId}
                 setRoomId={setRoomId}

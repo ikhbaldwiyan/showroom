@@ -58,10 +58,6 @@ export default function Profile({ roomId, menu, theme, session }) {
       const formatSchedule = getSchedule(res.data.epoch);
       setSchedule(formatSchedule);
     });
-
-    return () => {
-      dispatch(clearRoomDetail());
-    };
   }, [roomId, menu]);
 
   const isMultiRoom = window.location.pathname == "/multi-room";

@@ -13,6 +13,8 @@ import { toast } from "react-toastify";
 import { FiSend } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { gaEvent } from "utils/gaEvent";
+import { useDispatch } from "react-redux";
+import { clearLiveStream } from "redux/actions/liveStream";
 
 export default function Comment({ roomId, isMultiRoom }) {
   const [comment, setComment] = useState([]);
@@ -22,6 +24,7 @@ export default function Comment({ roomId, isMultiRoom }) {
   const [error, setError] = useState("");
   const [myName, setMyName] = useState("");
   const [profile, setProfile] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getComments() {
@@ -37,6 +40,11 @@ export default function Comment({ roomId, isMultiRoom }) {
       }
     }
     getComments();
+
+    if (comment.length === []) {
+      dispatch(clearLiveStream());
+    }
+    
   }, [comment, textComment, roomId]);
 
   useEffect(() => {
