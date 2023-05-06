@@ -7,7 +7,7 @@ const AlertInfo = ({ page, label }) => {
   return (
     <UncontrolledAlert color="primary">
       <FaDiscord size="23px" className="mb-1 mr-2" />
-      Join grup Discord untuk update info fitur baru
+      Join grup Discord untuk update info live dan fitur baru
       <a
         href={process.env.REACT_APP_DISCORD_LINK}
         target="_blank"
