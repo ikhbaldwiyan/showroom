@@ -167,7 +167,7 @@ section {
       margin: 0;
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      transform: scale(1.1);
+      transform: scale(1);
       transition: 0.25s transform ease-in-out;
       border-radius: $border-radius;
     }
@@ -192,10 +192,10 @@ section {
         transform: translateY(-10px);
       }
       &:after {
-        transform: scale(1);
+        transform: scale(1.1);
       }
       .img-wrapper {
-        transform: scale(1);
+        transform: scale(1.1);
       }
     }
   }

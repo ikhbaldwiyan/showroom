@@ -51,6 +51,8 @@ const nextLive = (roomId) => {
   return `${ROOM}/next_live/${roomId}`;
 };
 
+const THEATER_SCHEDULE_API = `${ROOM}/theater-schedule`
+
 export {
   API,
   roomListApi,
@@ -75,5 +77,6 @@ export {
   FARM,
   ROOM_OFFICIAL,
   BULK_GIFT,
-  SEND_GIFT
+  SEND_GIFT,
+  THEATER_SCHEDULE_API
 };
