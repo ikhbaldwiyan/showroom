@@ -53,18 +53,18 @@ function FilterRoomList({
       icon: <AiFillAppstore className="mb-1" />,
     },
     {
-      name: "ACADEMY",
-      action: filterAcademy,
-      state: isAcademy,
-      color: "info",
-      icon: <IoSchoolSharp className="mb-1" />,
-    },
-    {
-      name: "REGULAR",
+      name: "TRAINEE",
       action: filterRegular,
       state: isRegular,
       icon: <RiGlobalLine className="mb-1" />,
       style: { backgroundColor: "teal", border: "none" },
+    },
+    {
+      name: "GEN 10",
+      action: filterAcademy,
+      state: isAcademy,
+      color: "info",
+      icon: <IoSchoolSharp className="mb-1" />,
     },
   ];
 

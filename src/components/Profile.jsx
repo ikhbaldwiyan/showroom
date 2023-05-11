@@ -140,7 +140,7 @@ export default function Profile({ roomId, menu, theme, session }) {
                 Open Showroom
               </Button>
 
-              {session &&
+              {session && !isMultiRoom &&
                 (!isLoading && isFollow === 0 ? (
                   <Button
                     className="btn-block mt-2"
