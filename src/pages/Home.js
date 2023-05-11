@@ -1,5 +1,5 @@
 import axios from "axios";
-import { roomListApi, roomAcademyApi } from "utils/api/api";
+import { ROOM_LIST_API, ROOM_GEN_10, ROOM_TRAINEE_API } from "utils/api/api";
 import React, { useState, useEffect } from "react";
 import Fade from "react-reveal/Fade";
 import { Container } from "reactstrap";
@@ -7,7 +7,11 @@ import { Container } from "reactstrap";
 import MainLayout from "pages/layout/MainLayout";
 import AlertInfo from "components/AlertInfo";
 import { useDispatch, useSelector } from "react-redux";
-import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
+import {
+  getRoomListRegular,
+  getRoomListAcademy,
+  getRoomListTrainee,
+} from "redux/actions/rooms";
 import {
   RoomList,
   RoomLive,
@@ -28,11 +32,12 @@ function Home(props) {
 
   const roomRegular = useSelector((state) => state.roomRegular.data);
   const roomAcademy = useSelector((state) => state.roomAcademy.data);
+  const roomTrainee = useSelector((state) => state.roomTrainee.data);
   const dispatch = useDispatch();
 
   useEffect(() => {
     async function getRoomList() {
-      const room = await axios.get(roomListApi);
+      const room = await axios.get(ROOM_LIST_API);
       dispatch(getRoomListRegular(room.data));
     }
     getRoomList();
@@ -41,10 +46,18 @@ function Home(props) {
 
   useEffect(() => {
     async function getRoomAcademy() {
-      const room = await axios.get(roomAcademyApi);
+      const room = await axios.get(ROOM_GEN_10);
       dispatch(getRoomListAcademy(room.data));
     }
     getRoomAcademy();
+  }, []);
+
+  useEffect(() => {
+    async function getRoomTrainee() {
+      const room = await axios.get(ROOM_TRAINEE_API);
+      dispatch(getRoomListTrainee(room.data));
+    }
+    getRoomTrainee();
   }, []);
 
   useEffect(() => {
@@ -71,6 +84,12 @@ function Home(props) {
   const filteredAcademy = !search
     ? roomAcademy
     : roomAcademy.filter((room) =>
+        room.room_url_key.toLowerCase().includes(search.toLowerCase())
+      );
+
+  const filteredTrainee = !search
+    ? roomTrainee
+    : roomTrainee.filter((room) =>
         room.room_url_key.toLowerCase().includes(search.toLowerCase())
       );
 
@@ -102,20 +121,35 @@ function Home(props) {
                 theme={props.theme}
               />
               <RoomAcademy
+                title="Room Gen 10"
                 isSearchRegular={filtered}
                 isSearch={search}
                 room={filteredAcademy}
                 theme={props.theme}
               />
+              <RoomAcademy
+                title="Room Trainee"
+                isSearchRegular={filtered}
+                isSearch={search}
+                room={filteredTrainee}
+                theme={props.theme}
+              />
             </>
           ) : isAcademy ? (
             <RoomAcademy
+              title="Room Gen 10"
               isSearch={search}
               room={filteredAcademy}
               theme={props.theme}
             />
           ) : isRegular ? (
-            <RoomList isSearch={search} room={filtered} theme={props.theme} />
+            <RoomAcademy
+              title="Room Trainee"
+              isSearchRegular={filtered}
+              isSearch={search}
+              room={filteredTrainee}
+              theme={props.theme}
+            />
           ) : isLive ? (
             <RoomFollow
               isLogin={isLogin}

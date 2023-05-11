@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Table, FormGroup, Input } from "reactstrap";
 import { RiBroadcastFill } from "react-icons/ri";
 import { MdOutlineSearchOff } from "react-icons/md";
-import { API, ROOM_FOLLOW } from "utils/api/api";
+import { API, ROOM_FOLLOW, ROOM_TRAINEE_API } from "utils/api/api";
 
 import Loading from "./Loading";
 import Search from "./Search";
@@ -15,7 +15,11 @@ import FilterRoomList from "./FilterRoomList";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getRoomLiveSuccess, getRoomLiveFailed } from "redux/actions/roomLives";
-import { getRoomListRegular, getRoomListAcademy } from "redux/actions/rooms";
+import {
+  getRoomListRegular,
+  getRoomListAcademy,
+  getRoomListTrainee,
+} from "redux/actions/rooms";
 import { getRoomFollowedSuccess } from "redux/actions/roomFollowed";
 import { getSession } from "utils/getSession";
 
@@ -31,6 +35,8 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
   const roomRegular = useSelector((state) => state.roomRegular.data);
   const roomAcademy = useSelector((state) => state.roomAcademy.data);
   const roomFollowed = useSelector((state) => state.roomFollowed.data);
+  const roomTrainee = useSelector((state) => state.roomTrainee.data);
+
   const { data, isLoading, isLive } = useSelector((state) => state.roomLives);
   const roomLives = data;
 
@@ -78,6 +84,14 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
     getRoomFollowed();
   }, []);
 
+  useEffect(() => {
+    async function getRoomTrainee() {
+      const room = await axios.get(ROOM_TRAINEE_API);
+      dispatch(getRoomListTrainee(room.data));
+    }
+    getRoomTrainee();
+  }, []);
+
   const handleInputId = (event) => {
     setRoomId(event.target.value);
   };
@@ -112,7 +126,11 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
         room?.room_name?.toLowerCase().includes(search.toLowerCase())
       );
 
-  console.log(filteredFollow);
+  const filteredTrainee = !search
+    ? roomTrainee
+    : roomTrainee?.filter((room) =>
+        room?.room_url_key?.toLowerCase().includes(search.toLowerCase())
+      );
 
   const SkeletonLoading = ({ type }) => (
     <tbody>
@@ -272,6 +290,33 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                     </tr>
                   </tbody>
                 )}
+                {/* Room Trainee */}
+                {filteredTrainee && filteredTrainee.length !== 0 ? (
+                  filteredTrainee.map(
+                    (item, idx) =>
+                      !item.is_onlive && (
+                        <RoomListTable
+                          idx={idx}
+                          data={item}
+                          roomId={roomId}
+                          setRoomId={setRoomId}
+                        />
+                      )
+                  )
+                ) : roomTrainee.length === 0 ? (
+                  <SkeletonLoading />
+                ) : (
+                  <tbody>
+                    <tr>
+                      <td colSpan={3} className="text-center">
+                        <p style={{ fontSize: 18 }} className="mt-3">
+                          <MdOutlineSearchOff className="mr-2" size={30} />
+                          Room Trainee not found
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                )}
               </>
             ) : isAcademy ? (
               filteredAcademy && filteredAcademy.length !== 0 ? (
@@ -301,19 +346,15 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                 </tbody>
               )
             ) : isRegular ? (
-              filtered && filtered.length !== 0 ? (
-                filtered.map(
-                  (item, idx) =>
-                    !item.is_live &&
-                    !item.next_live_schedule && (
-                      <RoomListTable
-                        idx={idx}
-                        data={item}
-                        roomId={roomId}
-                        setRoomId={setRoomId}
-                      />
-                    )
-                )
+              filteredTrainee && filteredTrainee.length !== 0 ? (
+                filteredTrainee.map((item, idx) => (
+                  <RoomListTable
+                    idx={idx}
+                    data={item}
+                    roomId={roomId}
+                    setRoomId={setRoomId}
+                  />
+                ))
               ) : roomRegular.length === 0 ? (
                 <SkeletonLoading />
               ) : (

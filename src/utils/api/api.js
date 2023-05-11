@@ -36,15 +36,17 @@ const LIVE_COMMENT = (roomId) => {
 };
 
 // Room API
-const roomListApi = ROOM;
-const roomAcademyApi = `${ROOM}/academy`;
-const roomLivesApi = `${ROOM}/onlives`;
+const ROOM_LIST_API = ROOM;
+const ROOM_GEN_10 = `${ROOM}/academy`;
+const ROOM_LIVES_API = `${ROOM}/onlives`;
+const ROOM_TRAINEE_API = `${ROOM}/trainee`;
+
 const fanLetter = (roomId) => {
   return `${ROOM}/fan-letters/${roomId}`;
 };
 
 const TOTAL_RANK = (roomId) => {
-  return `${LIVE}/total-rank/${roomId}`;
+  return `${ROOM}/total-rank/${roomId}`;
 };
 
 const nextLive = (roomId) => {
@@ -55,9 +57,10 @@ const THEATER_SCHEDULE_API = `${ROOM}/theater-schedule`
 
 export {
   API,
-  roomListApi,
-  roomLivesApi,
-  roomAcademyApi,
+  ROOM_LIST_API,
+  ROOM_LIVES_API,
+  ROOM_GEN_10,
+  ROOM_TRAINEE_API,
   fanLetter,
   TOTAL_RANK,
   liveDetail,

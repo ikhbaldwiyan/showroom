@@ -4,10 +4,10 @@ import SkeletonList from './skeleton/SkeletonList';
 import { isMobile } from 'react-device-detect';
 import { MdOutlineSearchOff } from 'react-icons/md';
 
-function RoomAcademy({ room, theme, isSearch, isSearchRegular }) {
+function RoomAcademy({ room, theme, isSearch, isSearchRegular, title }) {
   return (
-    <>
-      <h3 className="py-4">{!isSearch && 'Room Academy'}</h3>
+    <div className="py-2">
+      <h3 className="py-4">{!isSearch && title}</h3>
       {room && room.length !== 0 ? (
         <div className="container-grid">
           {room.map(
@@ -33,7 +33,7 @@ function RoomAcademy({ room, theme, isSearch, isSearchRegular }) {
           {!isMobile && <SkeletonList theme={theme} />}
         </div>
       )}
-    </>
+    </div>
   );
 }
 

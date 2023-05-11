@@ -13,3 +13,10 @@ export const getRoomListAcademy = (rooms) => {
     payload: rooms,
   };
 };
+
+export const getRoomListTrainee = (rooms) => {
+  return {
+    type: ACTION_TYPES.GET_ROOM_LIST_TRAINEE,
+    payload: rooms,
+  };
+};

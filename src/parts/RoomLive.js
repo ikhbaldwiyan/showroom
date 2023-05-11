@@ -6,7 +6,7 @@ import { FaUser } from "react-icons/fa";
 import { IoVideocamOff } from "react-icons/io5";
 import Fade from "react-reveal";
 
-import { roomLivesApi } from "utils/api/api";
+import { ROOM_LIVES_API } from "utils/api/api";
 import getTimes from "utils/getTimes";
 import Button from "elements/Button";
 import SkeletonLive from "./skeleton/SkeletonLive";
@@ -29,7 +29,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
 
   useEffect(() => {
     async function getRoomLive() {
-      const room = await axios.get(roomLivesApi);
+      const room = await axios.get(ROOM_LIVES_API);
 
       if (room.data.length >= 1) {
         dispatch(getRoomLiveSuccess(room.data));
