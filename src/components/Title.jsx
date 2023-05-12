@@ -55,7 +55,7 @@ function Title({
     } catch (error) {
       console.log(error)
     }
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
