@@ -2,19 +2,19 @@ import React from "react";
 import Button from "elements/Button";
 import Logo from "parts/Logo";
 
-export default function Footer() {
+export default function Footer({ theme }) {
   return (
     <footer>
       <div className="container">
         <div className="container">
           <div className="row">
             <div className="col-md-5" style={{ width: 380 }}>
-              <Logo />
+              <Logo theme={theme} />
               <p className="brand-tagline">
                 JKT48 SHOWROOM hadir untuk memberikan pengalaman ngidol yang
-                lebih seru dan interaktif, dan dengan fitur multiroom,
-                kamu bisa menikmati pengalaman menonton yang lebih menyenangkan
-                dan berbeda dari yang lainnya.
+                lebih seru dan interaktif, dan dengan fitur multiroom, kamu bisa
+                menikmati pengalaman menonton yang lebih menyenangkan dan
+                berbeda dari yang lainnya.
               </p>
             </div>
             <div className="col-auto mr-2">

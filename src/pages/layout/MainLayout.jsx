@@ -51,7 +51,7 @@ function MainLayout(props) {
               </Container>
             </>
           )}
-          <Footer />
+          <Footer theme={props.theme} />
         </>
       )}
     </>

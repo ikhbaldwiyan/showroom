@@ -61,7 +61,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
       <header className="spacing-sm sticky">
         <div className={classMulti}>
           <nav className="navbar navbar-expand-lg navbar-light">
-            <Logo />
+            <Logo theme={theme} />
             {!isMobile && (
               <DarkModeToggle
                 className={!isMobile && "ml-2 dark-mode"}
