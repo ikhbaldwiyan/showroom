@@ -257,6 +257,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   };
 
   useEffect(() => {
+    setRank("");
     try {
       axios.get(liveRanking(roomId)).then((res) => {
         const rank = res.data;
@@ -269,7 +270,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     } catch (error) {
       console.log(error);
     }
-  }, [isLoadingStars]);
+  }, [isLoadingStars, roomId]);
 
   return getSession().session ? (
     <div
