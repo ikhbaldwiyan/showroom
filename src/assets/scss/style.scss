@@ -60,6 +60,30 @@
   }
 }
 
+.logo-icon {
+  @media only screen and (max-width: 400px) {
+    display: none;
+  }
+}
+
+.brand-text-icon {
+  @media only screen and (max-width: 700px) {
+    font-size: 25px;
+  }
+}
+
+.brand-text-icon {
+  @media only screen and (max-width: 350px) {
+    font-size: 20px;
+  }
+}
+
+.discord-text {
+  @media only screen and (max-width: 400px) {
+    font-size: 14px;
+  }
+}
+
 .sticky {
   position: -webkit-sticky;
   position: sticky;
