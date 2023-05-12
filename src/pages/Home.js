@@ -1,11 +1,11 @@
 import axios from "axios";
-import { ROOM_LIST_API, ROOM_GEN_10, ROOM_TRAINEE_API } from "utils/api/api";
 import React, { useState, useEffect } from "react";
-import Fade from "react-reveal/Fade";
+import { ROOM_LIST_API, ROOM_GEN_10, ROOM_TRAINEE_API } from "utils/api/api";
 import { Container } from "reactstrap";
+import Fade from "react-reveal/Fade";
 
 import MainLayout from "pages/layout/MainLayout";
-import AlertInfo from "components/AlertInfo";
+import { AlertInfo, Schedule } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getRoomListRegular,
@@ -16,7 +16,6 @@ import {
   RoomList,
   RoomLive,
   RoomAcademy,
-  RoomFollow,
   RoomUpcoming,
   SearchAndFilter,
 } from "parts";
@@ -27,8 +26,6 @@ function Home(props) {
   const [isAcademy, setIsAcademy] = useState(false);
   const [isRegular, setIsRegular] = useState(false);
   const [isLive, setIsLive] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
-  const [session, setSession] = useState();
 
   const roomRegular = useSelector((state) => state.roomRegular.data);
   const roomAcademy = useSelector((state) => state.roomAcademy.data);
@@ -60,16 +57,6 @@ function Home(props) {
     getRoomTrainee();
   }, []);
 
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    const userSession = localStorage.getItem("session");
-    const session = JSON.parse(userSession);
-
-    if (loggedInUser) {
-      setSession(session);
-      setIsLogin(true);
-    }
-  }, []);
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
@@ -151,11 +138,7 @@ function Home(props) {
               theme={props.theme}
             />
           ) : isLive ? (
-            <RoomFollow
-              isLogin={isLogin}
-              session={session}
-              theme={props.theme}
-            />
+            <Schedule theme={props.theme} />
           ) : (
             ""
           )}

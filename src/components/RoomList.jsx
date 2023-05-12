@@ -363,7 +363,7 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                     <td colSpan={3} className="text-center">
                       <p style={{ fontSize: 18 }} className="mt-3">
                         <MdOutlineSearchOff className="mr-2" size={30} />
-                        Room Regular not found
+                        Room Trainee not found
                       </p>
                     </td>
                   </tr>

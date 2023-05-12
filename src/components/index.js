@@ -10,6 +10,8 @@ import Loading from "./Loading";
 import Setlist from "./Setlist";
 import StarButton from "./StarButton";
 import StarMulti from "./StarMulti";
+import AlertInfo from "./AlertInfo";
+import Schedule from "./Schedule";
  
 export {
   Profile,
@@ -23,5 +25,7 @@ export {
   Loading,
   Setlist,
   StarButton,
-  StarMulti
+  StarMulti,
+  AlertInfo,
+  Schedule
 }

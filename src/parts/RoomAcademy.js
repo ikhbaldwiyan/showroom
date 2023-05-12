@@ -6,7 +6,7 @@ import { MdOutlineSearchOff } from 'react-icons/md';
 
 function RoomAcademy({ room, theme, isSearch, isSearchRegular, title }) {
   return (
-    <div className="py-2">
+    <>
       <h3 className="py-4">{!isSearch && title}</h3>
       {room && room.length !== 0 ? (
         <div className="container-grid">
@@ -33,7 +33,7 @@ function RoomAcademy({ room, theme, isSearch, isSearchRegular, title }) {
           {!isMobile && <SkeletonList theme={theme} />}
         </div>
       )}
-    </div>
+    </>
   );
 }
 

@@ -2,10 +2,9 @@ import React from "react";
 import { FcSearch } from "react-icons/fc";
 import { Button } from "reactstrap";
 import { RiGlobalLine } from "react-icons/ri";
-import { AiFillAppstore } from "react-icons/ai";
+import { AiFillAppstore, AiFillCalendar } from "react-icons/ai";
 import { IoSchoolSharp } from "react-icons/io5";
 import { isMobile } from "react-device-detect";
-import { HiUserGroup } from "react-icons/hi";
 
 function SearchAndFilter({
   handleSearch,
@@ -89,13 +88,12 @@ function SearchAndFilter({
         </Button>
         <Button
           className="mx-2 btn-onlive"
-          style={{ border: "none" }}
-          color="primary"
+          style={{ border: "none", backgroundColor: "#cd0c0e" }}
           onClick={filterIsLive}
           disabled={isLive ? "disabled" : ""}
         >
-          <HiUserGroup className="mb-1" />{" "}
-          <span className="text-filter">Room Followed</span>
+          <AiFillCalendar className="mb-1" />{" "}
+          <span className="text-filter">Theater Schedule</span>
         </Button>
       </div>
     </div>
