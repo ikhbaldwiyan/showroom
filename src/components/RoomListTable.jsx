@@ -17,7 +17,7 @@ function RoomListTable({ data, children, setRoomId, idx, roomId }) {
     ? "Change Room " + data.url_key.substr(6)
     : data.room_url_key !== "officialJKT48"
     ? "Change Room " + data.room_url_key.substr(6)
-    : "JKT48";
+    : "Change Room JKT48";
 
   const handleSwitchRoom = () => {
     setRoomId([data.id ? data.id : data.room_id]);

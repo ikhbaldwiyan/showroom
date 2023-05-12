@@ -2,7 +2,7 @@ import axios from "axios";
 import Button from "elements/Button";
 import React, { useState, useEffect } from "react";
 import { Container, Table } from "reactstrap";
-import { roomListApi } from "utils/api/api";
+import { ROOM_LIST_API } from "utils/api/api";
 import formatNumber from "utils/formatNumber";
 import getSchedule from "utils/getSchedule";
 import MainLayout from "./layout/MainLayout";
@@ -11,7 +11,7 @@ function RoomList(props) {
   const [room, setRoom] = useState([]);
 
   useEffect(() => {
-    axios.get(roomListApi).then((res) => {
+    axios.get(ROOM_LIST_API).then((res) => {
       const listRoom = res.data;
       setRoom(listRoom);
     });
