@@ -260,11 +260,11 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     try {
       axios.get(liveRanking(roomId)).then((res) => {
         const rank = res.data;
-        for (let i = 0; i < rank.length; i++) {
-          if (rank[i].user.user_id === user?.user_id) {
-            setRank(rank[i]);
+        rank.map((item) => {
+          if (item.user.user_id === parseInt(user.user_id)) {
+            setRank(item);
           }
-        }
+        });
       });
     } catch (error) {
       console.log(error);
@@ -391,9 +391,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     >
       <p>Please login first to send stars gift</p>
       <Link to="/login">
-        <Button color="info">
-          Login here
-        </Button>
+        <Button color="info">Login here</Button>
       </Link>
     </Card>
   );
