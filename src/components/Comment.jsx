@@ -66,9 +66,9 @@ export default function Comment({ roomId, isMultiRoom }) {
     e.preventDefault();
     setButtonLoading(true);
     if (isMultiRoom) {
-      gaEvent("Comment", "Send Comment Multi", "Multi Room Comment");
+      gaEvent("Comment", "Send Comment Multi", textComment);
     } else {
-      gaEvent("Comment", "Send Comment Regular", "Live");
+      gaEvent("Comment", "Send Comment Regular", textComment);
     }
     try {
       const response = await axios.post(SEND_COMMENT, {

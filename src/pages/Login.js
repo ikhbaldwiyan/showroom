@@ -59,6 +59,7 @@ function Login(props) {
         localStorage.setItem("session", JSON.stringify(response.data.session));
         localStorage.setItem("profile", JSON.stringify(response.data.profile));
         gaEvent("Login Screen", "Login Success", "Login");
+        gaEvent("Login User", response.data.profile.name, cookiesId);
 
         toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
           theme: "colored",
