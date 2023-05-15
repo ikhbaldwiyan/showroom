@@ -14,7 +14,7 @@ function Settings(props) {
   const css = { backgroundColor: 'teal', border: 'none', borderRadius: '10px', marginBottom: 4 }
   const inline = { display: 'inline' }
 
-  const { hideTime, setHideTime, hideName, setHideName, hideViews, setHideViews, profile, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu } = props
+  const { hideTime, setHideTime, hideName, setHideName, hideViews, setHideViews, profile, hideMenu, setHideMenu, hideMultiMenu, setHideMultiMenu, hideStars, setHideStars } = props
 
   useEffect(() => {
     isMobile && setDirection('left')
@@ -50,9 +50,15 @@ function Settings(props) {
          return setHideTime(!hideTime)
         }
       },
+      {
+        name: hideOrShow(hideStars) + ' Stars',
+        update: function() { 
+         return setHideStars(!hideStars)
+        }
+      },
     ]
     setMenu(settingsMenu);
-  }, [hideName, hideTime, hideViews, hideMenu])
+  }, [hideName, hideTime, hideViews, hideMenu, hideStars])
 
   return (
     <div style={inline} className="ml-1 mt-1">

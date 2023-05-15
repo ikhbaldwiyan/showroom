@@ -17,6 +17,8 @@ function Title({
   hideMultiMenu,
   setHideMultiMenu,
   theme,
+  hideStars,
+  setHideStars,
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -38,6 +40,8 @@ function Title({
     setHideMenu,
     hideMultiMenu,
     setHideMultiMenu,
+    hideStars,
+    setHideStars,
   };
 
   const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };

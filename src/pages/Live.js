@@ -35,6 +35,7 @@ function Live(props) {
   const [session, setSession] = useState("");
   const [user, setUser] = useState("");
   const { room_name } = useSelector((state) => state.roomDetail);
+  const [hideStars, setHideStars] = useState(false)
 
   useEffect(() => {
     const session = localStorage.getItem("session");
@@ -116,8 +117,10 @@ function Live(props) {
                     hideMenu={hideMenu}
                     setHideMenu={setHideMenu}
                     theme={props.theme}
+                    hideStars={hideStars}
+                    setHideStars={setHideStars}
                   />
-                  {session && !isMobile && (
+                  {session && !isMobile && !hideStars && (
                     <StarButton
                       roomId={roomId}
                       cookiesLoginId={cookiesLoginId}
