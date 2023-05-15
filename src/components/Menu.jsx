@@ -6,6 +6,7 @@ import { BsFillChatDotsFill } from "react-icons/bs";
 import { FaListAlt } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
 import { PROFILE_API } from "utils/api/api";
+import { gaEvent } from "utils/gaEvent";
 
 function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
   const [roomName, setRoomName] = useState("");
@@ -50,7 +51,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
           },
         ]
       : []),
-    ...(isMultiRoom || isMobile 
+    ...(isMultiRoom || isMobile
       ? [
           {
             name: !isMobile && !isMultiRoom && "Star",
@@ -71,6 +72,11 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
     border: "none",
   };
 
+  const handleChangeMenu = (menu) => {
+    setMenu(menu);
+    gaEvent("Menu", `Set ${menu}`, "Live Stream");
+  };
+
   return (
     <Row>
       <Col>
@@ -88,7 +94,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
             <Button
               className="menu"
               style={menu === "total" ? buttonActive : buttonStyle}
-              onClick={() => setMenu("total")}
+              onClick={() => handleChangeMenu("total")}
             >
               <AiFillTrophy style={iconStyle} /> Total Rank {roomName}
             </Button>
@@ -101,7 +107,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
               key={idx}
               style={menu === item.menu ? buttonActive : buttonStyle}
               className="menu"
-              onClick={() => setMenu(item.menu)}
+              onClick={() => handleChangeMenu(item.menu)}
             >
               {item.icon} {item.name}
             </Button>
