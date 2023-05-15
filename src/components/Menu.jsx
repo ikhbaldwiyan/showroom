@@ -84,7 +84,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
           <Button
             className="menu"
             style={menu === "room" ? buttonActive : buttonStyle}
-            onClick={() => setMenu("room")}
+            onClick={() => handleChangeMenu("room")}
           >
             <FaListAlt style={iconStyle} /> Room
           </Button>

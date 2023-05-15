@@ -29,6 +29,7 @@ function Title({
   const [hideViews, setHideViews] = useState(false);
 
   const propSettings = {
+    roomId,
     hideTime,
     setHideTime,
     hideName,
