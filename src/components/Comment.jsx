@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { FiSend } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { gaEvent } from "utils/gaEvent";
+import formatName from "utils/formatName";
 
 export default function Comment({ roomId, isMultiRoom }) {
   const [comment, setComment] = useState([]);
@@ -66,9 +67,9 @@ export default function Comment({ roomId, isMultiRoom }) {
     e.preventDefault();
     setButtonLoading(true);
     if (isMultiRoom) {
-      gaEvent("Comment", "Send Comment Multi", textComment);
+      gaEvent("Comment", `Send Comment Multi (${formatName(profile.room_url_key)})`, textComment);
     } else {
-      gaEvent("Comment", "Send Comment Regular", textComment);
+      gaEvent("Comment", `Send Comment Regular (${formatName(profile.room_url_key)})`, textComment);
     }
     try {
       const response = await axios.post(SEND_COMMENT, {
