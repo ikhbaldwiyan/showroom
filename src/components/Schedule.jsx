@@ -29,6 +29,8 @@ const Schedule = ({ theme }) => {
       return "https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit19201280gsm/events/2021/04/05/c7976999-b028-405f-948b-9777afc8a629-1617593375345-ca8626d0ba97c53fe6777313e9bab23f.jpg";
     } else if (title.includes("Tunas Dibalik Seragam")) {
       return "https://assets.ayobandung.com/crop/0x0:0x0/750x500/webp/photo/2021/10/20/4199945391.jpg";
+    } else if (title.includes("Pajama Drive")) {
+      return "http://stage48.net/wiki/images/a/ad/Academy1stPromoPoster.jpg";
     } else {
       return "https://static.showroom-live.com/image/room/cover/73f495d564945090f4af7338a42ce09ffa12d35fbfa8ce35c856220bcf96c5f3_m.png?v=1683304746";
     }
@@ -36,7 +38,7 @@ const Schedule = ({ theme }) => {
 
   return (
     <>
-      <h3 className="py-4">Jadwal Theater Premium Live</h3>
+      <h3 className="py-4 theater-title">Jadwal Theater Premium Live</h3>
       <div className="container-grid">
         {schedule.length ? (
           schedule.map((item, idx) => (

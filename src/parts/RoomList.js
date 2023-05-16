@@ -42,7 +42,7 @@ function RoomList({ room, theme, isSearch, isSearchAcademy, isRoomFollowed }) {
         )
       ) : (
         <div className="container-grid">
-          {!isMobile && <SkeletonList theme={theme} />}
+         <SkeletonList theme={theme} />
         </div>
       )}
     </>

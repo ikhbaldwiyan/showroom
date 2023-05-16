@@ -31,8 +31,8 @@ export default function Footer({ theme }) {
                   </Button>
                 </li>
                 <li className="list-group-item">
-                  <Button type="link" href="/login">
-                    Login
+                  <Button type="link" href="/theater-schedule">
+                    Theater Schedule
                   </Button>
                 </li>
               </ul>
@@ -41,8 +41,8 @@ export default function Footer({ theme }) {
               <h6 className="mt-2">More Info</h6>
               <ul className="list-group list-group-flush">
                 <li className="list-group-item">
-                  <Button type="link" href="/about">
-                    About
+                  <Button type="link" href="/login">
+                    Login
                   </Button>
                 </li>
                 <li className="list-group-item">

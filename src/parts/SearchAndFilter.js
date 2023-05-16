@@ -52,7 +52,7 @@ function SearchAndFilter({
         <input
           style={{ width: "100%", padding: "1rem 1rem 1rem 3rem" }}
           type="text"
-          placeholder="Search member name"
+          placeholder={isLive ? "Search theater schedule" : "Search member name"}
           onChange={handleSearch}
           className="form-control"
         />
@@ -104,7 +104,7 @@ function SearchAndFilter({
         <input
           style={{ width: "100%", padding: "1rem 1rem 1rem 3rem" }}
           type="text"
-          placeholder="Search member name"
+          placeholder={isLive ? "Search theater schedule" : "Search member name"}
           onChange={handleSearch}
           className="form-control"
         />
@@ -131,11 +131,11 @@ function SearchAndFilter({
         <Button
           className="mx-2"
           color="info"
-          onClick={filterAcademy}
-          disabled={isAcademy ? "disabled" : ""}
+          onClick={filterIsLive}
+          disabled={isLive ? "disabled" : ""}
         >
-          <RiGlobalLine className="mb-1" />{" "}
-          <span className="text-filter">GEN 1O</span>
+          <AiFillCalendar className="mb-1" />{" "}
+          <span className="text-filter">Schedule</span>
         </Button>
       </div>
     </div>

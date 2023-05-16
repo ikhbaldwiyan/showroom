@@ -66,6 +66,12 @@
   }
 }
 
+.theater-title {
+  @media only screen and (max-width: 400px) {
+    font-size: 22px;
+  }
+}
+
 .brand-text-icon {
   @media only screen and (max-width: 700px) {
     font-size: 25px;
