@@ -222,15 +222,17 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                           <LiveButton
                             className="btn-sm mt-1 text-white py-2"
                             style={{
-                              backgroundColor: "teal",
+                              backgroundColor: "#CD0C0E",
                               border: "none",
                               borderRadius: "6px",
                             }}
                           >
-                            Live{" "}
-                            <b>
-                              {getSchedule(item.next_live_schedule, "home")}
-                            </b>
+                            <div className="d-flex">
+                              <span className="text-sm mr-1">Live</span>
+                              <b>
+                                {getSchedule(item.next_live_schedule, "home")}
+                              </b>
+                            </div>
                           </LiveButton>
                         </RoomListTable>
                       )
