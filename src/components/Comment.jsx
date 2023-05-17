@@ -222,7 +222,7 @@ export default function Comment({ roomId, isMultiRoom }) {
               type="text"
               className="form-control"
               style={{ borderRadius: "0 0 0 .25rem", height: "3rem" }}
-              placeholder="Login here if you want comment"
+              placeholder="Please Login to comment"
               disabled={true}
             />
             <Link to="/login">
@@ -235,6 +235,7 @@ export default function Comment({ roomId, isMultiRoom }) {
                   backgroundColor: "#24a2b7",
                   width: "90px",
                 }}
+                onClick={() => gaEvent("Login", "Login To Comment", "Live Stream")}
               >
                 Login
               </button>
