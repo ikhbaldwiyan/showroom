@@ -101,6 +101,9 @@ export default function Comment({ roomId, isMultiRoom }) {
       }
       setButtonLoading(false);
       setError("Please try again");
+      toast.error("Server down please contact admin", {
+        theme: "colored",
+      });
     }
   };
 

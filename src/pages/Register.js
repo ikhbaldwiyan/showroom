@@ -53,6 +53,9 @@ const Register = (props) => {
         autoLogin();
       }
     } catch (err) {
+      toast.error("Server down please contact admin", {
+        theme: "colored",
+      });
       gaEvent("Register Screen", "Register Failed", "Register");
       setButtonLoading(false);
     }

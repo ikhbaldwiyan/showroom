@@ -89,7 +89,9 @@ function Login(props) {
         setCaptchaWord("");
       }
     } catch (err) {
-      console.log(error);
+      toast.error("Server down please contact admin", {
+        theme: "colored",
+      });
       gaEvent("Login Screen", "Login Failed", "Login");
       setButtonLoading(false);
     }

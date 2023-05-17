@@ -38,19 +38,15 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
       icon: <BsFillChatDotsFill style={iconStyle} />,
     },
     {
-      name: "Rank",
+      name: !isMultiRoom && !isMobile ? "Rank" : "",
       menu: "rank",
       icon: <AiFillTrophy style={iconStyle} />,
     },
-    ...(!isMultiRoom && !isMobile
-      ? [
-          {
-            name: "Gift",
-            menu: "gift",
-            icon: <AiFillGift style={iconStyle} />,
-          },
-        ]
-      : []),
+    {
+      name: !isMultiRoom && !isMobile ? "Gift" : "",
+      menu: "gift",
+      icon: <AiFillGift style={iconStyle} />,
+    },
     ...(isMultiRoom || isMobile
       ? [
           {

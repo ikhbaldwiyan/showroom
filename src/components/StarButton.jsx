@@ -262,7 +262,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       axios.get(liveRanking(roomId)).then((res) => {
         const rank = res.data;
         rank.map((item) => {
-          if (item.user.user_id === parseInt(user.user_id)) {
+          if (item.user.user_id === parseInt(user?.user_id)) {
             setRank(item);
           }
         });
