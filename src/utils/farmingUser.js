@@ -20,6 +20,10 @@ export const farmingUser = () => {
       name: "Farming Account",
       accountId: "akunsorum"
     },
+    {
+      name: "Smooets",
+      accountId: "Smooets"
+    },
   ];
 
   const isRegisteredUser = registeredUsers.some(user => user.accountId === accountId);

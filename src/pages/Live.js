@@ -22,6 +22,7 @@ import {
 import { isMobile } from "react-device-detect";
 import AlertInfo from "components/AlertInfo";
 import { useSelector } from "react-redux";
+import FarmStars from "components/FarmStars";
 
 function Live(props) {
   let { id } = useParams();
@@ -163,13 +164,17 @@ function Live(props) {
               <Gift roomId={roomId} />
             ) : menu === "total" ? (
               <TotalRank roomId={roomId} />
-            ) : (
+            ) : menu === "star" ? (
               <StarButton
                 roomId={roomId}
                 cookiesLoginId={cookiesLoginId}
                 csrfToken={csrfToken}
                 theme={props.theme}
               />
+            ) : menu === "farming" ?  (
+              <FarmStars />
+            ) : (
+              ''
             )}
           </Col>
         </Row>
