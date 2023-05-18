@@ -22,12 +22,11 @@ function RoomList({ room, theme, isSearch, isSearchAcademy, isRoomFollowed }) {
         <div className="container-grid">
           {room.map((item, idx) => (
             <Room idx={idx} item={item} style="column-4">
-              {item.is_live ||
-                (item.is_online && (
-                  <div className="tag" style={{ backgroundColor: "#CC2636" }}>
-                    On Live
-                  </div>
-                ))}
+              {item.is_live && (
+                <div className="tag" style={{ backgroundColor: "#CC2636" }}>
+                  On Live
+                </div>
+              )}
             </Room>
           ))}
         </div>
@@ -42,7 +41,7 @@ function RoomList({ room, theme, isSearch, isSearchAcademy, isRoomFollowed }) {
         )
       ) : (
         <div className="container-grid">
-         <SkeletonList theme={theme} />
+          <SkeletonList theme={theme} />
         </div>
       )}
     </>

@@ -189,21 +189,24 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
                 {isLoading ? (
                   <SkeletonLoading type="live" />
                 ) : isLive && filteredLive && filteredLive.length !== 0 ? (
-                  filteredLive.map((item, idx) => (
-                    <RoomListTable
-                      idx={idx}
-                      data={item}
-                      roomId={roomId}
-                      setRoomId={setRoomId}
-                    >
-                      <LiveButton
-                        style={{ borderRadius: "6px" }}
-                        className="btn-sm btn-danger"
-                      >
-                        <RiBroadcastFill className="mb-1" /> Live
-                      </LiveButton>
-                    </RoomListTable>
-                  ))
+                  filteredLive.map(
+                    (item, idx) =>
+                      item.premium_room_type !== 1 && (
+                        <RoomListTable
+                          idx={idx}
+                          data={item}
+                          roomId={roomId}
+                          setRoomId={setRoomId}
+                        >
+                          <LiveButton
+                            style={{ borderRadius: "6px" }}
+                            className="btn-sm btn-danger"
+                          >
+                            <RiBroadcastFill className="mb-1" /> Live
+                          </LiveButton>
+                        </RoomListTable>
+                      )
+                  )
                 ) : (
                   ""
                 )}
