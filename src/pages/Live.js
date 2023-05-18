@@ -18,6 +18,7 @@ import {
   TotalRank,
   Gift,
   StarButton,
+  ComingSoon,
 } from "components";
 import { isMobile } from "react-device-detect";
 import AlertInfo from "components/AlertInfo";
@@ -35,7 +36,7 @@ function Live(props) {
   const [session, setSession] = useState("");
   const [user, setUser] = useState("");
   const { room_name } = useSelector((state) => state.roomDetail);
-  const [hideStars, setHideStars] = useState(false)
+  const [hideStars, setHideStars] = useState(false);
 
   useEffect(() => {
     const session = localStorage.getItem("session");
@@ -140,19 +141,25 @@ function Live(props) {
                 theme={props.theme}
                 session={session}
               />
+            ) : url.code === 404 ? (
+              <ComingSoon />
             ) : (
               <Stream url="" />
             )}
           </Col>
           <Col lg="4">
-            <AlertInfo page="Detail Screen" label="Detail" />
-            <Menu
-              menu={menu}
-              setMenu={setMenu}
-              isLive={url}
-              roomId={roomId}
-              hideMenu={hideMenu}
-            />
+            {url.code !== 404 && (
+              <>
+                <AlertInfo page="Detail Screen" label="Detail" />
+                <Menu
+                  menu={menu}
+                  setMenu={setMenu}
+                  isLive={url}
+                  roomId={roomId}
+                  hideMenu={hideMenu}
+                />
+              </>
+            )}
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />
             ) : menu === "chat" ? (
