@@ -17,6 +17,7 @@ import {
   RoomLive,
   RoomAcademy,
   RoomUpcoming,
+  PremiumLive,
   SearchAndFilter,
 } from "parts";
 
@@ -99,6 +100,7 @@ function Home(props) {
           {allMember ? (
             <>
               <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
+              <PremiumLive theme={props.theme} />
               <RoomUpcoming search={search} room={roomRegular} />
               <RoomList
                 isSearchRegular={filtered}

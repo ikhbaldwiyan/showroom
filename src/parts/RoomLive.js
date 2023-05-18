@@ -30,15 +30,18 @@ export default function RoomLive({ theme, search, isOnLive }) {
   useEffect(() => {
     async function getRoomLive() {
       const room = await axios.get(ROOM_LIVES_API);
+      const roomLiveFilter = room.data.filter(
+        (room) => room.premium_room_type !== 1
+      );
 
-      if (room.data.length >= 1) {
-        dispatch(getRoomLiveSuccess(room.data));
+      if (roomLiveFilter.length >= 1) {
+        dispatch(getRoomLiveSuccess(roomLiveFilter));
       } else {
         dispatch(getRoomLiveFailed());
       }
     }
     getRoomLive();
-  }, [roomLive]);
+  }, []);
 
   const filteredLive = !search
     ? roomLive
@@ -50,7 +53,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
     <div className="mb-4">
       <h3 className="mb-3"> {isLoading && "Loading"} Room Live </h3>
       {isLoading && !isMobile ? (
-        <SkeletonLive theme={theme} liveLength={filteredLive.length} />
+        <SkeletonLive theme={theme} liveLength={roomLive.length} />
       ) : filteredLive.length !== 0 ? (
         <div className="container-grid">
           {filteredLive.map(
