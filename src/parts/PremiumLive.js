@@ -28,7 +28,7 @@ const PremiumLive = ({ theme }) => {
     dispatch(getRoomPremiumLiveLoad());
     async function getPremiumLive() {
       const room = await axios.get(ROOM_LIVES_API);
-      const premiumLiveFilter = room?.data?.filter(
+      const premiumLiveFilter = room?.data?.data?.filter(
         (room) => room.premium_room_type === 1
       );
 
