@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Table, FormGroup, Input } from "reactstrap";
 import { RiBroadcastFill } from "react-icons/ri";
 import { MdOutlineSearchOff } from "react-icons/md";
-import { API, ROOM_FOLLOW, ROOM_TRAINEE_API } from "utils/api/api";
+import { API, ROOM_FOLLOW, ROOM_LIVES_API, ROOM_TRAINEE_API } from "utils/api/api";
 
 import Loading from "./Loading";
 import Search from "./Search";
@@ -53,9 +53,9 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
 
   useEffect(() => {
     async function getRoomLive() {
-      const room = await axios.get(`${API}/rooms/onlives`);
-      if (room.data.length >= 1) {
-        dispatch(getRoomLiveSuccess(room.data));
+      const room = await axios.get(ROOM_LIVES_API);
+      if (room.data.data.length >= 1) {
+        dispatch(getRoomLiveSuccess(room.data.data));
       } else {
         dispatch(getRoomLiveFailed());
       }

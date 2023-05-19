@@ -30,9 +30,12 @@ export default function RoomLive({ theme, search, isOnLive }) {
   useEffect(() => {
     async function getRoomLive() {
       const room = await axios.get(ROOM_LIVES_API);
+      const roomLiveFilter = room?.data.data?.filter(
+        (room) => room.premium_room_type !== 1
+      );
 
-      if (room.data.length >= 1) {
-        dispatch(getRoomLiveSuccess(room.data));
+      if (roomLiveFilter.length >= 1) {
+        dispatch(getRoomLiveSuccess(roomLiveFilter));
       } else {
         dispatch(getRoomLiveFailed());
       }
