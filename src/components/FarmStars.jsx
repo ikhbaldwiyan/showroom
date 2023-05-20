@@ -20,6 +20,8 @@ import { IoMdStopwatch } from "react-icons/io";
 import { MdOutlineNotStarted } from "react-icons/md";
 import combo from "../assets/audio/combo.mp3";
 import { useTimer } from "react-timer-hook";
+import { useDispatch, useSelector } from "react-redux";
+import { getStarsLoad, getStarsSuccess } from "redux/actions/setStars";
 
 function FarmStars(props) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
@@ -54,33 +56,10 @@ function FarmStars(props) {
   const [isReady, setIsReady] = useState(false);
   const [starLoading, setStarLoading] = useState(false);
 
-  const stars = [
-    {
-      key: "a",
-      image: "https://static.showroom-live.com/image/gift/1_s.png?v=1",
-      count: star.a,
-    },
-    {
-      key: "b",
-      image: "https://static.showroom-live.com/image/gift/1001_s.png?v=1",
-      count: star.b,
-    },
-    {
-      key: "c",
-      image: "https://static.showroom-live.com/image/gift/1002_s.png?v=1",
-      count: star.c,
-    },
-    {
-      key: "d",
-      image: "https://static.showroom-live.com/image/gift/1003_s.png?v=1",
-      count: star.d,
-    },
-    {
-      key: "e",
-      image: "https://static.showroom-live.com/image/gift/2_s.png?v=1",
-      count: star.e,
-    },
-  ];
+  const { starsRedux, isLoadingStars } = useSelector(
+    (state) => state.stars
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setStarLoading(true);
@@ -148,6 +127,7 @@ function FarmStars(props) {
   }, [isReady]);
 
   const getFirstStar = async (data) => {
+    console.log(data)
     let rooms = [];
     if (data) {
       rooms = data;
@@ -189,13 +169,13 @@ function FarmStars(props) {
   };
 
   const textColor = (message) => {
-    if (message.includes("Sukses")) {
+    if (message?.includes("Sukses")) {
       return "text-success";
-    } else if (message.includes("Gagal")) {
+    } else if (message?.includes("Gagal")) {
       return "text-danger";
-    } else if (message.includes("Sedang")) {
+    } else if (message?.includes("Sedang")) {
       return "text-light text-sm";
-    } else if (message.includes("Offline")) {
+    } else if (message?.includes("Offline")) {
       return "text-secondary";
     } else {
       return "text-secondary";
@@ -209,7 +189,7 @@ function FarmStars(props) {
           <IoMdStopwatch className="mx-1" /> Stop
         </span>
       );
-    } else if (starLoading) {
+    } else if (isLoadingStars) {
       return <span className="d-flex align-items-center">Please Wait</span>;
     } else {
       return (
@@ -226,10 +206,10 @@ function FarmStars(props) {
       setStarLoading(true);
       const response = await axios.get(ROOM_OFFICIAL);
       if (response.data) {
+        getFirstStar(response.data);
         localStorage.setItem("official_room", JSON.stringify(response.data));
         setOfficialRoom(response.data);
         console.log(response.data);
-        getFirstStar(response.data);
         setBtnLoadingRoom(false);
       }
     } catch (err) {
@@ -274,17 +254,18 @@ function FarmStars(props) {
   };
 
   const setAllStar = (data) => {
-    setStarLoading(true);
-    if (data.star === true) return;
-    setStar({
-      ...star,
-      a: data.star[0].free_num,
-      b: data.star[1].free_num,
-      c: data.star[2].free_num,
-      d: data.star[3].free_num,
-      e: data.star[4].free_num,
+    dispatch(getStarsLoad());
+    if (data.star.length === 0) return;
+    const updatedStar = starsRedux.map((gift, index) => {
+      return {
+        ...gift,
+        gift_id: data.star[index].gift_id,
+        count: data.star[index].free_num,
+      };
     });
-    setStarLoading(false);
+    setTimeout(() => {
+      dispatch(getStarsSuccess(updatedStar));
+    }, 1000);
   };
 
   const setFailed = (data) => {
@@ -364,6 +345,7 @@ function FarmStars(props) {
           toast.success(`Sukses Farm Di Room : ${roomName}`, {
             theme: "colored",
           });
+          setAllStar(data2);
           setStarLoading(true);
         }
 
@@ -483,7 +465,7 @@ function FarmStars(props) {
       ) : (
         <Container>
           {officialRoom.length > 0 ? (
-            <div className="row d-flex justify-content-between mx-1 mt-2">
+            <div className="row d-flex justify-content-between align-items-center mx-1 mt-2">
               <Button
                 style={{
                   backgroundColor: "teal",
@@ -506,7 +488,7 @@ function FarmStars(props) {
                 onClick={isFarming ? handleStop : handleCheckStar}
                 className="btn text-light"
                 disabled={
-                  btnLoadingRoom ? true : false || starLoading ? true : false
+                  btnLoadingRoom ? true : false || isLoadingStars ? true : false
                 }
                 style={{
                   backgroundColor: isFarming ? "#dc3545" : "#24a2b7",
@@ -525,17 +507,25 @@ function FarmStars(props) {
         <>
           <div className="row mt-3 mb-2">
             <div className="d-flex col-sm-12 justify-content-end flex-column">
-              <h5 className="text-center">Remaining Stars</h5>
               <div className="row mb-2 justify-content-center">
-                {stars.map(({ image, count }, index) => (
+                {starsRedux.map(({ gift_id, count, url }, index) => (
                   <div
                     key={index}
                     className={`star${
                       index === 0 ? "A" : "B"
                     } d-flex flex-column align-items-center p-1`}
                   >
-                    <img src={image} width="50px" height="50px" alt="" />
-                    {starLoading ? (
+                    <img
+                      src={
+                        gift_id
+                          ? `https://static.showroom-live.com/image/gift/${gift_id}_s.png?v=1`
+                          : url
+                      }
+                      width="50px"
+                      height="50px"
+                      alt=""
+                    />
+                    {isLoadingStars ? (
                       <Loading color="white" size={3} />
                     ) : (
                       <p>{count}</p>

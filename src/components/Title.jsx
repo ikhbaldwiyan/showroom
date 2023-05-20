@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaUserFriends } from "react-icons/fa";
 import { IoTimeSharp } from "react-icons/io5";
+import { GiFarmer } from "react-icons/gi";
 import formatViews from "utils/formatViews";
 import { API } from "utils/api/api";
 
@@ -9,6 +10,8 @@ import Views from "elements/Button";
 import Settings from "./Settings";
 import LastSeen from "./LastSeen";
 import getTimes from "utils/getTimes";
+import { Button } from "reactstrap";
+import { farmingUser } from "utils/permissions/farmingUser";
 
 function Title({
   roomId,
@@ -19,6 +22,8 @@ function Title({
   theme,
   hideStars,
   setHideStars,
+  isFarming,
+  setIsFarming,
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -58,7 +63,7 @@ function Title({
         [profile]
       );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }, [roomId]);
 
@@ -74,13 +79,14 @@ function Title({
         console.log(error);
       }
     }, 300000); // fetch every 5 minutes
-  
+
     return () => clearInterval(intervalId);
   }, [roomId]);
 
   useEffect(() => {
     let title =
-      profile && profile?.room_url_key &&
+      profile &&
+      profile?.room_url_key &&
       profile?.room_url_key?.includes("JKT48") &&
       profile?.room_url_key !== "officialJKT48";
     let name = title
@@ -131,6 +137,16 @@ function Title({
         </Views>
       )}
       <Settings {...propSettings} />
+      {farmingUser() === true && window.location.pathname !== "/multi-room" && (
+        <Button
+          className="mx-2"
+          color={isFarming ? "danger" : "success"}
+          onClick={() => setIsFarming(!isFarming)}
+        >
+          <GiFarmer className="mb-1" size={20} />{" "}
+          {!isFarming ? "Farming" : "Hide Farm"}
+        </Button>
+      )}
     </div>
   );
 }

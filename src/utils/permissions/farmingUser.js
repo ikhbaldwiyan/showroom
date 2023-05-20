@@ -1,4 +1,4 @@
-import { getSession } from "./getSession";
+import { getSession } from "../getSession";
 
 export const farmingUser = () => {
   const accountId = getSession().user.account_id;
@@ -23,6 +23,10 @@ export const farmingUser = () => {
     {
       name: "Smooets",
       accountId: "Smooets"
+    },
+    {
+      name: "Redux",
+      accountId: "redux"
     },
   ];
 

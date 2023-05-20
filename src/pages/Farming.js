@@ -21,7 +21,7 @@ import { IoMdStopwatch } from "react-icons/io";
 import { MdOutlineNotStarted } from "react-icons/md";
 import combo from "../assets/audio/combo.mp3";
 import { useTimer } from "react-timer-hook";
-import { farmingUser } from "utils/farmingUser";
+import { farmingUser } from "utils/permissions/farmingUser";
 
 function Farming(props) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");

@@ -7,11 +7,10 @@ import { FaListAlt } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
 import { PROFILE_API } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
-import { farmingUser } from "utils/farmingUser";
+import { GiFarmer } from "react-icons/gi";
 
-function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
+function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom, isFarming, setIsFarming }) {
   const [roomName, setRoomName] = useState("");
-  const [isFarming, setIsFarming] = useState(false);
 
   useEffect(() => {
     axios.post(PROFILE_API, { room_id: roomId.toString() }).then((res) => {
@@ -22,7 +21,6 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
           ? profiles.room_url_key.slice(6) + " JKT48"
           : profiles.room_name;
       setRoomName(roomName);
-      farmingUser() === true && setIsFarming(true);
     });
   }, [roomId]);
 
@@ -60,7 +58,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
           {
             name: !isMobile && !isMultiRoom && "",
             menu: "farming",
-            icon: <AiFillStar style={icon} />,
+            icon: <GiFarmer style={icon} />,
           },
         ]
       : [
