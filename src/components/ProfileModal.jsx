@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -19,7 +19,8 @@ const ProfileModal = ({ buttonLabel, className, roomId }) => {
   const toggle = () => setModal(!modal);
   const [profile, setProfile] = useState([]);
 
-  axios
+  useEffect(() => {
+    axios
     .post(PROFILE_API, {
       room_id: roomId.toString(),
       cookie: getSession?.session?.cookie_login_id,
@@ -28,6 +29,8 @@ const ProfileModal = ({ buttonLabel, className, roomId }) => {
       const profile = res.data;
       setProfile(profile);
     });
+  }, [roomId])
+  
 
   const text = {
     borderColor: "#24a2b7",
