@@ -1,7 +1,7 @@
 import { getSession } from "../getSession";
 
 export const multiRoomUser = () => {
-  const accountId = getSession().user.account_id;
+  const accountId = getSession()?.user?.account_id;
 
   const registeredUsers = [
     {
@@ -30,7 +30,7 @@ export const multiRoomUser = () => {
     },
   ];
 
-  const isRegisteredUser = registeredUsers.some(user => user.accountId === accountId);
+  const isRegisteredUser = registeredUsers.some(user => user?.accountId === accountId);
 
   if (isRegisteredUser) {
     console.log("Access granted");
