@@ -13,8 +13,6 @@ function MultiMenu({
   setLayout,
   hideMultiMenu,
   setHideMultiMenu,
-  isFarming,
-  setIsFarming,
 }) {
   const iconCss = {
     fontSize: 20,

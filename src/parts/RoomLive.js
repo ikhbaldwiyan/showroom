@@ -78,7 +78,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
                         </div>
                         <figure className="img-wrapper">
                           <img
-                            src={item.image_square ?? item.image}
+                            src={isMobile ? item.image.replace("s.jpeg", "l.jpeg") : item.image_square.replace("s.jpeg", "l.jpeg")}
                             alt={item.room_name}
                             className="img-cover"
                           />
