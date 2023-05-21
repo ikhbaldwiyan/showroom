@@ -53,7 +53,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     setDisableCount(false);
     const session = getSession();
     setAvatarImage(session?.profile?.avatar_url);
-  }, [cookiesLoginId, dispatch]);
+  }, [cookiesLoginId]);
 
   const getFirstStar = async () => {
     const response = await axios.post(FARM, {
@@ -120,8 +120,8 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
     const updatedStar = starsRedux.map((gift, index) => {
       return {
         ...gift,
-        gift_id: data.star[index].gift_id,
-        count: data.star[index].free_num,
+        gift_id: data.star[index]?.gift_id,
+        count: data.star[index]?.free_num,
       };
     });
     dispatch(getStarsSuccess(updatedStar));
