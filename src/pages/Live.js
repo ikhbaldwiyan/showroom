@@ -36,7 +36,8 @@ function Live(props) {
   const [session, setSession] = useState("");
   const [user, setUser] = useState("");
   const { room_name } = useSelector((state) => state.roomDetail);
-  const [hideStars, setHideStars] = useState(false)
+  const [hideStars, setHideStars] = useState(false);
+  const [isFarming, setIsFarming] = useState(false);
 
   useEffect(() => {
     const session = localStorage.getItem("session");
@@ -120,6 +121,8 @@ function Live(props) {
                     theme={props.theme}
                     hideStars={hideStars}
                     setHideStars={setHideStars}
+                    isFarming={isFarming}
+                    setIsFarming={setIsFarming}
                   />
                   {session && !isMobile && !hideStars && (
                     <StarButton
@@ -153,6 +156,8 @@ function Live(props) {
               isLive={url}
               roomId={roomId}
               hideMenu={hideMenu}
+              isFarming={isFarming}
+              setIsFarming={setIsFarming}
             />
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />
@@ -171,10 +176,10 @@ function Live(props) {
                 csrfToken={csrfToken}
                 theme={props.theme}
               />
-            ) : menu === "farming" ?  (
-              <FarmStars />
+            ) : menu === "farming" ? (
+              <FarmStars isSingleLive />
             ) : (
-              ''
+              ""
             )}
           </Col>
         </Row>

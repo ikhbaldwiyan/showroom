@@ -6,11 +6,13 @@ import Multi from "parts/Multi";
 import Loading from "components/Loading";
 import MultiMenu from "components/MultiMenu";
 import AlertInfo from "components/AlertInfo";
+import FarmStars from "components/FarmStars";
 
 export default function MultiRoom(props) {
   const [layout, setLayout] = useState("6");
   const [loading, setLoading] = useState(false);
   const [hideMultiMenu, setHideMultiMenu] = useState(false);
+  const [isFarming, setIsFarming] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -20,12 +22,15 @@ export default function MultiRoom(props) {
   }, [layout]);
 
   const isMultiRoom = layout === "4" || layout === "3" ? "isMultiRoom" : "";
+
   const propsMultiRoom = {
     hideMultiMenu,
     setHideMultiMenu,
     layout,
     setLayout,
     theme: props.theme,
+    isFarming,
+    setIsFarming,
   };
 
   return (
@@ -33,12 +38,18 @@ export default function MultiRoom(props) {
       <Container fluid>
         <AlertInfo page="Multi Room" label="Multi Alert Info" />
         <MultiMenu {...propsMultiRoom} />
-        <Row>
+        <Row className="d-flex">
           <Multi {...propsMultiRoom} />
-          <Multi {...propsMultiRoom} />
+          {isFarming && layout !== "4" && layout !== "3" ? (
+            <FarmStars {...propsMultiRoom} />
+          ) : (
+            <Multi {...propsMultiRoom} />
+          )}
           {layout === "4" || layout == "3" ? (
             loading && layout !== "3" ? (
               <Loading />
+            ) : isFarming && layout === "4" ? (
+              <FarmStars {...propsMultiRoom} />
             ) : (
               <Multi {...propsMultiRoom} />
             )
@@ -49,7 +60,11 @@ export default function MultiRoom(props) {
             (loading && layout !== "4" ? (
               <Loading />
             ) : (
-              <Multi {...propsMultiRoom} />
+              isFarming && layout === "3" ? (
+                <FarmStars {...propsMultiRoom} />
+              ) : (
+                <Multi {...propsMultiRoom} />
+              )
             ))}
         </Row>
       </Container>

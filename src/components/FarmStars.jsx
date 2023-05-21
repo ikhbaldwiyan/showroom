@@ -1,5 +1,6 @@
 import {
   Button,
+  Col,
   Container,
   Modal,
   ModalBody,
@@ -23,7 +24,7 @@ import { useTimer } from "react-timer-hook";
 import { useDispatch, useSelector } from "react-redux";
 import { getStarsLoad, getStarsSuccess } from "redux/actions/setStars";
 
-function FarmStars(props) {
+function FarmStars({ isSingleLive, layout }) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
   const [session, setSession] = useState("");
   const [officialRoom, setOfficialRoom] = useState([]);
@@ -56,9 +57,7 @@ function FarmStars(props) {
   const [isReady, setIsReady] = useState(false);
   const [starLoading, setStarLoading] = useState(false);
 
-  const { starsRedux, isLoadingStars } = useSelector(
-    (state) => state.stars
-  );
+  const { starsRedux, isLoadingStars } = useSelector((state) => state.stars);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -127,7 +126,7 @@ function FarmStars(props) {
   }, [isReady]);
 
   const getFirstStar = async (data) => {
-    console.log(data)
+    console.log(data);
     let rooms = [];
     if (data) {
       rooms = data;
@@ -259,13 +258,12 @@ function FarmStars(props) {
     const updatedStar = starsRedux.map((gift, index) => {
       return {
         ...gift,
-        gift_id: data.star[index].gift_id,
-        count: data.star[index].free_num,
+        gift_id: data.star[index]?.gift_id,
+        count: data.star[index]?.free_num,
       };
     });
-    setTimeout(() => {
-      dispatch(getStarsSuccess(updatedStar));
-    }, 1000);
+    console.log(data, "set all star");
+    dispatch(getStarsSuccess(updatedStar));
   };
 
   const setFailed = (data) => {
@@ -453,7 +451,7 @@ function FarmStars(props) {
     );
   };
 
-  return (
+  const MainFarm = () => (
     <div className="scroll rounded" style={{ backgroundColor: "#343a40" }}>
       {limitUntil ? (
         <>
@@ -526,7 +524,7 @@ function FarmStars(props) {
                       alt=""
                     />
                     {isLoadingStars ? (
-                      <Loading color="white" size={3} />
+                      <Loading color="white" size={6} />
                     ) : (
                       <p>{count}</p>
                     )}
@@ -739,6 +737,14 @@ function FarmStars(props) {
         </ModalFooter>
       </Modal>
     </div>
+  );
+
+  return isSingleLive ? (
+    <MainFarm />
+  ) : (
+    <Col lg={layout}>
+      <MainFarm />
+    </Col>
   );
 }
 

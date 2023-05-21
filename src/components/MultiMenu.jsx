@@ -1,19 +1,37 @@
 import React from "react";
 import { Button, Col, Row } from "reactstrap";
-import { FaUsersCog, FaUsersSlash, FaUsers } from "react-icons/fa";
+import { FaUsersCog, FaUsersSlash, FaUsers, FaStar } from "react-icons/fa";
 import { MdResetTv } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { gaEvent } from "utils/gaEvent";
+import { multiRoomUser } from "utils/permissions/multiRoomUser";
+import { useState } from "react";
+import ModalSorry from "./ModalSorry";
+import { GiFarmer } from "react-icons/gi";
+import { farmingUser } from "utils/permissions/farmingUser";
 
-function MultiMenu({ layout, setLayout, hideMultiMenu, setHideMultiMenu }) {
+function MultiMenu({
+  layout,
+  setLayout,
+  hideMultiMenu,
+  setHideMultiMenu,
+  isFarming,
+  setIsFarming,
+}) {
   const iconCss = {
     fontSize: 20,
     marginBottom: 2,
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+
   const button = [
     {
-      name: "Set 3 Room",
+      name: "3 Room",
       icon: <FaUsers style={iconCss} />,
       func: function () {
         return changeLayout();
@@ -21,12 +39,20 @@ function MultiMenu({ layout, setLayout, hideMultiMenu, setHideMultiMenu }) {
       color: "info",
     },
     {
-      name: "Set 4 Room",
+      name: "4 Room",
       icon: <FaUsersCog style={iconCss} />,
       func: function () {
         return fourLayout();
       },
       color: "info",
+    },
+    {
+      name: !isFarming ? "Set Farm" : "Hide Farm",
+      icon: <GiFarmer className="mb-1" />,
+      func: function () {
+        farmingUser() === true ? setIsFarming(!isFarming) : toggleModal();
+      },
+      color: "success",
     },
     {
       name: "Reset All Room",
@@ -47,13 +73,23 @@ function MultiMenu({ layout, setLayout, hideMultiMenu, setHideMultiMenu }) {
   ];
 
   const changeLayout = () => {
-    setLayout("4");
     gaEvent("Multi Room Setting", "Set 3 Room", "Multi Room");
+    if (multiRoomUser() === true) {
+      setLayout("4");
+    } else {
+      gaEvent("Multi Room Access", "Set 3 Room Failed", "Multi Room");
+      toggleModal();
+    }
   };
 
   const fourLayout = () => {
-    setLayout("3");
     gaEvent("Multi Room Setting", "Set 4 Room", "Multi Room");
+    if (multiRoomUser() === true) {
+      setLayout("3");
+    } else {
+      gaEvent("Multi Room Access", "Set 4 Room Failed", "Multi Room");
+      toggleModal();
+    }
   };
 
   const resetLayout = () => {
@@ -102,6 +138,7 @@ function MultiMenu({ layout, setLayout, hideMultiMenu, setHideMultiMenu }) {
           </Col>
         </>
       )}
+      <ModalSorry isOpen={isOpen} toggle={toggleModal} />
     </Row>
   );
 }
