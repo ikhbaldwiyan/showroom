@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Row, Col, Container } from "reactstrap";
 import { useParams } from "react-router-dom";
-import { liveDetail } from "utils/api/api";
+import { LIVE_STREAM_URL } from "utils/api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,6 +23,7 @@ import {
 import { isMobile } from "react-device-detect";
 import AlertInfo from "components/AlertInfo";
 import { useSelector } from "react-redux";
+import { getSession } from "utils/getSession";
 
 function Live(props) {
   let { id } = useParams();
@@ -37,6 +38,7 @@ function Live(props) {
   const [user, setUser] = useState("");
   const { room_name } = useSelector((state) => state.roomDetail);
   const [hideStars, setHideStars] = useState(false);
+  const cookies = getSession()?.session?.cookie_login_id ?? "stream";
 
   useEffect(() => {
     const session = localStorage.getItem("session");
@@ -53,10 +55,12 @@ function Live(props) {
 
   useEffect(() => {
     try {
-      axios.get(liveDetail(roomId)).then((res) => {
-        const streamUrl = res.data;
-        setUrl(streamUrl);
-      });
+      axios
+        .get(LIVE_STREAM_URL(roomId, cookies))
+        .then((res) => {
+          const streamUrl = res.data;
+          setUrl(streamUrl);
+        });
       !url && setMenu("room");
       !url && messages();
     } catch (error) {

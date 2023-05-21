@@ -3,12 +3,13 @@ import React, { useState, useEffect } from "react";
 import { FaUserFriends } from "react-icons/fa";
 import { IoTimeSharp } from "react-icons/io5";
 import formatViews from "utils/formatViews";
-import { API } from "utils/api/api";
+import { API, LIVE_INFO } from "utils/api/api";
 
 import Views from "elements/Button";
 import Settings from "./Settings";
 import LastSeen from "./LastSeen";
 import getTimes from "utils/getTimes";
+import { getSession } from "utils/getSession";
 
 function Title({
   roomId,
@@ -27,6 +28,7 @@ function Title({
   const [hideTime, setHideTime] = useState(true);
   const [hideName, setHideName] = useState(false);
   const [hideViews, setHideViews] = useState(false);
+  const cookies = getSession()?.session?.cookie_login_id ?? "info";
 
   const propSettings = {
     roomId,
@@ -49,7 +51,7 @@ function Title({
 
   useEffect(() => {
     try {
-      axios.get(`${API}/lives/info/${roomId}`).then(
+      axios.get(LIVE_INFO(roomId, cookies)).then(
         (res) => {
           const profiles = res.data;
           setProfile(profiles);
@@ -58,7 +60,7 @@ function Title({
         [profile]
       );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }, [roomId]);
 
@@ -74,13 +76,14 @@ function Title({
         console.log(error);
       }
     }, 300000); // fetch every 5 minutes
-  
+
     return () => clearInterval(intervalId);
   }, [roomId]);
 
   useEffect(() => {
     let title =
-      profile && profile?.room_url_key &&
+      profile &&
+      profile?.room_url_key &&
       profile?.room_url_key?.includes("JKT48") &&
       profile?.room_url_key !== "officialJKT48";
     let name = title

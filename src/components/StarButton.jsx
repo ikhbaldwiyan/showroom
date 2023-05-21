@@ -9,7 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "reactstrap";
-import { BULK_GIFT, FARM, liveRanking, SEND_GIFT } from "utils/api/api";
+import { BULK_GIFT, FARM, LIVE_RANKING, SEND_GIFT } from "utils/api/api";
 import Loading from "./Loading";
 import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
@@ -259,7 +259,7 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
   useEffect(() => {
     setRank("");
     try {
-      axios.get(liveRanking(roomId)).then((res) => {
+      axios.get(LIVE_RANKING(roomId, getSession()?.session?.cookie_login_id)).then((res) => {
         const rank = res.data;
         rank.map((item) => {
           if (item.user.user_id === parseInt(user?.user_id)) {
