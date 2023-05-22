@@ -562,7 +562,7 @@ function Farming(props) {
                       {starLoading ? (
                         <Loading
                           color={props.theme === "dark" ? "white" : "black"}
-                          size={3}
+                          size={6}
                         />
                       ) : (
                         <p>{count}</p>
@@ -598,7 +598,7 @@ function Farming(props) {
                         textSize: "17px",
                         textColor: `white`,
                         pathTransitionDuration: 0.5,
-                        pathColor: `rgba(36, 162, 183,1)`,
+                        pathColor: "#08BC0C",
                         trailColor: "#d6d6d6",
                       })}
                     />

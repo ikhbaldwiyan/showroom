@@ -337,7 +337,12 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
                     size={6}
                   />
                 ) : (
-                  gift.count
+                  gift.count ?? (
+                    <Loading
+                      color={theme === "dark" ? "white" : "black"}
+                      size={6}
+                    />
+                  )
                 )}
               </b>
             </motion.div>

@@ -14,6 +14,7 @@ import { FiSend } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { gaEvent } from "utils/gaEvent";
 import formatName from "utils/formatName";
+import "react-circular-progressbar/dist/styles.css";
 
 export default function Comment({ roomId, isMultiRoom }) {
   const [comment, setComment] = useState([]);
