@@ -28,6 +28,14 @@ export const farmingUser = () => {
       name: "Redux",
       accountId: "redux"
     },
+    {
+      name: "Lowly",
+      accountId: "Lowly"
+    },
+    {
+      name: "Anjay",
+      accountId: "Anjay"
+    },
   ];
 
   const isRegisteredUser = registeredUsers.some(user => user.accountId === accountId);

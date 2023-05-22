@@ -188,6 +188,7 @@ function FarmStars({ isSingleLive, layout }) {
 
   const getOfficials = async () => {
     try {
+      dispatch(getStarsLoad());
       setBtnLoadingRoom(true);
       setStarLoading(true);
       const response = await axios.get(ROOM_OFFICIAL);
