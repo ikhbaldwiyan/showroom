@@ -16,7 +16,7 @@ function RoomList({ room, theme, isSearch, isSearchAcademy, isRoomFollowed }) {
           <h5 className="py-4">Total Followed Room: {room.length} </h5>
         </div>
       ) : (
-        <h3 className="py-4">{!isSearch && "Room List"}</h3>
+        <h3 className="py-3">{!isSearch && "Room List"}</h3>
       )}
       {room && room.length !== 0 ? (
         <div className="container-grid">
