@@ -58,7 +58,6 @@ function Home(props) {
     getRoomTrainee();
   }, []);
 
-
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
@@ -100,6 +99,7 @@ function Home(props) {
           {allMember ? (
             <>
               <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
+              <Schedule />
               <PremiumLive theme={props.theme} />
               <RoomUpcoming search={search} room={roomRegular} />
               <RoomList

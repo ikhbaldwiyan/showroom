@@ -31,6 +31,8 @@ const Schedule = ({ theme }) => {
       return "https://assets.ayobandung.com/crop/0x0:0x0/750x500/webp/photo/2021/10/20/4199945391.jpg";
     } else if (title.includes("Pajama Drive")) {
       return "https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit19201280gsm/events/2022/11/15/54f32781-ff9b-466f-86a1-57fa59a5e52d-1668515312882-2187fe27ecc2b996c9a292bee0ae1bf5.jpeg";
+    } else if (title.includes("Banzai")) {
+      return "https://jkt48.com/assets/banzaipb/image/og-thumbnail.jpg";
     } else {
       return "https://static.showroom-live.com/image/room/cover/73f495d564945090f4af7338a42ce09ffa12d35fbfa8ce35c856220bcf96c5f3_m.png?v=1683304746";
     }
