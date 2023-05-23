@@ -1,13 +1,14 @@
 import axios from "axios";
 import Button from "elements/Button";
 import SkeletonList from "parts/skeleton/SkeletonList";
+import SkeletonLive from "parts/skeleton/SkeletonLive";
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { Fade } from "react-reveal";
 import { THEATER_SCHEDULE_API } from "utils/api/api";
 import getTimes from "utils/getTimes";
 
-const Schedule = ({ theme }) => {
+const Schedule = ({ theme, isSearch }) => {
   const [schedule, setSchedule] = useState([]);
 
   useEffect(() => {
@@ -39,55 +40,57 @@ const Schedule = ({ theme }) => {
   };
 
   return (
-    <>
-      <h3 className="py-4 theater-title">Jadwal Theater Premium Live</h3>
-      <div className="container-grid">
-        {schedule.length ? (
-          schedule.map((item, idx) => (
-            <div
-              key={idx}
-              className={`item ${isMobile ? "column-12" : `column-4`} row-1`}
-            >
-              <Fade bottom>
-                <div className="card card-featured">
-                  <Button
-                    href={item.entrance_url}
-                    type="link"
-                    isExternal
-                    target="_blank"
-                  >
-                    <div className="tag" style={{ backgroundColor: "teal" }}>
-                      {getTimes(item.start_at)}
-                    </div>
-                    <figure className="img-wrapper">
-                      <img
-                        src={getImageUrl(item.title)}
-                        alt={item.name}
-                        className="img-cover"
-                      />
-                    </figure>
-                    <div className="meta-wrapper">
-                      <Button
-                        type="link"
-                        style={{ textDecoration: "none" }}
-                        className="strecthed-link d-block text-white"
-                        href={item.entrance_url}
-                        isExternal
-                        target="_blank"
-                      >
-                        <h5>{item.title.replace("2023", "")}</h5>
-                      </Button>
-                    </div>
-                  </Button>
-                </div>
-              </Fade>
-            </div>
-          ))
-        ) : (
-          <SkeletonList theme={theme} />
-        )}
-      </div>
-    </>
+    !isSearch && (
+      <>
+        <h3 className="py-4 theater-title">Jadwal Theater Premium Live</h3>
+        <div className="container-grid">
+          {schedule.length ? (
+            schedule.map((item, idx) => (
+              <div
+                key={idx}
+                className={`item ${isMobile ? "column-12" : `column-3`} row-1`}
+              >
+                <Fade bottom>
+                  <div className="card card-featured">
+                    <Button
+                      href={item.entrance_url}
+                      type="link"
+                      isExternal
+                      target="_blank"
+                    >
+                      <div className="tag" style={{ backgroundColor: "teal" }}>
+                        {getTimes(item.start_at)}
+                      </div>
+                      <figure className="img-wrapper">
+                        <img
+                          src={getImageUrl(item.title)}
+                          alt={item.name}
+                          className="img-cover"
+                        />
+                      </figure>
+                      <div className="meta-wrapper">
+                        <Button
+                          type="link"
+                          style={{ textDecoration: "none" }}
+                          className="strecthed-link d-block text-white"
+                          href={item.entrance_url}
+                          isExternal
+                          target="_blank"
+                        >
+                          <h5>{item.title.replace("2023", "")}</h5>
+                        </Button>
+                      </div>
+                    </Button>
+                  </div>
+                </Fade>
+              </div>
+            ))
+          ) : (
+            <SkeletonLive theme={theme} />
+          )}
+        </div>
+      </>
+    )
   );
 };
 

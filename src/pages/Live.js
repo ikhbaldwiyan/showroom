@@ -65,7 +65,6 @@ function Live(props) {
   }, [roomId]);
 
   useEffect(() => {
-    window.document.title = "JKT48 SHOWROOM";
     menu === "room" && window.scrollTo(0, 0);
 
     setLoading(true);

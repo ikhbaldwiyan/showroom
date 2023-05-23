@@ -48,7 +48,6 @@ export default function RoomList({ roomId, setRoomId, isMultiRoom }) {
       dispatch(getRoomListRegular(room.data));
     }
     getRoomList();
-    window.document.title = "JKT48 SHOWROOM";
   }, []);
 
   useEffect(() => {

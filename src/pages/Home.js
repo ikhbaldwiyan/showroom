@@ -99,7 +99,7 @@ function Home(props) {
           {allMember ? (
             <>
               <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
-              <Schedule />
+              <Schedule isSearch={search} />
               <PremiumLive theme={props.theme} />
               <RoomUpcoming search={search} room={roomRegular} />
               <RoomList
