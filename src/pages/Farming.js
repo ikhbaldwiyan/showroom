@@ -144,7 +144,7 @@ function Farming(props) {
 
     return () => {
       handleStop();
-    }
+    };
   }, []);
 
   useEffect(() => {
@@ -198,6 +198,8 @@ function Farming(props) {
     if (message.includes("Sukses")) {
       return "text-success";
     } else if (message.includes("Gagal")) {
+      return "text-danger";
+    } else if (message?.includes("kena limit")) {
       return "text-danger";
     } else if (message.includes("Sedang")) {
       return "text-light";
@@ -378,6 +380,13 @@ function Farming(props) {
           setAllMessage((prevData) => [
             ...prevData,
             { message: data2.message, timestamp },
+            {
+              message: `Farming Stars terkena limit sampai jam ${limitUntil.replace(
+                "You can get free gifts after",
+                ""
+              )}`,
+              timestamp,
+            },
           ]);
           setFailed(data2);
           setIsFarming(false);
@@ -715,7 +724,7 @@ function Farming(props) {
             </div>
           </>
         ) : (
-          <div style={{height: 500}}>
+          <div style={{ height: 500 }}>
             <div className="d-flex justify-content-center mt-5 mb-5">
               <Button
                 style={{
@@ -735,7 +744,9 @@ function Farming(props) {
               </Button>
             </div>
             <div className="d-flex justify-content-center text-center">
-              <div className="col-12 col-md-8">{info && <h4 className="text-danger">{info}</h4>}</div>
+              <div className="col-12 col-md-8">
+                {info && <h4 className="text-danger">{info}</h4>}
+              </div>
             </div>
           </div>
         )}

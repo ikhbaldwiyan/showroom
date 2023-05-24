@@ -142,7 +142,7 @@ const MainFarm = ({
                     {isLoadingStars ? (
                       <Loading color="white" size={6} />
                     ) : (
-                      <b>{count}</b>
+                      <b>{count ?? <Loading color="white" size={6} />}</b>
                     )}
                   </div>
                 ))}

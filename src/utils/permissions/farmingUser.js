@@ -1,7 +1,7 @@
 import { getSession } from "../getSession";
 
 export const farmingUser = () => {
-  const accountId = getSession().user.account_id;
+  const accountId = getSession()?.user?.account_id;
 
   const registeredUsers = [
     {
@@ -36,9 +36,21 @@ export const farmingUser = () => {
       name: "Anjay",
       accountId: "Anjay"
     },
+    {
+      name: "Farming Account",
+      accountId: "farming221"
+    },
+    {
+      name: "Dey",
+      accountId: "21032005"
+    },
+    {
+      name: "kurakura",
+      accountId: "mumen013"
+    },
   ];
 
-  const isRegisteredUser = registeredUsers.some(user => user.accountId === accountId);
+  const isRegisteredUser = registeredUsers.some(user => user?.accountId === accountId);
 
   if (isRegisteredUser) {
     console.log("Access granted");

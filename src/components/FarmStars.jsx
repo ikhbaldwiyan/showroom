@@ -159,6 +159,8 @@ function FarmStars({ isSingleLive, layout }) {
       return "text-success";
     } else if (message?.includes("Gagal")) {
       return "text-danger";
+    } else if (message?.includes("kena limit")) {
+      return "text-danger";
     } else if (message?.includes("Sedang")) {
       return "text-light text-sm";
     } else if (message?.includes("Offline")) {
@@ -340,6 +342,13 @@ function FarmStars({ isSingleLive, layout }) {
           setAllMessage((prevData) => [
             ...prevData,
             { message: data2.message, timestamp },
+            {
+              message: `Farming stars kena limit wots sampe jam ${data2?.until?.replace(
+                "You can get free gifts after ",
+                ""
+              )}`,
+              timestamp,
+            },
           ]);
           setFailed(data2);
           setIsFarming(false);
