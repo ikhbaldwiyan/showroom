@@ -28,6 +28,14 @@ export const multiRoomUser = () => {
       name: "Redux",
       accountId: "redux"
     },
+    {
+      name: "Dey",
+      accountId: "21032005"
+    },
+    {
+      name: "kurakura",
+      accountId: "mumen013"
+    },
   ];
 
   const isRegisteredUser = registeredUsers.some(user => user?.accountId === accountId);
