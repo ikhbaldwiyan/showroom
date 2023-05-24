@@ -28,7 +28,14 @@ import {
 import { gaEvent } from "utils/gaEvent";
 import { Link } from "react-router-dom";
 
-function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
+function StarButton({
+  roomId,
+  cookiesLoginId,
+  theme,
+  csrfToken,
+  user,
+  setUrl,
+}) {
   const { starsRedux, clickCountRedux, isLoadingStars } = useSelector(
     (state) => state.stars
   );
@@ -60,6 +67,10 @@ function StarButton({ roomId, cookiesLoginId, theme, csrfToken, user }) {
       cookies_login_id: cookiesLoginId,
       room_id: roomId,
     });
+
+    if (response.message === "[] Offline") {
+      setUrl([]);
+    }
 
     if (response?.data?.data?.toast && !response?.data?.until) {
       const audio = new Audio(combo);

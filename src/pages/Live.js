@@ -175,6 +175,7 @@ function Live(props) {
                 cookiesLoginId={cookiesLoginId}
                 csrfToken={csrfToken}
                 theme={props.theme}
+                setUrl={setUrl}
               />
             )}
           </Col>
