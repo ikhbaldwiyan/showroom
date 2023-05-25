@@ -1,5 +1,5 @@
 // BASE URL API
-const API = "http://192.168.100.42:8000/api";
+const API = "https://jkt48-showroom-api.vercel.app/api";
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
 
