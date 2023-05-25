@@ -42,8 +42,8 @@ const PremiumLive = ({ theme }) => {
   }, []);
 
   return isPremiumLive ? (
-    <div className="mb-4">
-      <h3 className="mb-3"> {isLoading && "Loading"} Premium Live </h3>
+    <div className="mb-2">
+      <h3 className="my-3"> {isLoading && "Loading"} Premium Live </h3>
       {isLoading && !isMobile ? (
         <SkeletonLive theme={theme} liveLength={premium_live.length} />
       ) : premium_live.length !== 0 ? (
