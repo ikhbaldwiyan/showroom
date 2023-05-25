@@ -55,12 +55,10 @@ function Live(props) {
 
   useEffect(() => {
     try {
-      axios
-        .get(LIVE_STREAM_URL(roomId, cookies))
-        .then((res) => {
-          const streamUrl = res.data;
-          setUrl(streamUrl);
-        });
+      axios.get(LIVE_STREAM_URL(roomId, cookies)).then((res) => {
+        const streamUrl = res.data;
+        setUrl(streamUrl);
+      });
       !url && setMenu("room");
       !url && messages();
     } catch (error) {
@@ -131,6 +129,7 @@ function Live(props) {
                       csrfToken={csrfToken}
                       theme={props.theme}
                       user={user}
+                      setUrl={setUrl}
                     />
                   )}
                 </>
