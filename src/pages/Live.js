@@ -18,15 +18,17 @@ import {
   TotalRank,
   Gift,
   StarButton,
-  ComingSoon,
+  NoTicket
 } from "components";
 import { isMobile } from "react-device-detect";
 import AlertInfo from "components/AlertInfo";
 import { useSelector } from "react-redux";
 import { getSession } from "utils/getSession";
+import { MdError } from "react-icons/md";
+import SkeletonProfile from "parts/skeleton/SkeletonProfile";
 
 function Live(props) {
-  let { id } = useParams();
+  let { id, name } = useParams();
   const [url, setUrl] = useState([]);
   const [roomId, setRoomId] = useState(id);
   const [menu, setMenu] = useState("room");
@@ -82,7 +84,7 @@ function Live(props) {
   const messages = () =>
     toast.error("Room Offline", {
       theme: "colored",
-      autoClose: 1200,
+      autoClose: 1200
     });
 
   useEffect(() => {
@@ -143,10 +145,18 @@ function Live(props) {
                 theme={props.theme}
                 session={session}
               />
+            ) : url.code === 404 && name === "officialJKT48" ? (
+              <NoTicket />
             ) : url.code === 404 ? (
-              <ComingSoon />
+              <div
+                style={{ height: 500 }}
+                className="d-flex justify-content-center align-items-center flex-column"
+              >
+                <h3>Sorry room not found</h3>
+                <MdError size={100} />
+              </div>
             ) : (
-              <Stream url="" />
+              <SkeletonProfile theme={props.theme} />
             )}
           </Col>
           <Col lg="4">
