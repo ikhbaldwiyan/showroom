@@ -12,7 +12,7 @@ import { gaEvent } from "utils/gaEvent";
 import formatName from "utils/formatName";
 import { getSession } from "utils/getSession";
 
-export default function Comment({ roomId, isMultiRoom }) {
+export default function Comment({ roomId, isMultiRoom, setUrl }) {
   const [comment, setComment] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [session, setSession] = useState("");
@@ -25,14 +25,15 @@ export default function Comment({ roomId, isMultiRoom }) {
   useEffect(() => {
     async function getComments() {
       try {
-        await axios
-          .get(LIVE_COMMENT(roomId, cookies))
-          .then((res) => {
-            const comments = res.data;
-            setTimeout(() => {
-              setComment(comments);
-            }, 2000);
-          });
+        const res = await axios.get(LIVE_COMMENT(roomId, cookies));
+        const comments = res.data;
+        setTimeout(() => {
+          setComment(comments);
+        }, 6000);
+        console.log(comments.length)
+        if (comments.length < 1) {
+          window.location.reload();
+        }
       } catch (error) {
         console.log(error);
       }

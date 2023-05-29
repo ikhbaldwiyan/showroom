@@ -21,11 +21,9 @@ import {
   NoTicket
 } from "components";
 import { isMobile } from "react-device-detect";
-import AlertInfo from "components/AlertInfo";
 import { useSelector } from "react-redux";
 import { getSession } from "utils/getSession";
 import { MdError } from "react-icons/md";
-import SkeletonProfile from "parts/skeleton/SkeletonProfile";
 
 function Live(props) {
   let { id, name } = useParams();
@@ -60,9 +58,9 @@ function Live(props) {
       axios.get(LIVE_STREAM_URL(roomId, cookies)).then((res) => {
         const streamUrl = res.data;
         setUrl(streamUrl);
+        !streamUrl && messages();
       });
       !url && setMenu("room");
-      !url && messages();
     } catch (error) {
       console.log(error);
     }
@@ -156,13 +154,12 @@ function Live(props) {
                 <MdError size={100} />
               </div>
             ) : (
-              <SkeletonProfile theme={props.theme} />
+              ""
             )}
           </Col>
           <Col lg="4">
             {url.code !== 404 && (
               <>
-                <AlertInfo page="Detail Screen" label="Detail" />
                 <Menu
                   menu={menu}
                   setMenu={setMenu}
@@ -175,7 +172,7 @@ function Live(props) {
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />
             ) : menu === "chat" ? (
-              <LiveChat roomId={roomId} />
+              <LiveChat roomId={roomId} setUrl={setUrl} />
             ) : menu === "rank" ? (
               <StageUser roomId={roomId} />
             ) : menu === "gift" ? (
