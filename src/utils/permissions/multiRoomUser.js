@@ -38,11 +38,11 @@ export const multiRoomUser = () => {
     },
     {
       name: "ekx.prm",
-      id: " 2501006",
+      id: "2501006",
     },
     {
       name: "RZ",
-      id: 88589867,
+      id: "88589867",
     },
     {
       name: "Budi",
@@ -53,16 +53,20 @@ export const multiRoomUser = () => {
       id: "111220069086",
     },
     {
-      nama: "sofyanegi",
+      name: "sofyanegi",
       id: "semiclone0",
     },
     {
-      nama: "RamdaniDebruyne",
+      name: "RamdaniDebruyne",
       id: "ramdanitralala",
     },
     {
-      nama: "Ikhwan RM",
+      name: "Ikhwan RM",
       id: "Karawang123",
+    },
+    {
+      nama: "zeel",
+      id: "zeell8",
     },
   ];
 
