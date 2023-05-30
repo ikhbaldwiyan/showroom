@@ -66,19 +66,6 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
   const sendComment = async (e) => {
     e.preventDefault();
     setButtonLoading(true);
-    if (isMultiRoom) {
-      gaEvent(
-        "Comment",
-        `Send Comment Multi (${formatName(profile.room_url_key)})`,
-        textComment
-      );
-    } else {
-      gaEvent(
-        "Comment",
-        `Send Comment Regular (${formatName(profile.room_url_key)})`,
-        textComment
-      );
-    }
     try {
       const response = await axios.post(SEND_COMMENT, {
         room_id: roomId.toString(),
@@ -99,6 +86,20 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
           {
             theme: "colored",
           }
+        );
+      }
+
+      if (isMultiRoom) {
+        gaEvent(
+          "Comment",
+          `Send Comment Multi (${formatName(profile.room_url_key)})`,
+          textComment
+        );
+      } else {
+        gaEvent(
+          "Comment",
+          `Send Comment Regular (${formatName(profile.room_url_key)})`,
+          textComment
         );
       }
     } catch (err) {

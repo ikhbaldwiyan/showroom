@@ -1,44 +1,44 @@
 import { getSession } from "../getSession";
 
 export const multiRoomUser = () => {
-  const accountId = getSession()?.user?.account_id;
+  const id = getSession()?.user?.account_id;
 
   const registeredUsers = [
     {
       name: "Inzoid",
-      accountId: "inzoid"
+      id: "inzoid"
     },
     {
       name: "Ikhbal",
-      accountId: "dispatch"
+      id: "dispatch"
     },
     {
       name: "Zoid21",
-      accountId: "inzoid21"
+      id: "inzoid21"
     },
     {
       name: "Farming Account",
-      accountId: "akunsorum"
+      id: "akunsorum"
     },
     {
       name: "Smooets",
-      accountId: "Smooets"
+      id: "Smooets"
     },
     {
       name: "Redux",
-      accountId: "redux"
+      id: "redux"
     },
     {
       name: "Dey",
-      accountId: "21032005"
+      id: "21032005"
     },
     {
       name: "kurakura",
-      accountId: "mumen013"
+      id: "mumen013"
     },
   ];
 
-  const isRegisteredUser = registeredUsers.some(user => user?.accountId === accountId);
+  const isRegisteredUser = registeredUsers.some(user => user?.id === id);
 
   if (isRegisteredUser) {
     console.log("Access granted");

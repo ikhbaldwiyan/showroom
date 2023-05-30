@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Col, Row } from "reactstrap";
-import { FaUsersCog, FaUsersSlash, FaUsers, FaStar } from "react-icons/fa";
+import { FaUsersCog, FaUsersSlash, FaUsers } from "react-icons/fa";
 import { MdResetTv } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { gaEvent } from "utils/gaEvent";
@@ -72,10 +72,6 @@ function MultiMenu({
 
   const fourLayout = () => {
     if (multiRoomUser() === true) {
-      gaEvent("Multi Room Setting", "Set 4 Room Success", "Multi Room");
-      setLayout("3");
-    } else {
-      gaEvent("Multi Room Access", "Set 4 Room Failed", "Multi Room");
       toggleModal();
     }
   };
