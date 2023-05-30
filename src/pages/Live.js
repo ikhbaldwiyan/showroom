@@ -172,7 +172,7 @@ function Live(props) {
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />
             ) : menu === "chat" ? (
-              <LiveChat roomId={roomId} setUrl={setUrl} />
+              <LiveChat roomId={roomId} setRoomId={setRoomId} />
             ) : menu === "rank" ? (
               <StageUser roomId={roomId} />
             ) : menu === "gift" ? (

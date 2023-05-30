@@ -12,7 +12,7 @@ import { gaEvent } from "utils/gaEvent";
 import formatName from "utils/formatName";
 import { getSession } from "utils/getSession";
 
-export default function Comment({ roomId, isMultiRoom, setUrl }) {
+export default function Comment({ roomId, isMultiRoom, setRoomId }) {
   const [comment, setComment] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [session, setSession] = useState("");
@@ -30,9 +30,8 @@ export default function Comment({ roomId, isMultiRoom, setUrl }) {
         setTimeout(() => {
           setComment(comments);
         }, 6000);
-        console.log(comments.length)
         if (comments.length < 1) {
-          window.location.reload();
+          !isMultiRoom ? window.location.reload() : setRoomId(roomId);
         }
       } catch (error) {
         console.log(error);
