@@ -115,7 +115,7 @@ function Title({
       {!hideViews && (
         <Views
           onClick={() => setIsTime(!isTime)}
-          className="btn-sm btn-info ml-2 mr-2 mb-2"
+          className="btn-sm btn-danger ml-2 mr-2 mb-2"
           style={{ borderRadius: 5 }}
         >
           {!isTime ? (

@@ -18,7 +18,7 @@ function Settings(props) {
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   const css = {
-    backgroundColor: "teal",
+    backgroundColor: "#018b9b",
     border: "none",
     borderRadius: "10px",
     marginBottom: 4,
