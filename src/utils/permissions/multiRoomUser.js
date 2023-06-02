@@ -79,6 +79,14 @@ export const multiRoomUser = () => {
     {
       name: "Fadhil",
       id: "zharrxx"
+    },
+    {
+      nama: "Khatsuu",
+      id: "khatsu123"
+    },
+    {
+      nama: "ZAKII",
+      id: "ASTROPHILE"
     }
   ];
 

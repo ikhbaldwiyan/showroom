@@ -71,9 +71,7 @@ function MultiMenu({
   };
 
   const fourLayout = () => {
-    if (multiRoomUser() === true) {
-      toggleModal();
-    }
+    toggleModal();
   };
 
   const resetLayout = () => {
