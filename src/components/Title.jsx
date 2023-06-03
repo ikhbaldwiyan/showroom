@@ -142,7 +142,7 @@ function Title({
       {farmingUser() === true && window.location.pathname !== "/multi-room" && (
         <Button
           className="mx-2"
-          color={isFarming ? "danger" : "success"}
+          color={isFarming ? "primary" : "success"}
           onClick={() => setIsFarming(!isFarming)}
         >
           <GiFarmer className="mb-1" size={20} />{" "}

@@ -18,7 +18,7 @@ import {
   TotalRank,
   Gift,
   StarButton,
-  NoTicket
+  NoTicket,
 } from "components";
 import { isMobile } from "react-device-detect";
 import { useSelector } from "react-redux";
@@ -84,7 +84,7 @@ function Live(props) {
   const messages = () =>
     toast.error("Room Offline", {
       theme: "colored",
-      autoClose: 1200
+      autoClose: 1200,
     });
 
   useEffect(() => {
@@ -163,15 +163,14 @@ function Live(props) {
           </Col>
           <Col lg="4">
             {url.code !== 404 && (
-              <>
-                <Menu
-                  menu={menu}
-                  setMenu={setMenu}
-                  isLive={url}
-                  roomId={roomId}
-                  hideMenu={hideMenu}
-                />
-              </>
+              <Menu
+                menu={menu}
+                setMenu={setMenu}
+                isLive={url}
+                roomId={roomId}
+                hideMenu={hideMenu}
+                isFarming={isFarming}
+              />
             )}
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />

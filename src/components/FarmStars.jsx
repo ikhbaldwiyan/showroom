@@ -103,7 +103,6 @@ function FarmStars({ isSingleLive, layout }) {
     }
 
     setIsReady(true);
-    window.document.title = "Farming Stars";
   }, []);
 
   useEffect(() => {

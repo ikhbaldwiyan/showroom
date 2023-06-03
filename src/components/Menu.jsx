@@ -9,7 +9,7 @@ import { PROFILE_API } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
 import { GiFarmer } from "react-icons/gi";
 
-function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom, isFarming, setIsFarming }) {
+function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom, isFarming }) {
   const [roomName, setRoomName] = useState("");
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "elements/Button";
 import Logo from "parts/Logo";
+import { farmingUser } from "utils/permissions/farmingUser";
 
 export default function Footer({ theme }) {
   return (
@@ -35,6 +36,13 @@ export default function Footer({ theme }) {
                     Theater Schedule
                   </Button>
                 </li>
+                {farmingUser() === true && (
+                  <li className="list-group-item">
+                    <Button type="link" href="/farming">
+                      Farming
+                    </Button>
+                  </li>
+                )}
               </ul>
             </div>
             <div className="col-auto mr-5">

@@ -141,6 +141,7 @@ function Farming(props) {
     }
 
     setIsReady(true);
+    window.scrollTo(0, 0);
 
     return () => {
       handleStop();
@@ -381,7 +382,7 @@ function Farming(props) {
             ...prevData,
             { message: data2.message, timestamp },
             {
-              message: `Farming Stars terkena limit sampai jam ${limitUntil.replace(
+              message: `Farming Stars terkena limit sampai jam ${data2?.until?.replace(
                 "You can get free gifts after",
                 ""
               )}`,

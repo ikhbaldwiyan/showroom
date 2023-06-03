@@ -46,14 +46,18 @@ function MultiMenu({
       },
       color: "info",
     },
-    {
-      name: !isFarming ? "Set Farm" : "Hide Farm",
-      icon: <GiFarmer className="mb-1" />,
-      func: function () {
-        farmingUser() === true ? setIsFarming(!isFarming) : toggleModal();
-      },
-      color: "success",
-    },
+    ...(farmingUser() === true
+      ? [
+          {
+            name: !isFarming ? "Set Farm" : "Hide Farm",
+            icon: <GiFarmer className="mb-1" />,
+            func: function () {
+              setIsFarming(!isFarming);
+            },
+            color: "success",
+          },
+        ]
+      : []),
     {
       name: "Reset All Room",
       icon: <FaUsersSlash style={iconCss} />,
