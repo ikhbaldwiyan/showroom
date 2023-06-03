@@ -17,8 +17,10 @@ import {
   RoomLive,
   RoomAcademy,
   RoomUpcoming,
+  PremiumLive,
   SearchAndFilter,
 } from "parts";
+import ServerErrorModal from "components/ServerErrorModal";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -26,6 +28,7 @@ function Home(props) {
   const [isAcademy, setIsAcademy] = useState(false);
   const [isRegular, setIsRegular] = useState(false);
   const [isLive, setIsLive] = useState(false);
+  const [isServerError, setIsServerError] = useState(false);
 
   const roomRegular = useSelector((state) => state.roomRegular.data);
   const roomAcademy = useSelector((state) => state.roomAcademy.data);
@@ -34,8 +37,12 @@ function Home(props) {
 
   useEffect(() => {
     async function getRoomList() {
-      const room = await axios.get(ROOM_LIST_API);
-      dispatch(getRoomListRegular(room.data));
+      try {
+        const room = await axios.get(ROOM_LIST_API);
+        dispatch(getRoomListRegular(room.data));
+      } catch (error) {
+        setIsServerError(true);
+      }
     }
     getRoomList();
     window.document.title = "JKT48 SHOWROOM";
@@ -56,7 +63,6 @@ function Home(props) {
     }
     getRoomTrainee();
   }, []);
-
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
@@ -99,6 +105,8 @@ function Home(props) {
           {allMember ? (
             <>
               <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
+              <PremiumLive theme={props.theme} />
+              <Schedule isSearch={search} />
               <RoomUpcoming search={search} room={roomRegular} />
               <RoomList
                 isSearchRegular={filtered}
@@ -143,6 +151,10 @@ function Home(props) {
             ""
           )}
         </Fade>
+        <ServerErrorModal
+          isOpen={isServerError}
+          toggle={() => setIsServerError(!isServerError)}
+        />
       </Container>
     </MainLayout>
   );

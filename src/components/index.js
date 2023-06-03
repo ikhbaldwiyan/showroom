@@ -12,6 +12,7 @@ import StarButton from "./StarButton";
 import StarMulti from "./StarMulti";
 import AlertInfo from "./AlertInfo";
 import Schedule from "./Schedule";
+import NoTicket from "./NoTicket";
  
 export {
   Profile,
@@ -27,5 +28,6 @@ export {
   StarButton,
   StarMulti,
   AlertInfo,
-  Schedule
+  Schedule,
+  NoTicket
 }

@@ -1,40 +1,96 @@
 import { getSession } from "../getSession";
 
 export const multiRoomUser = () => {
-  const accountId = getSession().user.account_id;
+  const id = getSession()?.user?.account_id;
 
   const registeredUsers = [
     {
       name: "Inzoid",
-      accountId: "inzoid"
+      id: "inzoid"
     },
     {
       name: "Ikhbal",
-      accountId: "dispatch"
+      id: "dispatch"
     },
     {
       name: "Zoid21",
-      accountId: "inzoid21"
+      id: "inzoid21"
     },
     {
       name: "Farming Account",
-      accountId: "akunsorum"
+      id: "akunsorum"
     },
     {
       name: "Smooets",
-      accountId: "Smooets"
+      id: "Smooets"
     },
     {
-      name: "Lowly",
-      accountId: "Lowly"
+      name: "Redux",
+      id: "redux"
     },
     {
-      name: "Anjay",
-      accountId: "Anjay"
+      name: "Dey",
+      id: "21032005"
     },
+    {
+      name: "kurakura",
+      id: "mumen013"
+    },
+    {
+      name: "ekx.prm",
+      id: "2501006"
+    },
+    {
+      name: "RZ",
+      id: "88589867"
+    },
+    {
+      name: "Budi",
+      id: "BudiSetiawam"
+    },
+    {
+      name: "HAFIT CAHYA",
+      id: "111220069086"
+    },
+    {
+      name: "sofyanegi",
+      id: "semiclone0"
+    },
+    {
+      name: "RamdaniDebruyne",
+      id: "ramdanitralala"
+    },
+    {
+      name: "Ikhwan RM",
+      id: "Karawang123"
+    },
+    {
+      name: "zeel",
+      id: "zeell8"
+    },
+    {
+      name: "Opalfadilah",
+      id: "opalfadilah"
+    },
+    {
+      name: "kafka",
+      id: "kapka"
+    },
+    {
+      name: "Fadhil",
+      id: "zharrxx"
+    },
+    {
+      nama: "Khatsuu",
+      id: "khatsu123"
+    },
+    {
+      nama: "ZAKII",
+      id: "ASTROPHILE"
+    }
   ];
 
-  const isRegisteredUser = registeredUsers.some(user => user.accountId === accountId);
+  const isRegisteredUser = registeredUsers.some((user) => user?.id === id);
 
   if (isRegisteredUser) {
     console.log("Access granted");

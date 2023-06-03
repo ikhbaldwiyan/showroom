@@ -4,7 +4,7 @@ import { FaUserFriends } from "react-icons/fa";
 import { IoTimeSharp } from "react-icons/io5";
 import { GiFarmer } from "react-icons/gi";
 import formatViews from "utils/formatViews";
-import { API } from "utils/api/api";
+import { API, LIVE_INFO } from "utils/api/api";
 
 import Views from "elements/Button";
 import Settings from "./Settings";
@@ -12,6 +12,7 @@ import LastSeen from "./LastSeen";
 import getTimes from "utils/getTimes";
 import { Button } from "reactstrap";
 import { farmingUser } from "utils/permissions/farmingUser";
+import { getSession } from "utils/getSession";
 
 function Title({
   roomId,
@@ -32,6 +33,7 @@ function Title({
   const [hideTime, setHideTime] = useState(true);
   const [hideName, setHideName] = useState(false);
   const [hideViews, setHideViews] = useState(false);
+  const cookies = getSession()?.session?.cookie_login_id ?? "info";
 
   const propSettings = {
     roomId,
@@ -54,7 +56,7 @@ function Title({
 
   useEffect(() => {
     try {
-      axios.get(`${API}/lives/info/${roomId}`).then(
+      axios.get(LIVE_INFO(roomId, cookies)).then(
         (res) => {
           const profiles = res.data;
           setProfile(profiles);
@@ -118,7 +120,7 @@ function Title({
       {!hideViews && (
         <Views
           onClick={() => setIsTime(!isTime)}
-          className="btn-sm btn-info ml-2 mr-2 mb-2"
+          className="btn-sm btn-danger ml-2 mr-2 mb-2"
           style={{ borderRadius: 5 }}
         >
           {!isTime ? (

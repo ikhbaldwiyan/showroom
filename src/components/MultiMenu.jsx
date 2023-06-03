@@ -73,8 +73,8 @@ function MultiMenu({
   ];
 
   const changeLayout = () => {
-    gaEvent("Multi Room Setting", "Set 3 Room", "Multi Room");
     if (multiRoomUser() === true) {
+      gaEvent("Multi Room Setting", "Set 3 Room Success", "Multi Room");
       setLayout("4");
     } else {
       gaEvent("Multi Room Access", "Set 3 Room Failed", "Multi Room");
@@ -83,13 +83,7 @@ function MultiMenu({
   };
 
   const fourLayout = () => {
-    gaEvent("Multi Room Setting", "Set 4 Room", "Multi Room");
-    if (multiRoomUser() === true) {
-      setLayout("3");
-    } else {
-      gaEvent("Multi Room Access", "Set 4 Room Failed", "Multi Room");
-      toggleModal();
-    }
+    toggleModal();
   };
 
   const resetLayout = () => {

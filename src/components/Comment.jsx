@@ -2,11 +2,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Card } from "reactstrap";
-import {
-  SEND_COMMENT,
-  LIVE_COMMENT,
-  PROFILE_API,
-} from "utils/api/api";
+import { SEND_COMMENT, LIVE_COMMENT, PROFILE_API } from "utils/api/api";
 import Skeleton from "react-content-loader";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
@@ -14,9 +10,9 @@ import { FiSend } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { gaEvent } from "utils/gaEvent";
 import formatName from "utils/formatName";
-import "react-circular-progressbar/dist/styles.css";
+import { getSession } from "utils/getSession";
 
-export default function Comment({ roomId, isMultiRoom }) {
+export default function Comment({ roomId, isMultiRoom, setRoomId }) {
   const [comment, setComment] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [session, setSession] = useState("");
@@ -24,16 +20,19 @@ export default function Comment({ roomId, isMultiRoom }) {
   const [error, setError] = useState("");
   const [myName, setMyName] = useState("");
   const [profile, setProfile] = useState("");
+  const cookies = getSession()?.session?.cookie_login_id ?? "comment";
 
   useEffect(() => {
     async function getComments() {
       try {
-        await axios.get(LIVE_COMMENT(roomId)).then((res) => {
-          const comments = res.data;
-          setTimeout(() => {
-            setComment(comments);
-          }, 2000);
-        });
+        const res = await axios.get(LIVE_COMMENT(roomId, cookies));
+        const comments = res.data;
+        setTimeout(() => {
+          setComment(comments);
+        }, 6000);
+        if (comments.length < 1) {
+          !isMultiRoom ? window.location.reload() : setRoomId(roomId);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -67,11 +66,6 @@ export default function Comment({ roomId, isMultiRoom }) {
   const sendComment = async (e) => {
     e.preventDefault();
     setButtonLoading(true);
-    if (isMultiRoom) {
-      gaEvent("Comment", `Send Comment Multi (${formatName(profile.room_url_key)})`, textComment);
-    } else {
-      gaEvent("Comment", `Send Comment Regular (${formatName(profile.room_url_key)})`, textComment);
-    }
     try {
       const response = await axios.post(SEND_COMMENT, {
         room_id: roomId.toString(),
@@ -92,6 +86,20 @@ export default function Comment({ roomId, isMultiRoom }) {
           {
             theme: "colored",
           }
+        );
+      }
+
+      if (isMultiRoom) {
+        gaEvent(
+          "Comment",
+          `Send Comment Multi (${formatName(profile.room_url_key)})`,
+          textComment
+        );
+      } else {
+        gaEvent(
+          "Comment",
+          `Send Comment Regular (${formatName(profile.room_url_key)})`,
+          textComment
         );
       }
     } catch (err) {
@@ -239,7 +247,9 @@ export default function Comment({ roomId, isMultiRoom }) {
                   backgroundColor: "#24a2b7",
                   width: "90px",
                 }}
-                onClick={() => gaEvent("Login", "Login To Comment", "Live Stream")}
+                onClick={() =>
+                  gaEvent("Login", "Login To Comment", "Live Stream")
+                }
               >
                 Login
               </button>

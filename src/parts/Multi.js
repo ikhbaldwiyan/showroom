@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Col } from "reactstrap";
-import { liveDetail } from "utils/api/api";
+import { LIVE_STREAM_URL } from "utils/api/api";
 import { getSession } from "utils/getSession";
 
 import Stream from "pages/streaming/Stream";
@@ -42,7 +42,7 @@ export default function Multi({
   }, []);
 
   useEffect(() => {
-    axios.get(liveDetail(roomId)).then((res) => {
+    axios.get(LIVE_STREAM_URL(roomId)).then((res) => {
       const streamUrl = res.data;
       setUrl(streamUrl);
     });
@@ -50,7 +50,6 @@ export default function Multi({
   }, [roomId]);
 
   useEffect(() => {
-    window.document.title = "JKT48 SHOWROOM";
     menu === "room" && window.scrollTo(0, 0);
 
     setLoading(true);
@@ -110,7 +109,7 @@ export default function Multi({
           isMultiRoom={isMultiRoom}
         />
       ) : menu === "chat" ? (
-        <LiveChat roomId={roomId} isMultiRoom />
+        <LiveChat roomId={roomId} setRoomId={setRoomId} isMultiRoom />
       ) : menu === "rank" ? (
         <StageUser roomId={roomId} />
       ) : menu === "gift" ? (
