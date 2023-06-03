@@ -1,18 +1,22 @@
 import React from "react";
 import { Button, Col, Row } from "reactstrap";
-import { FaUsersCog, FaUsersSlash, FaUsers } from "react-icons/fa";
+import { FaUsersCog, FaUsersSlash, FaUsers, FaStar } from "react-icons/fa";
 import { MdResetTv } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { gaEvent } from "utils/gaEvent";
 import { multiRoomUser } from "utils/permissions/multiRoomUser";
 import { useState } from "react";
 import ModalSorry from "./ModalSorry";
+import { GiFarmer } from "react-icons/gi";
+import { farmingUser } from "utils/permissions/farmingUser";
 
 function MultiMenu({
   layout,
   setLayout,
   hideMultiMenu,
   setHideMultiMenu,
+  isFarming,
+  setIsFarming,
 }) {
   const iconCss = {
     fontSize: 20,
@@ -42,6 +46,18 @@ function MultiMenu({
       },
       color: "info",
     },
+    ...(farmingUser() === true
+      ? [
+          {
+            name: !isFarming ? "Set Farm" : "Hide Farm",
+            icon: <GiFarmer className="mb-1" />,
+            func: function () {
+              setIsFarming(!isFarming);
+            },
+            color: "success",
+          },
+        ]
+      : []),
     {
       name: "Reset All Room",
       icon: <FaUsersSlash style={iconCss} />,

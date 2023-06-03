@@ -18,10 +18,11 @@ import {
   TotalRank,
   Gift,
   StarButton,
-  NoTicket
+  NoTicket,
 } from "components";
 import { isMobile } from "react-device-detect";
 import { useSelector } from "react-redux";
+import FarmStars from "components/FarmStars";
 import { getSession } from "utils/getSession";
 import { MdError } from "react-icons/md";
 
@@ -38,6 +39,7 @@ function Live(props) {
   const [user, setUser] = useState("");
   const { room_name } = useSelector((state) => state.roomDetail);
   const [hideStars, setHideStars] = useState(false);
+  const [isFarming, setIsFarming] = useState(false);
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
 
   useEffect(() => {
@@ -82,7 +84,7 @@ function Live(props) {
   const messages = () =>
     toast.error("Room Offline", {
       theme: "colored",
-      autoClose: 1200
+      autoClose: 1200,
     });
 
   useEffect(() => {
@@ -121,6 +123,8 @@ function Live(props) {
                     theme={props.theme}
                     hideStars={hideStars}
                     setHideStars={setHideStars}
+                    isFarming={isFarming}
+                    setIsFarming={setIsFarming}
                   />
                   {session && !isMobile && !hideStars && (
                     <StarButton
@@ -159,15 +163,14 @@ function Live(props) {
           </Col>
           <Col lg="4">
             {url.code !== 404 && (
-              <>
-                <Menu
-                  menu={menu}
-                  setMenu={setMenu}
-                  isLive={url}
-                  roomId={roomId}
-                  hideMenu={hideMenu}
-                />
-              </>
+              <Menu
+                menu={menu}
+                setMenu={setMenu}
+                isLive={url}
+                roomId={roomId}
+                hideMenu={hideMenu}
+                isFarming={isFarming}
+              />
             )}
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />
@@ -179,7 +182,7 @@ function Live(props) {
               <Gift roomId={roomId} />
             ) : menu === "total" ? (
               <TotalRank roomId={roomId} />
-            ) : (
+            ) : menu === "star" ? (
               <StarButton
                 roomId={roomId}
                 cookiesLoginId={cookiesLoginId}
@@ -187,6 +190,10 @@ function Live(props) {
                 theme={props.theme}
                 setUrl={setUrl}
               />
+            ) : menu === "farming" ? (
+              <FarmStars isSingleLive />
+            ) : (
+              ""
             )}
           </Col>
         </Row>

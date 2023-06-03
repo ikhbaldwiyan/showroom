@@ -7,8 +7,9 @@ import { FaListAlt } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
 import { PROFILE_API } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
+import { GiFarmer } from "react-icons/gi";
 
-function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
+function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom, isFarming }) {
   const [roomName, setRoomName] = useState("");
 
   useEffect(() => {
@@ -27,35 +28,42 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
     isLive.length && setMenu("chat");
   }, [isLive.length]);
 
-  const iconStyle = {
-    marginBottom: 4,
-  };
-
   const listMenu = [
     {
       name: "Chat",
       menu: "chat",
-      icon: <BsFillChatDotsFill style={iconStyle} />,
+      icon: <BsFillChatDotsFill style={icon} />,
     },
     {
-      name: !isMultiRoom && !isMobile ? "Rank" : "",
+      name: !isMultiRoom && !isMobile && !isFarming ? "Rank" : "",
       menu: "rank",
-      icon: <AiFillTrophy style={iconStyle} />,
+      icon: <AiFillTrophy style={icon} />,
     },
     {
-      name: !isMultiRoom && !isMobile ? "Gift" : "",
+      name: !isMultiRoom && !isMobile && !isFarming ? "Gift" : "",
       menu: "gift",
-      icon: <AiFillGift style={iconStyle} />,
+      icon: <AiFillGift style={icon} />,
     },
     ...(isMultiRoom || isMobile
       ? [
           {
             name: !isMobile && !isMultiRoom && "Star",
             menu: "star",
-            icon: <AiFillStar style={iconStyle} />,
+            icon: <AiFillStar style={icon} />,
           },
         ]
       : []),
+    ...(isFarming && !isMultiRoom
+      ? [
+          {
+            name: !isMobile && !isMultiRoom && "",
+            menu: "farming",
+            icon: <GiFarmer style={icon} />,
+          },
+        ]
+      : [
+          
+        ]),
   ];
 
   const buttonStyle = {
@@ -82,7 +90,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
             style={menu === "room" ? buttonActive : buttonStyle}
             onClick={() => handleChangeMenu("room")}
           >
-            <FaListAlt style={iconStyle} /> Room
+            <FaListAlt style={icon} /> Room
           </Button>
         )}
         {!isLive.length && (
@@ -92,7 +100,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
               style={menu === "total" ? buttonActive : buttonStyle}
               onClick={() => handleChangeMenu("total")}
             >
-              <AiFillTrophy style={iconStyle} /> Total Rank {roomName}
+              <AiFillTrophy style={icon} /> Total Rank {roomName}
             </Button>
           </>
         )}
@@ -114,3 +122,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom }) {
 }
 
 export default Menu;
+
+const icon = {
+  marginBottom: 4,
+};
