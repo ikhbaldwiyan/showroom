@@ -81,13 +81,17 @@ export const multiRoomUser = () => {
       id: "zharrxx"
     },
     {
-      nama: "Khatsuu",
+      name: "Khatsuu",
       id: "khatsu123"
     },
     {
-      nama: "ZAKII",
+      name: "ZAKII",
       id: "ASTROPHILE"
-    }
+    },
+    {
+      name: "DixaVi",
+      id: "48fleyprb11"
+    },
   ];
 
   const isRegisteredUser = registeredUsers.some((user) => user?.id === id);
