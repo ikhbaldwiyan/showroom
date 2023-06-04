@@ -18,6 +18,18 @@ const ROOM_OFFICIAL = `${LARAVEL_API}/farm/get_room`;
 const BULK_GIFT = `${LARAVEL_API}/live/bulk_gift`;
 const SEND_GIFT = `${LARAVEL_API}/live/send_gift`;
 
+// SHOWROOM LOG API
+const SHOWROOM_LOG_API = "https://dc.crstlnz.site/api/showroom";
+const RECENT_LIVE_LOG_API = (
+  sort = "date",
+  page = "1",
+  filter = "active",
+  order = "-1",
+  perpage= "10"
+) => {
+  return `${SHOWROOM_LOG_API}/recent?sort=${sort}&page=${page}&filter=${filter}&order=${order}&perpage=${perpage}`;
+};
+
 // ROOM API
 const ROOM_LIST_API = ROOM;
 const ROOM_GEN_10 = `${ROOM}/academy`;
@@ -86,4 +98,5 @@ export {
   BULK_GIFT,
   SEND_GIFT,
   THEATER_SCHEDULE_API,
+  RECENT_LIVE_LOG_API
 };
