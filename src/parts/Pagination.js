@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { isMobile } from "react-device-detect";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 
 const PaginationComponent = ({ page, perPage, totalCount, setPage }) => {
@@ -34,7 +35,7 @@ const PaginationComponent = ({ page, perPage, totalCount, setPage }) => {
   };
 
   return (
-    <Pagination>
+    <Pagination size={isMobile ? "sm" : "md"}>
       <PaginationItem disabled={currentPage === 1}>
         <PaginationLink
           previous

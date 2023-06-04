@@ -3,7 +3,11 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { RECENT_LIVE_LOG_API } from "utils/api/api";
-import MainLayout from "./layout/MainLayout";
+import { FaClock } from "react-icons/fa";
+import { BsCalendarDateFill, BsPeopleFill } from "react-icons/bs";
+import { AiFillGift } from "react-icons/ai";
+import { GiBackwardTime } from "react-icons/gi";
+import { FcSearch } from "react-icons/fc";
 import {
   Card,
   CardImg,
@@ -13,39 +17,38 @@ import {
   CardSubtitle
 } from "reactstrap";
 import TimeAgo from "react-timeago";
-import { FaClock } from "react-icons/fa";
-import { BsCalendarDateFill, BsPeopleFill } from "react-icons/bs";
-import { AiFillGift } from "react-icons/ai";
-import { GiBackwardTime } from "react-icons/gi";
 import formatViews from "utils/formatViews";
-import PaginationComponent from "parts/Pagination";
 import formatLongDate from "utils/formatLongDate";
+import MainLayout from "./layout/MainLayout";
+import Pagination from "parts/Pagination";
 
 const LiveHistory = (props) => {
   const [logs, setLogs] = useState([]);
   const [sort, setSort] = useState("date");
-  const [page, setPage] = useState("1");
+  const [page, setPage] = useState(1);
   const [filter, setFilter] = useState("active");
   const [order, setOrder] = useState("-1");
   const [perPage, setPerpage] = useState(12);
   const [totalCount, setTotalCount] = useState("");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function getRoomList() {
       try {
         const history = await axios.get(
-          RECENT_LIVE_LOG_API(sort, page, filter, order, perPage)
+          RECENT_LIVE_LOG_API(sort, page, filter, order, perPage, search)
         );
-        setLogs(history.data.recents);
-        setPerpage(history.data.perpage);
-        setTotalCount(history.data.total_count);
+        const { recents, perpage, total_count } = history.data;
+        setLogs(recents);
+        setPerpage(perpage);
+        setTotalCount(total_count);
       } catch (error) {
         console.log(error);
       }
     }
     getRoomList();
     window.document.title = "LIVE HISTORY";
-  }, [sort, page, filter, order, perPage, totalCount]);
+  }, [sort, page, filter, order, perPage, totalCount, search]);
 
   const getLiveDuration = (duration) => {
     const minutes = Math.floor(duration / 60000);
@@ -59,18 +62,37 @@ const LiveHistory = (props) => {
     }
   };
 
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    setPage(1);
+  };
+
   return (
     <MainLayout {...props}>
       <Container>
         <div className="d-flex justify-content-between align-items-center">
           <h3>Member Live History</h3>
-          <PaginationComponent
-            page={page}
-            perPage={perPage}
-            totalCount={totalCount}
-            setPage={setPage}
-          />
         </div>
+        <Row className="d-flex">
+          <div className="col-md-4 col-sm-12 search-wrapper">
+            <FcSearch className="search-bar" color="#03665c" size="1.5em" />
+            <input
+              style={{ width: "100%", padding: "1rem 1rem 1rem 3rem" }}
+              type="text"
+              placeholder="Search Live History"
+              onChange={handleSearch}
+              className="form-control"
+            />
+          </div>
+          <div className="col-md-8 col-sm-12 mt-3">
+            <Pagination
+              page={page}
+              perPage={perPage}
+              totalCount={totalCount}
+              setPage={setPage}
+            />
+          </div>
+        </Row>
         <Row>
           {logs.map((log, idx) => {
             const { member, live_info } = log;

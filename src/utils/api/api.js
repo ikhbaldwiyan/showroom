@@ -25,9 +25,10 @@ const RECENT_LIVE_LOG_API = (
   page = "1",
   filter = "active",
   order = "-1",
-  perpage= "10"
+  perpage = "10",
+  search = ""
 ) => {
-  return `${SHOWROOM_LOG_API}/recent?sort=${sort}&page=${page}&filter=${filter}&order=${order}&perpage=${perpage}`;
+  return `${SHOWROOM_LOG_API}/recent?sort=${sort}&page=${page}&filter=${filter}&order=${order}&perpage=${perpage}&search=${search}`;
 };
 
 // ROOM API
