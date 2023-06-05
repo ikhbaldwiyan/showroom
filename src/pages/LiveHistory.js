@@ -47,7 +47,7 @@ const LiveHistory = (props) => {
       }
     }
     getRoomList();
-    window.document.title = "LIVE HISTORY";
+    window.document.title = "Member Live History";
   }, [sort, page, filter, order, perPage, totalCount, search]);
 
   const getLiveDuration = (duration) => {
@@ -114,17 +114,20 @@ const LiveHistory = (props) => {
                     <CardTitle tag="h5" style={{ fontWeight: "bold" }}>
                       {member.name}
                     </CardTitle>
+                    <div
+                      className="d-flex align-items-center mt-2"
+                      style={{ color: "#CBD5E0" }}
+                    >
+                      <BsCalendarDateFill className="mr-2" />
+                      <span>{formatLongDate(live_info.date.start)}</span>
+                      <span className="mx-1">-</span>
+                      <span>{formatLongDate(live_info.date.end, true)}</span>
+                    </div>
                     <hr style={{ borderColor: "white" }} />
                     <CardSubtitle tag="h6" className="mb-2">
                       <div className="d-flex align-items-center py-1">
                         <BsPeopleFill className="mr-2" />
                         <span> {formatViews(live_info.viewers)}</span>
-                      </div>
-                      <div className="d-flex align-items-center py-1">
-                        <BsCalendarDateFill className="mr-2" />
-                        <span>{formatLongDate(live_info.date.start)}</span>
-                        <span className="mx-1">-</span>
-                        <span>{formatLongDate(live_info.date.end, true)}</span>
                       </div>
                       <div className="d-flex align-items-center py-1">
                         <FaClock className="mr-2" />
@@ -146,7 +149,7 @@ const LiveHistory = (props) => {
                               className="mr-1"
                             />
                             <TimeAgo
-                              style={{ color: "ghostwhite" }}
+                              style={{ color: "#E2E8F0" }}
                               date={live_info.date.start}
                             />
                           </div>
