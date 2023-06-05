@@ -45,7 +45,7 @@
 @import "container-grid";
 
 .brand-text-icon {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 600;
   font-family: "Poopins", sans-serif;
   color: $primary;
@@ -60,10 +60,47 @@
   }
 }
 
+.logo-icon {
+  @media only screen and (max-width: 400px) {
+    display: none;
+  }
+}
+
+.theater-title {
+  @media only screen and (max-width: 400px) {
+    font-size: 22px;
+  }
+}
+
+.brand-text-icon {
+  @media only screen and (max-width: 700px) {
+    font-size: 25px;
+  }
+}
+
+.brand-text-icon {
+  @media only screen and (max-width: 350px) {
+    font-size: 20px;
+  }
+}
+
+.discord-text {
+  @media only screen and (max-width: 400px) {
+    font-size: 14px;
+  }
+}
+
 .sticky {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
+  z-index: 99;
+}
+
+.sticky-comment {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
   z-index: 99;
 }
 
@@ -160,7 +197,7 @@ section {
       margin: 0;
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      transform: scale(1.1);
+      transform: scale(1);
       transition: 0.25s transform ease-in-out;
       border-radius: $border-radius;
     }
@@ -185,10 +222,10 @@ section {
         transform: translateY(-10px);
       }
       &:after {
-        transform: scale(1);
+        transform: scale(1.1);
       }
       .img-wrapper {
-        transform: scale(1);
+        transform: scale(1.1);
       }
     }
   }
@@ -212,7 +249,7 @@ section {
 }
 
 .scroll {
-  max-height: 450px;
+  max-height: 600px;
   overflow-y: auto;
   margin-bottom: 15px;
 }
@@ -297,4 +334,51 @@ main {
     color: $gray-500;
     font-weight: 300;
   }
+}
+
+@media (max-width: 767px) {
+  .navbar-nav {
+    gap: 10px; 
+    margin-top: 10px !important;
+    margin-bottom: 24px !important;
+    box-shadow: 0px 1px 5px rgba(192, 192, 192, 0.5);
+  }
+
+  .title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .dark-mode {
+    display: none !important;
+  }
+
+  .search-wrapper {
+    padding-left: auto !important;
+    padding-right: auto !important;
+  }
+
+  .btn-onlive {
+    display: none !important;
+   }
+}
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input {
+  padding-right: 2.5rem;
+}
+
+.input-with-icon .password-toggle-icon {
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  color: #aaa;
+  cursor: pointer;
 }

@@ -1,55 +1,85 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Row, Col, Button } from 'reactstrap';
-import { AiFillGift, AiFillTrophy } from "react-icons/ai";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Row, Col, Button } from "reactstrap";
+import { AiFillGift, AiFillStar, AiFillTrophy } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { FaListAlt } from "react-icons/fa";
-import { API } from 'utils/api/api';
+import { isMobile } from "react-device-detect";
+import { PROFILE_API } from "utils/api/api";
+import { gaEvent } from "utils/gaEvent";
+import { GiFarmer } from "react-icons/gi";
 
-function Menu({menu, setMenu, isLive, roomId, hideMenu}) {
-  const [roomName, setRoomName] = useState('');
+function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom, isFarming }) {
+  const [roomName, setRoomName] = useState("");
 
   useEffect(() => {
-    axios.get(`${API}/rooms/profile/${roomId}`).then((res) => {
+    axios.post(PROFILE_API, { room_id: roomId.toString() }).then((res) => {
       const profiles = res.data;
-      const roomName = profiles.room_url_key !== 'officialJKT48' && profiles.room_url_key.includes("JKT48") ? profiles.room_url_key.slice(6) + ' JKT48' : profiles.room_name 
+      const roomName =
+        profiles.room_url_key !== "officialJKT48" &&
+        profiles.room_url_key.includes("JKT48")
+          ? profiles.room_url_key.slice(6) + " JKT48"
+          : profiles.room_name;
       setRoomName(roomName);
     });
-  }, [roomId])
+  }, [roomId]);
 
   useEffect(() => {
-    isLive.length && setMenu('chat');
-  }, [isLive.length])
-
-  const iconStyle = {
-    marginBottom: 4
-  }
+    isLive.length && setMenu("chat");
+  }, [isLive.length]);
 
   const listMenu = [
     {
-      name: 'Chat',
-      menu: 'chat',
-      icon: <BsFillChatDotsFill style={iconStyle}/>
+      name: "Chat",
+      menu: "chat",
+      icon: <BsFillChatDotsFill style={icon} />,
     },
     {
-      name: 'Rank',
-      menu: 'rank',
-      icon: <AiFillTrophy style={iconStyle} />
+      name: !isMultiRoom && !isMobile && !isFarming ? "Rank" : "",
+      menu: "rank",
+      icon: <AiFillTrophy style={icon} />,
     },
     {
-      name: 'Gift',
-      menu: 'gift',
-      icon: <AiFillGift style={iconStyle} />
+      name: !isMultiRoom && !isMobile && !isFarming ? "Gift" : "",
+      menu: "gift",
+      icon: <AiFillGift style={icon} />,
     },
-  ]
+    ...(isMultiRoom || isMobile
+      ? [
+          {
+            name: !isMobile && !isMultiRoom && "Star",
+            menu: "star",
+            icon: <AiFillStar style={icon} />,
+          },
+        ]
+      : []),
+    ...(isFarming && !isMultiRoom
+      ? [
+          {
+            name: !isMobile && !isMultiRoom && "",
+            menu: "farming",
+            icon: <GiFarmer style={icon} />,
+          },
+        ]
+      : [
+          
+        ]),
+  ];
 
   const buttonStyle = {
-    backgroundColor: 'teal', border: 'none'
-  }
+    backgroundColor: "teal",
+    border: "none",
+  };
 
   const buttonActive = {
-    backgroundColor: '#008b9b', border: 'none'
-  }
+    backgroundColor: "#008b9b",
+    border: "none",
+  };
+
+  const handleChangeMenu = (menu) => {
+    setMenu(menu);
+    gaEvent("Menu", `Set ${menu}`, "Live Stream");
+  };
 
   return (
     <Row>
@@ -57,38 +87,42 @@ function Menu({menu, setMenu, isLive, roomId, hideMenu}) {
         {!hideMenu && (
           <Button
             className="menu"
-            style={menu === 'room' ? buttonActive : buttonStyle}
-            onClick={() => setMenu('room')}
+            style={menu === "room" ? buttonActive : buttonStyle}
+            onClick={() => handleChangeMenu("room")}
           >
-            <FaListAlt style={iconStyle} /> Room
+            <FaListAlt style={icon} /> Room
           </Button>
         )}
         {!isLive.length && (
           <>
             <Button
               className="menu"
-              style={menu === 'total' ? buttonActive : buttonStyle}
-              onClick={() => setMenu('total')}
+              style={menu === "total" ? buttonActive : buttonStyle}
+              onClick={() => handleChangeMenu("total")}
             >
-              <AiFillTrophy style={iconStyle} /> Total Rank {roomName}
+              <AiFillTrophy style={icon} /> Total Rank {roomName}
             </Button>
           </>
         )}
-        {isLive.length !== 0 && !hideMenu && (
+        {isLive.length !== 0 &&
+          !hideMenu &&
           listMenu.map((item, idx) => (
             <Button
               key={idx}
               style={menu === item.menu ? buttonActive : buttonStyle}
               className="menu"
-              onClick={() => setMenu(item.menu)}
+              onClick={() => handleChangeMenu(item.menu)}
             >
               {item.icon} {item.name}
             </Button>
-          ))
-        )}
+          ))}
       </Col>
     </Row>
-  )
+  );
 }
 
 export default Menu;
+
+const icon = {
+  marginBottom: 4,
+};

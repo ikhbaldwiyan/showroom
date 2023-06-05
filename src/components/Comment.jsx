@@ -2,28 +2,40 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Card } from "reactstrap";
-import { SEND_COMMENT, LIVE_COMMENT, profileApi } from "utils/api/api";
+import { SEND_COMMENT, LIVE_COMMENT, PROFILE_API } from "utils/api/api";
 import Skeleton from "react-content-loader";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
+import { FiSend } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { gaEvent } from "utils/gaEvent";
+import formatName from "utils/formatName";
+import { getSession } from "utils/getSession";
 
-export default function Comment({ roomId, isMultiRoom }) {
-  const [comment, setComment] = useState("");
+export default function Comment({ roomId, isMultiRoom, setRoomId }) {
+  const [comment, setComment] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [session, setSession] = useState("");
   const [textComment, setTextComment] = useState("");
   const [error, setError] = useState("");
   const [myName, setMyName] = useState("");
   const [profile, setProfile] = useState("");
+  const cookies = getSession()?.session?.cookie_login_id ?? "comment";
 
   useEffect(() => {
     async function getComments() {
-      await axios.get(LIVE_COMMENT(roomId)).then((res) => {
+      try {
+        const res = await axios.get(LIVE_COMMENT(roomId, cookies));
         const comments = res.data;
         setTimeout(() => {
           setComment(comments);
-        }, 2000);
-      });
+        }, 6000);
+        if (comments.length < 1) {
+          !isMultiRoom ? window.location.reload() : setRoomId(roomId);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
     getComments();
   }, [comment, textComment, roomId]);
@@ -37,16 +49,20 @@ export default function Comment({ roomId, isMultiRoom }) {
       setMyName(foundUser.user_id);
       setSession(foundSession);
     }
-
   }, []);
 
   useEffect(() => {
-    axios.get(profileApi(roomId)).then((res) => {
-      const profile = res.data;
-      setProfile(profile)
-    });
-  }, [roomId])
-  
+    axios
+      .post(PROFILE_API, {
+        room_id: roomId.toString(),
+        cookie: session.cookie_login_id,
+      })
+      .then((res) => {
+        const profile = res.data;
+        setProfile(profile);
+      });
+  }, [roomId]);
+
   const sendComment = async (e) => {
     e.preventDefault();
     setButtonLoading(true);
@@ -62,14 +78,41 @@ export default function Comment({ roomId, isMultiRoom }) {
       setButtonLoading(false);
 
       if (isMultiRoom == true) {
-        toast.success(`Send comment to ${profile?.room_url_key.replace("JKT48_", "")} success`, {
-          theme: "colored"
-        });
+        toast.success(
+          `Send comment to ${profile?.room_url_key.replace(
+            "JKT48_",
+            ""
+          )} success`,
+          {
+            theme: "colored",
+          }
+        );
       }
 
+      if (isMultiRoom) {
+        gaEvent(
+          "Comment",
+          `Send Comment Multi (${formatName(profile.room_url_key)})`,
+          textComment
+        );
+      } else {
+        gaEvent(
+          "Comment",
+          `Send Comment Regular (${formatName(profile.room_url_key)})`,
+          textComment
+        );
+      }
     } catch (err) {
+      if (textComment.length > 50) {
+        toast.error(`Comment terlalu panjang max 50 karakter gan`, {
+          theme: "colored",
+        });
+      }
       setButtonLoading(false);
       setError("Please try again");
+      toast.error("Server down please contact admin", {
+        theme: "colored",
+      });
     }
   };
 
@@ -116,11 +159,11 @@ export default function Comment({ roomId, isMultiRoom }) {
     <Card body inverse color="dark" className="p-0 mb-5">
       <Card body inverse color="dark" className="scroll">
         <div>
-          {comment && comment.length != 0 ? (
-            comment.map(
+          {comment?.length != 0 ? (
+            comment?.map(
               (item, idx) =>
-                item.comment.length != "2" &&
-                item.comment.length != "1" && (
+                item?.comment?.length != "2" &&
+                item?.comment?.length != "1" && (
                   <div key={idx}>
                     <h5
                       style={{
@@ -156,12 +199,12 @@ export default function Comment({ roomId, isMultiRoom }) {
         <>
           {error ? <p className="pl-2 pb-0 text-danger">{error}</p> : ""}
 
-          <form className="d-flex" onSubmit={sendComment}>
+          <form className="d-flex sticky-comment" onSubmit={sendComment}>
             <input
               type="text"
               className="form-control"
               style={{ borderRadius: "0 0 0 .25rem", height: "3rem" }}
-              placeholder="Comment"
+              placeholder="Write comment"
               value={textComment}
               onChange={(e) => setTextComment(e.target.value)}
             />
@@ -176,32 +219,41 @@ export default function Comment({ roomId, isMultiRoom }) {
               }}
               disabled={buttonLoading ? true : false}
             >
-              {buttonLoading ? <Loading color="white" size={8} /> : "Send"}
+              {buttonLoading ? (
+                <Loading color="white" size={8} />
+              ) : (
+                <FiSend size={20} />
+              )}
             </button>
           </form>
         </>
       ) : (
         <>
-          <form className="d-flex">
+          <form className="d-flex sticky-comment">
             <input
               type="text"
               className="form-control"
               style={{ borderRadius: "0 0 0 .25rem", height: "3rem" }}
-              placeholder="Login here if you want comment"
+              placeholder="Please Login to comment"
               disabled={true}
             />
-            <button
-              type="button"
-              className="btn text-light"
-              style={{
-                borderRadius: "0 0 .25rem 0",
-                height: "3rem",
-                backgroundColor: "#24a2b7",
-                width: "90px",
-              }}
-            >
-             Login
-            </button>
+            <Link to="/login">
+              <button
+                type="button"
+                className="btn text-light"
+                style={{
+                  borderRadius: "0 0 .25rem 0",
+                  height: "3rem",
+                  backgroundColor: "#24a2b7",
+                  width: "90px",
+                }}
+                onClick={() =>
+                  gaEvent("Login", "Login To Comment", "Live Stream")
+                }
+              >
+                Login
+              </button>
+            </Link>
           </form>
         </>
       )}
@@ -211,8 +263,8 @@ export default function Comment({ roomId, isMultiRoom }) {
 
 const styles = {
   name: {
-    display: 'inline',
-    color: '#24a2b7',
+    display: "inline",
+    color: "#24a2b7",
     fontWeight: 500,
     fontSize: "17px",
   },

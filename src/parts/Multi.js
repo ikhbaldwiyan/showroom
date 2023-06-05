@@ -1,7 +1,8 @@
 import axios from "axios";
-import { Col } from "reactstrap";
-import { liveDetail } from "utils/api/api";
 import React, { useState, useEffect } from "react";
+import { Col } from "reactstrap";
+import { LIVE_STREAM_URL } from "utils/api/api";
+import { getSession } from "utils/getSession";
 
 import Stream from "pages/streaming/Stream";
 import {
@@ -13,15 +14,18 @@ import {
   StageUser,
   TotalRank,
   Gift,
-  Setlist
+  Setlist,
+  StarMulti,
 } from "components";
 
 export default function Multi({
   layout,
   hideMultiMenu,
   setHideMultiMenu,
-  theme
+  theme,
 }) {
+  const [cookiesLoginId, setCookiesLoginId] = useState("");
+  const [csrfToken, setCsrfToken] = useState("");
   const [url, setUrl] = useState([]);
   const [roomId, setRoomId] = useState("");
   const [menu, setMenu] = useState("room");
@@ -29,15 +33,23 @@ export default function Multi({
   const [hideMenu, setHideMenu] = useState(false);
 
   useEffect(() => {
-    axios.get(liveDetail(roomId)).then((res) => {
+    const userSession = localStorage.getItem("session");
+    if (userSession) {
+      const foundSession = JSON.parse(userSession);
+      setCookiesLoginId(foundSession.cookie_login_id);
+      setCsrfToken(foundSession.csrf_token);
+    }
+  }, []);
+
+  useEffect(() => {
+    axios.get(LIVE_STREAM_URL(roomId)).then((res) => {
       const streamUrl = res.data;
       setUrl(streamUrl);
     });
     !url && setMenu("room");
-  }, [roomId, url]);
+  }, [roomId]);
 
   useEffect(() => {
-    window.document.title = "JKT48 SHOWROOM";
     menu === "room" && window.scrollTo(0, 0);
 
     setLoading(true);
@@ -70,11 +82,12 @@ export default function Multi({
           setRoomId={setRoomId}
           isLoad={loading}
           menu={menu}
+          session={getSession().session}
         />
       ) : (
         <Stream url="" />
       )}
-      {url.length === 0 && (
+      {!roomId && (
         <p className="h6 text-center py-2">Please Choose Member Room</p>
       )}
       {roomId ? (
@@ -84,7 +97,7 @@ export default function Multi({
           isLive={url}
           roomId={roomId}
           hideMenu={hideMenu}
-          isMultiRoom={isMultiRoom}
+          isMultiRoom
         />
       ) : (
         ""
@@ -96,13 +109,20 @@ export default function Multi({
           isMultiRoom={isMultiRoom}
         />
       ) : menu === "chat" ? (
-        <LiveChat roomId={roomId} isMultiRoom />
+        <LiveChat roomId={roomId} setRoomId={setRoomId} isMultiRoom />
       ) : menu === "rank" ? (
         <StageUser roomId={roomId} />
       ) : menu === "gift" ? (
         <Gift roomId={roomId} />
       ) : menu === "total" ? (
         <TotalRank roomId={roomId} />
+      ) : menu === "star" ? (
+        <StarMulti
+          roomId={roomId}
+          theme={theme}
+          cookiesLoginId={cookiesLoginId}
+          csrfToken={csrfToken}
+        />
       ) : (
         <Setlist />
       )}

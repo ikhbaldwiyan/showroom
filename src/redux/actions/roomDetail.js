@@ -6,14 +6,15 @@ export const getRoomDetailLoad = () => {
   };
 };
 
-export const getRoomDetailSucces = (profile) => {
-  let title = profile.room_url_key.includes("JKT48") && profile.room_url_key !== 'officialJKT48';
+export const getRoomDetailSucces = (profile, isFollow) => {
+  let title = profile?.room_url_key?.includes("JKT48") && profile.room_url_key !== 'officialJKT48';
   let name = title ? `${profile.room_url_key.slice(6)} JKT48 Room` : profile.room_name;
   
   return {
     type: STATE.GET_ROOM_DETAIL_SUCCESS,
     payload: profile,
-    room_name: name
+    room_name: name,
+    isFollow: isFollow
   };
 };
 

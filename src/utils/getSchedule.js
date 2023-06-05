@@ -1,4 +1,4 @@
-export default function (times, type) {
+export default function getSchedule (times, type) {
   function getTimes(dateInput) {
     const date = new Date(dateInput);
     const language = type !== 'isLastSeen' && 'id-ID';

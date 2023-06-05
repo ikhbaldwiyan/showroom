@@ -1,78 +1,93 @@
-const API = "https://jkt48showroom-api.vercel.app/api";
+// BASE URL API
+const API = "https://jkt48-showroom-api.vercel.app/api";
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
-const SHOWROOM_API = "https://www.showroom-live.com/api"
 
-// Laravel API
+// LARAVEL API
 const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
 const LOGIN = `${LARAVEL_API}/login`;
 const SEND_COMMENT = `${LARAVEL_API}/live/comment`;
 const UPDATE_PROFILE = `${LARAVEL_API}/profile/update`;
 const GET_AVATAR = `${LARAVEL_API}/profile/get_avatar`;
 const UPDATE_AVATAR = `${LARAVEL_API}/profile/update_avatar`;
+const USER_PROFILE = `${LARAVEL_API}/profile/user`;
+const ROOM_FOLLOW = `${LARAVEL_API}/room/followed_rooms`;
+const FOLLOW = `${LARAVEL_API}/room/follow`;
+const PROFILE_API = `${LARAVEL_API}/profile/room`;
+const REGISTER = `${LARAVEL_API}/register`;
+const FARM = `${LARAVEL_API}/farm/start`;
+const ROOM_OFFICIAL = `${LARAVEL_API}/farm/get_room`;
+const BULK_GIFT = `${LARAVEL_API}/live/bulk_gift`;
+const SEND_GIFT = `${LARAVEL_API}/live/send_gift`;
 
-// Live API
-const liveDetail = (roomId) => {
-  return `${LIVE}/${roomId}`;
+// ROOM API
+const ROOM_LIST_API = ROOM;
+const ROOM_GEN_10 = `${ROOM}/academy`;
+const ROOM_LIVES_API = `${ROOM}/onlives`;
+const ROOM_TRAINEE_API = `${ROOM}/trainee`;
+const THEATER_SCHEDULE_API = `${ROOM}/theater-schedule`;
+
+// LIVE API
+const LIVE_STREAM_URL = (roomId, cookies) => {
+  return `${LIVE}/stream/${roomId}/${cookies}`;
 };
 
-const liveRanking = (roomId) => {
-  return `${LIVE}/rank/${roomId}`;
+const LIVE_RANKING = (roomId, cookies) => {
+  return `${LIVE}/rank/${roomId}/${cookies}`;
 };
 
-const liveGift = (roomId) => {
-  return `${LIVE}/gift/${roomId}`;
+const LIVE_GIFT = (roomId, cookies) => {
+  return `${LIVE}/gift/${roomId}/${cookies}`;
 };
 
-const LIVE_COMMENT = (roomId) => {
-  return `${LIVE}/comments/${roomId}`
-}
-
-// Room API
-const roomListApi = ROOM;
-const roomAcademyApi = `${ROOM}/academy`;
-const roomLivesApi = `${ROOM}/onlives`;
-
-const profileApi = (roomId) => {
-  return `${ROOM}/profile/${roomId}`;
+const LIVE_COMMENT = (roomId, cookies) => {
+  return `${LIVE}/comments/${roomId}/${cookies}`;
 };
 
-const fanLetter = (roomId) => {
+const LIVE_INFO = (roomId, cookies) => {
+  return `${LIVE}/info/${roomId}/${cookies}`;
+};
+
+const FAN_LETTER = (roomId) => {
   return `${ROOM}/fan-letters/${roomId}`;
 };
 
-const totalRank = (roomId) => {
-  return `${LIVE}/total-rank/${roomId}`;
+const TOTAL_RANK = (roomId) => {
+  return `${ROOM}/total-rank/${roomId}`;
 };
 
-const nextLive = (roomId) => {
+const NEXT_LIVE = (roomId) => {
   return `${ROOM}/next_live/${roomId}`;
 };
 
-// User Profile API
-
-const USER_PROFILE = (roomId) => {
-  return `${SHOWROOM_API}/user/profile?user_id=${roomId}`
-}
-
 export {
   API,
-  roomListApi,
-  roomLivesApi,
-  roomAcademyApi,
-  profileApi,
-  fanLetter,
-  totalRank,
-  liveDetail,
-  liveRanking,
-  liveGift,
+  ROOM_LIST_API,
+  ROOM_LIVES_API,
+  ROOM_GEN_10,
+  ROOM_TRAINEE_API,
+  FAN_LETTER,
+  TOTAL_RANK,
+  LIVE_STREAM_URL,
+  LIVE_RANKING,
+  LIVE_GIFT,
+  LIVE_INFO,
+  NEXT_LIVE,
   LIVE_COMMENT,
-  nextLive,
   LARAVEL_API,
   LOGIN,
   SEND_COMMENT,
   USER_PROFILE,
   UPDATE_PROFILE,
   GET_AVATAR,
-  UPDATE_AVATAR
+  UPDATE_AVATAR,
+  ROOM_FOLLOW,
+  FOLLOW,
+  PROFILE_API,
+  REGISTER,
+  FARM,
+  ROOM_OFFICIAL,
+  BULK_GIFT,
+  SEND_GIFT,
+  THEATER_SCHEDULE_API,
 };

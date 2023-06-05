@@ -3,9 +3,13 @@ import { Loading } from "components";
 import EditAvatar from "components/EditAvatar";
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaUserCheck, FaUserEdit, FaWindowClose } from "react-icons/fa";
+import { isMobile } from "react-device-detect";
 import { RiLogoutBoxFill } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { clearFollowedRoom } from "redux/actions/roomFollowed";
 import { UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
 
 export default function UserProfile({ data, session, theme }) {
@@ -19,13 +23,16 @@ export default function UserProfile({ data, session, theme }) {
   const toggle = () => setModal(!modal);
   const toggleLogout = () => setModalLogout(!modalLogout);
 
+  const navigate = useHistory();
+  const dispatch = useDispatch();
+
   const [profile, setProfile] = useState({
     csrf_token: "",
     cookies_id: "",
     residence: "",
     user_id: "",
     name: "",
-    description: ""
+    description: "",
   });
 
   useEffect(() => {
@@ -40,7 +47,7 @@ export default function UserProfile({ data, session, theme }) {
       csrf_token: session.csrf_token,
       cookies_id: session.cookie_login_id,
       residence: 48,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -56,12 +63,12 @@ export default function UserProfile({ data, session, theme }) {
         toast.info(response.data.message, {
           theme: "colored",
           autoClose: 1200,
-          icon: <FaUserCheck size={30} />
+          icon: <FaUserCheck size={30} />,
         });
       }
     } catch (error) {
       toast.error(error.message, {
-        theme: "colored"
+        theme: "colored",
       });
     }
     setIsLoading(false);
@@ -69,9 +76,13 @@ export default function UserProfile({ data, session, theme }) {
 
   useEffect(() => {
     async function getUser() {
-      await axios.get(USER_PROFILE(data.user_id)).then((res) => {
-        setUser(res.data);
-      });
+      await axios
+        .post(USER_PROFILE, {
+          user_id: data.user_id,
+        })
+        .then((res) => {
+          setUser(res.data);
+        });
     }
     getUser();
   }, [data.user_id, modal, isEditAvatar]);
@@ -84,11 +95,13 @@ export default function UserProfile({ data, session, theme }) {
     toast.success("Logout success", {
       theme: "colored",
       autoClose: 1200,
-      icon: <RiLogoutBoxFill size={30} />
+      icon: <RiLogoutBoxFill size={30} />,
     });
     setTimeout(() => {
-      window.location.reload(false);
+      navigate.push('/login');
     }, 2000);
+
+    dispatch(clearFollowedRoom());
   };
 
   return (
@@ -143,10 +156,14 @@ export default function UserProfile({ data, session, theme }) {
                         background:
                           "linear-gradient(to bottom, #24a2b7, #20242A)",
                         borderTopLeftRadius: ".5rem",
-                        borderBottomLeftRadius: ".5rem",
+                        borderBottomLeftRadius: !isMobile && ".5rem",
                         color: "#282c34",
                         backgroundColor:
-                          theme === "light" ? "#24a2b7" : "#282C34"
+                          theme === "light" ? "#24a2b7" : "#282C34",
+                        width: "289px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        borderTopRightRadius: isMobile && ".5rem",
                       }}
                     >
                       <h5 className="my-3">Profile</h5>
@@ -157,7 +174,7 @@ export default function UserProfile({ data, session, theme }) {
                         }
                         alt="Profile"
                         className="img-fluid mb-2 rounded-circle"
-                        width={80}
+                        style={{ height: "80px", width: "80px" }}
                       />
                       <p>ID : {data.account_id}</p>
 
