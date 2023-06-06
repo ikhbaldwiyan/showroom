@@ -40,8 +40,8 @@ const MainFarm = ({
   toggle,
   textColor,
   setFarmingTime,
+  isSingleLive,
 }) => {
-
   const FarmingTime = () => {
     useEffect(() => {
       if (allMessage && allMessage.length > 0) {
@@ -68,7 +68,10 @@ const MainFarm = ({
   };
 
   return (
-    <div className="scroll rounded" style={{ backgroundColor: "#343a40" }}>
+    <div
+      className={`${isSingleLive ? "scroll" : "scroll-multi-room"} rounded`}
+      style={{ backgroundColor: "#343a40" }}
+    >
       {limitUntil ? (
         <>
           <div className="row mt-4 justify-content-center text-danger text-center">
