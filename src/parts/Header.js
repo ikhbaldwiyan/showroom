@@ -119,6 +119,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     profile={profile}
                     data={user}
                     session={session}
+                    theme={theme}
                   />
                 ) : (
                   <li className={`nav-item${getNavLinkClass("/login")}`}>

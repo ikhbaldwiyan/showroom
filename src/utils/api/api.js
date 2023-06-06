@@ -5,9 +5,11 @@ const ROOM = `${API}/rooms`;
 
 // LARAVEL API
 const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
+const LOGIN = `${LARAVEL_API}/login`;
 const SEND_COMMENT = `${LARAVEL_API}/live/comment`;
 const UPDATE_PROFILE = `${LARAVEL_API}/profile/update`;
-const LOGIN = `${LARAVEL_API}/login`;
+const GET_AVATAR = `${LARAVEL_API}/profile/get_avatar`;
+const UPDATE_AVATAR = `${LARAVEL_API}/profile/update_avatar`;
 const USER_PROFILE = `${LARAVEL_API}/profile/user`;
 const ROOM_FOLLOW = `${LARAVEL_API}/room/followed_rooms`;
 const FOLLOW = `${LARAVEL_API}/room/follow`;
@@ -77,6 +79,8 @@ export {
   SEND_COMMENT,
   USER_PROFILE,
   UPDATE_PROFILE,
+  GET_AVATAR,
+  UPDATE_AVATAR,
   ROOM_FOLLOW,
   FOLLOW,
   PROFILE_API,
