@@ -96,6 +96,10 @@ export const multiRoomUser = () => {
       name: "Syawal",
       id: "syawal"
     },
+    {
+      name: "Rifqi",
+      id: "abqiaf"
+    },
   ];
 
   const isRegisteredUser = registeredUsers.some((user) => user?.id === id);
