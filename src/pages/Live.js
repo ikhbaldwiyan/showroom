@@ -162,16 +162,14 @@ function Live(props) {
             )}
           </Col>
           <Col lg="4">
-            {url.code !== 404 && (
-              <Menu
-                menu={menu}
-                setMenu={setMenu}
-                isLive={url}
-                roomId={roomId}
-                hideMenu={hideMenu}
-                isFarming={isFarming}
-              />
-            )}
+            <Menu
+              menu={menu}
+              setMenu={setMenu}
+              isLive={url}
+              roomId={roomId}
+              hideMenu={hideMenu}
+              isFarming={isFarming}
+            />
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />
             ) : menu === "chat" ? (

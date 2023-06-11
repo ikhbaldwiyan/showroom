@@ -93,7 +93,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom, isFarming 
             <FaListAlt style={icon} /> Room
           </Button>
         )}
-        {!isLive.length && (
+        {!isLive.length && isLive.code !== 404 && (
           <>
             <Button
               className="menu"
@@ -104,7 +104,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom, isFarming 
             </Button>
           </>
         )}
-        {isLive.length !== 0 &&
+        {isLive.length !== 0 && isLive.code !== 404 &&
           !hideMenu &&
           listMenu.map((item, idx) => (
             <Button
