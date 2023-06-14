@@ -38,6 +38,14 @@ function MultiMenu({
       },
       color: "info",
     },
+    // {
+    //   name: "4 Room",
+    //   icon: <FaUsersCog style={iconCss} />,
+    //   func: function () {
+    //     return fourLayout();
+    //   },
+    //   color: "info",
+    // },
     ...(farmingUser() === true
       ? [
           {

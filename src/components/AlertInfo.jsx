@@ -2,9 +2,10 @@ import React from "react";
 import { FaDiscord } from "react-icons/fa";
 import { UncontrolledAlert } from "reactstrap";
 import { gaEvent } from "utils/gaEvent";
+import { multiRoomUser } from "utils/permissions/multiRoomUser";
 
 const AlertInfo = ({ page, label }) => {
-  return (
+  return multiRoomUser() === false && (
     <UncontrolledAlert color="primary">
       <FaDiscord size="23px" className="mb-1 mr-2" />
       <span className="discord-text">Join grup Discord untuk update info live dan fitur baru</span>
