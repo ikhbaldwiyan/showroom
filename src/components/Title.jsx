@@ -25,6 +25,9 @@ function Title({
   setHideStars,
   isFarming,
   setIsFarming,
+  hideInput,
+  setHideInput,
+  isCustomLive
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -50,6 +53,9 @@ function Title({
     setHideMultiMenu,
     hideStars,
     setHideStars,
+    hideInput,
+    setHideInput,
+    isCustomLive
   };
 
   const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };

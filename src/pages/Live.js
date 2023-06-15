@@ -40,6 +40,11 @@ function Live(props) {
   const { room_name } = useSelector((state) => state.roomDetail);
   const [hideStars, setHideStars] = useState(false);
   const [isFarming, setIsFarming] = useState(false);
+  const [isCustomLive, setIsCustomLive] = useState(false);
+  const [customUrl, setCustomUrl] = useState(false);
+  const [liveUrl, setLiveUrl] = useState("");
+  const [secretKey, setSecretKey] = useState("");
+  const [hideInput, setHideInput] = useState(false);
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
 
   useEffect(() => {
@@ -147,8 +152,50 @@ function Live(props) {
                 theme={props.theme}
                 session={session}
               />
+            ) : name === "officialJKT48" && customUrl ? (
+              <>
+                {!hideInput && (
+                  <>
+                    <input
+                      type="text"
+                      name="url"
+                      className="form-control mb-3"
+                      placeholder="Input custom live url"
+                      onChange={(e) => setLiveUrl(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      name="url"
+                      className="form-control mb-3"
+                      placeholder="Input secret key"
+                      onChange={(e) => setSecretKey(e.target.value)}
+                    />
+                  </>
+                )}
+                {liveUrl && (
+                  <>
+                    <Stream url={liveUrl} />
+                    <Title
+                      roomId={roomId}
+                      hideMenu={hideMenu}
+                      setHideMenu={setHideMenu}
+                      theme={props.theme}
+                      hideStars={hideStars}
+                      setHideStars={setHideStars}
+                      isFarming={isFarming}
+                      setIsFarming={setIsFarming}
+                      isCustomLive={isCustomLive}
+                      hideInput={hideInput}
+                      setHideInput={setHideInput}
+                    />
+                  </>
+                )}
+              </>
             ) : url.code === 404 && name === "officialJKT48" ? (
-              <NoTicket />
+              <NoTicket
+                isCustomLive={isCustomLive}
+                setIsCustomLive={setIsCustomLive}
+              />
             ) : url.code === 404 ? (
               <div
                 style={{ height: 500 }}
@@ -169,6 +216,10 @@ function Live(props) {
               roomId={roomId}
               hideMenu={hideMenu}
               isFarming={isFarming}
+              isCustomLive={isCustomLive}
+              setIsCustomLive={setIsCustomLive}
+              customUrl={customUrl}
+              setCustomUrl={setCustomUrl}
             />
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />

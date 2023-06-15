@@ -3,13 +3,24 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "reactstrap";
 import { AiFillGift, AiFillStar, AiFillTrophy } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
-import { FaListAlt } from "react-icons/fa";
+import { FaKey, FaListAlt } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
 import { PROFILE_API } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
 import { GiFarmer } from "react-icons/gi";
 
-function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom, isFarming }) {
+function Menu({
+  menu,
+  setMenu,
+  isLive,
+  roomId,
+  hideMenu,
+  isMultiRoom,
+  isFarming,
+  isCustomLive,
+  customUrl,
+  setCustomUrl,
+}) {
   const [roomName, setRoomName] = useState("");
 
   useEffect(() => {
@@ -61,9 +72,7 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom, isFarming 
             icon: <GiFarmer style={icon} />,
           },
         ]
-      : [
-          
-        ]),
+      : []),
   ];
 
   const buttonStyle = {
@@ -93,6 +102,15 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom, isFarming 
             <FaListAlt style={icon} /> Room
           </Button>
         )}
+        {isCustomLive && (
+          <Button
+            className="mb-2"
+            onClick={() => setCustomUrl(!customUrl)}
+            style={buttonStyle}
+          >
+            <FaKey />
+          </Button>
+        )}
         {!isLive.length && isLive.code !== 404 && (
           <>
             <Button
@@ -104,7 +122,8 @@ function Menu({ menu, setMenu, isLive, roomId, hideMenu, isMultiRoom, isFarming 
             </Button>
           </>
         )}
-        {isLive.length !== 0 && isLive.code !== 404 &&
+        {isLive.length !== 0 &&
+          isLive.code !== 404 &&
           !hideMenu &&
           listMenu.map((item, idx) => (
             <Button
