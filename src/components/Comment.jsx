@@ -195,7 +195,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
         </div>
       </Card>
 
-      {session ? (
+      {session && !secretKey ? (
         <>
           {error ? <p className="pl-2 pb-0 text-danger">{error}</p> : ""}
 
@@ -227,7 +227,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
             </button>
           </form>
         </>
-      ) : (
+      ) : !secretKey ? (
         <>
           <form className="d-flex sticky-comment">
             <input
@@ -256,7 +256,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
             </Link>
           </form>
         </>
-      )}
+      ) : null}
     </Card>
   );
 }

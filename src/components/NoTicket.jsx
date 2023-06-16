@@ -11,7 +11,18 @@ const NoTicket = ({
 }) => {
   return (
     <div>
-      <h2>JKT48 Official SHOWROOM</h2>
+      <div className="d-flex justify-content-between">
+        <h2>JKT48 Official SHOWROOM</h2>
+        {isCustomLive && (
+          <Button
+            className="mb-2 mr-1"
+            onClick={() => setCustomUrl(!customUrl)}
+            color="danger"
+          >
+            <FaKey className="mb-1" />
+          </Button>
+        )}
+      </div>
       <img
         width="100%"
         className="rounded mt-3"
@@ -28,18 +39,6 @@ const NoTicket = ({
         Silahkan cek <Link to="/theater-schedule">jadwal theater</Link> untuk
         beli tiket
       </p>
-      {isCustomLive && (
-        <Button
-          className="mb-2 mr-1"
-          onClick={() => setCustomUrl(!customUrl)}
-          style={{
-            backgroundColor: "teal",
-            border: "none",
-          }}
-        >
-          <FaKey />
-        </Button>
-      )}
     </div>
   );
 };

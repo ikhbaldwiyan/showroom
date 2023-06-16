@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Row, Col, Container } from "reactstrap";
+import { Row, Col, Container, Input, FormFeedback } from "reactstrap";
 import { useParams } from "react-router-dom";
 import { LIVE_STREAM_URL } from "utils/api/api";
 import { ToastContainer, toast } from "react-toastify";
@@ -42,8 +42,8 @@ function Live(props) {
   const [isFarming, setIsFarming] = useState(false);
   const [isCustomLive, setIsCustomLive] = useState(false);
   const [customUrl, setCustomUrl] = useState(false);
-  const [liveUrl, setLiveUrl] = useState("");
   const [secretKey, setSecretKey] = useState();
+  const [isFailed, setIsFailed] = useState();
   const [hideInput, setHideInput] = useState(false);
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
 
@@ -66,6 +66,16 @@ function Live(props) {
         const streamUrl = res.data;
         setUrl(streamUrl);
         !streamUrl && messages();
+
+        if (secretKey && streamUrl.code !== 404) {
+          toast.success("Congrats secret code is valid", {
+            theme: "colored",
+          });
+        }
+
+        if (secretKey && streamUrl.code === 404) {
+          setIsFailed(true);
+        }
       });
       !url && setMenu("room");
     } catch (error) {
@@ -135,7 +145,7 @@ function Live(props) {
                     setHideInput={setHideInput}
                     secretKey={secretKey}
                   />
-                  {session && !isMobile && !hideStars && (
+                  {session && !isMobile && !hideStars && !secretKey && (
                     <StarButton
                       roomId={roomId}
                       cookiesLoginId={cookiesLoginId}
@@ -159,40 +169,20 @@ function Live(props) {
             ) : name === "officialJKT48" && customUrl ? (
               <>
                 {!hideInput && (
-                  <>
-                    <input
+                  <div className="d-flex flex-column align-items-center justify-content-center">
+                    <h3 className="mb-3">Input Live Code below </h3>
+                    <Input
+                      invalid={isFailed}
                       type="text"
-                      name="url"
-                      className="form-control mb-3"
-                      placeholder="Input custom live url"
-                      onChange={(e) => setLiveUrl(e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      name="url"
-                      className="form-control mb-3"
+                      name="secret code"
+                      className="form-control mb-1"
                       placeholder="Input secret key"
                       onChange={(e) => setSecretKey(e.target.value)}
                     />
-                  </>
-                )}
-                {liveUrl && (
-                  <>
-                    <Stream url={liveUrl} />
-                    <Title
-                      roomId={roomId}
-                      hideMenu={hideMenu}
-                      setHideMenu={setHideMenu}
-                      theme={props.theme}
-                      hideStars={hideStars}
-                      setHideStars={setHideStars}
-                      isFarming={isFarming}
-                      setIsFarming={setIsFarming}
-                      isCustomLive={isCustomLive}
-                      hideInput={hideInput}
-                      setHideInput={setHideInput}
-                    />
-                  </>
+                    {isFailed && (
+                      <FormFeedback>Secret Code Failed</FormFeedback>
+                    )}
+                  </div>
                 )}
               </>
             ) : url.code === 404 && name === "officialJKT48" ? (
