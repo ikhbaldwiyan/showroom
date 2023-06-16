@@ -12,7 +12,7 @@ import { gaEvent } from "utils/gaEvent";
 import formatName from "utils/formatName";
 import { getSession } from "utils/getSession";
 
-export default function Comment({ roomId, isMultiRoom, setRoomId }) {
+export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
   const [comment, setComment] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [session, setSession] = useState("");
@@ -25,7 +25,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
   useEffect(() => {
     async function getComments() {
       try {
-        const res = await axios.get(LIVE_COMMENT(roomId, cookies));
+        const res = await axios.get(LIVE_COMMENT(roomId, secretKey ?? cookies));
         const comments = res.data;
         setTimeout(() => {
           setComment(comments);
@@ -159,7 +159,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
     <Card body inverse color="dark" className="p-0 mb-5">
       <Card body inverse color="dark" className="scroll">
         <div>
-          {comment?.length != 0 ? (
+          {comment && comment?.length != 0 ? (
             comment?.map(
               (item, idx) =>
                 item?.comment?.length != "2" &&
@@ -195,7 +195,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
         </div>
       </Card>
 
-      {session ? (
+      {session && !secretKey ? (
         <>
           {error ? <p className="pl-2 pb-0 text-danger">{error}</p> : ""}
 
@@ -227,7 +227,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
             </button>
           </form>
         </>
-      ) : (
+      ) : !secretKey ? (
         <>
           <form className="d-flex sticky-comment">
             <input
@@ -256,7 +256,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
             </Link>
           </form>
         </>
-      )}
+      ) : null}
     </Card>
   );
 }

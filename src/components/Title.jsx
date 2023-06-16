@@ -25,6 +25,10 @@ function Title({
   setHideStars,
   isFarming,
   setIsFarming,
+  hideInput,
+  setHideInput,
+  isCustomLive,
+  secretKey
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -50,13 +54,16 @@ function Title({
     setHideMultiMenu,
     hideStars,
     setHideStars,
+    hideInput,
+    setHideInput,
+    isCustomLive
   };
 
   const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };
 
   useEffect(() => {
     try {
-      axios.get(LIVE_INFO(roomId, cookies)).then(
+      axios.get(LIVE_INFO(roomId, secretKey ?? cookies)).then(
         (res) => {
           const profiles = res.data;
           setProfile(profiles);
@@ -67,7 +74,7 @@ function Title({
     } catch (error) {
       console.log(error);
     }
-  }, [roomId]);
+  }, [roomId, secretKey]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

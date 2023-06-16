@@ -5,18 +5,16 @@ import { LIVE_RANKING } from "utils/api/api";
 import { getSession } from "utils/getSession";
 import Search from "./Search";
 
-export default function StageUser({ roomId }) {
+export default function StageUser({ roomId, secretKey }) {
   const [rank, setRank] = useState([]);
   const [search, setSearch] = useState("");
   const cookies = getSession()?.session?.cookie_login_id ?? "rank";
 
   useEffect(() => {
-    axios
-      .get(LIVE_RANKING(roomId, cookies))
-      .then((res) => {
-        const userRank = res.data;
-        setRank(userRank);
-      });
+    axios.get(LIVE_RANKING(roomId, secretKey ?? cookies)).then((res) => {
+      const userRank = res.data;
+      setRank(userRank);
+    });
   }, [rank, search, roomId]);
 
   const filterName = !search
@@ -46,7 +44,11 @@ export default function StageUser({ roomId }) {
                 <tr>
                   <th scope="row">{item.order_no}</th>
                   <td>
-                    <img alt={item.name} width="40" src={item.user.avatar_url} />
+                    <img
+                      alt={item.name}
+                      width="40"
+                      src={item.user.avatar_url}
+                    />
                   </td>
                   <td>{item.user.name}</td>
                 </tr>

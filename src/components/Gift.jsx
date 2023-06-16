@@ -5,7 +5,7 @@ import { LIVE_GIFT } from "utils/api/api";
 import { getSession } from "utils/getSession";
 import Search from "./Search";
 
-export default function Gift({ roomId }) {
+export default function Gift({ roomId, secretKey }) {
   const [gift, setGift] = useState([]);
   const [search, setSearch] = useState("");
   const cookies = getSession()?.session?.cookie_login_id ?? "gift"
@@ -13,7 +13,7 @@ export default function Gift({ roomId }) {
   useEffect(() => {
     try {
       axios
-        .get(LIVE_GIFT(roomId, cookies))
+        .get(LIVE_GIFT(roomId, secretKey ?? cookies))
         .then((res) => {
           const giftLog = res.data.reverse();
           setGift(giftLog);

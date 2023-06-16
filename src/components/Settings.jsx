@@ -40,6 +40,9 @@ function Settings(props) {
     setHideMultiMenu,
     hideStars,
     setHideStars,
+    hideInput,
+    setHideInput,
+    isCustomLive,
   } = props;
 
   useEffect(() => {
@@ -72,9 +75,17 @@ function Settings(props) {
             },
           ]
         : []),
+      ...(isCustomLive
+        ? [
+            {
+              name: hideOrShow(hideInput) + " Input Live",
+              update: () => setHideInput(!hideInput),
+            },
+          ]
+        : []),
     ];
     setMenu(settingsMenu);
-  }, [hideViews, hideMenu, hideTime, hideStars]);
+  }, [hideViews, hideMenu, hideTime, hideStars, hideInput]);
 
   return (
     <div style={inline} className="ml-1 mt-1">
