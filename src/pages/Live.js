@@ -43,7 +43,7 @@ function Live(props) {
   const [isCustomLive, setIsCustomLive] = useState(false);
   const [customUrl, setCustomUrl] = useState(false);
   const [liveUrl, setLiveUrl] = useState("");
-  const [secretKey, setSecretKey] = useState("");
+  const [secretKey, setSecretKey] = useState();
   const [hideInput, setHideInput] = useState(false);
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
 
@@ -62,7 +62,7 @@ function Live(props) {
 
   useEffect(() => {
     try {
-      axios.get(LIVE_STREAM_URL(roomId, cookies)).then((res) => {
+      axios.get(LIVE_STREAM_URL(roomId, secretKey ?? cookies)).then((res) => {
         const streamUrl = res.data;
         setUrl(streamUrl);
         !streamUrl && messages();
@@ -71,7 +71,7 @@ function Live(props) {
     } catch (error) {
       console.log(error);
     }
-  }, [roomId]);
+  }, [roomId, secretKey]);
 
   useEffect(() => {
     menu === "room" && window.scrollTo(0, 0);
@@ -130,6 +130,10 @@ function Live(props) {
                     setHideStars={setHideStars}
                     isFarming={isFarming}
                     setIsFarming={setIsFarming}
+                    isCustomLive={isCustomLive}
+                    hideInput={hideInput}
+                    setHideInput={setHideInput}
+                    secretKey={secretKey}
                   />
                   {session && !isMobile && !hideStars && (
                     <StarButton
@@ -195,6 +199,8 @@ function Live(props) {
               <NoTicket
                 isCustomLive={isCustomLive}
                 setIsCustomLive={setIsCustomLive}
+                customUrl={customUrl}
+                setCustomUrl={setCustomUrl}
               />
             ) : url.code === 404 ? (
               <div
@@ -224,11 +230,15 @@ function Live(props) {
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />
             ) : menu === "chat" ? (
-              <LiveChat roomId={roomId} setRoomId={setRoomId} />
+              <LiveChat
+                roomId={roomId}
+                setRoomId={setRoomId}
+                secretKey={secretKey}
+              />
             ) : menu === "rank" ? (
-              <StageUser roomId={roomId} />
+              <StageUser roomId={roomId} secretKey={secretKey} />
             ) : menu === "gift" ? (
-              <Gift roomId={roomId} />
+              <Gift roomId={roomId} secretKey={secretKey} />
             ) : menu === "total" ? (
               <TotalRank roomId={roomId} />
             ) : menu === "star" ? (

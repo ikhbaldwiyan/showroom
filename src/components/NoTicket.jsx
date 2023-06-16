@@ -1,7 +1,14 @@
 import React from "react";
+import { FaKey } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { Button } from "reactstrap";
 
-const NoTicket = ({ isCustomLive, setIsCustomLive }) => {
+const NoTicket = ({
+  isCustomLive,
+  setIsCustomLive,
+  customUrl,
+  setCustomUrl,
+}) => {
   return (
     <div>
       <h2>JKT48 Official SHOWROOM</h2>
@@ -21,6 +28,18 @@ const NoTicket = ({ isCustomLive, setIsCustomLive }) => {
         Silahkan cek <Link to="/theater-schedule">jadwal theater</Link> untuk
         beli tiket
       </p>
+      {isCustomLive && (
+        <Button
+          className="mb-2 mr-1"
+          onClick={() => setCustomUrl(!customUrl)}
+          style={{
+            backgroundColor: "teal",
+            border: "none",
+          }}
+        >
+          <FaKey />
+        </Button>
+      )}
     </div>
   );
 };

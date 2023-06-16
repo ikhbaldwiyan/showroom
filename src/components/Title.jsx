@@ -27,7 +27,8 @@ function Title({
   setIsFarming,
   hideInput,
   setHideInput,
-  isCustomLive
+  isCustomLive,
+  secretKey
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -62,7 +63,7 @@ function Title({
 
   useEffect(() => {
     try {
-      axios.get(LIVE_INFO(roomId, cookies)).then(
+      axios.get(LIVE_INFO(roomId, secretKey ?? cookies)).then(
         (res) => {
           const profiles = res.data;
           setProfile(profiles);
@@ -73,7 +74,7 @@ function Title({
     } catch (error) {
       console.log(error);
     }
-  }, [roomId]);
+  }, [roomId, secretKey]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

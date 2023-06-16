@@ -102,15 +102,6 @@ function Menu({
             <FaListAlt style={icon} /> Room
           </Button>
         )}
-        {isCustomLive && (
-          <Button
-            className="mb-2"
-            onClick={() => setCustomUrl(!customUrl)}
-            style={buttonStyle}
-          >
-            <FaKey />
-          </Button>
-        )}
         {!isLive.length && isLive.code !== 404 && (
           <>
             <Button
@@ -124,7 +115,7 @@ function Menu({
         )}
         {isLive.length !== 0 &&
           isLive.code !== 404 &&
-          !hideMenu &&
+          !hideMenu && 
           listMenu.map((item, idx) => (
             <Button
               key={idx}
