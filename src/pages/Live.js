@@ -71,6 +71,7 @@ function Live(props) {
           toast.success("Congrats secret code is valid", {
             theme: "colored",
           });
+          localStorage.setItem("secretKey", secretKey);
         }
 
         if (secretKey && streamUrl.code === 404) {
@@ -104,10 +105,12 @@ function Live(props) {
 
   useEffect(() => {
     const userSession = localStorage.getItem("session");
+    const secretKey = localStorage.getItem("secretKey");
     if (userSession) {
       const foundSession = JSON.parse(userSession);
       setSession(foundSession);
     }
+    setSecretKey(secretKey);
   }, []);
 
   return (
@@ -185,14 +188,14 @@ function Live(props) {
                   </div>
                 )}
               </>
-            ) : url.code === 404 && name === "officialJKT48" ? (
+            ) : url.code === 404 && name === "officialJKT48" && !secretKey ? (
               <NoTicket
                 isCustomLive={isCustomLive}
                 setIsCustomLive={setIsCustomLive}
                 customUrl={customUrl}
                 setCustomUrl={setCustomUrl}
               />
-            ) : url.code === 404 ? (
+            ) : url.code === 404 && !secretKey ? (
               <div
                 style={{ height: 500 }}
                 className="d-flex justify-content-center align-items-center flex-column"

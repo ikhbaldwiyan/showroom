@@ -167,21 +167,21 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
                   <div key={idx}>
                     <h5
                       style={{
-                        color: item.user_id == myName ? "#DC3545" : "#24a2b7",
+                        color: item?.user_id == myName ? "#DC3545" : "#24a2b7",
                         display: "inline",
                         fontWeight: 500,
                         fontSize: "17px",
                       }}
                     >
                       <img
-                        src={item.avatar_url}
+                        src={item?.avatar_url}
                         width="25"
-                        alt={item.name}
+                        alt={item?.name}
                         className="mr-2 mb-1"
                       />
-                      {item.name} {item.user_id == myName && "(Me)"}
+                      {item?.name} {item?.user_id == myName && "(Me)"}
                     </h5>
-                    <p style={styles.comment}>{item.comment}</p>
+                    <p style={styles.comment}>{item?.comment}</p>
                     <hr />
                   </div>
                 )
