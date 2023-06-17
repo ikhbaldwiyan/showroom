@@ -44,7 +44,6 @@ function Live(props) {
   const [customUrl, setCustomUrl] = useState(false);
   const [secretKey, setSecretKey] = useState();
   const [isFailed, setIsFailed] = useState();
-  const [hideInput, setHideInput] = useState(false);
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
 
   useEffect(() => {
@@ -68,9 +67,11 @@ function Live(props) {
         !streamUrl && messages();
 
         if (secretKey && streamUrl.code !== 404) {
-          toast.success("Congrats secret code is valid", {
-            theme: "colored",
-          });
+          const secretCode = localStorage.getItem("secretKey");
+          !secretCode &&
+            toast.success("Congrats secret code is valid", {
+              theme: "colored",
+            });
           localStorage.setItem("secretKey", secretKey);
         }
 
@@ -144,8 +145,6 @@ function Live(props) {
                     isFarming={isFarming}
                     setIsFarming={setIsFarming}
                     isCustomLive={isCustomLive}
-                    hideInput={hideInput}
-                    setHideInput={setHideInput}
                     secretKey={secretKey}
                   />
                   {session && !isMobile && !hideStars && !secretKey && (
@@ -171,22 +170,18 @@ function Live(props) {
               />
             ) : name === "officialJKT48" && customUrl ? (
               <>
-                {!hideInput && (
-                  <div className="d-flex flex-column align-items-center justify-content-center">
-                    <h3 className="mb-3">Input Live Code below </h3>
-                    <Input
-                      invalid={isFailed}
-                      type="text"
-                      name="secret code"
-                      className="form-control mb-1"
-                      placeholder="Input secret key"
-                      onChange={(e) => setSecretKey(e.target.value)}
-                    />
-                    {isFailed && (
-                      <FormFeedback>Secret Code Failed</FormFeedback>
-                    )}
-                  </div>
-                )}
+                <div className="d-flex flex-column align-items-center justify-content-center">
+                  <h3 className="mb-3">Input Live Code below </h3>
+                  <Input
+                    invalid={isFailed}
+                    type="text"
+                    name="secret code"
+                    className="form-control mb-1"
+                    placeholder="Input secret key"
+                    onChange={(e) => setSecretKey(e.target.value)}
+                  />
+                  {isFailed && <FormFeedback>Secret Code Failed</FormFeedback>}
+                </div>
               </>
             ) : url.code === 404 && name === "officialJKT48" && !secretKey ? (
               <NoTicket

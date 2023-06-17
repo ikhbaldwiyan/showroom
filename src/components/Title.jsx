@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaUserFriends } from "react-icons/fa";
 import { IoTimeSharp } from "react-icons/io5";
-import { GiFarmer } from "react-icons/gi";
 import formatViews from "utils/formatViews";
 import { API, LIVE_INFO } from "utils/api/api";
 
@@ -10,8 +9,6 @@ import Views from "elements/Button";
 import Settings from "./Settings";
 import LastSeen from "./LastSeen";
 import getTimes from "utils/getTimes";
-import { Button } from "reactstrap";
-import { farmingUser } from "utils/permissions/farmingUser";
 import { getSession } from "utils/getSession";
 
 function Title({
@@ -51,6 +48,8 @@ function Title({
     setHideMultiMenu,
     hideStars,
     setHideStars,
+    isFarming,
+    setIsFarming
   };
 
   const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };
@@ -140,16 +139,6 @@ function Title({
         </Views>
       )}
       <Settings {...propSettings} />
-      {farmingUser() === true && window.location.pathname !== "/multi-room" && (
-        <Button
-          className="mx-2"
-          color={isFarming ? "primary" : "success"}
-          onClick={() => setIsFarming(!isFarming)}
-        >
-          <GiFarmer className="mb-1" size={20} />{" "}
-          {!isFarming ? "Farming" : "Hide Farm"}
-        </Button>
-      )}
     </div>
   );
 }
