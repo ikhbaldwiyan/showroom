@@ -1,5 +1,6 @@
 // BASE URL API
-const API = "http://192.168.100.42:8000/api";
+const API = "https://jkt48-showroom-api.vercel.app/api";
+const API_USERS = "https://jkt48-showroom-users.ikhbaldwiyan.repl.co"
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
 
@@ -28,15 +29,15 @@ const ROOM_TRAINEE_API = `${ROOM}/trainee`;
 const THEATER_SCHEDULE_API = `${ROOM}/theater-schedule`;
 
 // USER PERMISSION CRUD
-const USERS = `${API}/users`
-const CREATE_USER = `${API}/users`
+const USERS = `${API_USERS}/users`
+const CREATE_USER = `${API_USERS}/users`
 
 const DETAIL_USER = (userId) => {
-  return `${API}/users/${userId}`
+  return `${API_USERS}/users/${userId}`
 };
 
 const DELETE_USER = (userId) => {
-  return `${API}/users/${userId}`
+  return `${API_USERS}/users/${userId}`
 };
 
 // LIVE API

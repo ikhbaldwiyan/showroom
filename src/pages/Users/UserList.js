@@ -8,11 +8,14 @@ import { DELETE_USER, USERS } from "utils/api/api";
 import { Link } from "react-router-dom";
 import MainLayout from "pages/layout/MainLayout";
 import UserDetail from "./UserDetail";
+import DeleteModal from "./DeleteModal";
+import { toast } from "react-toastify";
 
 const UserList = (props) => {
   const [users, setUsers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [userId, setUserId] = useState();
+  const [isDelete, setIsDelete] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -24,11 +27,15 @@ const UserList = (props) => {
       }
     };
     fetchUsers();
-  }, [modalOpen, userId]);
+  }, [modalOpen, userId, isDelete]);
 
   const handleDeleteUser = async (userId) => {
     try {
       await axios.delete(DELETE_USER(userId));
+      toast.info("User success deleted", {
+        theme: "colored",
+      });
+      toggleDelete();
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -38,8 +45,17 @@ const UserList = (props) => {
     setModalOpen(!modalOpen);
   };
 
+  const toggleDelete = () => {
+    setIsDelete(!isDelete);
+  };
+
   const handleModalDetail = (id) => {
     toggleModal();
+    setUserId(id);
+  };
+
+  const handleModalDelete = (id) => {
+    toggleDelete();
     setUserId(id);
   };
 
@@ -103,7 +119,7 @@ const UserList = (props) => {
                     </Button>
                     <Button
                       color="danger"
-                      onClick={() => handleDeleteUser(user.user_id)}
+                      onClick={() => handleModalDelete(user.user_id)}
                     >
                       <FaTrash className="mb-1" />
                     </Button>
@@ -117,6 +133,11 @@ const UserList = (props) => {
           userId={userId}
           isOpen={modalOpen}
           toggleModal={toggleModal}
+        />
+        <DeleteModal
+          modalDelete={isDelete}
+          toggleDelete={handleModalDelete}
+          handleDelete={() => handleDeleteUser(userId)}
         />
       </Container>
     </MainLayout>
