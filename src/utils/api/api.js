@@ -1,5 +1,5 @@
 // BASE URL API
-const API = "https://jkt48-showroom-api.vercel.app/api";
+const API = "http://192.168.100.42:8000/api";
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
 
@@ -26,6 +26,18 @@ const ROOM_GEN_10 = `${ROOM}/academy`;
 const ROOM_LIVES_API = `${ROOM}/onlives`;
 const ROOM_TRAINEE_API = `${ROOM}/trainee`;
 const THEATER_SCHEDULE_API = `${ROOM}/theater-schedule`;
+
+// USER PERMISSION CRUD
+const USERS = `${API}/users`
+const CREATE_USER = `${API}/users`
+
+const DETAIL_USER = (userId) => {
+  return `${API}/users/${userId}`
+};
+
+const DELETE_USER = (userId) => {
+  return `${API}/users/${userId}`
+};
 
 // LIVE API
 const LIVE_STREAM_URL = (roomId, cookies) => {
@@ -90,4 +102,8 @@ export {
   BULK_GIFT,
   SEND_GIFT,
   THEATER_SCHEDULE_API,
+  USERS, 
+  CREATE_USER,
+  DETAIL_USER,
+  DELETE_USER
 };
