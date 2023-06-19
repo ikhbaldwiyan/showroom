@@ -16,6 +16,9 @@ import Follow from "pages/Follow";
 import Register from "pages/Register";
 import TheaterSchedule from "pages/TheaterSchedule";
 import Farming from "pages/Farming";
+import UserList from "pages/Users/UserList";
+import AddUser from "pages/Users/AddUser";
+import UserDetail from "pages/Users/UserDetail";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -37,6 +40,9 @@ function App(props) {
         <Route path="/register" component={() => <Register {...props} />} />
         <Route path="/theater-schedule" component={() => <TheaterSchedule {...props} />} />
         <Route path="/farming" component={() => <Farming {...props} />} />
+        <Route path="/admin" component={() => <UserList {...props} />} />
+        <Route path="/add-user" component={() => <AddUser {...props} />} />
+        <Route path="/detail-user/:userId" component={() => <UserDetail {...props} />} />
       </div>
     </ThemeProvider>
   );
