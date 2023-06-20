@@ -10,12 +10,16 @@ import MainLayout from "pages/layout/MainLayout";
 import UserDetail from "./UserDetail";
 import DeleteModal from "./DeleteModal";
 import { toast } from "react-toastify";
+import { isAdmin } from "utils/permissions/admin";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const UserList = (props) => {
   const [users, setUsers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [userId, setUserId] = useState();
   const [isDelete, setIsDelete] = useState(false);
+  const [isCreate, setIsCreate] = useState(false);
+  const router = useHistory();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -28,6 +32,15 @@ const UserList = (props) => {
     };
     fetchUsers();
   }, [modalOpen, userId, isDelete]);
+
+  useEffect(() => {
+    if (!isAdmin()) {
+      toast.error("You don't have permission to access this page", {
+        theme: "colored",
+      });
+      router.push("/");
+    }
+  }, []);
 
   const handleDeleteUser = async (userId) => {
     try {
@@ -52,12 +65,18 @@ const UserList = (props) => {
   const handleModalDetail = (id) => {
     toggleModal();
     setUserId(id);
+    setIsCreate(false);
   };
 
   const handleModalDelete = (id) => {
     toggleDelete();
     setUserId(id);
   };
+
+  const handleAddUser = () => {
+    toggleModal()
+    setIsCreate(true);
+  }
 
   const InfoAccess = ({ menu }) => {
     return menu ? (
@@ -72,12 +91,10 @@ const UserList = (props) => {
       <Container>
         <div className="d-flex justify-content-between mb-3">
           <h3>User Permissions List</h3>
-          <Link to="/add-user">
-            <Button color="primary">
+            <Button onClick={() => handleAddUser()} color="primary">
               <IoPersonAddSharp className="mb-1 mr-2" />
               Add User
             </Button>
-          </Link>
         </div>
         <Table dark>
           <thead>
@@ -130,6 +147,7 @@ const UserList = (props) => {
           </tbody>
         </Table>
         <UserDetail
+          isCreate={isCreate}
           userId={userId}
           isOpen={modalOpen}
           toggleModal={toggleModal}
