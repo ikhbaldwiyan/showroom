@@ -10,12 +10,15 @@ import MainLayout from "pages/layout/MainLayout";
 import UserDetail from "./UserDetail";
 import DeleteModal from "./DeleteModal";
 import { toast } from "react-toastify";
+import { isAdmin } from "utils/permissions/admin";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const UserList = (props) => {
   const [users, setUsers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [userId, setUserId] = useState();
   const [isDelete, setIsDelete] = useState(false);
+  const router = useHistory();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -28,6 +31,15 @@ const UserList = (props) => {
     };
     fetchUsers();
   }, [modalOpen, userId, isDelete]);
+
+  useEffect(() => {
+    if (!isAdmin()) {
+      toast.error("You don't have permission to access this page", {
+        theme: "colored",
+      });
+      router.push("/");
+    }
+  }, []);
 
   const handleDeleteUser = async (userId) => {
     try {
