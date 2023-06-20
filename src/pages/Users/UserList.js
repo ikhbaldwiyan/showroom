@@ -18,6 +18,7 @@ const UserList = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [userId, setUserId] = useState();
   const [isDelete, setIsDelete] = useState(false);
+  const [isCreate, setIsCreate] = useState(false);
   const router = useHistory();
 
   useEffect(() => {
@@ -64,12 +65,18 @@ const UserList = (props) => {
   const handleModalDetail = (id) => {
     toggleModal();
     setUserId(id);
+    setIsCreate(false);
   };
 
   const handleModalDelete = (id) => {
     toggleDelete();
     setUserId(id);
   };
+
+  const handleAddUser = () => {
+    toggleModal()
+    setIsCreate(true);
+  }
 
   const InfoAccess = ({ menu }) => {
     return menu ? (
@@ -84,12 +91,10 @@ const UserList = (props) => {
       <Container>
         <div className="d-flex justify-content-between mb-3">
           <h3>User Permissions List</h3>
-          <Link to="/add-user">
-            <Button color="primary">
+            <Button onClick={() => handleAddUser()} color="primary">
               <IoPersonAddSharp className="mb-1 mr-2" />
               Add User
             </Button>
-          </Link>
         </div>
         <Table dark>
           <thead>
@@ -142,6 +147,7 @@ const UserList = (props) => {
           </tbody>
         </Table>
         <UserDetail
+          isCreate={isCreate}
           userId={userId}
           isOpen={modalOpen}
           toggleModal={toggleModal}

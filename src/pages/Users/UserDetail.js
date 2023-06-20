@@ -11,11 +11,10 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
-import { DETAIL_USER } from "utils/api/api";
+import { CREATE_USER, DETAIL_USER } from "utils/api/api";
 import { toast } from "react-toastify";
 
-const UserDetail = ({ isOpen, toggleModal, userId }) => {
-
+const UserDetail = ({ isCreate, isOpen, toggleModal, userId }) => {
   const [userData, setUserData] = useState({
     user_id: "",
     name: "",
@@ -47,18 +46,44 @@ const UserDetail = ({ isOpen, toggleModal, userId }) => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, type) => {
     e.preventDefault();
 
     try {
-      await axios.put(DETAIL_USER(userId), userData);
-      toast.success("User success updated", {
-        theme: "colored",
-      });
+      if (type === "create") {
+        await axios.post(CREATE_USER, userData);
+        clearInputForm();
+      } else {
+        await axios.put(DETAIL_USER(userId), userData);
+        clearInputForm();
+      }
+      toast.success(
+        isCreate ? "User success created" : "User success updated",
+        {
+          theme: "colored",
+        }
+      );
     } catch (error) {
       console.error("Error updating user:", error);
     }
-    toggleModal()
+    toggleModal();
+  };
+
+  const clearInputForm = () => {
+    setUserData({
+      user_id: "",
+      name: "",
+      can_3_room: false,
+      can_4_room: false,
+      can_farming_page: false,
+      can_farming_detail: false,
+      can_farming_multi: false,
+    });
+  };
+
+  const handleCloseButton = () => {
+    toggleModal();
+    clearInputForm();
   };
 
   return (
@@ -67,7 +92,7 @@ const UserDetail = ({ isOpen, toggleModal, userId }) => {
         style={{ backgroundColor: "#24a2b7", color: "white" }}
         toggle={toggleModal}
       >
-        User Detail
+        {isCreate ? "Create User" : "User Detail"}
       </ModalHeader>
       <ModalBody style={{ backgroundColor: "#21252b" }}>
         <Form>
@@ -151,10 +176,16 @@ const UserDetail = ({ isOpen, toggleModal, userId }) => {
         </Form>
       </ModalBody>
       <ModalFooter style={{ backgroundColor: "#21252b" }}>
-        <Button color="primary" onClick={(e) => handleSubmit(e)}>
-          Update
-        </Button>
-        <Button color="danger" onClick={toggleModal}>
+        {isCreate ? (
+          <Button color="primary" onClick={(e) => handleSubmit(e, "create")}>
+            Create
+          </Button>
+        ) : (
+          <Button color="primary" onClick={(e) => handleSubmit(e, "update")}>
+            Update
+          </Button>
+        )}
+        <Button color="danger" onClick={handleCloseButton}>
           Close
         </Button>
       </ModalFooter>
