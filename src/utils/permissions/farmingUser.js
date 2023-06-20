@@ -48,6 +48,14 @@ export const farmingUser = () => {
       name: "kurakura",
       accountId: "mumen013"
     },
+    {
+      name: "Rifqi",
+      accountId: "abqiaf"
+    },
+    {
+      name: "Buzzardbro",
+      accountId: "VcrBuzzard"
+    },
   ];
 
   const isRegisteredUser = registeredUsers.some(user => user?.accountId === accountId);
