@@ -109,10 +109,8 @@ export const multiRoomUser = () => {
   const isRegisteredUser = registeredUsers.some((user) => user?.id === id);
 
   if (isRegisteredUser) {
-    console.log("Access granted");
     return true;
   } else {
-    console.log("Access denied");
     return false;
   }
 };

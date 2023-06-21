@@ -61,10 +61,8 @@ export const farmingUser = () => {
   const isRegisteredUser = registeredUsers.some(user => user?.accountId === accountId);
 
   if (isRegisteredUser) {
-    console.log("Access granted");
     return true;
   } else {
-    console.log("Access denied");
     return false;
   }
 };

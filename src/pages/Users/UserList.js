@@ -5,7 +5,6 @@ import { FaTrash, FaUserEdit } from "react-icons/fa";
 import { IoPersonAddSharp } from "react-icons/io5";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { DELETE_USER, USERS } from "utils/api/api";
-import { Link } from "react-router-dom";
 import MainLayout from "pages/layout/MainLayout";
 import UserDetail from "./UserDetail";
 import DeleteModal from "./DeleteModal";
@@ -99,6 +98,7 @@ const UserList = (props) => {
         <Table dark>
           <thead>
             <tr>
+              <th>No</th>
               <th>ID</th>
               <th>Name</th>
               <th>3 Room</th>
@@ -109,8 +109,9 @@ const UserList = (props) => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {users.map((user, idx) => (
               <tr key={user._id}>
+                <td>{idx + 1}</td>
                 <td>{user.user_id}</td>
                 <td>{user.name}</td>
                 <td>

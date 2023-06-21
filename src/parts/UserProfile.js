@@ -2,15 +2,29 @@ import axios from "axios";
 import { Loading } from "components";
 import EditAvatar from "components/EditAvatar";
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaUserCheck, FaUserEdit, FaWindowClose } from "react-icons/fa";
+import {
+  FaEdit,
+  FaUserCheck,
+  FaUserEdit,
+  FaUsers,
+  FaWindowClose,
+} from "react-icons/fa";
 import { isMobile } from "react-device-detect";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 import { clearFollowedRoom } from "redux/actions/roomFollowed";
-import { UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
+import { DETAIL_USER, UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
+import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
+import { GiFarmer } from "react-icons/gi";
 
 export default function UserProfile({ data, session, theme }) {
   const [modal, setModal] = useState(false);
@@ -19,6 +33,7 @@ export default function UserProfile({ data, session, theme }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isEditAvatar, setIsEditAvatar] = useState(false);
   const [loading, setIsLoading] = useState(false);
+  const [userPermisions, setUserPermisions] = useState();
 
   const toggle = () => setModal(!modal);
   const toggleLogout = () => setModalLogout(!modalLogout);
@@ -87,6 +102,22 @@ export default function UserProfile({ data, session, theme }) {
     getUser();
   }, [data.user_id, modal, isEditAvatar]);
 
+  useEffect(() => {
+    async function getUserDetail() {
+      const detailUser = await axios.get(DETAIL_USER(data.account_id));
+      setUserPermisions(detailUser.data);
+    }
+    getUserDetail();
+  }, [data.account_id, modal]);
+
+  const InfoAccess = ({ menu }) => {
+    return menu ? (
+      <AiFillCheckCircle size={32} color="green" />
+    ) : (
+      <AiFillCloseCircle size={32} color="#dc3545" />
+    );
+  };
+
   const handleLogOut = () => {
     toggle();
     var theme = localStorage.getItem("theme");
@@ -98,7 +129,7 @@ export default function UserProfile({ data, session, theme }) {
       icon: <RiLogoutBoxFill size={30} />,
     });
     setTimeout(() => {
-      navigate.push('/login');
+      navigate.push("/login");
     }, 2000);
 
     dispatch(clearFollowedRoom());
@@ -138,7 +169,7 @@ export default function UserProfile({ data, session, theme }) {
         <ModalHeader
           style={{
             backgroundColor: "#24a2b7",
-            color: "white"
+            color: "white",
           }}
           toggle={toggle}
         >
@@ -268,13 +299,45 @@ export default function UserProfile({ data, session, theme }) {
                               )}
                             </div>
                           </div>
+                          <h6>Fitur Achieved</h6>
+                          <hr className="mt-0 mb-4" />
+                          <div className="row ">
+                            <div className="col-12 mb-3">
+                              <div className="row d-flex justify-content-center align-items-center">
+                                <div className="col-6">
+                                  <Button size="sm" color="info">
+                                    <FaUsers size={16} className="mb-1 mx-1" />3
+                                    Room
+                                  </Button>
+                                </div>
+                                <div className="col-6">
+                                  <InfoAccess
+                                    menu={userPermisions?.can_3_room}
+                                  />
+                                </div>
+                              </div>
+                              <div className="row d-flex justify-content-center align-items-center py-2">
+                                <div className="col-6">
+                                  <Button color="success">
+                                    <GiFarmer size={16} className="mb-1" />
+                                    Farming
+                                  </Button>
+                                </div>
+                                <div className="col-6">
+                                  <InfoAccess
+                                    menu={userPermisions?.can_farming_page}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {isEdit ? (
                             <Button
                               block
                               disabled={loading}
                               style={{
                                 backgroundColor: "#008080",
-                                border: "none"
+                                border: "none",
                               }}
                               onClick={updateProfile}
                             >
@@ -289,6 +352,7 @@ export default function UserProfile({ data, session, theme }) {
                             </Button>
                           ) : (
                             <div>
+                              <hr className="mt-0 mb-4" />
                               <div className="d-flex justify-content-start">
                                 {user?.sns_list?.map((item, idx) => (
                                   <a
@@ -350,11 +414,11 @@ export default function UserProfile({ data, session, theme }) {
             Apakah Anda yakin ingin logout ?
           </ModalBody>
           <ModalFooter>
-            <Button color="secondary" onClick={toggleLogout}>
-              Close
-            </Button>
             <Button color="info" onClick={handleLogOut}>
               Yes
+            </Button>
+            <Button color="secondary" onClick={toggleLogout}>
+              Close
             </Button>
           </ModalFooter>
         </Modal>
