@@ -14,17 +14,12 @@ import { RiLogoutBoxFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { clearFollowedRoom } from "redux/actions/roomFollowed";
 import { DETAIL_USER, UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { GiFarmer } from "react-icons/gi";
+import { getUserLoad, getUserSuccess } from "redux/actions/userActions";
 
 export default function UserProfile({ data, session, theme }) {
   const [modal, setModal] = useState(false);
@@ -103,9 +98,11 @@ export default function UserProfile({ data, session, theme }) {
   }, [data.user_id, modal, isEditAvatar]);
 
   useEffect(() => {
+    dispatch(getUserLoad());
     async function getUserDetail() {
       const detailUser = await axios.get(DETAIL_USER(data.account_id));
       setUserPermisions(detailUser.data);
+      dispatch(getUserSuccess(detailUser.data));
     }
     getUserDetail();
   }, [data.account_id, modal]);
@@ -317,6 +314,19 @@ export default function UserProfile({ data, session, theme }) {
                                 </div>
                               </div>
                               <div className="row d-flex justify-content-center align-items-center py-2">
+                                <div className="col-6">
+                                  <Button size="sm" color="info">
+                                    <FaUsers size={16} className="mb-1 mx-1" />4
+                                    Room
+                                  </Button>
+                                </div>
+                                <div className="col-6">
+                                  <InfoAccess
+                                    menu={userPermisions?.can_4_room}
+                                  />
+                                </div>
+                              </div>
+                              <div className="row d-flex justify-content-center align-items-center py-1">
                                 <div className="col-6">
                                   <Button color="success">
                                     <GiFarmer size={16} className="mb-1" />

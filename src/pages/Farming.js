@@ -21,7 +21,7 @@ import { IoMdStopwatch } from "react-icons/io";
 import { MdOutlineNotStarted } from "react-icons/md";
 import combo from "../assets/audio/combo.mp3";
 import { useTimer } from "react-timer-hook";
-import { farmingUser } from "utils/permissions/farmingUser";
+import { useSelector } from "react-redux";
 
 function Farming(props) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
@@ -56,6 +56,7 @@ function Farming(props) {
   const [isReady, setIsReady] = useState(false);
   const [starLoading, setStarLoading] = useState(false);
   const [info, setInfo] = useState("");
+  const user = useSelector((state) => state.user.user);
 
   const stars = [
     {
@@ -488,7 +489,7 @@ function Farming(props) {
   };
 
   const handleFarmingUser = () => {
-    if (farmingUser() === true) {
+    if (user?.can_farming_page) {
       getOfficials();
     } else {
       setBtnLoadingRoom(true);

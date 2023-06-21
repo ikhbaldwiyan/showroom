@@ -17,7 +17,6 @@ import Register from "pages/Register";
 import TheaterSchedule from "pages/TheaterSchedule";
 import Farming from "pages/Farming";
 import UserList from "pages/Users/UserList";
-import UserDetail from "pages/Users/UserDetail";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -40,7 +39,6 @@ function App(props) {
         <Route path="/theater-schedule" component={() => <TheaterSchedule {...props} />} />
         <Route path="/farming" component={() => <Farming {...props} />} />
         <Route path="/admin" component={() => <UserList {...props} />} />
-        <Route path="/detail-user/:userId" component={() => <UserDetail {...props} />} />
       </div>
     </ThemeProvider>
   );

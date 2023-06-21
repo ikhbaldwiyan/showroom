@@ -7,6 +7,7 @@ import roomDetail from "./roomDetail";
 import roomFollowed from "./roomFollowed"
 import roomTrainee from "./roomTrainee"
 import stars from "./giftStars";
+import user from "./user";
 
 const rootReducers = combineReducers({
   roomRegular,
@@ -15,7 +16,8 @@ const rootReducers = combineReducers({
   roomDetail,
   roomFollowed,
   stars,
-  roomTrainee
+  roomTrainee,
+  user
 });
 
 export default rootReducers;

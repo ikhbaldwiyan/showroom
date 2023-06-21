@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Col, Row } from "reactstrap";
-import { FaUsersCog, FaUsersSlash, FaUsers, FaStar } from "react-icons/fa";
+import { FaUsersCog, FaUsersSlash, FaUsers } from "react-icons/fa";
 import { MdResetTv } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { gaEvent } from "utils/gaEvent";
@@ -8,7 +8,7 @@ import { multiRoomUser } from "utils/permissions/multiRoomUser";
 import { useState } from "react";
 import ModalSorry from "./ModalSorry";
 import { GiFarmer } from "react-icons/gi";
-import { farmingUser } from "utils/permissions/farmingUser";
+import { useSelector } from "react-redux";
 
 function MultiMenu({
   layout,
@@ -24,29 +24,38 @@ function MultiMenu({
   };
 
   const [isOpen, setIsOpen] = useState(false);
+  const user = useSelector((state) => state.user.user);
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
 
   const button = [
-    {
-      name: "3 Room",
-      icon: <FaUsers style={iconCss} />,
-      func: function () {
-        return changeLayout();
-      },
-      color: "info",
-    },
-    // {
-    //   name: "4 Room",
-    //   icon: <FaUsersCog style={iconCss} />,
-    //   func: function () {
-    //     return fourLayout();
-    //   },
-    //   color: "info",
-    // },
-    ...(farmingUser() === true
+    ...(user.can_3_room
+      ? [
+          {
+            name: "3 Room",
+            icon: <FaUsers style={iconCss} />,
+            func: function () {
+              return changeLayout();
+            },
+            color: "info",
+          },
+        ]
+      : []),
+    ...(user.can_4_room
+      ? [
+          {
+            name: "4 Room",
+            icon: <FaUsersCog style={iconCss} />,
+            func: function () {
+              return fourLayout();
+            },
+            color: "info",
+          },
+        ]
+      : []),
+    ...(user.can_farming_multi
       ? [
           {
             name: !isFarming ? "Set Farm" : "Hide Farm",
@@ -87,7 +96,7 @@ function MultiMenu({
   };
 
   const fourLayout = () => {
-    toggleModal();
+    setLayout("3");
   };
 
   const resetLayout = () => {
