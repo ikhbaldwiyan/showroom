@@ -87,10 +87,10 @@ const UserDetail = ({ isCreate, isOpen, toggleModal, userId }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={toggleModal}>
+    <Modal isOpen={isOpen} toggle={handleCloseButton}>
       <ModalHeader
         style={{ backgroundColor: "#24a2b7", color: "white" }}
-        toggle={toggleModal}
+        toggle={handleCloseButton}
       >
         {isCreate ? "Create User" : "User Detail"}
       </ModalHeader>
