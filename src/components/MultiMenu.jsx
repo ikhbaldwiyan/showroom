@@ -4,7 +4,6 @@ import { FaUsersCog, FaUsersSlash, FaUsers } from "react-icons/fa";
 import { MdResetTv } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { gaEvent } from "utils/gaEvent";
-import { multiRoomUser } from "utils/permissions/multiRoomUser";
 import { useState } from "react";
 import ModalSorry from "./ModalSorry";
 import { GiFarmer } from "react-icons/gi";
@@ -31,7 +30,7 @@ function MultiMenu({
   };
 
   const button = [
-    ...(user.can_3_room
+    ...(user?.can_3_room
       ? [
           {
             name: "3 Room",
@@ -43,7 +42,7 @@ function MultiMenu({
           },
         ]
       : []),
-    ...(user.can_4_room
+    ...(user?.can_4_room
       ? [
           {
             name: "4 Room",
@@ -55,7 +54,7 @@ function MultiMenu({
           },
         ]
       : []),
-    ...(user.can_farming_multi
+    ...(user?.can_farming_multi
       ? [
           {
             name: !isFarming ? "Set Farm" : "Hide Farm",
@@ -86,13 +85,8 @@ function MultiMenu({
   ];
 
   const changeLayout = () => {
-    if (multiRoomUser() === true) {
-      gaEvent("Multi Room Setting", "Set 3 Room Success", "Multi Room");
-      setLayout("4");
-    } else {
-      gaEvent("Multi Room Access", "Set 3 Room Failed", "Multi Room");
-      toggleModal();
-    }
+    gaEvent("Multi Room Setting", "Set 3 Room Success", "Multi Room");
+    setLayout("4");
   };
 
   const fourLayout = () => {
@@ -105,7 +99,7 @@ function MultiMenu({
   };
 
   const isDisabled = (name, layout) => {
-    if (name == "Reset Layout" && layout === "6") {
+    if (name === "Reset Layout" && layout === "6") {
       return "disabled";
     }
   };
