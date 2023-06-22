@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { GiFarmer } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 import {
   Dropdown,
@@ -10,7 +11,6 @@ import {
   DropdownItem,
 } from "reactstrap";
 import { getSession } from "utils/getSession";
-import { farmingUser } from "utils/permissions/farmingUser";
 import ProfileModal from "./ProfileModal";
 
 function Settings(props) {
@@ -18,6 +18,7 @@ function Settings(props) {
   const [direction, setDirection] = useState("right");
   const [menu, setMenu] = useState([]);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
+  const user = useSelector((state) => state.user.user);
 
   const css = {
     backgroundColor: "#018b9b",
@@ -97,7 +98,7 @@ function Settings(props) {
               {item.name}
             </DropdownItem>
           ))}
-          {farmingUser() === true &&
+          {user?.can_farming_detail &&
             window.location.pathname !== "/multi-room" && (
               <DropdownItem
                 color={isFarming ? "primary" : "success"}

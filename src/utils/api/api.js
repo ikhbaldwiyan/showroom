@@ -29,7 +29,9 @@ const ROOM_TRAINEE_API = `${ROOM}/trainee`;
 const THEATER_SCHEDULE_API = `${ROOM}/theater-schedule`;
 
 // USER PERMISSION CRUD
-const USERS = `${API_USERS}/users`
+const LIST_USERS = (page, search) => {
+  return `${API_USERS}/users?page=${page}&search=${search}`
+}
 const CREATE_USER = `${API_USERS}/users`
 
 const DETAIL_USER = (userId) => {
@@ -103,8 +105,8 @@ export {
   BULK_GIFT,
   SEND_GIFT,
   THEATER_SCHEDULE_API,
-  USERS, 
+  LIST_USERS,
   CREATE_USER,
   DETAIL_USER,
-  DELETE_USER
+  DELETE_USER,
 };

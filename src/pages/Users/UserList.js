@@ -4,13 +4,16 @@ import { Table, Button, Container } from "reactstrap";
 import { FaTrash, FaUserEdit } from "react-icons/fa";
 import { IoPersonAddSharp } from "react-icons/io5";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
-import { DELETE_USER, USERS } from "utils/api/api";
-import MainLayout from "pages/layout/MainLayout";
-import UserDetail from "./UserDetail";
-import DeleteModal from "./DeleteModal";
+import { LIST_USERS, DELETE_USER } from "utils/api/api";
 import { toast } from "react-toastify";
 import { isAdmin } from "utils/permissions/admin";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { FcSearch } from "react-icons/fc";
+
+import MainLayout from "pages/layout/MainLayout";
+import UserDetail from "./UserDetail";
+import DeleteModal from "./DeleteModal";
+import PaginationComponent from "parts/Pagination";
 
 const UserList = (props) => {
   const [users, setUsers] = useState([]);
@@ -18,19 +21,23 @@ const UserList = (props) => {
   const [userId, setUserId] = useState();
   const [isDelete, setIsDelete] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [totalUsers, setTotalUsers] = useState();
   const router = useHistory();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(USERS);
-        setUsers(response.data);
+        const response = await axios.get(LIST_USERS(page, search));
+        setUsers(response.data.data);
+        setTotalUsers(response.data.totalUsers);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
     fetchUsers();
-  }, [modalOpen, userId, isDelete]);
+  }, [modalOpen, userId, isDelete, page, search]);
 
   useEffect(() => {
     if (!isAdmin()) {
@@ -73,9 +80,9 @@ const UserList = (props) => {
   };
 
   const handleAddUser = () => {
-    toggleModal()
+    toggleModal();
     setIsCreate(true);
-  }
+  };
 
   const InfoAccess = ({ menu }) => {
     return menu ? (
@@ -85,20 +92,36 @@ const UserList = (props) => {
     );
   };
 
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    setPage(1);
+  };
+
   return (
     <MainLayout {...props}>
       <Container>
-        <div className="d-flex justify-content-between mb-3">
+        <div className="d-flex align-items-center justify-content-between mb-3">
           <h3>User Permissions List</h3>
+          <div className="col-md-4 col-sm-12 search-wrapper">
+            <FcSearch className="search-bar" color="#03665c" size="1.5em" />
+            <input
+              style={{ width: "100%", padding: "1rem 1rem 1rem 3rem" }}
+              type="text"
+              placeholder="Search User"
+              onChange={handleSearch}
+              className="form-control"
+            />
+          </div>
+          <div>
             <Button onClick={() => handleAddUser()} color="primary">
               <IoPersonAddSharp className="mb-1 mr-2" />
               Add User
             </Button>
+          </div>
         </div>
-        <Table dark>
+        <Table style={{ overflowX: "scroll", maxWidth: "100%" }} dark>
           <thead>
             <tr>
-              <th>No</th>
               <th>ID</th>
               <th>Name</th>
               <th>3 Room</th>
@@ -111,7 +134,6 @@ const UserList = (props) => {
           <tbody>
             {users.map((user, idx) => (
               <tr key={user._id}>
-                <td>{idx + 1}</td>
                 <td>{user.user_id}</td>
                 <td>{user.name}</td>
                 <td>
@@ -147,6 +169,12 @@ const UserList = (props) => {
             ))}
           </tbody>
         </Table>
+        <PaginationComponent
+          page={page}
+          setPage={setPage}
+          perPage={10}
+          totalCount={totalUsers}
+        />
         <UserDetail
           isCreate={isCreate}
           userId={userId}

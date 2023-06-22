@@ -6,18 +6,17 @@ export const getUserLoad = () => {
   };
 };
 
-export const getUserSuccess = (profile) => {
+export const getUserSuccess = (users) => {
   
   return {
     type: STATE.GET_USER_SUCCESS,
-    payload: profile,
+    payload: users,
   };
 };
 
-export const getUserFailed = (rooms) => {
+export const getUserFailed = () => {
   return {
     type: STATE.GET_USER_FAILED,
-    payload: rooms,
   };
 };
 
