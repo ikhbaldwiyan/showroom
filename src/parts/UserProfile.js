@@ -19,7 +19,7 @@ import { clearFollowedRoom } from "redux/actions/roomFollowed";
 import { DETAIL_USER, UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { GiFarmer } from "react-icons/gi";
-import { getUserLoad, getUserSuccess } from "redux/actions/userActions";
+import { clearProfile, getUserLoad, getUserSuccess } from "redux/actions/userActions";
 
 export default function UserProfile({ data, session, theme }) {
   const [modal, setModal] = useState(false);
@@ -105,7 +105,7 @@ export default function UserProfile({ data, session, theme }) {
       dispatch(getUserSuccess(detailUser.data));
     }
     getUserDetail();
-  }, [data.account_id, modal]);
+  }, [data.account_id]);
 
   const InfoAccess = ({ menu }) => {
     return menu ? (
@@ -130,6 +130,7 @@ export default function UserProfile({ data, session, theme }) {
     }, 2000);
 
     dispatch(clearFollowedRoom());
+    dispatch(clearProfile())
   };
 
   return (
