@@ -21,11 +21,11 @@ export default function Room({ idx, item, children, style }) {
             <figure className="img-wrapper">
               <img
                 src={
-                  item?.image_url?.replace("m.jpeg", "l.jpeg") ??
-                  item?.image?.replace("m.jpeg", "l.jpeg") ??
+                  item?.image_url ??
+                  item?.image ??
                   item.image_l
                 }
-                alt={item.name}
+                alt={item?.name ?? item?.room_name}
                 className="img-cover"
               />
             </figure>
