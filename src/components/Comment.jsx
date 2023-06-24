@@ -4,12 +4,13 @@ import React, { useState, useEffect } from "react";
 import { Card } from "reactstrap";
 import Skeleton from "react-content-loader";
 import Loading from "./Loading";
-import { SEND_COMMENT, PROFILE_API, LIVE_INFO } from "utils/api/api";
+import { SEND_COMMENT, PROFILE_API, LIVE_INFO, LIVE_COMMENT } from "utils/api/api";
 import { toast } from "react-toastify";
 import { FiSend } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { gaEvent } from "utils/gaEvent";
 import formatName from "utils/formatName";
+import { getSession } from "utils/getSession";
 
 export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
   const [comment, setComment] = useState([]);
@@ -22,6 +23,23 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
   const [socket, setSocket] = useState(null);
   const [socketUrl, setSocketUrl] = useState("wss://online.showroom-live.com/");
   const [socketKey, setSocketKey] = useState("");
+  const cookies = getSession()?.session?.cookie_login_id ?? "comment";
+
+  useEffect(() => {
+    async function getComments() {
+      try {
+        const res = await axios.get(LIVE_COMMENT(roomId, secretKey ?? cookies));
+        const comments = res.data;
+        setComment(comments);
+        if (comments.length < 1) {
+          !isMultiRoom ? window.location.reload() : setRoomId(roomId);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getComments();
+  }, [roomId]);
 
   useEffect(() => {
     const userSession = localStorage.getItem("session");
@@ -63,20 +81,21 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
           created_at: msg.created_at,
         }
         setComment((prevMessages) => [cm, ...prevMessages]);
+      } else if (code === 101) {
+        !isMultiRoom ? window.location.reload() : setRoomId(roomId);
       }
     });
 
     newSocket.addEventListener('close', () => {
       console.log('WebSocket closed');
     });
-
     setSocket(newSocket);
 
     // Cleanup function
     return () => {
       newSocket.close();
     };
-  }, [socketKey, comment]);
+  }, [socketKey]);
 
   useEffect(() => {
     axios
