@@ -6,6 +6,7 @@ import { RECENT_LIVE_LOG_API } from "utils/api/api";
 import { FaClock } from "react-icons/fa";
 import { BsCalendarDateFill, BsPeopleFill } from "react-icons/bs";
 import { AiFillGift } from "react-icons/ai";
+import { BiLogInCircle } from "react-icons/bi";
 import { GiBackwardTime } from "react-icons/gi";
 import { FcSearch } from "react-icons/fc";
 import {
@@ -14,13 +15,14 @@ import {
   CardText,
   CardBody,
   CardTitle,
-  CardSubtitle
+  CardSubtitle,
 } from "reactstrap";
 import TimeAgo from "react-timeago";
 import formatViews from "utils/formatViews";
 import formatLongDate from "utils/formatLongDate";
 import MainLayout from "./layout/MainLayout";
 import Pagination from "parts/Pagination";
+import { Link } from "react-router-dom";
 
 const LiveHistory = (props) => {
   const [logs, setLogs] = useState([]);
@@ -102,7 +104,7 @@ const LiveHistory = (props) => {
                   style={{
                     background: `linear-gradient(165deg, #282c34, #24a2b7)`,
                     borderColor: props.theme === "dark" ? "white" : "",
-                    color: "white"
+                    color: "white",
                   }}
                 >
                   <CardImg
@@ -153,7 +155,12 @@ const LiveHistory = (props) => {
                               date={live_info.date.start}
                             />
                           </div>
-                          <div>Detail</div>
+                          <Link className="text-white" to={`/history${member.url}/${log.data_id}`}>
+                            <div className="d-flex align-items-center">
+                              <BiLogInCircle className="mr-1" size={20} />
+                              Detail
+                            </div>
+                          </Link>
                         </div>
                       </CardText>
                     </div>

@@ -31,6 +31,10 @@ const RECENT_LIVE_LOG_API = (
   return `${SHOWROOM_LOG_API}/recent?sort=${sort}&page=${page}&filter=${filter}&order=${order}&perpage=${perpage}&search=${search}`;
 };
 
+const DETAIL_LIVE_HISTORY = (id) => {
+  return `${SHOWROOM_LOG_API}/recent/${id}`
+}
+
 // ROOM API
 const ROOM_LIST_API = ROOM;
 const ROOM_GEN_10 = `${ROOM}/academy`;
@@ -99,5 +103,6 @@ export {
   BULK_GIFT,
   SEND_GIFT,
   THEATER_SCHEDULE_API,
-  RECENT_LIVE_LOG_API
+  RECENT_LIVE_LOG_API,
+  DETAIL_LIVE_HISTORY
 };
