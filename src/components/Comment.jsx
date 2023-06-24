@@ -68,7 +68,6 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
 
     newSocket.addEventListener('close', () => {
       console.log('WebSocket closed');
-      !isMultiRoom ? window.location.reload() : setRoomId(roomId);
     });
 
     setSocket(newSocket);
