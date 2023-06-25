@@ -2,9 +2,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Card } from "reactstrap";
-import { SEND_COMMENT, LIVE_COMMENT, PROFILE_API } from "utils/api/api";
 import Skeleton from "react-content-loader";
 import Loading from "./Loading";
+import { SEND_COMMENT, PROFILE_API, LIVE_INFO, LIVE_COMMENT } from "utils/api/api";
 import { toast } from "react-toastify";
 import { FiSend } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -20,6 +20,9 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
   const [error, setError] = useState("");
   const [myName, setMyName] = useState("");
   const [profile, setProfile] = useState("");
+  const [socket, setSocket] = useState(null);
+  const [socketUrl, setSocketUrl] = useState("wss://online.showroom-live.com/");
+  const [socketKey, setSocketKey] = useState("");
   const cookies = getSession()?.session?.cookie_login_id ?? "comment";
 
   useEffect(() => {
@@ -27,9 +30,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
       try {
         const res = await axios.get(LIVE_COMMENT(roomId, secretKey ?? cookies));
         const comments = res.data;
-        setTimeout(() => {
-          setComment(comments);
-        }, 6000);
+        setComment(comments);
         if (comments.length < 1) {
           !isMultiRoom ? window.location.reload() : setRoomId(roomId);
         }
@@ -38,7 +39,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
       }
     }
     getComments();
-  }, [comment, textComment, roomId]);
+  }, [roomId]);
 
   useEffect(() => {
     const userSession = localStorage.getItem("session");
@@ -50,6 +51,51 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
       setSession(foundSession);
     }
   }, []);
+
+  useEffect(() => {
+    async function getWebsocketInfo() {
+      const response = await axios.get(LIVE_INFO(roomId, "info"));
+      setSocketKey(response?.data?.websocket.key)
+    }
+    getWebsocketInfo();
+
+    const newSocket = new WebSocket(socketUrl);
+    newSocket.addEventListener('open', () => {
+      console.log('WebSocket connected');
+      newSocket.send(`SUB\t${socketKey}`);
+    });
+
+    newSocket.addEventListener('message', (event) => {
+      const message = event.data;
+      const msg = JSON.parse(message.split('\t')[2])
+      const code = parseInt(msg.t, 10)
+
+      if (code === 1) {
+        if (!Number.isNaN(msg.cm) && parseInt(msg.cm) <= 50) return
+        const cm = {
+          id: String(msg.u) + String(msg.created_at),
+          user_id: msg.u,
+          name: msg.ac,
+          avatar_id: msg.av,
+          comment: msg.cm,
+          created_at: msg.created_at,
+        }
+        setComment((prevMessages) => [cm, ...prevMessages]);
+      } else if (code === 101) {
+        !isMultiRoom ? window.location.reload() : setRoomId(roomId);
+      }
+    });
+
+    newSocket.addEventListener('close', () => {
+      console.log('WebSocket closed');
+    });
+    setSocket(newSocket);
+
+    // Cleanup function
+    return () => {
+      newSocket.close();
+    };
+  }, [socketKey]);
 
   useEffect(() => {
     axios
@@ -174,7 +220,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
                       }}
                     >
                       <img
-                        src={item?.avatar_url}
+                        src={`https://static.showroom-live.com/image/avatar/${item.avatar_id}.png?v=95`}
                         width="25"
                         alt={item?.name}
                         className="mr-2 mb-1"
