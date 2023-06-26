@@ -35,7 +35,7 @@ const PaginationComponent = ({ page, perPage, totalCount, setPage }) => {
   };
 
   return (
-    <Pagination>
+    <Pagination size={isMobile ? "sm" : "md"}>
       <PaginationItem disabled={currentPage === 1}>
         <PaginationLink
           previous

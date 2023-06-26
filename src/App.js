@@ -16,6 +16,8 @@ import Follow from "pages/Follow";
 import Register from "pages/Register";
 import TheaterSchedule from "pages/TheaterSchedule";
 import Farming from "pages/Farming";
+import LiveHistory from "pages/LiveHistory";
+import DetailLiveHistory from "pages/DetailLiveHistory";
 import UserList from "pages/Users/UserList";
 
 function App(props) {
@@ -38,6 +40,8 @@ function App(props) {
         <Route path="/register" component={() => <Register {...props} />} />
         <Route path="/theater-schedule" component={() => <TheaterSchedule {...props} />} />
         <Route path="/farming" component={() => <Farming {...props} />} />
+        <Route path="/live-history" component={() => <LiveHistory {...props} />} />
+        <Route path="/history/:name/:id" component={() => <DetailLiveHistory {...props} />} />
         <Route path="/admin" component={() => <UserList {...props} />} />
       </div>
     </ThemeProvider>

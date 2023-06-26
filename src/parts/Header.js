@@ -105,6 +105,11 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     <HiUsers style={iconHome} /> Multi Room
                   </Button>
                 </li>
+                <li className={`nav-item${getNavLinkClass("/live-history")}`}>
+                  <Button className="nav-link" type="link" href="/live-history">
+                    <RiFileList3Fill style={iconHome} /> History
+                  </Button>
+                </li>
                 {isAdmin() ? (
                   <li className={`nav-item${getNavLinkClass("/admin")}`}>
                     <Button className="nav-link" type="link" href="/admin">
@@ -112,17 +117,12 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     </Button>
                   </li>
                 ) : (
-                  <li className={`nav-item${getNavLinkClass("/follow")}`}>
-                    <Button className="nav-link" type="link" href="/follow">
-                      <RiFileList3Fill style={iconHome} /> Follow
+                  <li className={`nav-item${getNavLinkClass("/about")}`}>
+                    <Button className="nav-link" type="link" href="/about">
+                      <BsInfoCircleFill style={iconHome} /> About
                     </Button>
                   </li>
                 )}
-                <li className={`nav-item${getNavLinkClass("/about")}`}>
-                  <Button className="nav-link" type="link" href="/about">
-                    <BsInfoCircleFill style={iconHome} /> About
-                  </Button>
-                </li>
                 {profile ? (
                   <UserProfile
                     profile={profile}
