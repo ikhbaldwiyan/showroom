@@ -30,10 +30,12 @@ function Home(props) {
   const [isLive, setIsLive] = useState(false);
   const [isServerError, setIsServerError] = useState(false);
 
-  const roomRegular = useSelector((state) => state.roomRegular.data);
-  const roomAcademy = useSelector((state) => state.roomAcademy.data);
+  const memberRegular = useSelector((state) => state.roomRegular.data);
+  const memberGen10 = useSelector((state) => state.roomAcademy.data);
   const roomTrainee = useSelector((state) => state.roomTrainee.data);
   const dispatch = useDispatch();
+
+  const roomRegular = [...memberRegular, ...memberGen10];
 
   useEffect(() => {
     async function getRoomList() {
@@ -71,12 +73,14 @@ function Home(props) {
   const filtered = !search
     ? roomRegular
     : roomRegular.filter((room) =>
-        room.name.toLowerCase().includes(search.toLowerCase())
+        room.name
+          ? room.name.toLowerCase().includes(search.toLowerCase())
+          : room.room_name.toLowerCase().includes(search.toLowerCase())
       );
 
-  const filteredAcademy = !search
-    ? roomAcademy
-    : roomAcademy.filter((room) =>
+  const filteredGen10 = !search
+    ? memberGen10
+    : memberGen10.filter((room) =>
         room.room_url_key.toLowerCase().includes(search.toLowerCase())
       );
 
@@ -110,16 +114,8 @@ function Home(props) {
               <RoomUpcoming search={search} room={roomRegular} />
               <RoomList
                 isSearchRegular={filtered}
-                isSearchAcademy={filteredAcademy}
                 isSearch={search}
                 room={filtered}
-                theme={props.theme}
-              />
-              <RoomAcademy
-                title="Room Gen 10"
-                isSearchRegular={filtered}
-                isSearch={search}
-                room={filteredAcademy}
                 theme={props.theme}
               />
               <RoomAcademy
@@ -134,7 +130,7 @@ function Home(props) {
             <RoomAcademy
               title="Room Gen 10"
               isSearch={search}
-              room={filteredAcademy}
+              room={filteredGen10}
               theme={props.theme}
             />
           ) : isRegular ? (

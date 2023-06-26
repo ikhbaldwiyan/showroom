@@ -39,7 +39,7 @@ function RoomList({ room, theme, isSearch, isSearchAcademy, isRoomFollowed }) {
             </p>
           </div>
         )
-      ) : (
+      ) : !isMobile && (
         <div className="container-grid">
           <SkeletonList theme={theme} />
         </div>

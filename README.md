@@ -36,4 +36,4 @@ If you'd like to request a new function, feel free to do so by opening an issue 
 
 ### Showcase
 
-https://www.jkt48-showroom.com/
+https://jkt48-showroom.vercel.app/

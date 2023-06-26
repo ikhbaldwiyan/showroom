@@ -40,7 +40,7 @@ const Schedule = ({ theme, isSearch }) => {
   };
 
   return (
-    !isSearch && (
+    !isSearch && schedule.length !== 0 && (
       <>
         <h3 className="py-4 theater-title">Jadwal Theater Premium Live</h3>
         <div className="container-grid">

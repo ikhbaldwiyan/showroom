@@ -8,9 +8,9 @@ export default function Logo({ theme }) {
     <Button className="brand-text-icon" href="" type="link">
       <div className="d-flex align-items-center">
         {theme === "dark" ? (
-          <img alt="Logo Dark" src={LogoDark} width="30" className="logo-icon mr-3" />
+          <img alt="Logo Dark" src={LogoDark} width="30" height="60" className="logo-icon mr-3" />
         ) : (
-          <img alt="Logo Light" src={LogoLight} width="30" className="logo-icon mr-3" />
+          <img alt="Logo Light" src={LogoLight} width="30" height="60" className="logo-icon mr-3" />
         )}
         <span className="logo mr-2">JKT48</span>
         <span className="showroom"> SHOWROOM</span>

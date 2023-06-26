@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import { GiFarmer } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 import {
   Dropdown,
@@ -16,6 +18,7 @@ function Settings(props) {
   const [direction, setDirection] = useState("right");
   const [menu, setMenu] = useState([]);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
+  const user = useSelector((state) => state.user.user);
 
   const css = {
     backgroundColor: "#018b9b",
@@ -40,6 +43,8 @@ function Settings(props) {
     setHideMultiMenu,
     hideStars,
     setHideStars,
+    isFarming,
+    setIsFarming,
   } = props;
 
   useEffect(() => {
@@ -93,6 +98,16 @@ function Settings(props) {
               {item.name}
             </DropdownItem>
           ))}
+          {user?.can_farming_detail &&
+            window.location.pathname !== "/multi-room" && (
+              <DropdownItem
+                color={isFarming ? "primary" : "success"}
+                onClick={() => setIsFarming(!isFarming)}
+              >
+                <GiFarmer className="mb-1" size={20} />{" "}
+                {!isFarming ? "Farming" : "Hide Farm"}
+              </DropdownItem>
+            )}
           <ProfileModal
             roomId={roomId}
             className="btn-sm mt-1 px-4 mb-1"

@@ -1,9 +1,11 @@
 import React from "react";
 import Button from "elements/Button";
 import Logo from "parts/Logo";
-import { farmingUser } from "utils/permissions/farmingUser";
+import { useSelector } from "react-redux";
 
 export default function Footer({ theme }) {
+  const user = useSelector((state) => state.user.user);
+
   return (
     <footer>
       <div className="container">
@@ -36,7 +38,7 @@ export default function Footer({ theme }) {
                     Theater Schedule
                   </Button>
                 </li>
-                {farmingUser() === true && (
+                {user?.can_farming_page === true && (
                   <li className="list-group-item">
                     <Button type="link" href="/farming">
                       Farming
@@ -73,7 +75,7 @@ export default function Footer({ theme }) {
           </div>
           <div className="row">
             <div className="col text-center copyrights">
-              Copyright 2022 • All rights reserved • JKT48SHOWROOM - Inzoid
+              Copyright 2023 • All rights reserved • JKT48SHOWROOM - Inzoid
             </div>
           </div>
         </div>

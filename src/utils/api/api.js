@@ -1,13 +1,16 @@
 // BASE URL API
 const API = "https://jkt48-showroom-api.vercel.app/api";
+const API_USERS = "https://jkt48-showroom-users.ikhbaldwiyan.repl.co"
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
 
 // LARAVEL API
 const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
+const LOGIN = `${LARAVEL_API}/login`;
 const SEND_COMMENT = `${LARAVEL_API}/live/comment`;
 const UPDATE_PROFILE = `${LARAVEL_API}/profile/update`;
-const LOGIN = `${LARAVEL_API}/login`;
+const GET_AVATAR = `${LARAVEL_API}/profile/get_avatar`;
+const UPDATE_AVATAR = `${LARAVEL_API}/profile/update_avatar`;
 const USER_PROFILE = `${LARAVEL_API}/profile/user`;
 const ROOM_FOLLOW = `${LARAVEL_API}/room/followed_rooms`;
 const FOLLOW = `${LARAVEL_API}/room/follow`;
@@ -41,6 +44,20 @@ const ROOM_GEN_10 = `${ROOM}/academy`;
 const ROOM_LIVES_API = `${ROOM}/onlives`;
 const ROOM_TRAINEE_API = `${ROOM}/trainee`;
 const THEATER_SCHEDULE_API = `${ROOM}/theater-schedule`;
+
+// USER PERMISSION CRUD
+const LIST_USERS = (page, search) => {
+  return `${API_USERS}/users?page=${page}&search=${search}`
+}
+const CREATE_USER = `${API_USERS}/users`
+
+const DETAIL_USER = (userId) => {
+  return `${API_USERS}/users/${userId}`
+};
+
+const DELETE_USER = (userId) => {
+  return `${API_USERS}/users/${userId}`
+};
 
 // LIVE API
 const LIVE_STREAM_URL = (roomId, cookies) => {
@@ -94,6 +111,8 @@ export {
   SEND_COMMENT,
   USER_PROFILE,
   UPDATE_PROFILE,
+  GET_AVATAR,
+  UPDATE_AVATAR,
   ROOM_FOLLOW,
   FOLLOW,
   PROFILE_API,
@@ -104,5 +123,9 @@ export {
   SEND_GIFT,
   THEATER_SCHEDULE_API,
   RECENT_LIVE_LOG_API,
-  DETAIL_LIVE_HISTORY
+  DETAIL_LIVE_HISTORY,
+  LIST_USERS,
+  CREATE_USER,
+  DETAIL_USER,
+  DELETE_USER,
 };

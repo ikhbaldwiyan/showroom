@@ -6,12 +6,13 @@ import Button from "elements/Button";
 import Logo from "parts/Logo";
 import { isMobile } from "react-device-detect";
 import { AiFillHome } from "react-icons/ai";
-import { RiBroadcastFill } from "react-icons/ri";
+import { RiAdminFill, RiBroadcastFill } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiFileList3Fill, RiLoginBoxFill } from "react-icons/ri";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { FaBars } from "react-icons/fa";
 import UserProfile from "./UserProfile";
+import { isAdmin } from "utils/permissions/admin";
 
 export default function Header({ theme, toggleTheme, isMultiRoom }) {
   const [user, setUser] = useState("");
@@ -109,16 +110,25 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     <RiFileList3Fill style={iconHome} /> History
                   </Button>
                 </li>
-                <li className={`nav-item${getNavLinkClass("/about")}`}>
-                  <Button className="nav-link" type="link" href="/about">
-                    <BsInfoCircleFill style={iconHome} /> About
-                  </Button>
-                </li>
+                {isAdmin() ? (
+                  <li className={`nav-item${getNavLinkClass("/admin")}`}>
+                    <Button className="nav-link" type="link" href="/admin">
+                      <RiAdminFill style={iconHome} /> Admin
+                    </Button>
+                  </li>
+                ) : (
+                  <li className={`nav-item${getNavLinkClass("/about")}`}>
+                    <Button className="nav-link" type="link" href="/about">
+                      <BsInfoCircleFill style={iconHome} /> About
+                    </Button>
+                  </li>
+                )}
                 {profile ? (
                   <UserProfile
                     profile={profile}
                     data={user}
                     session={session}
+                    theme={theme}
                   />
                 ) : (
                   <li className={`nav-item${getNavLinkClass("/login")}`}>

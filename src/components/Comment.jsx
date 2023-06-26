@@ -2,9 +2,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Card } from "reactstrap";
-import { SEND_COMMENT, LIVE_COMMENT, PROFILE_API } from "utils/api/api";
 import Skeleton from "react-content-loader";
 import Loading from "./Loading";
+import { SEND_COMMENT, PROFILE_API, LIVE_INFO, LIVE_COMMENT } from "utils/api/api";
 import { toast } from "react-toastify";
 import { FiSend } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -12,7 +12,7 @@ import { gaEvent } from "utils/gaEvent";
 import formatName from "utils/formatName";
 import { getSession } from "utils/getSession";
 
-export default function Comment({ roomId, isMultiRoom, setRoomId }) {
+export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
   const [comment, setComment] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [session, setSession] = useState("");
@@ -20,16 +20,17 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
   const [error, setError] = useState("");
   const [myName, setMyName] = useState("");
   const [profile, setProfile] = useState("");
+  const [socket, setSocket] = useState(null);
+  const [socketUrl, setSocketUrl] = useState("wss://online.showroom-live.com/");
+  const [socketKey, setSocketKey] = useState("");
   const cookies = getSession()?.session?.cookie_login_id ?? "comment";
 
   useEffect(() => {
     async function getComments() {
       try {
-        const res = await axios.get(LIVE_COMMENT(roomId, cookies));
+        const res = await axios.get(LIVE_COMMENT(roomId, secretKey ?? cookies));
         const comments = res.data;
-        setTimeout(() => {
-          setComment(comments);
-        }, 6000);
+        setComment(comments);
         if (comments.length < 1) {
           !isMultiRoom ? window.location.reload() : setRoomId(roomId);
         }
@@ -38,7 +39,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
       }
     }
     getComments();
-  }, [comment, textComment, roomId]);
+  }, [roomId]);
 
   useEffect(() => {
     const userSession = localStorage.getItem("session");
@@ -50,6 +51,51 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
       setSession(foundSession);
     }
   }, []);
+
+  useEffect(() => {
+    async function getWebsocketInfo() {
+      const response = await axios.get(LIVE_INFO(roomId, "info"));
+      setSocketKey(response?.data?.websocket.key)
+    }
+    getWebsocketInfo();
+
+    const newSocket = new WebSocket(socketUrl);
+    newSocket.addEventListener('open', () => {
+      console.log('WebSocket connected');
+      newSocket.send(`SUB\t${socketKey}`);
+    });
+
+    newSocket.addEventListener('message', (event) => {
+      const message = event.data;
+      const msg = JSON.parse(message.split('\t')[2])
+      const code = parseInt(msg.t, 10)
+
+      if (code === 1) {
+        if (!Number.isNaN(msg.cm) && parseInt(msg.cm) <= 50) return
+        const cm = {
+          id: String(msg.u) + String(msg.created_at),
+          user_id: msg.u,
+          name: msg.ac,
+          avatar_id: msg.av,
+          comment: msg.cm,
+          created_at: msg.created_at,
+        }
+        setComment((prevMessages) => [cm, ...prevMessages]);
+      } else if (code === 101) {
+        !isMultiRoom ? window.location.reload() : setRoomId(roomId);
+      }
+    });
+
+    newSocket.addEventListener('close', () => {
+      console.log('WebSocket closed');
+    });
+    setSocket(newSocket);
+
+    // Cleanup function
+    return () => {
+      newSocket.close();
+    };
+  }, [socketKey]);
 
   useEffect(() => {
     axios
@@ -159,7 +205,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
     <Card body inverse color="dark" className="p-0 mb-5">
       <Card body inverse color="dark" className="scroll">
         <div>
-          {comment?.length != 0 ? (
+          {comment && comment?.length != 0 ? (
             comment?.map(
               (item, idx) =>
                 item?.comment?.length != "2" &&
@@ -167,21 +213,21 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
                   <div key={idx}>
                     <h5
                       style={{
-                        color: item.user_id == myName ? "#DC3545" : "#24a2b7",
+                        color: item?.user_id == myName ? "#DC3545" : "#24a2b7",
                         display: "inline",
                         fontWeight: 500,
                         fontSize: "17px",
                       }}
                     >
                       <img
-                        src={item.avatar_url}
+                        src={`https://static.showroom-live.com/image/avatar/${item.avatar_id}.png?v=95`}
                         width="25"
-                        alt={item.name}
+                        alt={item?.name}
                         className="mr-2 mb-1"
                       />
-                      {item.name} {item.user_id == myName && "(Me)"}
+                      {item?.name} {item?.user_id == myName && "(Me)"}
                     </h5>
-                    <p style={styles.comment}>{item.comment}</p>
+                    <p style={styles.comment}>{item?.comment}</p>
                     <hr />
                   </div>
                 )
@@ -195,7 +241,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
         </div>
       </Card>
 
-      {session ? (
+      {session && !secretKey ? (
         <>
           {error ? <p className="pl-2 pb-0 text-danger">{error}</p> : ""}
 
@@ -227,7 +273,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
             </button>
           </form>
         </>
-      ) : (
+      ) : !secretKey ? (
         <>
           <form className="d-flex sticky-comment">
             <input
@@ -256,7 +302,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId }) {
             </Link>
           </form>
         </>
-      )}
+      ) : null}
     </Card>
   );
 }

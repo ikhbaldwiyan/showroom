@@ -447,6 +447,7 @@ function FarmStars({ isSingleLive, layout }) {
     toggle,
     textColor,
     setFarmingTime,
+    isSingleLive,
   };
 
   return isSingleLive ? (
