@@ -152,7 +152,7 @@ const LiveHistory = (props) => {
                             />
                             <TimeAgo
                               style={{ color: "#E2E8F0" }}
-                              date={live_info.date.start}
+                              date={live_info.date.end}
                             />
                           </div>
                           <Link className="text-white" to={`/history${member.url}/${log.data_id}`}>
