@@ -73,7 +73,7 @@ const LiveHistory = (props) => {
     <MainLayout {...props}>
       <Container>
         <div className="d-flex justify-content-between align-items-center">
-          <h3>Member Live History</h3>
+          <h3>Showroom Live History</h3>
         </div>
         <Row className="d-flex">
           <div className="col-md-4 col-sm-12 search-wrapper">
@@ -81,7 +81,7 @@ const LiveHistory = (props) => {
             <input
               style={{ width: "100%", padding: "1rem 1rem 1rem 3rem" }}
               type="text"
-              placeholder="Search Live History"
+              placeholder="Search member history"
               onChange={handleSearch}
               className="form-control"
             />
