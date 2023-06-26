@@ -155,12 +155,12 @@ const LiveHistory = (props) => {
                               date={live_info.date.end}
                             />
                           </div>
-                          <Link className="text-white" to={`/history${member.url}/${log.data_id}`}>
+                          {/* <Link className="text-white" to={`/history${member.url}/${log.data_id}`}>
                             <div className="d-flex align-items-center">
                               <BiLogInCircle className="mr-1" size={20} />
                               Detail
                             </div>
-                          </Link>
+                          </Link> */}
                         </div>
                       </CardText>
                     </div>
