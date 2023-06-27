@@ -22,7 +22,8 @@ function Title({
   setHideStars,
   isFarming,
   setIsFarming,
-  secretKey
+  secretKey,
+  isMultiRoom
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -94,7 +95,7 @@ function Title({
     let name = title
       ? `${profile?.room_url_key?.slice(6)} JKT48 Room`
       : profile?.room_name;
-    window.document.title = name ?? "JKT48 SHOWROOM";
+    window.document.title = !isMultiRoom ?  name : "Multi Room";
   }, [profile]);
 
   return (

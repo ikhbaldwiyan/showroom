@@ -73,6 +73,7 @@ export default function Multi({
               hideMultiMenu={hideMultiMenu}
               setHideMultiMenu={setHideMultiMenu}
               theme={theme}
+              isMultiRoom
             />
           </>
         ))
