@@ -7,6 +7,7 @@ import {
   FaUserCheck,
   FaUserEdit,
   FaUsers,
+  FaUsersCog,
   FaWindowClose,
 } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
@@ -19,7 +20,12 @@ import { clearFollowedRoom } from "redux/actions/roomFollowed";
 import { DETAIL_USER, UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { GiFarmer } from "react-icons/gi";
-import { clearProfile, getUserLoad, getUserSuccess } from "redux/actions/userActions";
+import {
+  clearProfile,
+  getUserLoad,
+  getUserSuccess,
+} from "redux/actions/userActions";
+import { Link } from "react-router-dom";
 
 export default function UserProfile({ data, session, theme }) {
   const [modal, setModal] = useState(false);
@@ -130,7 +136,7 @@ export default function UserProfile({ data, session, theme }) {
     }, 2000);
 
     dispatch(clearFollowedRoom());
-    dispatch(clearProfile())
+    dispatch(clearProfile());
   };
 
   return (
@@ -303,10 +309,15 @@ export default function UserProfile({ data, session, theme }) {
                             <div className="col-12 mb-3">
                               <div className="row d-flex justify-content-center align-items-center">
                                 <div className="col-6">
-                                  <Button size="sm" color="info">
-                                    <FaUsers size={16} className="mb-1 mx-1" />3
-                                    Room
-                                  </Button>
+                                  <Link to="/multi-room">
+                                    <Button size="sm" color="info">
+                                      <FaUsers
+                                        size={16}
+                                        className="mb-1 mx-1"
+                                      />
+                                      3 Room
+                                    </Button>
+                                  </Link>
                                 </div>
                                 <div className="col-6">
                                   <InfoAccess
@@ -316,10 +327,15 @@ export default function UserProfile({ data, session, theme }) {
                               </div>
                               <div className="row d-flex justify-content-center align-items-center py-2">
                                 <div className="col-6">
-                                  <Button size="sm" color="info">
-                                    <FaUsers size={16} className="mb-1 mx-1" />4
-                                    Room
-                                  </Button>
+                                  <Link to="/multi-room">
+                                    <Button size="sm" color="info">
+                                      <FaUsersCog
+                                        size={16}
+                                        className="mb-1 mx-1"
+                                      />
+                                      4 Room
+                                    </Button>
+                                  </Link>
                                 </div>
                                 <div className="col-6">
                                   <InfoAccess
@@ -329,10 +345,12 @@ export default function UserProfile({ data, session, theme }) {
                               </div>
                               <div className="row d-flex justify-content-center align-items-center py-1">
                                 <div className="col-6">
-                                  <Button color="success">
-                                    <GiFarmer size={16} className="mb-1" />
-                                    Farming
-                                  </Button>
+                                  <Link to="/farming">
+                                    <Button color="success">
+                                      <GiFarmer size={16} className="mb-1" />
+                                      Farming
+                                    </Button>
+                                  </Link>
                                 </div>
                                 <div className="col-6">
                                   <InfoAccess
@@ -363,24 +381,7 @@ export default function UserProfile({ data, session, theme }) {
                             </Button>
                           ) : (
                             <div>
-                              <hr className="mt-0 mb-4" />
-                              <div className="d-flex justify-content-start">
-                                {user?.sns_list?.map((item, idx) => (
-                                  <a
-                                    key={idx}
-                                    href={item.url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    <img
-                                      width={40}
-                                      alt="twitter"
-                                      src={item.icon}
-                                    />
-                                  </a>
-                                ))}
-                              </div>
-                              <hr className="mt-0 my-4" />
+                              <hr className="mt-0 my-3" />
                               <Button color="danger" onClick={toggleLogout}>
                                 <RiLogoutBoxFill
                                   size={20}
