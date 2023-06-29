@@ -1,12 +1,13 @@
 import axios from "axios";
+import Search from "components/Search";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { AiFillGift, AiFillTrophy } from "react-icons/ai";
+import { AiFillGift } from "react-icons/ai";
 import { BiTimeFive } from "react-icons/bi";
-import { BsCalendarDateFill } from "react-icons/bs";
-import { FaUser } from "react-icons/fa";
-import { GiPodiumWinner } from "react-icons/gi";
+import { BsCalendarDateFill, BsFillStopCircleFill } from "react-icons/bs";
+import { GiPodiumWinner, GiSandsOfTime } from "react-icons/gi";
+import { MdNotStarted } from "react-icons/md";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import {
   Card,
@@ -17,10 +18,12 @@ import {
   Row,
   Button,
   Table,
+  CardTitle,
 } from "reactstrap";
 import { DETAIL_LIVE_HISTORY } from "utils/api/api";
 import formatLongDate from "utils/formatLongDate";
 import formatViews from "utils/formatViews";
+import { getLiveDuration } from "utils/getLiveDuration";
 import MainLayout from "./layout/MainLayout";
 
 const DetailLiveHistory = (props) => {
@@ -29,6 +32,7 @@ const DetailLiveHistory = (props) => {
   const [rank, setRank] = useState([]);
   const [menu, setMenu] = useState("podium");
   const [gift, setGift] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function getRoomList() {
@@ -45,13 +49,22 @@ const DetailLiveHistory = (props) => {
       }
     }
     getRoomList();
-  }, []);
+  }, [search]);
+
+  const filterName = !search
+    ? rank
+    : rank.filter((data) =>
+        data.name.toLowerCase().includes(search.toLowerCase())
+      );
 
   return (
     <MainLayout {...props}>
       <Container>
         <Row className="mb-4">
           <Col md="4">
+            <h4 className="py-1">
+              {history?.room_info?.url.replace("/JKT48_", "")} JKT48 Live Log{" "}
+            </h4>
             <Card
               style={{
                 background: `linear-gradient(165deg, #282c34, #24a2b7)`,
@@ -80,6 +93,7 @@ const DetailLiveHistory = (props) => {
             </Card>
           </Col>
           <Col md="4">
+            <div className="py-4"></div>
             <Card
               style={{
                 background: `linear-gradient(165deg, #282c34, #24a2b7)`,
@@ -88,23 +102,43 @@ const DetailLiveHistory = (props) => {
               }}
             >
               <CardBody>
-                <h5 className="py-1">
-                  <BiTimeFive size={25} /> Live Time
-                </h5>
+                <CardTitle>
+                  <h5 className="py-1">
+                    <BiTimeFive size={25} /> Live Time Info
+                  </h5>
+                  <hr style={{ borderColor: "white" }} />
+                </CardTitle>
                 <div
                   className=" align-items-center mt-2"
                   style={{ color: "#CBD5E0" }}
                 >
-                  <div className="d-flex">
-                    <p>Live Start:</p>
-                    <span className="mx-1">
+                  <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center">
+                      <MdNotStarted className="mr-1" size={20} />
+                      Start:
+                    </div>
+                    <div className="mx-1">
                       {formatLongDate(history?.live_info.date.start, true)}
-                    </span>
+                    </div>
                   </div>
-                  <div className="d-flex">
-                    <p>Live End:</p>
-                    <span className="mx-1">
+                  <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center">
+                      <BsFillStopCircleFill className="mr-1" size={16} />
+                      End:
+                    </div>
+                    <div className="mx-1">
                       {formatLongDate(history?.live_info.date.end, true)}
+                    </div>
+                  </div>
+                  <div className="">
+                    <span>
+                      <GiSandsOfTime /> Duration:
+                    </span>
+                    <span className="mx-1">
+                      {getLiveDuration(
+                        history?.live_info.date.start,
+                        history?.live_info.date.end
+                      )}
                     </span>
                   </div>
                 </div>
@@ -122,13 +156,6 @@ const DetailLiveHistory = (props) => {
             </Button>
             <Button
               className="menu"
-              style={menu === "total" ? buttonActive : buttonStyle}
-              onClick={() => setMenu("total")}
-            >
-              <AiFillTrophy className="mb-1" /> All Rank
-            </Button>
-            <Button
-              className="menu"
               style={menu === "gift" ? buttonActive : buttonStyle}
               onClick={() => setMenu("gift")}
             >
@@ -136,81 +163,46 @@ const DetailLiveHistory = (props) => {
             </Button>
 
             {menu === "podium" ? (
-              <Table dark>
-                <div className="scroll-room">
-                  <thead
-                    style={{
-                      backgroundColor: "#24a2b7",
-                      color: "white",
-                      borderTop: "none",
-                    }}
-                  >
-                    <tr>
-                      <th>Rank</th>
-                      <th>Ava</th>
-                      <th>Username</th>
-                      <th>Points</th>
-                    </tr>
-                  </thead>
-                  {rank &&
-                    rank.slice(0, 13).map((item, idx) => (
-                      <tbody key={idx}>
-                        <tr>
-                          <th className="text-center">{idx + 1}</th>
-                          <td>
-                            <img
-                              width="40"
-                              alt="avatar"
-                              src={`https://static.showroom-live.com/image/avatar/${item.avatar_id}.png`}
-                            />
-                          </td>
-                          <td style={{ wordBreak: "break-word" }}>
-                            {item.name}
-                          </td>
-                          <td>{formatViews(item.fans_point)}</td>
-                        </tr>
-                      </tbody>
-                    ))}
-                </div>
-              </Table>
-            ) : menu === "total" ? (
-              <Table dark>
-                <div className="scroll-room">
-                  <thead
-                    style={{
-                      backgroundColor: "#24a2b7",
-                      color: "white",
-                      borderTop: "none",
-                    }}
-                  >
-                    <tr>
-                      <th>Rank</th>
-                      <th>Ava</th>
-                      <th>Username</th>
-                      <th>Points</th>
-                    </tr>
-                  </thead>
-                  {rank &&
-                    rank.map((item, idx) => (
-                      <tbody key={idx}>
-                        <tr>
-                          <th className="text-center">{idx + 1}</th>
-                          <td>
-                            <img
-                              width="40"
-                              alt="avatar"
-                              src={`https://static.showroom-live.com/image/avatar/${item.avatar_id}.png`}
-                            />
-                          </td>
-                          <td style={{ wordBreak: "break-word" }}>
-                            {item.name}
-                          </td>
-                          <td>{formatViews(item.fans_point)}</td>
-                        </tr>
-                      </tbody>
-                    ))}
-                </div>
-              </Table>
+              <>
+                <Table dark>
+                  <Search setSearch={setSearch} placeholder="Search podium name" />
+                  <div className="scroll-room">
+                    <thead
+                      style={{
+                        backgroundColor: "#24a2b7",
+                        color: "white",
+                        borderTop: "none",
+                      }}
+                    >
+                      <tr>
+                        <th>Rank</th>
+                        <th>Ava</th>
+                        <th>Username</th>
+                        <th>Points</th>
+                      </tr>
+                    </thead>
+                    {filterName &&
+                      filterName.map((item, idx) => (
+                        <tbody key={idx}>
+                          <tr>
+                            <th className="text-center">{idx + 1}</th>
+                            <td>
+                              <img
+                                width="40"
+                                alt="avatar"
+                                src={`https://static.showroom-live.com/image/avatar/${item.avatar_id}.png`}
+                              />
+                            </td>
+                            <td style={{ wordBreak: "break-word" }}>
+                              {item.name}
+                            </td>
+                            <td>{formatViews(item.fans_point)}</td>
+                          </tr>
+                        </tbody>
+                      ))}
+                  </div>
+                </Table>
+              </>
             ) : (
               <Table dark>
                 <div className="scroll-room">
@@ -243,7 +235,7 @@ const DetailLiveHistory = (props) => {
                           </td>
                           <td style={{ wordBreak: "break-word" }}>
                             <div className="d-flex align-items-center">
-                              <FaUser size={15} className="mr-1" /> {item.user_count}
+                              {item.user_count}
                             </div>
                           </td>
                         </tr>
