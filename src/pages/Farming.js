@@ -144,9 +144,6 @@ function Farming(props) {
     setIsReady(true);
     window.scrollTo(0, 0);
 
-    return () => {
-      handleStop();
-    };
   }, []);
 
   useEffect(() => {
