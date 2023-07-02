@@ -114,7 +114,7 @@ function Login(props) {
               <IoMdLogIn className="mb-1" /> Login Showroom
             </h3>
             <p className="text-justify mb-4">
-              Silakan login menggunakan akun showroom Anda untuk mengakses fitur
+              Silakan login menggunakan akun showroom Anda untuk mengakses fitur set multi room,
               kirim komentar dan stars. Tenang, data Anda akan segera dikirimkan
               ke situs showroom dan tidak akan disimpan dalam basis data kami,
               sehingga privasi dan keamanan informasi Anda tetap terjaga.
