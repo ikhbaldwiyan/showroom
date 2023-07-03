@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { LIVE_STREAM_URL } from "utils/api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SummerTour from "../assets/images/summer-tour-banner.png";
 
 import MainLayout from "./layout/MainLayout";
 import Stream from "./streaming/Stream";
@@ -20,7 +21,7 @@ import {
   StarButton,
   NoTicket,
 } from "components";
-import { isMobile } from "react-device-detect";
+import { isDesktop, isMobile } from "react-device-detect";
 import { useSelector } from "react-redux";
 import FarmStars from "components/FarmStars";
 import { getSession } from "utils/getSession";
@@ -203,6 +204,25 @@ function Live(props) {
             )}
           </Col>
           <Col lg="4">
+            {isDesktop && (
+              <div className="d-flex py-2 justify-content-center">
+                <a
+                  href={process.env.REACT_APP_DISCORD_LINK}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    width="100%"
+                    src={SummerTour}
+                    alt="Summer Tour JKT48 SHOWROOM Banner"
+                    style={{
+                      borderTopRightRadius: "10px",
+                      borderTopLeftRadius: "10px",
+                    }}
+                  />
+                </a>
+              </div>
+            )}
             <Menu
               menu={menu}
               setMenu={setMenu}

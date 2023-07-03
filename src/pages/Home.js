@@ -22,7 +22,7 @@ import {
 } from "parts";
 import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
-import SummerTour from "../assets/images/summer-tour-banner.png"
+import SummerTour from "../assets/images/summer-tour-banner.png";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -96,12 +96,16 @@ function Home(props) {
     <MainLayout {...props}>
       <Container className="mb-4">
         <div className="d-flex justify-content-center">
-          <a href={process.env.REACT_APP_DISCORD_LINK}>
+          <a
+            href={process.env.REACT_APP_DISCORD_LINK}
+            target="_blank"
+            rel="noreferrer"
+          >
             <img
               width="100%"
               src={SummerTour}
               alt="Summer Tour JKT48 SHOWROOM Banner"
-              style={{borderRadius: "10px"}}
+              style={{ borderRadius: "10px" }}
             />
           </a>
         </div>

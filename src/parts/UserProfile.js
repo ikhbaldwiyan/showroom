@@ -155,7 +155,7 @@ export default function UserProfile({ data, session, theme }) {
           <div className="col ml-2 profile-link">
             <span
               className="row d-inline-block text-truncate"
-              style={{ maxWidth: "5rem", fontSize: ".9rem" }}
+              style={{ maxWidth: "4rem", fontSize: ".9rem" }}
             >
               <b>{profile?.name ?? "User"}</b>
             </span>
