@@ -5,7 +5,7 @@ import { Container } from "reactstrap";
 import Fade from "react-reveal/Fade";
 
 import MainLayout from "pages/layout/MainLayout";
-import { AlertInfo, Schedule } from "components";
+import { Schedule } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getRoomListRegular,
@@ -21,6 +21,8 @@ import {
   SearchAndFilter,
 } from "parts";
 import ServerErrorModal from "components/ServerErrorModal";
+import ModalInfo from "parts/ModalInfo";
+import SummerTour from "../assets/images/summer-tour-banner.png"
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -93,7 +95,17 @@ function Home(props) {
   return (
     <MainLayout {...props}>
       <Container className="mb-4">
-        <AlertInfo page="Home Screen" label="Home" />
+        <div className="d-flex justify-content-center">
+          <a href={process.env.REACT_APP_DISCORD_LINK}>
+            <img
+              width="100%"
+              src={SummerTour}
+              alt="Summer Tour JKT48 SHOWROOM Banner"
+              style={{borderRadius: "10px"}}
+            />
+          </a>
+        </div>
+        <ModalInfo />
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
