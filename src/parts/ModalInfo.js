@@ -1,5 +1,6 @@
 import React from "react";
 import CustomModal from "components/CustomModal";
+import { FaDiscord, FaTwitter } from "react-icons/fa";
 
 const ModalInfo = () => {
   return (
@@ -16,16 +17,22 @@ const ModalInfo = () => {
         <br />
         <br />
         Info lebih lanjut kalian bisa join discord dan follow twitter JKT48
-        SHOWROOM disini ya: <br /> <br /> 
-        <p>
-          Twitter:{" "}
-          <a href="https://twitter.com/Jkt48_Showroom">
-            <b>https://twitter.com/Jkt48_Showroom</b>
-          </a> <br />
-          Discord:{" "}
-          <a href={process.env.REACT_APP_DISCORD_LINK}>
-            <b>Discord Group</b>
-          </a>
+        SHOWROOM disini ya: <br />
+        <p className="mt-2">
+          <div className="d-flex align-items-center">
+            <FaTwitter className="mr-1" color="#24a2b7" size={20} /> Twitter:{" "}
+            <a href="https://twitter.com/Jkt48_Showroom">
+              <b className="mx-1">@Jkt48_Showroom</b>
+            </a>{" "}
+            <br />
+          </div>
+          <div className="d-flex align-items-center">
+            <FaDiscord color="#5869e9" className="mr-1" size={20} />
+            Discord:{" "}
+            <a href={process.env.REACT_APP_DISCORD_LINK}>
+              <b className="ml-1">Discord Group</b>
+            </a>
+          </div>
         </p>
       </p>
       <img

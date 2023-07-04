@@ -61,7 +61,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
 
     const newSocket = new WebSocket(socketUrl);
     newSocket.addEventListener('open', () => {
-      console.log('WebSocket connected');
+      // console.log('WebSocket connected');
       newSocket.send(`SUB\t${socketKey}`);
     });
 
@@ -87,7 +87,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
     });
 
     newSocket.addEventListener('close', () => {
-      console.log('WebSocket closed');
+      // console.log('WebSocket closed');
     });
     setSocket(newSocket);
 
