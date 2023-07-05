@@ -4,7 +4,15 @@ import { RiLiveFill } from "react-icons/ri";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { gaEvent } from "utils/gaEvent";
 
-function RoomListTable({ data, children, setRoomId, idx, roomId }) {
+function RoomListTable({
+  data,
+  children,
+  setRoomId,
+  idx,
+  roomId,
+  updateMultiRoom,
+  number
+}) {
   const isMultiRoom = window.location.pathname === "/multi-room";
   const buttonStyle = {
     backgroundColor:
@@ -26,6 +34,12 @@ function RoomListTable({ data, children, setRoomId, idx, roomId }) {
 
   const handleSwitchRoomMulti = () => {
     setRoomId([data.id ? data.id : data.room_id]);
+    const id = data.id ?? data.room_id;
+    const name = data.room_url_key
+      ? data.room_url_key.substr(6)
+      : data.url_key.substr(6);
+    updateMultiRoom(number, id, name);
+
     gaEvent(eventName, "Room List Multi", "Multi Room");
   };
 
@@ -63,7 +77,7 @@ function RoomListTable({ data, children, setRoomId, idx, roomId }) {
             <Button
               className="mt-4"
               color="info"
-              onClick={handleSwitchRoomMulti}
+              onClick={() => handleSwitchRoomMulti()}
               style={buttonStyle}
             >
               <RiLiveFill className="mb-1" />

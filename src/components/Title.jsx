@@ -23,7 +23,11 @@ function Title({
   isFarming,
   setIsFarming,
   secretKey,
-  isMultiRoom
+  isMultiRoom,
+  number,
+  removeSelectedRoom,
+  updateMenu,
+  setUrl
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -50,7 +54,11 @@ function Title({
     hideStars,
     setHideStars,
     isFarming,
-    setIsFarming
+    setIsFarming,
+    number,
+    removeSelectedRoom,
+    updateMenu,
+    setUrl
   };
 
   const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };
@@ -95,7 +103,7 @@ function Title({
     let name = title
       ? `${profile?.room_url_key?.slice(6)} JKT48 Room`
       : profile?.room_name;
-    window.document.title = !isMultiRoom ?  name : "Multi Room";
+    window.document.title = !isMultiRoom ? name : "Multi Room";
   }, [profile]);
 
   return (

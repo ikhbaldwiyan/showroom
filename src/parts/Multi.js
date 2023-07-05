@@ -23,14 +23,22 @@ export default function Multi({
   hideMultiMenu,
   setHideMultiMenu,
   theme,
+  number,
+  updateMultiRoom,
+  selectedRoom,
+  removeSelectedRoom,
 }) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
   const [csrfToken, setCsrfToken] = useState("");
   const [url, setUrl] = useState([]);
-  const [roomId, setRoomId] = useState("");
+  const [roomId, setRoomId] = useState(selectedRoom?.id);
   const [menu, setMenu] = useState("room");
   const [loading, setLoading] = useState(false);
   const [hideMenu, setHideMenu] = useState(false);
+
+  useEffect(() => {
+    setRoomId(selectedRoom?.id);
+  }, [selectedRoom]);
 
   useEffect(() => {
     const userSession = localStorage.getItem("session");
@@ -62,7 +70,7 @@ export default function Multi({
 
   return (
     <Col lg={layout}>
-      {url ? (
+      {url && roomId ? (
         url.slice(0, 1).map((item, idx) => (
           <>
             <Stream key={idx} url={item.url} />
@@ -74,19 +82,25 @@ export default function Multi({
               setHideMultiMenu={setHideMultiMenu}
               theme={theme}
               isMultiRoom
+              number={number}
+              removeSelectedRoom={removeSelectedRoom}
+              updateMenu={setMenu}
+              setUrl={setUrl}
             />
           </>
         ))
-      ) : !url ? (
+      ) : !url && roomId ? (
         <Profile
           roomId={roomId}
           setRoomId={setRoomId}
           isLoad={loading}
           menu={menu}
           session={getSession().session}
+          number={number}
+          removeSelectedRoom={removeSelectedRoom}
         />
       ) : (
-        <Stream url="" />
+        ""
       )}
       {!roomId && (
         <p className="h6 text-center py-2">Please Choose Member Room</p>
@@ -108,6 +122,8 @@ export default function Multi({
           roomId={roomId}
           setRoomId={setRoomId}
           isMultiRoom={isMultiRoom}
+          updateMultiRoom={updateMultiRoom}
+          number={number}
         />
       ) : menu === "chat" ? (
         <LiveChat roomId={roomId} setRoomId={setRoomId} isMultiRoom />

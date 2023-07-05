@@ -14,6 +14,26 @@ export default function MultiRoom(props) {
   const [hideMultiMenu, setHideMultiMenu] = useState(false);
   const [isFarming, setIsFarming] = useState(false);
 
+  const multiRoomState = {
+    1: {
+      id: "",
+      name: "",
+    },
+    2: {
+      id: "",
+      name: "",
+    },
+    3: {
+      id: "",
+      name: "",
+    },
+    4: {
+      id: "",
+      name: "",
+    },
+  }
+  const [multiRoom, setMultiRoom] = useState(multiRoomState);
+
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -23,6 +43,47 @@ export default function MultiRoom(props) {
 
   const isMultiRoom = layout === "4" || layout === "3" ? "isMultiRoom" : "";
 
+  const updateMultiRoom = (number, id, name) => {
+    setMultiRoom((prevMultiRoom) => ({
+      ...prevMultiRoom,
+      [number]: {
+        id,
+        name,
+      },
+    }));
+  };
+
+  useEffect(() => {
+    // Retrieve multiRoom data from local storage
+    const storedMultiRoom = localStorage.getItem('multiRoom');
+    if (storedMultiRoom) {
+      setMultiRoom(JSON.parse(storedMultiRoom));
+    }
+  }, []);
+  
+  useEffect(() => {
+    // Save multiRoom data to local storage
+    localStorage.setItem('multiRoom', JSON.stringify(multiRoom));
+  }, [multiRoom]);
+
+  const handleClearRoom = () => {
+    setMultiRoom(multiRoomState);
+    localStorage.removeItem('multiRoom');
+    // window.location.reload(true)
+  };
+
+  const removeSelectedRoom = (number) => {
+    const updatedMultiRoom = {
+      ...multiRoom,
+      [number]: {
+        id: "", // Reset the ID to initial state
+        name: "", // Reset the name to initial state
+      },
+    };
+    setMultiRoom(updatedMultiRoom);
+    localStorage.setItem('multiRoom', JSON.stringify(updatedMultiRoom));
+  };
+
   const propsMultiRoom = {
     hideMultiMenu,
     setHideMultiMenu,
@@ -31,6 +92,9 @@ export default function MultiRoom(props) {
     theme: props.theme,
     isFarming,
     setIsFarming,
+    updateMultiRoom,
+    handleClearRoom,
+    removeSelectedRoom
   };
 
   return (
@@ -39,19 +103,19 @@ export default function MultiRoom(props) {
         <AlertInfo page="Multi Room" label="Multi Alert Info" />
         <MultiMenu {...propsMultiRoom} />
         <Row className="d-flex">
-          <Multi {...propsMultiRoom} />
+          <Multi {...propsMultiRoom} number="1" selectedRoom={multiRoom[1]} />
           {isFarming && layout !== "4" && layout !== "3" ? (
             <FarmStars {...propsMultiRoom} />
           ) : (
-            <Multi {...propsMultiRoom} />
+            <Multi {...propsMultiRoom} number="2" selectedRoom={multiRoom[2]} />
           )}
-          {layout === "4" || layout == "3" ? (
+          {layout === "4" || layout === "3" ? (
             loading && layout !== "3" ? (
               <Loading />
             ) : isFarming && layout === "4" ? (
               <FarmStars {...propsMultiRoom} />
             ) : (
-              <Multi {...propsMultiRoom} />
+              <Multi {...propsMultiRoom} number="3" selectedRoom={multiRoom[3]} />
             )
           ) : (
             ""
@@ -59,12 +123,10 @@ export default function MultiRoom(props) {
           {layout === "3" &&
             (loading && layout !== "4" ? (
               <Loading />
+            ) : isFarming && layout === "3" ? (
+              <FarmStars {...propsMultiRoom} />
             ) : (
-              isFarming && layout === "3" ? (
-                <FarmStars {...propsMultiRoom} />
-              ) : (
-                <Multi {...propsMultiRoom} />
-              )
+              <Multi {...propsMultiRoom} number="4" selectedRoom={multiRoom[4]} />
             ))}
         </Row>
       </Container>
