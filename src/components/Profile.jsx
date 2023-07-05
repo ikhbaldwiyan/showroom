@@ -110,7 +110,7 @@ export default function Profile({
         <Col>
           <div className="mb-2 d-flex justify-content-between">
             <h4>{newProfile.room_name}</h4>
-            {roomId && (
+            {roomId && isMultiRoom && (
               <AiFillCloseCircle
                 className="mb-2"
                 style={{ cursor: "pointer" }}
