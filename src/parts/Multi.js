@@ -70,7 +70,7 @@ export default function Multi({
 
   return (
     <Col lg={layout}>
-      {url ? (
+      {url && roomId ? (
         url.slice(0, 1).map((item, idx) => (
           <>
             <Stream key={idx} url={item.url} />
@@ -82,6 +82,10 @@ export default function Multi({
               setHideMultiMenu={setHideMultiMenu}
               theme={theme}
               isMultiRoom
+              number={number}
+              removeSelectedRoom={removeSelectedRoom}
+              updateMenu={setMenu}
+              setUrl={setUrl}
             />
           </>
         ))

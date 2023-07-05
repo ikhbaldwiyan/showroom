@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { GiFarmer } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
 import { useSelector } from "react-redux";
@@ -19,21 +20,12 @@ function Settings(props) {
   const [menu, setMenu] = useState([]);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const user = useSelector((state) => state.user.user);
-
-  const css = {
-    backgroundColor: "#018b9b",
-    border: "none",
-    borderRadius: "10px",
-    marginBottom: 4,
-  };
-  const inline = { display: "inline" };
+  const isMultiRoom = window.location.pathname === "/multi-room";
 
   const {
     roomId,
     hideTime,
     setHideTime,
-    hideName,
-    setHideName,
     hideViews,
     setHideViews,
     profile,
@@ -45,6 +37,10 @@ function Settings(props) {
     setHideStars,
     isFarming,
     setIsFarming,
+    number,
+    removeSelectedRoom,
+    updateMenu,
+    setUrl
   } = props;
 
   useEffect(() => {
@@ -80,6 +76,12 @@ function Settings(props) {
     ];
     setMenu(settingsMenu);
   }, [hideViews, hideMenu, hideTime, hideStars]);
+
+  const removeThisRoom = (number) => {
+    removeSelectedRoom(number);
+    updateMenu("room");
+    setUrl([]);
+  };
 
   return (
     <div style={inline} className="ml-1 mt-1">
@@ -117,14 +119,21 @@ function Settings(props) {
             Open Showroom
           </DropdownItem>
 
-          {window.location.pathname === "/multi-room" && (
-            <DropdownItem
-              onClick={() => {
-                setHideMultiMenu(!hideMultiMenu);
-              }}
-            >
-              {hideOrShow(hideMultiMenu)} Multi Options
-            </DropdownItem>
+          {isMultiRoom && (
+            <>
+              <DropdownItem onClick={() => setHideMultiMenu(!hideMultiMenu)}>
+                {hideOrShow(hideMultiMenu)} Multi Options
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => removeThisRoom(number)}
+                style={{ backgroundColor: "#DC3545", color: "white" }}
+              >
+                <div className="d-flex align-items-center">
+                  <AiFillCloseCircle size={20} className="mr-1" />
+                  Remove This Room
+                </div>
+              </DropdownItem>
+            </>
           )}
         </DropdownMenu>
       </Dropdown>
@@ -133,3 +142,11 @@ function Settings(props) {
 }
 
 export default Settings;
+
+const css = {
+  backgroundColor: "#018b9b",
+  border: "none",
+  borderRadius: "10px",
+  marginBottom: 4,
+};
+const inline = { display: "inline" };
