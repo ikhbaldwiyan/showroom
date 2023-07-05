@@ -16,6 +16,7 @@ function MultiMenu({
   setHideMultiMenu,
   isFarming,
   setIsFarming,
+  handleClearRoom,
 }) {
   const iconCss = {
     fontSize: 20,
@@ -70,7 +71,7 @@ function MultiMenu({
       name: "Reset All Room",
       icon: <FaUsersSlash style={iconCss} />,
       func: function () {
-        return window.location.reload();
+        return handleClearRoom();
       },
       color: "secondary",
     },

@@ -27,8 +27,16 @@ import { toast } from "react-toastify";
 import { IoPersonAdd } from "react-icons/io5";
 import { RiUserUnfollowFill } from "react-icons/ri";
 import { gaEvent } from "utils/gaEvent";
+import { AiFillCloseCircle } from "react-icons/ai";
 
-export default function Profile({ roomId, menu, theme, session }) {
+export default function Profile({
+  roomId,
+  menu,
+  theme,
+  session,
+  removeSelectedRoom,
+  number,
+}) {
   const { profile, isLoading, room_name, isFollow } = useSelector(
     (state) => state.roomDetail
   );
@@ -98,9 +106,20 @@ export default function Profile({ roomId, menu, theme, session }) {
     <SkeletonProfile theme={theme} />
   ) : (
     <>
-      <Row className="mb-2">
+      <Row>
         <Col>
-          <h4>{newProfile.room_name}</h4>
+          <div className="mb-2 d-flex justify-content-between">
+            <h4>{newProfile.room_name}</h4>
+            {roomId && (
+              <AiFillCloseCircle
+                className="mb-2"
+                style={{ cursor: "pointer" }}
+                color="#dc3545"
+                onClick={() => removeSelectedRoom(number)}
+                size={30}
+              />
+            )}
+          </div>
         </Col>
       </Row>
       <Row>
@@ -140,7 +159,8 @@ export default function Profile({ roomId, menu, theme, session }) {
                 Open Showroom
               </Button>
 
-              {session && !isMultiRoom &&
+              {session &&
+                !isMultiRoom &&
                 (!isLoading && isFollow === 0 ? (
                   <Button
                     className="btn-block mt-2"
