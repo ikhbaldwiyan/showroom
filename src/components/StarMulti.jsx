@@ -10,16 +10,30 @@ import {
   getStarsSuccess,
   sendStarSuccess,
 } from "redux/actions/setStars";
-import { FARM, PROFILE_API, SEND_GIFT } from "utils/api/api";
+import {
+  BULK_GIFT,
+  FARM,
+  LIVE_RANKING,
+  PROFILE_API,
+  SEND_GIFT,
+} from "utils/api/api";
 import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
-import { Card, Button } from "reactstrap";
-import { motion } from "framer-motion";
+import {
+  Card,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
+import { motion, useAnimation } from "framer-motion";
 import { toast } from "react-toastify";
 import { AiFillStar } from "react-icons/ai";
 import { gaEvent } from "utils/gaEvent";
 import { getSession } from "utils/getSession";
 import { Link } from "react-router-dom";
+import bulkImage from "../assets/images/bulk.svg";
 
 const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
   const dispatch = useDispatch();
@@ -30,8 +44,15 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
   const [isCounting, setIsCounting] = useState(false);
   const [disableCount, setDisableCount] = useState(false);
   const [activeButton, setActiveButton] = useState(null);
+  const [modal, setModal] = useState(false);
+  const [rank, setRank] = useState();
+  const [avatarY, setAvatarY] = useState(0);
+  const [avatarImage, setAvatarImage] = useState();
+  const avatarAnimation = useAnimation();
 
   useEffect(() => {
+    setAvatarImage(getSession().profile?.avatar_url);
+
     const interval = setInterval(() => {
       setDisableCount(true);
       getFirstStar();
@@ -76,21 +97,29 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
         num: value,
       });
 
-      axios.post(PROFILE_API, {
-        room_id: roomId.toString(),
-        cookie: cookiesLoginId,
-      }).then((res) => {
-        const profiles = res.data;
-        toast.info(`Send ${value} star to ${profiles.room_url_key.replace("JKT48_" , "")} success`, {
-          theme: "colored",
-          icon: <AiFillStar />,
+      axios
+        .post(PROFILE_API, {
+          room_id: roomId.toString(),
+          cookie: cookiesLoginId,
+        })
+        .then((res) => {
+          const profiles = res.data;
+          toast.info(
+            `Send ${value} star to ${profiles.room_url_key.replace(
+              "JKT48_",
+              ""
+            )} success`,
+            {
+              theme: "colored",
+              icon: <AiFillStar />,
+            }
+          );
         });
-      });
 
       if (response.data.ok) {
         let data = response.data;
         dispatch(sendStarSuccess(key, data.remaining_num));
-        gaEvent("Stars", "Send Stars", "Multi Room")
+        gaEvent("Stars", "Send Stars", "Multi Room");
 
         setDisableCount(false);
         setActiveButton(null);
@@ -111,21 +140,29 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
         num: 10,
       });
 
-      axios.post(PROFILE_API, {
-        room_id: roomId.toString(),
-        cookie: cookiesLoginId,
-      }).then((res) => {
-        const profiles = res.data;
-        toast.success(`Send 10 star to ${profiles.room_url_key.replace("JKT48_" , "")} success`, {
-          theme: "colored",
-          icon: <AiFillStar />,
+      axios
+        .post(PROFILE_API, {
+          room_id: roomId.toString(),
+          cookie: cookiesLoginId,
+        })
+        .then((res) => {
+          const profiles = res.data;
+          toast.success(
+            `Send 10 star to ${profiles.room_url_key.replace(
+              "JKT48_",
+              ""
+            )} success`,
+            {
+              theme: "colored",
+              icon: <AiFillStar />,
+            }
+          );
         });
-      });
 
       if (response.data.ok) {
         let data = response.data;
         dispatch(sendStarSuccess(key, data.remaining_num));
-        gaEvent("Stars", "Send Ten Star", "Multi Room")
+        gaEvent("Stars", "Send Ten Star", "Multi Room");
 
         setDisableCount(false);
         setActiveButton(null);
@@ -148,16 +185,23 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
       audio.volume = 1;
       audio.play();
 
-      axios.post(PROFILE_API, {
-        room_id: roomId.toString(),
-        cookie: cookiesLoginId,
-      }).then((res) => {
-        const profiles = res.data;
-        toast.success(`${response.data.data.toast.message} from ${profiles.room_url_key.replace("JKT48_" , "")}`, {
-          theme: "colored",
-          icon: <AiFillStar />,
+      axios
+        .post(PROFILE_API, {
+          room_id: roomId.toString(),
+          cookie: cookiesLoginId,
+        })
+        .then((res) => {
+          const profiles = res.data;
+          toast.success(
+            `${
+              response.data.data.toast.message
+            } from ${profiles.room_url_key.replace("JKT48_", "")}`,
+            {
+              theme: "colored",
+              icon: <AiFillStar />,
+            }
+          );
         });
-      });
     }
 
     if (response.data?.until) {
@@ -190,8 +234,8 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
 
     for (let i = 0; i < starsRedux.length; i++) {
       if (starsRedux[i].name === e.target.name) {
-        if(starsRedux[i].count > 0) {
-          setActiveButton(e.target.name)
+        if (starsRedux[i].count > 0) {
+          setActiveButton(e.target.name);
           dispatch(getClickCountStar(e.target.name));
           if (clickCountRedux[e.target.name] === 9) {
             const audio = new Audio(combo);
@@ -211,7 +255,80 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
       setDisableCount(true);
       dispatch(clearCountStar());
     }
+
+    // Trigger avatar animation
+    avatarAnimation.start({
+      y: avatarY - 10,
+      transition: { duration: 0.5, ease: "easeInOut" },
+    });
+
+    // Reset avatar position after animation completes
+    setTimeout(() => {
+      avatarAnimation.start({
+        y: 0,
+        transition: { duration: 0.5, ease: "easeInOut" },
+      });
+    }, 500);
   };
+
+  const sendAllStar = async () => {
+    setModal(!modal);
+    setDisableCount(true);
+
+    try {
+      const response = await axios.post(BULK_GIFT, {
+        cookies_id: cookiesLoginId,
+        csrf_token: csrfToken,
+        room_id: roomId.toString(),
+      });
+
+      if (response.data.ok) {
+        gaEvent("Stars", "Send All Stars - Multi", "Multi Room");
+
+        const res = await axios.post(FARM, {
+          cookies_login_id: cookiesLoginId,
+          room_id: roomId,
+        });
+
+        setAllStar(res.data);
+
+        toast.success(`Sukses Mengirim Semua Star`, {
+          theme: "colored",
+        });
+
+        const audio = new Audio(combo);
+        audio.volume = 1;
+        audio.play();
+
+        setDisableCount(false);
+      }
+    } catch {
+      toast.error("Gagal mengirim star", {
+        theme: "colored",
+      });
+      setDisableCount(false);
+    }
+  };
+
+  const toggle = () => setModal(!modal);
+
+  useEffect(() => {
+    setRank("");
+    try {
+      axios
+        .get(LIVE_RANKING(roomId, getSession()?.session?.cookie_login_id))
+        .then((res) => {
+          const rank = res.data;
+          rank.map((item) => {
+            if (item.user.user_id === parseInt(getSession().user?.user_id)) {
+              setRank(item);
+            }
+          });
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [isLoadingStars, roomId]);
 
   return getSession().session ? (
     <Card
@@ -258,6 +375,60 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
           </motion.div>
         ))}
       </div>
+      <div className="d-flex justify-content-center align-items-center mt-3">
+        <button
+          className="btn my-2"
+          onClick={toggle}
+          disabled={disableCount ? true : false || activeButton != null}
+          style={{
+            borderRadius: "10px",
+            backgroundColor: "#24a2b7",
+          }}
+        >
+          <div className="d-flex justify-content-center align-items-center">
+            <img className="mb-1" src={bulkImage} height={44} width={44} alt="bulk gift" />
+            <p className="mt-3" style={{ color: "white" }}>
+              Send All Stars
+            </p>
+          </div>
+        </button>
+        <div className="d-flex flex-column align-items-center px-1 my-0 mx-3">
+          <motion.img
+            initial={{ y: 0 }}
+            animate={avatarAnimation}
+            style={{ y: avatarY }}
+            width="40"
+            alt="avatar"
+            src={
+              avatarImage ??
+              "https://static.showroom-live.com/image/avatar/1.png?v=95"
+            }
+            onAnimationStart={() => setAvatarY(avatarY - 20)}
+            onAnimationComplete={() => setAvatarY(0)}
+          />
+          <p className="mt-2 text-info">
+            <b>Rank: {rank?.rank ?? "-"}</b>
+          </p>
+        </div>
+      </div>
+      <div>
+        <Modal isOpen={modal} toggle={toggle}>
+          <ModalHeader style={{ backgroundColor: "#24a2b7" }} toggle={toggle}>
+            Send All Stars
+          </ModalHeader>
+          <ModalBody className="text-dark">
+            Apakah Anda yakin ingin mengirim semua star ?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="info" onClick={sendAllStar}>
+              Yes
+            </Button>
+            <Button color="secondary" onClick={toggle}>
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </div>
     </Card>
   ) : (
     <Card
@@ -274,9 +445,7 @@ const StarMulti = ({ roomId, theme, cookiesLoginId, csrfToken }) => {
     >
       <p>Please login first to send stars gift</p>
       <Link to="/login">
-        <Button color="info">
-          Login here
-        </Button>
+        <Button color="info">Login here</Button>
       </Link>
     </Card>
   );
