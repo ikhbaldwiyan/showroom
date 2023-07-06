@@ -35,7 +35,12 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
       try {
         const res = await axios.get(LIVE_COMMENT(roomId, secretKey ?? cookies));
         const comments = res.data;
-        setComment(comments);
+        if (secretKey && roomId === "332503") {
+          setTimeout(() => {
+            setComment(comments);
+          }, 6000);
+        }
+
         if (comments.length < 1) {
           !isMultiRoom ? window.location.reload() : setRoomId(roomId);
         }
@@ -44,7 +49,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
       }
     }
     getComments();
-  }, [roomId]);
+  }, [roomId, comment]);
 
   useEffect(() => {
     const userSession = localStorage.getItem("session");
@@ -60,9 +65,9 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
   useEffect(() => {
     async function getWebsocketInfo() {
       const response = await axios.get(LIVE_INFO(roomId, "info"));
-      setSocketKey(response?.data?.websocket.key);
+      setSocketKey(response?.data?.websocket?.key);
     }
-    getWebsocketInfo();
+    !secretKey && getWebsocketInfo();
 
     const newSocket = new WebSocket(socketUrl);
     newSocket.addEventListener("open", () => {
