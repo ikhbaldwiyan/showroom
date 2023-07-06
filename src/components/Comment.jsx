@@ -4,7 +4,12 @@ import React, { useState, useEffect } from "react";
 import { Card } from "reactstrap";
 import Skeleton from "react-content-loader";
 import Loading from "./Loading";
-import { SEND_COMMENT, PROFILE_API, LIVE_INFO, LIVE_COMMENT } from "utils/api/api";
+import {
+  SEND_COMMENT,
+  PROFILE_API,
+  LIVE_INFO,
+  LIVE_COMMENT,
+} from "utils/api/api";
 import { toast } from "react-toastify";
 import { FiSend } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -55,23 +60,23 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
   useEffect(() => {
     async function getWebsocketInfo() {
       const response = await axios.get(LIVE_INFO(roomId, "info"));
-      setSocketKey(response?.data?.websocket.key)
+      setSocketKey(response?.data?.websocket.key);
     }
     getWebsocketInfo();
 
     const newSocket = new WebSocket(socketUrl);
-    newSocket.addEventListener('open', () => {
+    newSocket.addEventListener("open", () => {
       // console.log('WebSocket connected');
       newSocket.send(`SUB\t${socketKey}`);
     });
 
-    newSocket.addEventListener('message', (event) => {
+    newSocket.addEventListener("message", (event) => {
       const message = event.data;
-      const msg = JSON.parse(message.split('\t')[2])
-      const code = parseInt(msg.t, 10)
+      const msg = JSON.parse(message.split("\t")[2]);
+      const code = parseInt(msg.t, 10);
 
       if (code === 1) {
-        if (!Number.isNaN(msg.cm) && parseInt(msg.cm) <= 50) return
+        if (!Number.isNaN(msg.cm) && parseInt(msg.cm) <= 50) return;
         const cm = {
           id: String(msg.u) + String(msg.created_at),
           user_id: msg.u,
@@ -79,14 +84,14 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
           avatar_id: msg.av,
           comment: msg.cm,
           created_at: msg.created_at,
-        }
+        };
         setComment((prevMessages) => [cm, ...prevMessages]);
       } else if (code === 101) {
         !isMultiRoom ? window.location.reload() : setRoomId(roomId);
       }
     });
 
-    newSocket.addEventListener('close', () => {
+    newSocket.addEventListener("close", () => {
       // console.log('WebSocket closed');
     });
     setSocket(newSocket);
@@ -156,9 +161,12 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
       }
       setButtonLoading(false);
       setError("Please try again");
-      toast.error("Server down please contact admin", {
-        theme: "colored",
-      });
+      toast.error(
+        "Nomor telepon belum di verifikasi, silahkan verifikasi via aplikasi showroom",
+        {
+          theme: "colored",
+        }
+      );
     }
   };
 
