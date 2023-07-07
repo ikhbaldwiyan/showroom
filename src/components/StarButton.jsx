@@ -27,6 +27,7 @@ import {
 } from "redux/actions/setStars";
 import { gaEvent } from "utils/gaEvent";
 import { Link } from "react-router-dom";
+import { gaTag } from "utils/gaTag";
 
 function StarButton({
   roomId,
@@ -76,6 +77,13 @@ function StarButton({
       const audio = new Audio(combo);
       audio.volume = 1;
       audio.play();
+
+      gaTag({
+        action: "get_free_stars",
+        category: "Stars",
+        label: "Get Free Stars - Live Stream",
+        username: getSession()?.profile?.name
+      });
 
       toast.success(response.data.data.toast.message, {
         theme: "colored",
@@ -270,14 +278,16 @@ function StarButton({
   useEffect(() => {
     setRank("");
     try {
-      axios.get(LIVE_RANKING(roomId, getSession()?.session?.cookie_login_id)).then((res) => {
-        const rank = res.data;
-        rank.map((item) => {
-          if (item.user.user_id === parseInt(user?.user_id)) {
-            setRank(item);
-          }
+      axios
+        .get(LIVE_RANKING(roomId, getSession()?.session?.cookie_login_id))
+        .then((res) => {
+          const rank = res.data;
+          rank.map((item) => {
+            if (item.user.user_id === parseInt(user?.user_id)) {
+              setRank(item);
+            }
+          });
         });
-      });
     } catch (error) {
       console.log(error);
     }
