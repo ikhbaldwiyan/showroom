@@ -40,10 +40,6 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
             setComment(comments);
           }, 6000);
         }
-
-        if (comments.length < 1) {
-          !isMultiRoom ? window.location.reload() : setRoomId(roomId);
-        }
       } catch (error) {
         console.log(error);
       }
