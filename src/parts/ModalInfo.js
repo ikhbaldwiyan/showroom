@@ -7,7 +7,7 @@ const ModalInfo = () => {
     <CustomModal
       buttonText="Open"
       modalTitle="Info Pengumuman"
-      autoShowModal={true}
+      autoShowModal={false}
       isShowButton={false}
     >
       <p>
