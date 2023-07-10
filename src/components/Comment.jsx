@@ -45,20 +45,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
       }
     }
     getComments();
-  }, [roomId, comment]);
-
-  useEffect(() => {
-    async function getComments() {
-      try {
-        const res = await axios.get(LIVE_COMMENT(roomId, cookies));
-        const comments = res.data;
-        setComment(comments);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getComments();
-  }, [roomId]);
+  }, []);
 
   useEffect(() => {
     const userSession = localStorage.getItem("session");
