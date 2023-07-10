@@ -18,6 +18,7 @@ function AdminSchedules(props) {
     showDate: "",
     showTime: "",
     isBirthdayShow: false,
+    birthdayMemberName: "",
     setlist: "",
     memberList: [],
   });

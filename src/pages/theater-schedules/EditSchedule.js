@@ -1,5 +1,6 @@
 import axios from "axios";
 import moment from "moment";
+import { AiFillCloseCircle } from "react-icons/ai";
 import {
   Button,
   Modal,
@@ -22,9 +23,8 @@ const EditSchedule = ({
   fetchSchedules,
   setShowModal,
   setModalTitle,
-  setFormData
+  setFormData,
 }) => {
-
   const toggleModal = () => {
     setShowModal(!showModal);
     setModalTitle("");
@@ -80,6 +80,14 @@ const EditSchedule = ({
       console.error("Error submitting form:", error);
     }
     console.log(formData);
+  };
+
+  const handleRemoveMember = (index) => {
+    setFormData((prevState) => {
+      const updatedMemberList = [...prevState.memberList];
+      updatedMemberList.splice(index, 1);
+      return { ...prevState, memberList: updatedMemberList };
+    });
   };
 
   return (
@@ -138,21 +146,32 @@ const EditSchedule = ({
                   id="setlist"
                   value={formData.setlist}
                   onChange={handleChange}
+                  placeholder="name setlist"
                   required
                 />
               </FormGroup>
             </Col>
             <Col md="6">
-              <FormGroup check>
+              <FormGroup>
+                <Label>
+                  <b>Is Birthday Show</b>
+                </Label>
                 <Input
+                  className="ml-2 mt-2"
                   type="checkbox"
                   name="isBirthdayShow"
                   checked={formData.isBirthdayShow}
                   onChange={handleCheckboxChange}
                 />
-                <Label>
-                  <b>Is Birthday Show</b>
-                </Label>
+                <Input
+                  type="text"
+                  name="birthdayMemberName"
+                  id="birthdayMemberName"
+                  value={formData.birthdayMemberName}
+                  onChange={handleChange}
+                  placeholder="Birthday Member"
+                  disabled={!formData.isBirthdayShow}
+                />
               </FormGroup>
             </Col>
           </Row>
@@ -160,12 +179,23 @@ const EditSchedule = ({
             <Label for="memberList">
               <b>Member List</b>
             </Label>
-            {formData.memberList.map((member, index) => (
-              <div key={index} className="d-flex align-items-center">
-                <p className="mr-1">{index + 1}</p>
-                <p>{member.name}</p>
-              </div>
-            ))}
+            <Row>
+              {formData.memberList.map((member, index) => (
+                <div key={index} className="align-items-center">
+                  <Col>
+                    <img width={80} src={member.image} alt={member.name} />
+                    <div className="d-flex align-items-center justify-content-center">
+                      <p className="text-center mt-2">{member.stage_name}</p>
+                      <AiFillCloseCircle
+                        color="#DC3545"
+                        className="mb-2 mx-1"
+                        onClick={() => handleRemoveMember(index)}
+                      />
+                    </div>
+                  </Col>
+                </div>
+              ))}
+            </Row>
             <p className="mt-3">
               <b>Choose Member</b>
             </p>
@@ -175,11 +205,20 @@ const EditSchedule = ({
               onChange={(e) => handleMemberChange(e)}
             >
               <option value="">Select a member</option>
-              {memberOptions?.map((member, idx) => (
-                <option key={idx} value={member._id}>
-                  {member.name}
-                </option>
-              ))}
+              {memberOptions?.map((member, idx) => {
+                if (
+                  !formData.memberList.find(
+                    (selectedMember) => selectedMember._id === member._id
+                  )
+                ) {
+                  return (
+                    <option key={idx} value={member._id}>
+                      {member.name}
+                    </option>
+                  );
+                }
+                return null;
+              })}
             </select>
           </FormGroup>
         </ModalBody>
