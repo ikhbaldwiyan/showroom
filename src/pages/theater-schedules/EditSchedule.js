@@ -90,8 +90,66 @@ const EditSchedule = ({
     });
   };
 
+  const MemberList = () => (
+    <FormGroup>
+      <Label for="memberList">
+        <b>Member List</b>
+      </Label>
+      <Row>
+        {formData.memberList.map((member, index) => (
+          <div key={index} className="align-items-center">
+            <Col>
+              <img width={80} src={member.image} alt={member.name} />
+              <div
+                style={{
+                  backgroundColor: "#FFE8F4",
+                  color: "#ff005f",
+                  borderRadius: "8px",
+                  padding: "5px",
+                  height: "40px",
+                }}
+                className="d-flex align-items-center justify-content-center mt-2 mb-3"
+              >
+                <p className="text-center mt-3">{member.stage_name}</p>
+                <AiFillCloseCircle
+                  color="#DC3545"
+                  className=" mx-1"
+                  onClick={() => handleRemoveMember(index)}
+                />
+              </div>
+            </Col>
+          </div>
+        ))}
+      </Row>
+      <p className="mt-3">
+        <b>Choose Member</b>
+      </p>
+      <select
+        className="form-control"
+        name="member"
+        onChange={(e) => handleMemberChange(e)}
+      >
+        <option value="">Select a member</option>
+        {memberOptions?.map((member, idx) => {
+          if (
+            !formData.memberList.find(
+              (selectedMember) => selectedMember._id === member._id
+            )
+          ) {
+            return (
+              <option key={idx} value={member._id}>
+                {member.name}
+              </option>
+            );
+          }
+          return null;
+        })}
+      </select>
+    </FormGroup>
+  );
+
   return (
-    <Modal size="lg" isOpen={showModal} toggle={toggleModal} centered>
+    <Modal size="md" isOpen={showModal} toggle={toggleModal} centered>
       <Form onSubmit={handleSubmit}>
         <ModalHeader
           style={{
@@ -175,52 +233,7 @@ const EditSchedule = ({
               </FormGroup>
             </Col>
           </Row>
-          <FormGroup>
-            <Label for="memberList">
-              <b>Member List</b>
-            </Label>
-            <Row>
-              {formData.memberList.map((member, index) => (
-                <div key={index} className="align-items-center">
-                  <Col>
-                    <img width={80} src={member.image} alt={member.name} />
-                    <div className="d-flex align-items-center justify-content-center">
-                      <p className="text-center mt-2">{member.stage_name}</p>
-                      <AiFillCloseCircle
-                        color="#DC3545"
-                        className="mb-2 mx-1"
-                        onClick={() => handleRemoveMember(index)}
-                      />
-                    </div>
-                  </Col>
-                </div>
-              ))}
-            </Row>
-            <p className="mt-3">
-              <b>Choose Member</b>
-            </p>
-            <select
-              className="form-control"
-              name="member"
-              onChange={(e) => handleMemberChange(e)}
-            >
-              <option value="">Select a member</option>
-              {memberOptions?.map((member, idx) => {
-                if (
-                  !formData.memberList.find(
-                    (selectedMember) => selectedMember._id === member._id
-                  )
-                ) {
-                  return (
-                    <option key={idx} value={member._id}>
-                      {member.name}
-                    </option>
-                  );
-                }
-                return null;
-              })}
-            </select>
-          </FormGroup>
+          <MemberList />
         </ModalBody>
         <ModalFooter>
           <Button color="primary" type="submit">
