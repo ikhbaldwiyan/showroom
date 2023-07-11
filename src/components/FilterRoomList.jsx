@@ -56,7 +56,7 @@ function FilterRoomList({
       name: "TRAINEE",
       action: filterRegular,
       state: isRegular,
-      icon: <RiGlobalLine className="mb-1" />,
+      icon:  <IoSchoolSharp className="mb-1" />,
       style: { backgroundColor: "teal", border: "none" },
     },
     {
@@ -64,7 +64,7 @@ function FilterRoomList({
       action: filterAcademy,
       state: isAcademy,
       color: "info",
-      icon: <IoSchoolSharp className="mb-1" />,
+      icon:  <RiGlobalLine className="mb-1" />,
     },
   ];
 

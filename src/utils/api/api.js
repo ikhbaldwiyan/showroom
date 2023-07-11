@@ -1,6 +1,6 @@
 // BASE URL API
 const API = "https://jkt48-showroom-api.vercel.app/api";
-const API_USERS = "https://jkt48-showroom-users.ikhbaldwiyan.repl.co"
+const ADMIN_API = "https://showroom-admin.ikhbaldwiyan.repl.co"
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
 
@@ -38,26 +38,38 @@ const DETAIL_LIVE_HISTORY = (id) => {
   return `${SHOWROOM_LOG_API}/recent/${id}`
 }
 
+// USER PERMISSION CRUD
+const LIST_USERS = (page, search) => {
+  return `${ADMIN_API}/users?page=${page}&search=${search}`
+}
+const CREATE_USER = `${ADMIN_API}/users`
+
+const DETAIL_USER = (userId) => {
+  return `${ADMIN_API}/users/${userId}`
+};
+
+const DELETE_USER = (userId) => {
+  return `${ADMIN_API}/users/${userId}`
+};
+
+// THEATER SCHEDULES CRUD
+const SCHEDULES_API = `${ADMIN_API}/schedules`
+const DETAIL_SCHEDULE = (scheduleId) => {
+  return `${ADMIN_API}/schedules/${scheduleId}`
+}
+
+// MEMBERS CRUD
+const MEMBERS_API = `${ADMIN_API}/member`
+const DETAIL_MEMBER = (memberId) => {
+  return `${ADMIN_API}/member/${memberId}`
+}
+
 // ROOM API
 const ROOM_LIST_API = ROOM;
 const ROOM_GEN_10 = `${ROOM}/academy`;
 const ROOM_LIVES_API = `${ROOM}/onlives`;
 const ROOM_TRAINEE_API = `${ROOM}/trainee`;
 const THEATER_SCHEDULE_API = `${ROOM}/theater-schedule`;
-
-// USER PERMISSION CRUD
-const LIST_USERS = (page, search) => {
-  return `${API_USERS}/users?page=${page}&search=${search}`
-}
-const CREATE_USER = `${API_USERS}/users`
-
-const DETAIL_USER = (userId) => {
-  return `${API_USERS}/users/${userId}`
-};
-
-const DELETE_USER = (userId) => {
-  return `${API_USERS}/users/${userId}`
-};
 
 // LIVE API
 const LIVE_STREAM_URL = (roomId, cookies) => {
@@ -128,4 +140,8 @@ export {
   CREATE_USER,
   DETAIL_USER,
   DELETE_USER,
+  SCHEDULES_API,
+  DETAIL_SCHEDULE,
+  MEMBERS_API,
+  DETAIL_MEMBER,
 };
