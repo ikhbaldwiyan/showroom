@@ -4,9 +4,10 @@ import { Button, Container, Table } from "reactstrap";
 import MainLayout from "pages/layout/MainLayout";
 import MemberDetail from "./MemberDetail";
 import { DETAIL_MEMBER, MEMBERS_API } from "utils/api/api";
-import { toast } from "react-toastify";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { showToast } from "utils/showToast";
+import { IoSchoolSharp } from "react-icons/io5";
+import { FaTheaterMasks } from "react-icons/fa";
 
 const MemberList = (props) => {
   const [members, setMembers] = useState([]);
@@ -28,7 +29,7 @@ const MemberList = (props) => {
       const response = await axios.get(MEMBERS_API);
       setMembers(response.data);
     } catch (error) {
-      showToast("error", "Error fetching members:", error)
+      showToast("error", "Error fetching members:", error);
       console.error("Error fetching members:", error);
     }
   };
@@ -47,7 +48,7 @@ const MemberList = (props) => {
     toggleModal();
     setModalTitle("Add Member");
     setFormData({
-      type: "regular"
+      type: "regular",
     });
   };
 
@@ -60,10 +61,10 @@ const MemberList = (props) => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(DETAIL_MEMBER(id));
-      showToast("success", "Member deleted")
+      showToast("success", "Member deleted");
       fetchMembers();
     } catch (error) {
-      showToast("error", `Error deleting member: ${error}`)
+      showToast("error", `Error deleting member: ${error}`);
     }
   };
 
@@ -73,7 +74,7 @@ const MemberList = (props) => {
         <div className="d-flex justify-content-between">
           <h3>Member List</h3>
           <Button color="primary" onClick={handleAddMember}>
-            Add Member
+            <FaPlus className="mb-1" /> Add Member
           </Button>
         </div>
         <Table className="mt-4" dark>
@@ -106,7 +107,13 @@ const MemberList = (props) => {
                   <p className="mt-4">{member.stage_name}</p>
                 </td>
                 <td>
-                  <p className="mt-4">{member.type}</p>
+                  <p className="mt-4">
+                    {member.type === "regular" ? (
+                      <FaTheaterMasks color="green" size={20} />
+                    ) : (
+                      <IoSchoolSharp size={20} />
+                    )}
+                  </p>
                 </td>
                 <td>
                   <div className="mt-4">

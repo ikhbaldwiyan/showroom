@@ -6,6 +6,7 @@ import moment from "moment";
 import EditSchedule from "./EditSchedule";
 import { SCHEDULES_API, DETAIL_SCHEDULE, MEMBERS_API } from "utils/api/api";
 import { showToast } from "utils/showToast";
+import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 
 function AdminSchedules(props) {
   const [schedules, setSchedules] = useState([]);
@@ -82,7 +83,7 @@ function AdminSchedules(props) {
               setShowModal(true);
             }}
           >
-            Create Schedule
+            <FaPlus className="mb-1" /> Add Schedule
           </Button>
         </div>
         <Table className="mt-4" dark>
@@ -105,20 +106,15 @@ function AdminSchedules(props) {
                 <td>{schedule.showTime}</td>
                 <td>{schedule.isBirthdayShow ? "Yes" : "No"}</td>
                 <td>
-                  <Button
-                    color="info"
-                    size="sm"
-                    onClick={() => handleEdit(schedule)}
-                  >
-                    Edit
-                  </Button>{" "}
-                  <Button
-                    color="danger"
-                    size="sm"
-                    onClick={() => handleDelete(schedule._id)}
-                  >
-                    Delete
-                  </Button>
+                    <Button color="info" onClick={() => handleEdit(schedule)}>
+                      <FaEdit size={18} />
+                    </Button>{" "}
+                    <Button
+                      color="danger"
+                      onClick={() => handleDelete(schedule._id)}
+                    >
+                      <FaTrash size={16} />
+                    </Button>
                 </td>
               </tr>
             ))}
