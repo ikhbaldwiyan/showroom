@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Table,
-  Button,
-} from "reactstrap";
+import { Container, Table, Button } from "reactstrap";
 import axios from "axios";
 import MainLayout from "pages/layout/MainLayout";
 import moment from "moment";
 import EditSchedule from "./EditSchedule";
+import { SCHEDULES_API, DETAIL_SCHEDULE, MEMBERS_API } from "utils/api/api";
 
 function AdminSchedules(props) {
   const [schedules, setSchedules] = useState([]);
@@ -30,7 +27,7 @@ function AdminSchedules(props) {
 
   const fetchSchedules = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/schedules");
+      const response = await axios.get(SCHEDULES_API);
       setSchedules(response.data);
     } catch (error) {
       console.error("Error fetching schedules:", error);
@@ -38,11 +35,10 @@ function AdminSchedules(props) {
   };
 
   const fetchMemberOptions = async () => {
-    const memberResponse = await axios.get("http://localhost:8000/member");
+    const memberResponse = await axios.get(MEMBERS_API);
     const fetchedMembers = memberResponse.data;
     setMemberOptions(fetchedMembers);
   };
-
 
   const handleEdit = (schedule) => {
     setModalTitle(`Edit Schedule ${schedule.setlist}`);
@@ -52,7 +48,7 @@ function AdminSchedules(props) {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/schedules/${id}`);
+      await axios.delete(DETAIL_SCHEDULE(id));
       fetchSchedules();
     } catch (error) {
       console.error("Error deleting schedule:", error);
@@ -67,8 +63,8 @@ function AdminSchedules(props) {
     fetchSchedules,
     setShowModal,
     setModalTitle,
-    setFormData
-  }
+    setFormData,
+  };
 
   return (
     <MainLayout {...props}>

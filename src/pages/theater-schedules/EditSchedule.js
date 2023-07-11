@@ -14,6 +14,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { SCHEDULES_API, DETAIL_SCHEDULE } from "utils/api/api";
 
 const EditSchedule = ({
   formData,
@@ -67,12 +68,9 @@ const EditSchedule = ({
     e.preventDefault();
     try {
       if (modalTitle === "Create Schedule") {
-        await axios.post("http://localhost:8000/schedules", formData);
+        await axios.post(SCHEDULES_API, formData);
       } else if (modalTitle.includes("Edit Schedule")) {
-        await axios.put(
-          `http://localhost:8000/schedules/${formData._id}`,
-          formData
-        );
+        await axios.put(DETAIL_SCHEDULE(formData._id), formData);
       }
       toggleModal();
       fetchSchedules();
