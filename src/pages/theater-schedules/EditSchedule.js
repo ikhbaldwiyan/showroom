@@ -15,6 +15,7 @@ import {
   Col,
 } from "reactstrap";
 import { SCHEDULES_API, DETAIL_SCHEDULE } from "utils/api/api";
+import { showToast } from "utils/showToast";
 
 const EditSchedule = ({
   formData,
@@ -69,13 +70,16 @@ const EditSchedule = ({
     try {
       if (modalTitle === "Create Schedule") {
         await axios.post(SCHEDULES_API, formData);
+        showToast("success", "Jadwal Theater Created");
       } else if (modalTitle.includes("Edit Schedule")) {
         await axios.put(DETAIL_SCHEDULE(formData._id), formData);
+        showToast("info", "Jadwal Theater Updated");
       }
       toggleModal();
       fetchSchedules();
     } catch (error) {
-      console.error("Error submitting form:", error);
+      showToast("error", "Error submitting:", error);
+      console.error("Error submitting:", error);
     }
     console.log(formData);
   };

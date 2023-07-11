@@ -12,6 +12,7 @@ import {
   Input,
 } from "reactstrap";
 import { MEMBERS_API, DETAIL_MEMBER } from "utils/api/api";
+import { showToast } from "utils/showToast";
 
 const MemberDetail = ({
   fetchMembers,
@@ -30,8 +31,10 @@ const MemberDetail = ({
     try {
       if (modalTitle === "Add Member") {
         await axios.post(MEMBERS_API, formData);
+        showToast("success", "New Member Added");
       } else if (modalTitle.includes("Edit Member")) {
         await axios.put(DETAIL_MEMBER(formData._id), formData);
+        showToast("info", `Member ${formData.name} updated`)
       }
       toggleModal();
       setFormData({
@@ -42,7 +45,8 @@ const MemberDetail = ({
       });
       fetchMembers();
     } catch (error) {
-      console.error("Error creating member:", error);
+      showToast("error", "Error submit member:", error);
+      console.error("Error submit member:", error);
     }
   };
 
@@ -89,17 +93,15 @@ const MemberDetail = ({
             <Label for="type">
               <b>Type</b>
             </Label>
-            <Input
-              type="select"
+            <select
+              className="form-control"
               name="type"
-              id="type"
               value={formData.type}
               onChange={handleChange}
-              required
             >
-              <option value="regular">Regular</option>
+              <option value="regular" selected>Regular</option>
               <option value="trainee">Trainee</option>
-            </Input>
+            </select>
           </FormGroup>
           <FormGroup>
             <Label for="image">

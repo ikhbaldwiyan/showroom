@@ -5,6 +5,7 @@ import MainLayout from "pages/layout/MainLayout";
 import moment from "moment";
 import EditSchedule from "./EditSchedule";
 import { SCHEDULES_API, DETAIL_SCHEDULE, MEMBERS_API } from "utils/api/api";
+import { showToast } from "utils/showToast";
 
 function AdminSchedules(props) {
   const [schedules, setSchedules] = useState([]);
@@ -30,6 +31,7 @@ function AdminSchedules(props) {
       const response = await axios.get(SCHEDULES_API);
       setSchedules(response.data);
     } catch (error) {
+      showToast("error", "Error fetching schedule:", error)
       console.error("Error fetching schedules:", error);
     }
   };
@@ -49,8 +51,10 @@ function AdminSchedules(props) {
   const handleDelete = async (id) => {
     try {
       await axios.delete(DETAIL_SCHEDULE(id));
+      showToast("success", "Theater schedule deleted")
       fetchSchedules();
     } catch (error) {
+      showToast("error", "Error deleting schedule:", error)
       console.error("Error deleting schedule:", error);
     }
   };

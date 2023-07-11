@@ -5,6 +5,8 @@ import MainLayout from "pages/layout/MainLayout";
 import MemberDetail from "./MemberDetail";
 import { DETAIL_MEMBER, MEMBERS_API } from "utils/api/api";
 import { toast } from "react-toastify";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { showToast } from "utils/showToast";
 
 const MemberList = (props) => {
   const [members, setMembers] = useState([]);
@@ -26,6 +28,7 @@ const MemberList = (props) => {
       const response = await axios.get(MEMBERS_API);
       setMembers(response.data);
     } catch (error) {
+      showToast("error", "Error fetching members:", error)
       console.error("Error fetching members:", error);
     }
   };
@@ -43,6 +46,9 @@ const MemberList = (props) => {
   const handleAddMember = () => {
     toggleModal();
     setModalTitle("Add Member");
+    setFormData({
+      type: "regular"
+    });
   };
 
   const handleEdit = (member) => {
@@ -54,11 +60,10 @@ const MemberList = (props) => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(DETAIL_MEMBER(id));
+      showToast("success", "Member deleted")
       fetchMembers();
     } catch (error) {
-      toast.error(`Error deleting member: ${error}`, {
-        theme: "colored",
-      });
+      showToast("error", `Error deleting member: ${error}`)
     }
   };
 
@@ -78,6 +83,7 @@ const MemberList = (props) => {
               <th>Image</th>
               <th>Name</th>
               <th>Stage Name</th>
+              <th>Type</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -100,20 +106,18 @@ const MemberList = (props) => {
                   <p className="mt-4">{member.stage_name}</p>
                 </td>
                 <td>
+                  <p className="mt-4">{member.type}</p>
+                </td>
+                <td>
                   <div className="mt-4">
-                    <Button
-                      color="info"
-                      size="sm"
-                      onClick={() => handleEdit(member)}
-                    >
-                      Edit
+                    <Button color="info" onClick={() => handleEdit(member)}>
+                      <FaEdit size={18} />
                     </Button>{" "}
                     <Button
                       color="danger"
-                      size="sm"
                       onClick={() => handleDelete(member._id)}
                     >
-                      Delete
+                      <FaTrash size={16} />
                     </Button>
                   </div>
                 </td>
