@@ -73,6 +73,7 @@ const MemberDetail = ({
               id="name"
               value={formData.name}
               onChange={handleChange}
+              placeholder="member name"
               required
             />
           </FormGroup>
@@ -86,6 +87,7 @@ const MemberDetail = ({
               id="stage_name"
               value={formData.stage_name}
               onChange={handleChange}
+              placeholder="stage name"
               required
             />
           </FormGroup>
@@ -113,6 +115,7 @@ const MemberDetail = ({
               id="image"
               value={formData.image}
               onChange={handleChange}
+              placeholder="image url"
               required
             />
           </FormGroup>
