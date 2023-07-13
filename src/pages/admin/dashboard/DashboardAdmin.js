@@ -11,26 +11,26 @@ import { Container } from "reactstrap";
 import { isAdmin } from "utils/permissions/admin";
 import { showToast } from "utils/showToast";
 
-const DashboardAdmin = (props) => {
+const DashboardAdmin = ({ totalTheater, totalMembers, totalUsers }) => {
   const menu = [
     {
       name: "THEATER",
       title: "Schedule",
-      total: 4,
+      total: totalTheater,
       icon: <FaTheaterMasks className="mb-3" size={75} />,
       link: "/theaters",
     },
     {
-      name: "Users",
+      name: "USERS",
       title: "User",
-      total: 48,
+      total: totalUsers,
       icon: <FaGithub className="mb-3" size={75} />,
       link: "/users",
     },
     {
       name: "MEMBERS",
       title: "Member",
-      total: 26,
+      total: totalMembers,
       icon: <FaUserAstronaut className="mb-3" size={75} />,
       link: "/members",
     },
@@ -47,7 +47,7 @@ const DashboardAdmin = (props) => {
 
   useEffect(() => {
     if (!isAdmin()) {
-      showToast("error", "You don't have permission to access this page")
+      showToast("error", "You don't have permission to access this page");
       router.push("/");
     }
   }, [router]);
@@ -75,7 +75,7 @@ const DashboardAdmin = (props) => {
         ))}
       </div>
     </Container>
-  )
+  );
 };
 
 export default DashboardAdmin;

@@ -25,7 +25,6 @@ const UserList = (props) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [totalUsers, setTotalUsers] = useState();
-  const router = useHistory();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -93,7 +92,7 @@ const UserList = (props) => {
 
   return (
     <MainLayout {...props}>
-      <DashboardAdmin />
+      <DashboardAdmin totalUsers={totalUsers} />
       <Container>
         <div className="row align-items-center mb-3">
           <div className="d-flex align-items-center col-md-6 col-sm-12">

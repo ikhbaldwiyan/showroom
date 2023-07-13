@@ -33,7 +33,7 @@ function TheaterList(props) {
       const response = await axios.get(SCHEDULES_API);
       setSchedules(response.data);
     } catch (error) {
-      showToast("error", "Error fetching schedule:", error)
+      showToast("error", "Error fetching schedule:", error);
       console.error("Error fetching schedules:", error);
     }
   };
@@ -53,10 +53,10 @@ function TheaterList(props) {
   const handleDelete = async (id) => {
     try {
       await axios.delete(DETAIL_SCHEDULE(id));
-      showToast("success", "Theater schedule deleted")
+      showToast("success", "Theater schedule deleted");
       fetchSchedules();
     } catch (error) {
-      showToast("error", "Error deleting schedule:", error)
+      showToast("error", "Error deleting schedule:", error);
       console.error("Error deleting schedule:", error);
     }
   };
@@ -74,7 +74,7 @@ function TheaterList(props) {
 
   return (
     <MainLayout {...props}>
-      <DashboardAdmin />
+      <DashboardAdmin totalTheater={schedules.length} />
       <Container>
         <div className="d-flex justify-content-between">
           <h3>Theater Schedules</h3>
@@ -108,15 +108,15 @@ function TheaterList(props) {
                 <td>{schedule.showTime}</td>
                 <td>{schedule.isBirthdayShow ? "Yes" : "No"}</td>
                 <td>
-                    <Button color="info" onClick={() => handleEdit(schedule)}>
-                      <FaEdit size={18} />
-                    </Button>{" "}
-                    <Button
-                      color="danger"
-                      onClick={() => handleDelete(schedule._id)}
-                    >
-                      <FaTrash size={16} />
-                    </Button>
+                  <Button color="info" onClick={() => handleEdit(schedule)}>
+                    <FaEdit size={18} />
+                  </Button>{" "}
+                  <Button
+                    color="danger"
+                    onClick={() => handleDelete(schedule._id)}
+                  >
+                    <FaTrash size={16} />
+                  </Button>
                 </td>
               </tr>
             ))}

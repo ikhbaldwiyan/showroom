@@ -71,7 +71,7 @@ const MemberList = (props) => {
 
   return (
     <MainLayout {...props}>
-      <DashboardAdmin />
+      <DashboardAdmin totalMembers={members.length} />
       <Container>
         <div className="d-flex justify-content-between">
           <h3>Member List</h3>
