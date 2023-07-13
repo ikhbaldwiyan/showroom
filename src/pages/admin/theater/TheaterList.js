@@ -3,13 +3,13 @@ import { Container, Table, Button } from "reactstrap";
 import axios from "axios";
 import MainLayout from "pages/layout/MainLayout";
 import moment from "moment";
-import EditSchedule from "./EditSchedule";
+import TheaterDetail from "./TheaterDetail";
 import { SCHEDULES_API, DETAIL_SCHEDULE, MEMBERS_API } from "utils/api/api";
 import { showToast } from "utils/showToast";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
-import DashboardAdmin from "pages/dashboard/DashboardAdmin";
+import DashboardAdmin from "pages/admin/dashboard/DashboardAdmin";
 
-function AdminSchedules(props) {
+function TheaterList(props) {
   const [schedules, setSchedules] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
@@ -122,10 +122,10 @@ function AdminSchedules(props) {
             ))}
           </tbody>
         </Table>
-        <EditSchedule {...editProps} />
+        <TheaterDetail {...editProps} />
       </Container>
     </MainLayout>
   );
 }
 
-export default AdminSchedules;
+export default TheaterList;

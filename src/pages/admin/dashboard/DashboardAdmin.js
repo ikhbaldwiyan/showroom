@@ -1,5 +1,4 @@
-import MainLayout from "pages/layout/MainLayout";
-import React from "react";
+import { useEffect } from "react";
 import {
   FaGithub,
   FaTheaterMasks,
@@ -7,7 +6,10 @@ import {
   FaUserCog,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Container } from "reactstrap";
+import { isAdmin } from "utils/permissions/admin";
+import { showToast } from "utils/showToast";
 
 const DashboardAdmin = (props) => {
   const menu = [
@@ -40,6 +42,15 @@ const DashboardAdmin = (props) => {
       link: "#",
     },
   ];
+
+  const router = useHistory();
+
+  useEffect(() => {
+    if (!isAdmin()) {
+      showToast("error", "You don't have permission to access this page")
+      router.push("/");
+    }
+  }, [router]);
 
   return (
     <Container>
