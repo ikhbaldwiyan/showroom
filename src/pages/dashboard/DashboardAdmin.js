@@ -16,7 +16,7 @@ const DashboardAdmin = (props) => {
       title: "Schedule",
       total: 4,
       icon: <FaTheaterMasks className="mb-3" size={75} />,
-      link: "/theater-schedules",
+      link: "/theaters",
     },
     {
       name: "Users",
@@ -27,21 +27,21 @@ const DashboardAdmin = (props) => {
     },
     {
       name: "MEMBERS",
-      title: "User",
-      total: 38,
+      title: "Member",
+      total: 26,
       icon: <FaUserAstronaut className="mb-3" size={75} />,
       link: "/members",
     },
     {
       name: "ADMIN",
       title: "User",
-      total: 4,
+      total: 3,
       icon: <FaUserCog className="mb-3" size={75} />,
       link: "#",
     },
   ];
 
-  const Dashboard = () => (
+  return (
     <Container>
       <div className="dashboard">
         {menu.map((item, idx) => (
@@ -64,15 +64,7 @@ const DashboardAdmin = (props) => {
         ))}
       </div>
     </Container>
-  );
-
-  return props.isDashboard  ? (
-    <MainLayout {...props}>
-      <Dashboard />
-    </MainLayout>
-  ) : (
-    <Dashboard />
-  );
+  )
 };
 
 export default DashboardAdmin;

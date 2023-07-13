@@ -15,6 +15,7 @@ import UserDetail from "./UserDetail";
 import DeleteModal from "./DeleteModal";
 import PaginationComponent from "parts/Pagination";
 import { isMobile } from "react-device-detect";
+import DashboardAdmin from "pages/dashboard/DashboardAdmin";
 
 const UserList = (props) => {
   const [users, setUsers] = useState([]);
@@ -100,6 +101,7 @@ const UserList = (props) => {
 
   return (
     <MainLayout {...props}>
+      <DashboardAdmin />
       <Container>
         <div className="row align-items-center mb-3">
           <div className="d-flex align-items-center col-md-6 col-sm-12">

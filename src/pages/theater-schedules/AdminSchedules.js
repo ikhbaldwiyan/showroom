@@ -7,6 +7,7 @@ import EditSchedule from "./EditSchedule";
 import { SCHEDULES_API, DETAIL_SCHEDULE, MEMBERS_API } from "utils/api/api";
 import { showToast } from "utils/showToast";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import DashboardAdmin from "pages/dashboard/DashboardAdmin";
 
 function AdminSchedules(props) {
   const [schedules, setSchedules] = useState([]);
@@ -73,9 +74,10 @@ function AdminSchedules(props) {
 
   return (
     <MainLayout {...props}>
+      <DashboardAdmin />
       <Container>
         <div className="d-flex justify-content-between">
-          <h3>Theater Schedules Admin</h3>
+          <h3>Theater Schedules</h3>
           <Button
             color="primary"
             onClick={() => {

@@ -45,9 +45,9 @@ function App(props) {
         <Route path="/farming" component={() => <Farming {...props} />} />
         <Route path="/live-history" component={() => <LiveHistory {...props} />} />
         <Route path="/history/:name/:id" component={() => <DetailLiveHistory {...props} />} />
-        <Route path="/admin" component={() => <DashboardAdmin isDashboard {...props} />} />
+        <Route path="/admin" component={() => <AdminSchedules {...props} />} />
         <Route path="/users" component={() => <UserList {...props} />} />
-        <Route path="/theater-schedules" component={() => <AdminSchedules {...props} />} />
+        <Route path="/theaters" component={() => <AdminSchedules {...props} />} />
         <Route path="/members" component={() => <MemberList {...props} />} />
       </div>
     </ThemeProvider>
