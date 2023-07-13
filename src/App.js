@@ -21,6 +21,7 @@ import DetailLiveHistory from "pages/DetailLiveHistory";
 import UserList from "pages/Users/UserList";
 import AdminSchedules from "pages/theater-schedules/AdminSchedules";
 import MemberList from "pages/members/MemberList";
+import DashboardAdmin from "pages/dashboard/DashboardAdmin";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -44,7 +45,8 @@ function App(props) {
         <Route path="/farming" component={() => <Farming {...props} />} />
         <Route path="/live-history" component={() => <LiveHistory {...props} />} />
         <Route path="/history/:name/:id" component={() => <DetailLiveHistory {...props} />} />
-        <Route path="/admin" component={() => <UserList {...props} />} />
+        <Route path="/admin" component={() => <DashboardAdmin isDashboard {...props} />} />
+        <Route path="/users" component={() => <UserList {...props} />} />
         <Route path="/theater-schedules" component={() => <AdminSchedules {...props} />} />
         <Route path="/members" component={() => <MemberList {...props} />} />
       </div>
