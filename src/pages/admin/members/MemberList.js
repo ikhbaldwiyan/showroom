@@ -8,6 +8,7 @@ import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { showToast } from "utils/showToast";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaTheaterMasks } from "react-icons/fa";
+import DashboardAdmin from "pages/admin/dashboard/DashboardAdmin";
 
 const MemberList = (props) => {
   const [members, setMembers] = useState([]);
@@ -70,6 +71,7 @@ const MemberList = (props) => {
 
   return (
     <MainLayout {...props}>
+      <DashboardAdmin totalMembers={members.length} />
       <Container>
         <div className="d-flex justify-content-between">
           <h3>Member List</h3>

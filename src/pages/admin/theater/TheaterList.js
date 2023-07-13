@@ -3,12 +3,13 @@ import { Container, Table, Button } from "reactstrap";
 import axios from "axios";
 import MainLayout from "pages/layout/MainLayout";
 import moment from "moment";
-import EditSchedule from "./EditSchedule";
+import TheaterDetail from "./TheaterDetail";
 import { SCHEDULES_API, DETAIL_SCHEDULE, MEMBERS_API } from "utils/api/api";
 import { showToast } from "utils/showToast";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import DashboardAdmin from "pages/admin/dashboard/DashboardAdmin";
 
-function AdminSchedules(props) {
+function TheaterList(props) {
   const [schedules, setSchedules] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
@@ -32,7 +33,7 @@ function AdminSchedules(props) {
       const response = await axios.get(SCHEDULES_API);
       setSchedules(response.data);
     } catch (error) {
-      showToast("error", "Error fetching schedule:", error)
+      showToast("error", "Error fetching schedule:", error);
       console.error("Error fetching schedules:", error);
     }
   };
@@ -52,10 +53,10 @@ function AdminSchedules(props) {
   const handleDelete = async (id) => {
     try {
       await axios.delete(DETAIL_SCHEDULE(id));
-      showToast("success", "Theater schedule deleted")
+      showToast("success", "Theater schedule deleted");
       fetchSchedules();
     } catch (error) {
-      showToast("error", "Error deleting schedule:", error)
+      showToast("error", "Error deleting schedule:", error);
       console.error("Error deleting schedule:", error);
     }
   };
@@ -73,9 +74,10 @@ function AdminSchedules(props) {
 
   return (
     <MainLayout {...props}>
+      <DashboardAdmin totalTheater={schedules.length} />
       <Container>
         <div className="d-flex justify-content-between">
-          <h3>Theater Schedules Admin</h3>
+          <h3>Theater Schedules</h3>
           <Button
             color="primary"
             onClick={() => {
@@ -106,24 +108,24 @@ function AdminSchedules(props) {
                 <td>{schedule.showTime}</td>
                 <td>{schedule.isBirthdayShow ? "Yes" : "No"}</td>
                 <td>
-                    <Button color="info" onClick={() => handleEdit(schedule)}>
-                      <FaEdit size={18} />
-                    </Button>{" "}
-                    <Button
-                      color="danger"
-                      onClick={() => handleDelete(schedule._id)}
-                    >
-                      <FaTrash size={16} />
-                    </Button>
+                  <Button color="info" onClick={() => handleEdit(schedule)}>
+                    <FaEdit size={18} />
+                  </Button>{" "}
+                  <Button
+                    color="danger"
+                    onClick={() => handleDelete(schedule._id)}
+                  >
+                    <FaTrash size={16} />
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
         </Table>
-        <EditSchedule {...editProps} />
+        <TheaterDetail {...editProps} />
       </Container>
     </MainLayout>
   );
 }
 
-export default AdminSchedules;
+export default TheaterList;

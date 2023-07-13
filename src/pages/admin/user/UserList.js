@@ -6,7 +6,6 @@ import { IoPersonAddSharp } from "react-icons/io5";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { LIST_USERS, DELETE_USER } from "utils/api/api";
 import { toast } from "react-toastify";
-import { isAdmin } from "utils/permissions/admin";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { FcSearch } from "react-icons/fc";
 
@@ -15,6 +14,7 @@ import UserDetail from "./UserDetail";
 import DeleteModal from "./DeleteModal";
 import PaginationComponent from "parts/Pagination";
 import { isMobile } from "react-device-detect";
+import DashboardAdmin from "pages/admin/dashboard/DashboardAdmin";
 
 const UserList = (props) => {
   const [users, setUsers] = useState([]);
@@ -25,7 +25,6 @@ const UserList = (props) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [totalUsers, setTotalUsers] = useState();
-  const router = useHistory();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -40,14 +39,7 @@ const UserList = (props) => {
     fetchUsers();
   }, [modalOpen, userId, isDelete, page, search]);
 
-  useEffect(() => {
-    if (!isAdmin()) {
-      toast.error("You don't have permission to access this page", {
-        theme: "colored",
-      });
-      router.push("/");
-    }
-  }, []);
+
 
   const handleDeleteUser = async (userId) => {
     try {
@@ -100,6 +92,7 @@ const UserList = (props) => {
 
   return (
     <MainLayout {...props}>
+      <DashboardAdmin totalUsers={totalUsers} />
       <Container>
         <div className="row align-items-center mb-3">
           <div className="d-flex align-items-center col-md-6 col-sm-12">

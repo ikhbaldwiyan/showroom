@@ -388,3 +388,64 @@ main {
   color: #aaa;
   cursor: pointer;
 }
+
+.dashboard {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 50px;
+}
+
+.card-admin {
+  padding: 16px;
+  width: 280px;
+  background-color: #24A2B7;
+  border-radius: 15px;
+}
+
+.title {
+  color: #FFF;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.info {
+  color: #ECFAFC;
+  font-size: 24px;
+  margin-top: 3px;
+  font-weight: 300;
+}
+
+.menu-admin {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn-detail {
+  margin-top: 2px;
+  background-color: #ECFAFC;
+  width: 100%;
+  height: 30px;
+  border-radius: 8px;
+  color: #22a2b7;
+  border: none;
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-bottom: 50px;
+  }
+
+  .card-admin {
+    padding: 16px;
+    width: 100%;
+    background-color: #24A2B7;
+    border-radius: 15px;
+  }
+}

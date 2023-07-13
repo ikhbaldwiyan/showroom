@@ -17,7 +17,7 @@ import {
 import { SCHEDULES_API, DETAIL_SCHEDULE } from "utils/api/api";
 import { showToast } from "utils/showToast";
 
-const EditSchedule = ({
+const TheaterDetail = ({
   formData,
   showModal,
   memberOptions,
@@ -250,4 +250,4 @@ const EditSchedule = ({
   );
 };
 
-export default EditSchedule;
+export default TheaterDetail;
