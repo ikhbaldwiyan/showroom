@@ -22,6 +22,8 @@ import { MdOutlineNotStarted } from "react-icons/md";
 import combo from "../assets/audio/combo.mp3";
 import { useTimer } from "react-timer-hook";
 import { useSelector } from "react-redux";
+import { gaTag } from "utils/gaTag";
+import { getSession } from "utils/getSession";
 
 function Farming(props) {
   const [cookiesLoginId, setCookiesLoginId] = useState("");
@@ -323,6 +325,13 @@ function Farming(props) {
   const startFarming = async () => {
     for (let i = 0; i < officialRoom.length; i++) {
       setIsFarming(true);
+      gaTag({
+        action: "Start Farming",
+        category: "Farming",
+        label: "Farming Page",
+        value: null,
+        username: getSession()?.profile?.name
+      })
       const roomId = officialRoom[i].room_id;
       const roomName = officialRoom[i].room_name;
 
@@ -765,6 +774,13 @@ function Farming(props) {
               onClick={() => {
                 startFarming();
                 setShowModal(false);
+                gaTag({
+                  action: "Run Farming Full",
+                  category: "Farming",
+                  label: "Farming Page",
+                  value: null,
+                  username: getSession()?.profile?.name
+                })
               }}
             >
               Run
