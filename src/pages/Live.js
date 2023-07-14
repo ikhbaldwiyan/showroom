@@ -204,25 +204,6 @@ function Live(props) {
             )}
           </Col>
           <Col lg="4">
-            {isDesktop && (
-              <div className="d-flex py-2 justify-content-center">
-                <a
-                  href={process.env.REACT_APP_DISCORD_LINK}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img
-                    width="100%"
-                    src={SummerTour}
-                    alt="Summer Tour JKT48 SHOWROOM Banner"
-                    style={{
-                      borderTopRightRadius: "10px",
-                      borderTopLeftRadius: "10px",
-                    }}
-                  />
-                </a>
-              </div>
-            )}
             <Menu
               menu={menu}
               setMenu={setMenu}
