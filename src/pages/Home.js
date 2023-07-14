@@ -5,7 +5,7 @@ import { Container } from "reactstrap";
 import Fade from "react-reveal/Fade";
 
 import MainLayout from "pages/layout/MainLayout";
-import { Schedule } from "components";
+import { AlertInfo, Schedule } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getRoomListRegular,
@@ -95,7 +95,7 @@ function Home(props) {
   return (
     <MainLayout {...props}>
       <Container className="mb-4">
-        <HomeBanner />
+        <AlertInfo />
         <ModalInfo />
         <SearchAndFilter
           isLive={isLive}
