@@ -13,14 +13,15 @@ function TheaterList(props) {
   const [schedules, setSchedules] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
-  const [memberOptions, setMemberOptions] = useState();
+  const [memberOptions, setMemberOptions] = useState([]);
+  const [memberTrainee, setMemberTrainee] = useState([]);
   const [formData, setFormData] = useState({
     showDate: "",
     showTime: "",
     isBirthdayShow: false,
     birthdayMemberName: "",
     setlist: "",
-    memberList: [],
+    memberList: []
   });
 
   useEffect(() => {
@@ -39,9 +40,14 @@ function TheaterList(props) {
   };
 
   const fetchMemberOptions = async () => {
-    const memberResponse = await axios.get(MEMBERS_API);
-    const fetchedMembers = memberResponse.data;
-    setMemberOptions(fetchedMembers);
+    const memberResponse = (type) => {
+      return axios.get(`${MEMBERS_API}?type=${type}&showAll=true`);
+    };
+
+    const regular = await memberResponse("regular");
+    const trainee = await memberResponse("trainee");
+    setMemberOptions(regular?.data?.members);
+    setMemberTrainee(trainee?.data?.members);
   };
 
   const handleEdit = (schedule) => {
@@ -65,11 +71,12 @@ function TheaterList(props) {
     formData,
     showModal,
     memberOptions,
+    memberTrainee,
     modalTitle,
     fetchSchedules,
     setShowModal,
     setModalTitle,
-    setFormData,
+    setFormData
   };
 
   return (

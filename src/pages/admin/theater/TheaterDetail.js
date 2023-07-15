@@ -21,6 +21,7 @@ const TheaterDetail = ({
   formData,
   showModal,
   memberOptions,
+  memberTrainee,
   modalTitle,
   fetchSchedules,
   setShowModal,
@@ -55,8 +56,18 @@ const TheaterDetail = ({
     }));
   };
 
-  const handleMemberChange = (e) => {
+  const handleMemberRegularChange = (e) => {
     const selectedMember = memberOptions.filter(
+      (member) => member._id === e.target.value
+    );
+    setFormData((prevState) => {
+      const updatedMemberList = [...prevState.memberList, selectedMember[0]];
+      return { ...prevState, memberList: updatedMemberList };
+    });
+  };
+
+  const handleMemberTraineeChange = (e) => {
+    const selectedMember = memberTrainee.filter(
       (member) => member._id === e.target.value
     );
     setFormData((prevState) => {
@@ -124,15 +135,39 @@ const TheaterDetail = ({
         ))}
       </Row>
       <p className="mt-3">
-        <b>Choose Member</b>
+        <b>Choose Member Regular</b>
       </p>
       <select
         className="form-control"
         name="member"
-        onChange={(e) => handleMemberChange(e)}
+        onChange={(e) => handleMemberRegularChange(e)}
       >
         <option value="">Select a member</option>
         {memberOptions?.map((member, idx) => {
+          if (
+            !formData.memberList.find(
+              (selectedMember) => selectedMember._id === member._id
+            )
+          ) {
+            return (
+              <option key={idx} value={member._id}>
+                {member.name}
+              </option>
+            );
+          }
+          return null;
+        })}
+      </select>
+      <p className="mt-3">
+        <b>Choose Member Trainee</b>
+      </p>
+      <select
+        className="form-control"
+        name="member"
+        onChange={(e) => handleMemberTraineeChange(e)}
+      >
+        <option value="">Select a member</option>
+        {memberTrainee?.map((member, idx) => {
           if (
             !formData.memberList.find(
               (selectedMember) => selectedMember._id === member._id
