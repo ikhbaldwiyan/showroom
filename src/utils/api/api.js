@@ -1,6 +1,7 @@
 // BASE URL API
 const API = "https://jkt48-showroom-api.vercel.app/api";
 const ADMIN_API = "https://showroom-admin.ikhbaldwiyan.repl.co"
+const BOT_API = "https://jkt48-showroom-bot.ikhbaldwiyan.repl.co/discord"
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
 
@@ -63,6 +64,9 @@ const MEMBERS_API = `${ADMIN_API}/member`
 const DETAIL_MEMBER = (memberId) => {
   return `${ADMIN_API}/member/${memberId}`
 }
+
+// BOT API
+const DISCORD_THEATER_NOTIF = `${BOT_API}/theater-notif`
 
 // ROOM API
 const ROOM_LIST_API = ROOM;
@@ -144,4 +148,5 @@ export {
   DETAIL_SCHEDULE,
   MEMBERS_API,
   DETAIL_MEMBER,
+  DISCORD_THEATER_NOTIF
 };
