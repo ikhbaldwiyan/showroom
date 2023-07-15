@@ -9,6 +9,7 @@ import { showToast } from "utils/showToast";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaTheaterMasks } from "react-icons/fa";
 import DashboardAdmin from "pages/admin/dashboard/DashboardAdmin";
+import PaginationComponent from "parts/Pagination";
 
 const MemberList = (props) => {
   const [members, setMembers] = useState([]);
@@ -18,17 +19,29 @@ const MemberList = (props) => {
     name: "",
     stage_name: "",
     type: "",
-    image: "",
+    image: ""
   });
+  const [page, setPage] = useState(1);
+  const [totalMembers, setTotalMembers] = useState(1);
+  const [filterType, setFilterType] = useState("");
+
+  const handleFilterChange = (event) => {
+    const selectedType = event.target.value;
+    setFilterType(selectedType);
+    fetchMembers(1, selectedType);
+  };
 
   useEffect(() => {
     fetchMembers();
   }, []);
 
-  const fetchMembers = async () => {
+  const fetchMembers = async (page = 1, type = "") => {
     try {
-      const response = await axios.get(MEMBERS_API);
-      setMembers(response.data);
+      const response = await axios.get(
+        `${MEMBERS_API}?page=${page}&type=${type}`
+      );
+      setMembers(response.data.members);
+      setTotalMembers(response.data.totalMembers);
     } catch (error) {
       showToast("error", "Error fetching members:", error);
       console.error("Error fetching members:", error);
@@ -41,7 +54,7 @@ const MemberList = (props) => {
       name: "",
       stage_name: "",
       type: "",
-      image: "",
+      image: ""
     });
   };
 
@@ -49,7 +62,7 @@ const MemberList = (props) => {
     toggleModal();
     setModalTitle("Add Member");
     setFormData({
-      type: "regular",
+      type: "regular"
     });
   };
 
@@ -69,12 +82,28 @@ const MemberList = (props) => {
     }
   };
 
+  useEffect(() => {
+    fetchMembers(page, filterType);
+  }, [page, filterType]);
+
   return (
     <MainLayout {...props}>
       <DashboardAdmin totalMembers={members.length} />
       <Container>
         <div className="d-flex justify-content-between">
           <h3>Member List</h3>
+          <div className="d-flex">
+            <h4 className="mx-2">Type: </h4>
+            <select
+              className="form-control"
+              value={filterType}
+              onChange={handleFilterChange}
+            >
+              <option value="">All</option>
+              <option value="regular">Regular</option>
+              <option value="trainee">Trainee</option>
+            </select>
+          </div>
           <Button color="primary" onClick={handleAddMember}>
             <FaPlus className="mb-1" /> Add Member
           </Button>
@@ -141,6 +170,12 @@ const MemberList = (props) => {
           setFormData={setFormData}
           fetchMembers={fetchMembers}
           toggleModal={toggleModal}
+        />
+        <PaginationComponent
+          page={page}
+          setPage={setPage}
+          perPage={10}
+          totalCount={totalMembers}
         />
       </Container>
     </MainLayout>

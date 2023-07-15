@@ -6,7 +6,6 @@ import { IoPersonAddSharp } from "react-icons/io5";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { LIST_USERS, DELETE_USER } from "utils/api/api";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { FcSearch } from "react-icons/fc";
 
 import MainLayout from "pages/layout/MainLayout";
