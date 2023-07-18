@@ -270,6 +270,21 @@ const TheaterDetail = ({
               </FormGroup>
             </Col>
           </Row>
+          <Row>
+            <Col md="6">
+              <FormGroup check>
+                <Input
+                  type="checkbox"
+                  name="isOnWeekSchedule"
+                  checked={formData.isOnWeekSchedule}
+                  onChange={handleCheckboxChange}
+                />
+                <Label>
+                  <b>Is On Schedule</b>
+                </Label>
+              </FormGroup>
+            </Col>
+          </Row>
           <MemberList />
         </ModalBody>
         <ModalFooter>

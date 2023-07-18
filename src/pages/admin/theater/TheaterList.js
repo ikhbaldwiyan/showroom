@@ -6,8 +6,9 @@ import moment from "moment";
 import TheaterDetail from "./TheaterDetail";
 import { SCHEDULES_API, DETAIL_SCHEDULE, MEMBERS_API } from "utils/api/api";
 import { showToast } from "utils/showToast";
-import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import { FaBirthdayCake, FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import DashboardAdmin from "pages/admin/dashboard/DashboardAdmin";
+import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 
 function TheaterList(props) {
   const [schedules, setSchedules] = useState([]);
@@ -21,7 +22,8 @@ function TheaterList(props) {
     isBirthdayShow: false,
     birthdayMemberName: "",
     setlist: "",
-    memberList: []
+    memberList: [],
+    isOnWeekSchedule: false,
   });
 
   useEffect(() => {
@@ -76,7 +78,7 @@ function TheaterList(props) {
     fetchSchedules,
     setShowModal,
     setModalTitle,
-    setFormData
+    setFormData,
   };
 
   return (
@@ -102,6 +104,7 @@ function TheaterList(props) {
               <th>Show Date</th>
               <th>Setlist</th>
               <th>Show Time</th>
+              <th>On Scheduled</th>
               <th>Birthday Show</th>
               <th>Actions</th>
             </tr>
@@ -113,7 +116,20 @@ function TheaterList(props) {
                 <td>{moment(schedule.showDate).format("DD MMM")}</td>
                 <td>{schedule.setlist}</td>
                 <td>{schedule.showTime}</td>
-                <td>{schedule.isBirthdayShow ? "Yes" : "No"}</td>
+                <td>
+                  {schedule.isOnWeekSchedule ? (
+                    <AiFillCheckCircle size={30} color="green" />
+                  ) : (
+                    <AiFillCloseCircle size={30} color="#dc3545" />
+                  )}
+                </td>
+                <td>
+                  {schedule.isBirthdayShow ? (
+                    <FaBirthdayCake size={30} color="#ecfafc"  />
+                  ) : (
+                    <AiFillCloseCircle size={30} color="#dc3545" />
+                  )}
+                </td>
                 <td>
                   <Button color="info" onClick={() => handleEdit(schedule)}>
                     <FaEdit size={18} />
