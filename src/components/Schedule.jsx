@@ -41,7 +41,8 @@ const Schedule = ({ theme, isSearch }) => {
   };
 
   return (
-    !isSearch && schedule.length !== 0 && (
+    !isSearch &&
+    schedule.length !== 0 && (
       <>
         <h3 className="py-4 theater-title">Jadwal Theater Premium Live</h3>
         <div className="container-grid">
@@ -54,10 +55,8 @@ const Schedule = ({ theme, isSearch }) => {
                 <Fade bottom>
                   <div className="card card-featured">
                     <Button
-                      href={item.entrance_url}
+                      href={`/theater/:id`}
                       type="link"
-                      isExternal
-                      target="_blank"
                     >
                       <div className="tag" style={{ backgroundColor: "teal" }}>
                         {getTimes(item.start_at)}
@@ -74,9 +73,7 @@ const Schedule = ({ theme, isSearch }) => {
                           type="link"
                           style={{ textDecoration: "none" }}
                           className="strecthed-link d-block text-white"
-                          href={item.entrance_url}
-                          isExternal
-                          target="_blank"
+                          href={`/theater/:id`}
                         >
                           <h5>{item.title.replace("2023", "")}</h5>
                         </Button>

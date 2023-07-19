@@ -1,9 +1,9 @@
 import React from "react";
 import { Container } from "reactstrap";
-import MainLayout from "./layout/MainLayout";
+import MainLayout from "../layout/MainLayout";
 import Schedule from "components/Schedule";
 
-const TheaterSchedule = (props) => {
+const TheaterScheduleList = (props) => {
   window.scrollTo(0,0)
   return (
     <MainLayout title="Jadwal Theater JKT48" {...props}>
@@ -14,4 +14,4 @@ const TheaterSchedule = (props) => {
   );
 };
 
-export default TheaterSchedule;
+export default TheaterScheduleList;
