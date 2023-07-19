@@ -66,7 +66,9 @@ const DETAIL_MEMBER = (memberId) => {
 }
 
 // BOT API
-const DISCORD_THEATER_NOTIF = `${BOT_API}/theater-notif`
+const DISCORD_THEATER_NOTIF = `${BOT_API}/theater-notif`;
+const LIVE_NOTIF_BOT = `${BOT_API}/notification`;
+const MESSAGES_BOT = `${BOT_API}/message-bot`;
 
 // ROOM API
 const ROOM_LIST_API = ROOM;
@@ -148,5 +150,7 @@ export {
   DETAIL_SCHEDULE,
   MEMBERS_API,
   DETAIL_MEMBER,
-  DISCORD_THEATER_NOTIF
+  DISCORD_THEATER_NOTIF,
+  LIVE_NOTIF_BOT,
+  MESSAGES_BOT
 };

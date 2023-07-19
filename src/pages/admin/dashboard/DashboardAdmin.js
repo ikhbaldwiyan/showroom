@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   FaDiscord,
   FaGithub,
@@ -9,11 +8,12 @@ import {
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Container } from "reactstrap";
-import { DISCORD_THEATER_NOTIF } from "utils/api/api";
 import { isAdmin } from "utils/permissions/admin";
 import { showToast } from "utils/showToast";
+import BotModal from "./BotModal";
 
 const DashboardAdmin = ({ totalTheater, totalMembers, totalUsers }) => {
+  const [botModal, setBotModal] = useState(false);
   const menu = [
     {
       name: "THEATER",
@@ -26,7 +26,7 @@ const DashboardAdmin = ({ totalTheater, totalMembers, totalUsers }) => {
       name: "BOT",
       title: "Theater",
       icon: <FaDiscord className="mb-3" size={75} />,
-      link: totalTheater
+      link: totalTheater,
     },
     {
       name: "USERS",
@@ -53,17 +53,9 @@ const DashboardAdmin = ({ totalTheater, totalMembers, totalUsers }) => {
     }
   }, [router]);
 
-  const handleRunBot = () => {
-    axios
-      .get(DISCORD_THEATER_NOTIF)
-      .then((res) => {
-        showToast("success", res.data.message);
-      })
-      .catch((err) => {
-        showToast("error", "Failed send discord bot");
-        console.log(err);
-      });
-  };
+  const toggleModal = () => {
+   setBotModal(!botModal)
+  }
 
   return (
     <Container>
@@ -80,7 +72,7 @@ const DashboardAdmin = ({ totalTheater, totalMembers, totalUsers }) => {
               </div>
             </div>
             {item.name === "BOT" ? (
-              <button onClick={handleRunBot} className="btn-detail" block>
+              <button onClick={toggleModal} className="btn-detail" block>
                 Run Bot
               </button>
             ) : (
@@ -92,6 +84,7 @@ const DashboardAdmin = ({ totalTheater, totalMembers, totalUsers }) => {
             )}
           </div>
         ))}
+        <BotModal modal={botModal} modalTitle="Discord Bot List" toggleModal={toggleModal}  />
       </div>
     </Container>
   );

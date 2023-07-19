@@ -1,9 +1,9 @@
 import React from 'react'
-import PulseLoader from "react-spinners/PulseLoader";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function Loading({ color, size }) {
   return (
-    <PulseLoader
+    <ClipLoader
       size={size ?? 12}
       color={color ?? "#D1D7E0"}
     />
