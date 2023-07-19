@@ -94,7 +94,7 @@ const MainFarm = ({
                 }
               >
                 {btnLoadingRoom ? (
-                  <Loading color="white" size={8} />
+                  <Loading color="white" />
                 ) : (
                   <span className="d-flex align-items-center">
                     <IoReload className="mx-1" />
@@ -143,9 +143,11 @@ const MainFarm = ({
                       alt=""
                     />
                     {isLoadingStars ? (
-                      <Loading color="white" size={6} />
+                      <span className="mt-1">
+                        <Loading color="white" />
+                      </span>
                     ) : (
-                      <b>{count ?? <Loading color="white" size={6} />}</b>
+                      <b>{count ?? <Loading color="white" />}</b>
                     )}
                   </div>
                 ))}

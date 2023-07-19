@@ -145,7 +145,6 @@ function Farming(props) {
 
     setIsReady(true);
     window.scrollTo(0, 0);
-
   }, []);
 
   useEffect(() => {
@@ -330,8 +329,8 @@ function Farming(props) {
         category: "Farming",
         label: "Farming Page",
         value: null,
-        username: getSession()?.profile?.name
-      })
+        username: getSession()?.profile?.name,
+      });
       const roomId = officialRoom[i].room_id;
       const roomName = officialRoom[i].room_name;
 
@@ -536,7 +535,9 @@ function Farming(props) {
                   }
                 >
                   {btnLoadingRoom ? (
-                    <Loading color="white" size={8} />
+                    <span className="d-flex align-items-center">
+                      <Loading color="white"  /><span className="ml-2"> Loading..</span>
+                    </span>
                   ) : (
                     <span className="d-flex align-items-center">
                       <IoReload className="mx-1" /> Refresh
@@ -579,7 +580,6 @@ function Farming(props) {
                       {starLoading ? (
                         <Loading
                           color={props.theme === "dark" ? "white" : "black"}
-                          size={6}
                         />
                       ) : (
                         <p>{count}</p>
@@ -745,7 +745,7 @@ function Farming(props) {
                 }
               >
                 {btnLoadingRoom ? (
-                  <Loading color="white" size={8} />
+                  <Loading color="white" />
                 ) : (
                   "Click This Button To Activate Farm"
                 )}
@@ -779,8 +779,8 @@ function Farming(props) {
                   category: "Farming",
                   label: "Farming Page",
                   value: null,
-                  username: getSession()?.profile?.name
-                })
+                  username: getSession()?.profile?.name,
+                });
               }}
             >
               Run

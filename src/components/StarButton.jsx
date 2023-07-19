@@ -82,7 +82,7 @@ function StarButton({
         action: "get_free_stars",
         category: "Stars",
         label: "Get Free Stars - Live Stream",
-        username: getSession()?.profile?.name
+        username: getSession()?.profile?.name,
       });
 
       toast.success(response.data.data.toast.message, {
@@ -353,16 +353,10 @@ function StarButton({
               />
               <b className="mb-0">
                 {isLoadingStars ? (
-                  <Loading
-                    color={theme === "dark" ? "white" : "black"}
-                    size={6}
-                  />
+                  <Loading color={theme === "dark" ? "white" : "black"} />
                 ) : (
                   gift.count ?? (
-                    <Loading
-                      color={theme === "dark" ? "white" : "black"}
-                      size={6}
-                    />
+                    <Loading color={theme === "dark" ? "white" : "black"} />
                   )
                 )}
               </b>
