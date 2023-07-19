@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   Button,
@@ -14,13 +14,13 @@ import {
   Form,
 } from "reactstrap";
 import {
-  DISCORD_THEATER_NOTIF,
+  THEATER_SCHEDULE_BOT,
+  THEATER_SCHEDULE_SHOWROOM_BOT,
   LIVE_NOTIF_BOT,
   MESSAGES_BOT,
 } from "utils/api/api";
 import { showToast } from "utils/showToast";
 import { FaCommentDots, FaDiscord, FaTheaterMasks } from "react-icons/fa";
-import { useState } from "react";
 import { RiBroadcastFill } from "react-icons/ri";
 import { Loading } from "components";
 
@@ -29,49 +29,70 @@ const BotModal = ({ toggleModal, modal, modalTitle }) => {
     type: "",
     message: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState(false);
+  const [loadingTheaterBot, setLoadingTheaterBot] = useState(false);
+  const [loadingShowroomBot, setLoadingShowroomBot] = useState(false);
+  const [loadingLiveNotifBot, setLoadingLiveNotifBot] = useState(false);
+  const [loadingMessageBot, setLoadingMessageBot] = useState(false);
 
-  const handleRunBot = () => {
-    axios
-      .get(DISCORD_THEATER_NOTIF)
-      .then((res) => {
-        showToast("success", res.data.message);
-      })
-      .catch((err) => {
-        showToast("error", "Failed send discord bot");
-        console.log(err);
-      });
-  };
+  const buttons = [
+    {
+      label: "Run Theater Schedule Bot",
+      api: THEATER_SCHEDULE_BOT,
+      loading: loadingTheaterBot,
+      setLoading: setLoadingTheaterBot,
+      loadingText: "Sending Theater Schedule Bot",
+      icon: <FaTheaterMasks className="mr-2" size={25} />,
+    },
+    {
+      label: "Run Theater Schedule Showroom Bot",
+      api: THEATER_SCHEDULE_SHOWROOM_BOT,
+      loading: loadingShowroomBot,
+      setLoading: setLoadingShowroomBot,
+      lloadingText: "Sending Theater Showroom Schedule Bot",
+      icon: <FaTheaterMasks className="mr-2" size={25} />,
+    },
+    {
+      label: "Run Live Notif Bot",
+      api: LIVE_NOTIF_BOT,
+      loading: loadingLiveNotifBot,
+      setLoading: setLoadingLiveNotifBot,
+      loadingText: "Checking member live status",
+      icon: <RiBroadcastFill className="mr-2" size={25} />,
+    },
+  ];
 
-  const runLiveNotifBot = () => {
+  const handleClick = (api, setLoading) => {
     setLoading(true);
-    axios
-      .get(LIVE_NOTIF_BOT)
-      .then((res) => {
-        showToast("success", "Live Notif send to channel discord server");
-        setLoading(false);
-      })
-      .catch((err) => {
-        showToast("error", "Failed send live notif bot");
-        setLoading(false);
-      });
-  };
-
-  const runMessageDiscordBot = (e) => {
-    e.preventDefault();
-    setLoadingMessage(true);
-
-    axios
-      .post(MESSAGES_BOT, data)
-      .then((res) => {
-        setLoadingMessage(false);
-        showToast("success", res.data.message);
-      })
-      .catch((err) => {
-        showToast("error", "Failed send discord bot");
-        setLoadingMessage(false);
-      });
+    if (api === MESSAGES_BOT) {
+      axios
+        .post(api, data)
+        .then((res) => {
+          showToast("success", res.data.message);
+        })
+        .catch((err) => {
+          showToast("error", "Failed to send discord bot");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      axios
+        .get(api)
+        .then((res) => {
+          showToast(
+            "success",
+            api === LIVE_NOTIF_BOT
+              ? "Live notif send to discord server"
+              : res.data.message
+          );
+        })
+        .catch((err) => {
+          showToast("error", "Failed to send discord bot");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   const handleChange = (e) => {
@@ -85,41 +106,40 @@ const BotModal = ({ toggleModal, modal, modalTitle }) => {
   return (
     <Modal isOpen={modal} toggle={toggleModal}>
       <ModalHeader
-        style={{
-          backgroundColor: "#24a2b7",
-          color: "white",
-        }}
+        style={{ backgroundColor: "#24a2b7", color: "white" }}
         toggle={toggleModal}
       >
         {modalTitle}
       </ModalHeader>
       <ModalBody style={{ color: "black" }}>
-        <Button onClick={handleRunBot} color="primary" block>
-          <div className="d-flex justify-content-center align-items-center">
-            <FaTheaterMasks size={25} className="mr-2" />
-            Run Theater Schedule Bot
-          </div>
-        </Button>
-        <Button
-          onClick={runLiveNotifBot}
-          color="danger"
-          disabled={loading}
-          block
-        >
-          {loading ? (
-            <div className="d-flex justify-content-center align-items-center">
-              <Loading size={16} />
-              <span className="ml-2"> Checking status member live</span>
-            </div>
-          ) : (
-            <div className="d-flex justify-content-center align-items-center">
-              <RiBroadcastFill size={25} className="mr-2" />
-              Run Live Notif Bot
-            </div>
-          )}
-        </Button>
+        {buttons.map((button, index) => (
+          <Button
+            key={index}
+            color={button.api === LIVE_NOTIF_BOT ? "danger" : "primary"}
+            disabled={button.loading}
+            block
+            onClick={() => handleClick(button.api, button.setLoading)}
+          >
+            {button.loading ? (
+              <div className="d-flex align-items-center justify-content-center">
+                <Loading size={16} />
+                <span className="ml-2">{button.loadingText}</span>
+              </div>
+            ) : (
+              <div className="d-flex align-items-center justify-content-center">
+                {button.icon}
+                {button.label}
+              </div>
+            )}
+          </Button>
+        ))}
         <hr />
-        <Form onSubmit={runMessageDiscordBot}>
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleClick(MESSAGES_BOT, setLoadingMessageBot);
+          }}
+        >
           <Row className="py-1">
             <Col md="12">
               <div className="d-flex">
@@ -167,21 +187,19 @@ const BotModal = ({ toggleModal, modal, modalTitle }) => {
                 type="submit"
                 color="info"
                 block
-                disabled={loadingMessage}
+                disabled={loadingMessageBot}
               >
-                <div className="mt-1">
-                  {loadingMessage ? (
-                    <div className="d-flex justify-content-center align-items-center">
-                      <Loading size={16} />
-                      <span className="ml-2">Sending Message</span>
-                    </div>
-                  ) : (
-                    <>
-                      <FaDiscord className="mb-1 mr-2" size={25} />
-                      Send Message Bot
-                    </>
-                  )}
-                </div>
+                {loadingMessageBot && (
+                  <span>
+                    <Loading size={16} /> Sending message
+                  </span>
+                )}
+                {!loadingMessageBot && (
+                  <>
+                    <FaDiscord className="mb-1 mr-2" size={25} />
+                    Send Message Bot
+                  </>
+                )}
               </Button>
             </Col>
           </Row>
