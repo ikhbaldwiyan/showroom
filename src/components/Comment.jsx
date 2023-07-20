@@ -60,10 +60,10 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
 
   useEffect(() => {
     async function getWebsocketInfo() {
-      const response = await axios.get(LIVE_INFO(roomId, "info"));
+      const response = await axios.get(LIVE_INFO(roomId, secretKey ?? cookies));
       setSocketKey(response?.data?.websocket?.key);
     }
-    !secretKey && getWebsocketInfo();
+    getWebsocketInfo();
 
     const newSocket = new WebSocket(socketUrl);
     newSocket.addEventListener("open", () => {
