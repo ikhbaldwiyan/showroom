@@ -31,7 +31,8 @@ const SetlistInfo = () => {
           tapi Ramune tetap dapat kita rasakan kesegarannya dalam setiap
           tetesnya. Seperti nikmatnya Ramune tersebut, para member JKT48 New Era
           siap untuk memberikanmu keceriaan dan semangat baru, melalui setiap
-          lagu yang ada
+          lagu yang ada di dalam setlist Cara Meminum Ramune (Ramune no
+          Nomikata) ini.
         </CardText>
       </CardBody>
     </Card>

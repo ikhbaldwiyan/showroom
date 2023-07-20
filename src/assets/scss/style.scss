@@ -552,3 +552,21 @@ main {
   color: #24A2B7;
   font-weight: 700;
 }
+
+.card-member-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.lineup-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #ECFAFC;
+  color: #24A2B7;
+  border: none;
+  border-radius: 8px;
+  height: 30px;
+}
