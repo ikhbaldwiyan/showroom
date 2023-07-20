@@ -35,11 +35,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
       try {
         const res = await axios.get(LIVE_COMMENT(roomId, secretKey ?? cookies));
         const comments = res.data;
-        if (secretKey && roomId === "332503") {
-          setTimeout(() => {
-            setComment(comments);
-          }, 6000);
-        }
+        setComment(comments);
       } catch (error) {
         console.log(error);
       }
