@@ -1,7 +1,13 @@
 import axios from "axios";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
-import { FaCalendarAlt, FaRegClock, FaTheaterMasks } from "react-icons/fa";
+import {
+  FaBirthdayCake,
+  FaCalendarAlt,
+  FaMoneyCheckAlt,
+  FaRegClock,
+  FaTheaterMasks,
+} from "react-icons/fa";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { Col, Container, Row } from "reactstrap";
 import { DETAIL_SCHEDULE } from "utils/api/api";
@@ -36,7 +42,7 @@ const TheaterScheduleDetail = (props) => {
         <Row>
           <Col md="4">
             <MenuSetlist menu={menu} setMenu={setMenu} />
-            {menu === "theater" && <SetlistInfo />}
+            {menu === "theater" && <SetlistInfo theater={theater} />}
           </Col>
           <Col md="4 mb-2">
             <div className="theater-container">
@@ -44,8 +50,12 @@ const TheaterScheduleDetail = (props) => {
                 <div className="menu-setlist mt-1">
                   <FaTheaterMasks className="mb-2" color="#ECFAFC" size={65} />
                   <div className="mt-1">
-                    <span className="setlist-name">{theater?.setlist}</span>
-                    <p className="setlist-subname mt-2">Ramune No Nomikata</p>
+                    <span className="setlist-name">
+                      {theater?.setlist?.name}
+                    </span>
+                    <p className="setlist-subname mt-2">
+                      {theater?.setlist?.originalName}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -74,6 +84,46 @@ const TheaterScheduleDetail = (props) => {
                       </p>
                     </div>
                   </div>
+                </div>
+              </div>
+              <div className="ticket-info">
+                <div className="menu-ticket">
+                  <FaMoneyCheckAlt className="mb-2" color="#ECFAFC" size={80} />
+                  <div className="d-flex flex-column justify-content-center text-center">
+                    <div className="ticket-name">SHOWROOM</div>
+                    <p className="setlist-subname mt-2">
+                      <b>RP. 50.000</b>
+                    </p>
+                  </div>
+                  <a
+                    href={theater?.ticketShowroom}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <button className="buy d-flex text-align-center justify-content-center align-items-center">
+                      Buy Ticket
+                    </button>
+                  </a>
+                </div>
+              </div>
+              <div className="ticket-info">
+                <div className="menu-ticket">
+                  <FaMoneyCheckAlt className="mb-2" color="#ECFAFC" size={80} />
+                  <div className="d-flex flex-column justify-content-center text-center">
+                    <div className="ticket-name">THEATER</div>
+                    <p className="setlist-subname mt-2">
+                      <b>RP. 200.000</b>
+                    </p>
+                  </div>
+                  <a
+                    href={theater?.ticketTheater}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <button className="buy d-flex text-align-center justify-content-center align-items-center">
+                      Buy Ticket
+                    </button>
+                  </a>
                 </div>
               </div>
             </div>
