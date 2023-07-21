@@ -113,7 +113,7 @@ function TheaterList(props) {
             {schedules.map((schedule, idx) => (
               <tr key={schedule._id}>
                 <td>{idx + 1}</td>
-                <td>{moment(schedule.showDate).format("DD MMM")}</td>
+                <td>{moment(schedule.showDate).format("DD MMMM")}</td>
                 <td>{schedule.setlist}</td>
                 <td>{schedule.showTime}</td>
                 <td>

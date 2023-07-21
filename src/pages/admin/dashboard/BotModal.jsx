@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import moment from "moment";
 import {
   Button,
   Modal,
@@ -18,6 +19,7 @@ import {
   THEATER_SCHEDULE_SHOWROOM_BOT,
   LIVE_NOTIF_BOT,
   MESSAGES_BOT,
+  SCHEDULES_API,
 } from "utils/api/api";
 import { showToast } from "utils/showToast";
 import { FaCommentDots, FaDiscord, FaTheaterMasks } from "react-icons/fa";
@@ -28,7 +30,10 @@ const BotModal = ({ toggleModal, modal, modalTitle }) => {
   const [data, setData] = useState({
     type: "",
     message: "",
+    messageType: "chat",
+    scheduleId: ""
   });
+  const [schedules, setSchedules] = useState([]);
   const [loadingTheaterBot, setLoadingTheaterBot] = useState(false);
   const [loadingShowroomBot, setLoadingShowroomBot] = useState(false);
   const [loadingLiveNotifBot, setLoadingLiveNotifBot] = useState(false);
@@ -103,6 +108,20 @@ const BotModal = ({ toggleModal, modal, modalTitle }) => {
     }));
   };
 
+  const fetchSchedules = async () => {
+    try {
+      const response = await axios.get(SCHEDULES_API);
+      setSchedules(response.data);
+    } catch (error) {
+      showToast("error", "Error fetching schedule:", error);
+      console.error("Error fetching schedules:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSchedules();
+  }, []);
+
   return (
     <Modal isOpen={modal} toggle={toggleModal}>
       <ModalHeader
@@ -169,19 +188,62 @@ const BotModal = ({ toggleModal, modal, modalTitle }) => {
             </Col>
             <Col md="12">
               <FormGroup>
-                <Label for="message">
-                  <b>Message</b>
+                <Label for="messageType">
+                  <b>Message Type</b>
                 </Label>
                 <Input
-                  type="text"
-                  name="message"
-                  id="message"
+                  type="select"
+                  name="messageType"
+                  id="messageType"
                   onChange={handleChange}
-                  placeholder="Enter your message here"
                   required
-                />
+                >
+                  <option value="chat">Chat</option>
+                  <option value="schedule">Theater Schedule</option>
+                </Input>
               </FormGroup>
             </Col>
+            {data.messageType === "chat" ? (
+              <Col md="12">
+                <FormGroup>
+                  <Label for="message">
+                    <b>Message</b>
+                  </Label>
+                  <Input
+                    type="textarea"
+                    name="message"
+                    id="message"
+                    value={data.message}
+                    onChange={handleChange}
+                    placeholder="Enter your message here"
+                    required
+                  />
+                </FormGroup>
+              </Col>
+            ) : data.messageType === "schedule" ? (
+              <Col md="12">
+                <FormGroup>
+                  <Label for="message">
+                    <b>Available Theater Schedules</b>
+                  </Label>
+                  <Input
+                    type="select"
+                    name="scheduleId"
+                    id="scheduleId"
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select theater schedule</option>
+                    {schedules.map((item, idx) => (
+                      <option key={idx} value={item._id}>
+                        {item.setlist} {moment(item.showDate).format("DD MMMM")}
+                      </option>
+                    ))}
+                  </Input>
+                </FormGroup>
+              </Col>
+            ) : null}
+
             <Col>
               <Button
                 type="submit"
