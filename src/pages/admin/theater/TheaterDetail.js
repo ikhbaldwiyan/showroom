@@ -1,5 +1,6 @@
 import axios from "axios";
 import moment from "moment";
+import { useEffect, useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import {
   Button,
@@ -14,7 +15,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { SCHEDULES_API, DETAIL_SCHEDULE } from "utils/api/api";
+import { SCHEDULES_API, DETAIL_SCHEDULE, SETLIST_API } from "utils/api/api";
 import { showToast } from "utils/showToast";
 
 const TheaterDetail = ({
@@ -28,6 +29,8 @@ const TheaterDetail = ({
   setModalTitle,
   setFormData,
 }) => {
+  const [setlist, setSetlist] = useState();
+
   const toggleModal = () => {
     setShowModal(!showModal);
     setModalTitle("");
@@ -102,6 +105,20 @@ const TheaterDetail = ({
       return { ...prevState, memberList: updatedMemberList };
     });
   };
+
+  const fetchSetlist = async () => {
+    try {
+      const response = await axios.get(SETLIST_API);
+      setSetlist(response.data);
+    } catch (error) {
+      showToast("error", "Error fetching setlist:", error);
+      console.error("Error fetching setlists:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSetlist();
+  }, []);
 
   const MemberList = () => (
     <FormGroup>
@@ -236,14 +253,19 @@ const TheaterDetail = ({
                   <b>Setlist</b>
                 </Label>
                 <Input
-                  type="text"
+                  type="select"
                   name="setlist"
                   id="setlist"
-                  value={formData.setlist}
                   onChange={handleChange}
-                  placeholder="name setlist"
                   required
-                />
+                >
+                  <option value="">Select Setlist</option>
+                  {setlist?.map((item, idx) => (
+                    <option key={idx} value={item._id} selected={item._id === formData.setlist._id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </Input>
               </FormGroup>
             </Col>
             <Col md="6">

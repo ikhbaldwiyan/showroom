@@ -236,7 +236,7 @@ const BotModal = ({ toggleModal, modal, modalTitle }) => {
                     <option value="">Select theater schedule</option>
                     {schedules.map((item, idx) => (
                       <option key={idx} value={item._id}>
-                        {item.setlist} {moment(item.showDate).format("DD MMMM")}
+                        {item.setlist.name} - {moment(item.showDate).format("DD MMMM")}
                       </option>
                     ))}
                   </Input>

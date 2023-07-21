@@ -59,6 +59,12 @@ const DETAIL_SCHEDULE = (scheduleId) => {
   return `${ADMIN_API}/schedules/${scheduleId}`
 }
 
+// THEATER SETLIST CRUD
+const SETLIST_API = `${ADMIN_API}/setlists`
+const DETAIL_SETLIST = (setlistId) => {
+  return `${ADMIN_API}/setlists/${setlistId}`
+}
+
 // MEMBERS CRUD
 const MEMBERS_API = `${ADMIN_API}/member`
 const DETAIL_MEMBER = (memberId) => {
@@ -154,5 +160,7 @@ export {
   THEATER_SCHEDULE_BOT,
   LIVE_NOTIF_BOT,
   MESSAGES_BOT,
-  THEATER_SCHEDULE_SHOWROOM_BOT
+  THEATER_SCHEDULE_SHOWROOM_BOT,
+  SETLIST_API,
+  DETAIL_SETLIST
 };

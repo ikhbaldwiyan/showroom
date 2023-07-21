@@ -114,7 +114,7 @@ function TheaterList(props) {
               <tr key={schedule._id}>
                 <td>{idx + 1}</td>
                 <td>{moment(schedule.showDate).format("DD MMMM")}</td>
-                <td>{schedule.setlist}</td>
+                <td>{schedule.setlist.name}</td>
                 <td>{schedule.showTime}</td>
                 <td>
                   {schedule.isOnWeekSchedule ? (
