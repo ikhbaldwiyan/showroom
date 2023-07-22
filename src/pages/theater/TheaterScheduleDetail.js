@@ -16,6 +16,7 @@ import MainLayout from "pages/layout/MainLayout";
 import MemberLineUp from "./components/MemberLineUp";
 import MenuSetlist from "./components/MenuSetlist";
 import SetlistInfo from "./components/SetlistInfo";
+import { Loading } from "components";
 
 const TheaterScheduleDetail = (props) => {
   const [menu, setMenu] = useState("theater");
@@ -34,6 +35,7 @@ const TheaterScheduleDetail = (props) => {
       }
     }
     getTheaterDetail();
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -51,7 +53,7 @@ const TheaterScheduleDetail = (props) => {
                   <FaTheaterMasks className="mb-2" color="#ECFAFC" size={65} />
                   <div className="mt-1">
                     <span className="setlist-name">
-                      {theater?.setlist?.name}
+                      {theater?.setlist?.name ?? <Loading size={20} color="#ECFAFC" />}
                     </span>
                     <p className="setlist-subname mt-2">
                       {theater?.setlist?.originalName}
