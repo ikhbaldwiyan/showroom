@@ -169,7 +169,7 @@ function Farming(props) {
 
       const data = response.data;
       console.log(data);
-      if (data.message.includes("Offline") || data.message.includes("Skip")) {
+      if (data.message?.includes("Offline") || data.message?.includes("Skip")) {
         deleteArray();
       } else {
         setAllStar(data);
@@ -195,15 +195,15 @@ function Farming(props) {
   };
 
   const textColor = (message) => {
-    if (message.includes("Sukses")) {
+    if (message?.includes("Sukses")) {
       return "text-success";
-    } else if (message.includes("Gagal")) {
+    } else if (message?.includes("Gagal")) {
       return "text-danger";
     } else if (message?.includes("kena limit")) {
       return "text-danger";
-    } else if (message.includes("Sedang")) {
+    } else if (message?.includes("Sedang")) {
       return "text-light";
-    } else if (message.includes("Offline")) {
+    } else if (message?.includes("Offline")) {
       return "text-secondary";
     } else {
       return "text-secondary";
@@ -324,13 +324,6 @@ function Farming(props) {
   const startFarming = async () => {
     for (let i = 0; i < officialRoom.length; i++) {
       setIsFarming(true);
-      gaTag({
-        action: "Start Farming",
-        category: "Farming",
-        label: "Farming Page",
-        value: null,
-        username: getSession()?.profile?.name,
-      });
       const roomId = officialRoom[i].room_id;
       const roomName = officialRoom[i].room_name;
 
@@ -356,7 +349,7 @@ function Farming(props) {
         }
       });
 
-      if (data.message.includes("Sedang")) {
+      if (data.message?.includes("Sedang")) {
         decrementTime();
 
         await new Promise((resolve) => setTimeout(resolve, 50 * 1000));
@@ -370,7 +363,7 @@ function Farming(props) {
         const data2 = response2.data;
         console.log(data2, "SECOND");
 
-        if (data2.message.includes("Sukses")) {
+        if (data2.message?.includes("Sukses")) {
           deleteArray();
           setLocalAndState(roomId);
           const audio = new Audio(combo);
@@ -382,7 +375,7 @@ function Farming(props) {
           setStarLoading(true);
         }
 
-        if (data2.message.includes("Gagal")) {
+        if (data2.message?.includes("Gagal")) {
           deleteArray();
           setAllMessage((prevData) => [
             ...prevData,
@@ -400,12 +393,12 @@ function Farming(props) {
           return;
         }
 
-        if (data2.message.includes("Sedang")) {
+        if (data2.message?.includes("Sedang")) {
           deleteArray();
           data2.message = "[" + roomName + "] Skip Room";
         }
 
-        if (data2.message.includes("Offline")) {
+        if (data2.message?.includes("Offline")) {
           deleteArray();
         }
 
@@ -415,7 +408,7 @@ function Farming(props) {
         ]);
       }
 
-      if (data.message.includes("Sukses")) {
+      if (data.message?.includes("Sukses")) {
         deleteArray();
         setLocalAndState(roomId);
         toast.success(`Sukses Farm Di Room : ${roomName}`, {
@@ -424,7 +417,7 @@ function Farming(props) {
         console.log(allMessage);
       }
 
-      if (data.message.includes("Gagal")) {
+      if (data.message?.includes("Gagal")) {
         deleteArray();
         setFailed(data);
         setIsFarming(false);
@@ -439,7 +432,7 @@ function Farming(props) {
         return;
       }
 
-      if (data.message.includes("Offline")) {
+      if (data.message?.includes("Offline")) {
         deleteArray();
       }
 
