@@ -27,42 +27,47 @@ const Schedule = ({ theme, isSearch }) => {
         <h3 className="py-2 theater-title">Jadwal Theater</h3>
         <div className="container-grid">
           {schedule.length ? (
-            schedule.map((item, idx) => (
-              <div
-                key={idx}
-                className={`item ${isMobile ? "column-12" : `column-3`} row-1`}
-              >
-                <Fade bottom>
-                  <div className="card card-featured">
-                    <Button
-                      href={`/theater/${item?._id}`}
-                      type="link"
-                    >
-                      <div className="tag" style={{ backgroundColor: "teal" }}>
-                        {moment(item?.showDate).format("DD MMMM")}
-                      </div>
-                      <figure className="img-wrapper">
-                        <img
-                          src={item?.setlist?.image}
-                          alt={item?.setlist?.name}
-                          className="img-cover"
-                        />
-                      </figure>
-                      <div className="meta-wrapper">
-                        <Button
-                          type="link"
-                          style={{ textDecoration: "none" }}
-                          className="strecthed-link d-block text-white"
-                          href={`/theater/${item?._id}`}
-                        >
-                          <h5>{item?.setlist?.name}</h5>
+            schedule.map(
+              (item, idx) =>
+                item.isOnWeekSchedule && (
+                  <div
+                    key={idx}
+                    className={`item ${
+                      isMobile ? "column-12" : `column-3`
+                    } row-1`}
+                  >
+                    <Fade bottom>
+                      <div className="card card-featured">
+                        <Button href={`/theater/${item?._id}`} type="link">
+                          <div
+                            className="tag"
+                            style={{ backgroundColor: "teal" }}
+                          >
+                            {moment(item?.showDate).format("DD MMMM")}
+                          </div>
+                          <figure className="img-wrapper">
+                            <img
+                              src={item?.setlist?.image}
+                              alt={item?.setlist?.name}
+                              className="img-cover"
+                            />
+                          </figure>
+                          <div className="meta-wrapper">
+                            <Button
+                              type="link"
+                              style={{ textDecoration: "none" }}
+                              className="strecthed-link d-block text-white"
+                              href={`/theater/${item?._id}`}
+                            >
+                              <h5>{item?.setlist?.name}</h5>
+                            </Button>
+                          </div>
                         </Button>
                       </div>
-                    </Button>
+                    </Fade>
                   </div>
-                </Fade>
-              </div>
-            ))
+                )
+            )
           ) : (
             <SkeletonLive theme={theme} />
           )}
