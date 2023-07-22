@@ -271,7 +271,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
               disabled={buttonLoading ? true : false}
             >
               {buttonLoading ? (
-                <Loading color="white" size={8} />
+                <Loading color="white" />
               ) : (
                 <FiSend size={20} />
               )}
