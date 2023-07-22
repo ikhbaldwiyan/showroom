@@ -42,7 +42,7 @@ function App(props) {
         <Route path="/login" component={() => <Login {...props} />} />
         <Route path="/register" component={() => <Register {...props} />} />
         <Route path="/theater-schedule" component={() => <TheaterScheduleList {...props} />} />
-        <Route path="/theater/:id" component={() => <TheaterScheduleDetail {...props} />} />
+        <Route path="/theater/:name/:id" component={() => <TheaterScheduleDetail {...props} />} />
         <Route path="/farming" component={() => <Farming {...props} />} />
         <Route path="/live-history" component={() => <LiveHistory {...props} />} />
         <Route path="/history/:name/:id" component={() => <DetailLiveHistory {...props} />} />

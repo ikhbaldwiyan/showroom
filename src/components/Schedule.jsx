@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { Fade } from "react-reveal";
 import { SCHEDULES_API } from "utils/api/api";
+import { slugify } from "utils/slugify";
 
 const Schedule = ({ theme, isSearch }) => {
   const [schedule, setSchedule] = useState([]);
@@ -38,7 +39,12 @@ const Schedule = ({ theme, isSearch }) => {
                   >
                     <Fade bottom>
                       <div className="card card-featured">
-                        <Button href={`/theater/${item?._id}`} type="link">
+                        <Button
+                          href={`/theater/${slugify(item?.setlist?.name)}/${
+                            item?._id
+                          }`}
+                          type="link"
+                        >
                           <div
                             className="tag"
                             style={{ backgroundColor: "teal" }}
@@ -57,7 +63,9 @@ const Schedule = ({ theme, isSearch }) => {
                               type="link"
                               style={{ textDecoration: "none" }}
                               className="strecthed-link d-block text-white"
-                              href={`/theater/${item?._id}`}
+                              href={`/theater/${slugify(item?.setlist?.name)}/${
+                                item?._id
+                              }`}
                             >
                               <h5>{item?.setlist?.name}</h5>
                             </Button>

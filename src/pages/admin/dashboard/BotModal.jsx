@@ -28,10 +28,10 @@ import { Loading } from "components";
 
 const BotModal = ({ toggleModal, modal, modalTitle }) => {
   const [data, setData] = useState({
-    type: "",
+    type: "general",
     message: "",
     messageType: "chat",
-    scheduleId: ""
+    scheduleId: "",
   });
   const [schedules, setSchedules] = useState([]);
   const [loadingTheaterBot, setLoadingTheaterBot] = useState(false);
@@ -234,11 +234,15 @@ const BotModal = ({ toggleModal, modal, modalTitle }) => {
                     required
                   >
                     <option value="">Select theater schedule</option>
-                    {schedules.map((item, idx) => (
-                      <option key={idx} value={item._id}>
-                        {item.setlist.name} - {moment(item.showDate).format("DD MMMM")}
-                      </option>
-                    ))}
+                    {schedules.map(
+                      (item, idx) =>
+                        item.isOnWeekSchedule && (
+                          <option key={idx} value={item._id}>
+                            {item.setlist.name} -{" "}
+                            {moment(item.showDate).format("DD MMMM")}
+                          </option>
+                        )
+                    )}
                   </Input>
                 </FormGroup>
               </Col>
@@ -251,16 +255,16 @@ const BotModal = ({ toggleModal, modal, modalTitle }) => {
                 block
                 disabled={loadingMessageBot}
               >
-                {loadingMessageBot && (
-                  <span>
-                    <Loading size={16} /> Sending message
-                  </span>
-                )}
-                {!loadingMessageBot && (
-                  <>
-                    <FaDiscord className="mb-1 mr-2" size={25} />
+                {loadingMessageBot ? (
+                  <div className="d-flex align-items-center justify-content-center">
+                    <Loading size={18} />{" "}
+                    <span className="ml-2">Sending message</span>
+                  </div>
+                ) : (
+                  <div className="d-flex align-items-center justify-content-center">
+                    <FaDiscord className="mr-2" size={25} />
                     Send Message Bot
-                  </>
+                  </div>
                 )}
               </Button>
             </Col>
