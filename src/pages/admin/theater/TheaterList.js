@@ -6,9 +6,10 @@ import moment from "moment";
 import TheaterDetail from "./TheaterDetail";
 import { SCHEDULES_API, DETAIL_SCHEDULE, MEMBERS_API } from "utils/api/api";
 import { showToast } from "utils/showToast";
-import { FaBirthdayCake, FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import { FaBirthdayCake, FaEdit, FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import DashboardAdmin from "pages/admin/dashboard/DashboardAdmin";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
+import { slugify } from "utils/slugify";
 
 function TheaterList(props) {
   const [schedules, setSchedules] = useState([]);
@@ -120,7 +121,11 @@ function TheaterList(props) {
                     src={schedule?.setlist?.image}
                     width="100"
                     alt="img"
-                    style={{ maxHeight: "70px", objectFit: "cover" , borderRadius: "6px" }}
+                    style={{
+                      maxHeight: "70px",
+                      objectFit: "cover",
+                      borderRadius: "6px",
+                    }}
                   />{" "}
                 </td>
                 <td>{schedule.setlist.name}</td>
@@ -140,6 +145,19 @@ function TheaterList(props) {
                   )}
                 </td>
                 <td>
+                  <a
+                    href={`/theater/${slugify(schedule?.setlist?.name)}/${
+                      schedule?._id
+                    }`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Button
+                      style={{ backgroundColor: "#0069d9", border: "none" }}
+                    >
+                      <FaEye size={18} />
+                    </Button>{" "}
+                  </a>
                   <Button color="info" onClick={() => handleEdit(schedule)}>
                     <FaEdit size={18} />
                   </Button>{" "}

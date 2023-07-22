@@ -183,6 +183,7 @@ const BotModal = ({ toggleModal, modal, modalTitle }) => {
                   <option value="development">Development</option>
                   <option value="announcement">Announcement</option>
                   <option value="twitter">Twitter</option>
+                  <option value="theater">Jadwal Theater</option>
                 </Input>
               </FormGroup>
             </Col>
