@@ -34,7 +34,7 @@ function TheaterList(props) {
   const fetchSchedules = async () => {
     try {
       const response = await axios.get(SCHEDULES_API);
-      setSchedules(response.data);
+      setSchedules(response.data.reverse());
     } catch (error) {
       showToast("error", "Error fetching schedule:", error);
       console.error("Error fetching schedules:", error);
@@ -53,7 +53,7 @@ function TheaterList(props) {
   };
 
   const handleEdit = (schedule) => {
-    setModalTitle(`Edit Schedule ${schedule.setlist}`);
+    setModalTitle(`Edit Schedule ${schedule.setlist.name}`);
     setFormData(schedule);
     setShowModal(true);
   };
@@ -101,10 +101,11 @@ function TheaterList(props) {
           <thead>
             <tr style={{ color: "white" }}>
               <th>No</th>
-              <th>Show Date</th>
+              <th>Date</th>
+              <th>Image</th>
               <th>Setlist</th>
-              <th>Show Time</th>
-              <th>On Scheduled</th>
+              <th>Time</th>
+              <th>Scheduled</th>
               <th>Birthday Show</th>
               <th>Actions</th>
             </tr>
@@ -114,6 +115,14 @@ function TheaterList(props) {
               <tr key={schedule._id}>
                 <td>{idx + 1}</td>
                 <td>{moment(schedule.showDate).format("DD MMMM")}</td>
+                <td>
+                  <img
+                    src={schedule?.setlist?.image}
+                    width="100"
+                    alt="img"
+                    style={{ maxHeight: "70px", objectFit: "cover" , borderRadius: "6px" }}
+                  />{" "}
+                </td>
                 <td>{schedule.setlist.name}</td>
                 <td>{schedule.showTime}</td>
                 <td>
@@ -125,7 +134,7 @@ function TheaterList(props) {
                 </td>
                 <td>
                   {schedule.isBirthdayShow ? (
-                    <FaBirthdayCake size={30} color="#ecfafc"  />
+                    <FaBirthdayCake size={30} color="#ecfafc" />
                   ) : (
                     <AiFillCloseCircle size={30} color="#dc3545" />
                   )}

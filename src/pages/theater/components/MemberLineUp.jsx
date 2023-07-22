@@ -1,6 +1,6 @@
-import { Loading } from "components";
 import React from "react";
 import { FaUsers } from "react-icons/fa";
+import { IoIosPeople } from "react-icons/io";
 import { Card, CardBody } from "reactstrap";
 
 const MemberLineUp = ({ members }) => {
@@ -43,7 +43,10 @@ const MemberLineUp = ({ members }) => {
               )
             )
           ) : (
-            <Loading size={20} color="white" />
+            <div className="d-flex align-items-center justify-content-center flex-column">
+              <IoIosPeople size={60} />
+              <h3>Coming Soon</h3>
+            </div>
           )}
         </div>
       </CardBody>

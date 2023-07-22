@@ -40,6 +40,8 @@ const TheaterDetail = ({
       isBirthdayShow: false,
       setlist: "",
       memberList: [],
+      ticketShowroom: "",
+      ticketTheater: "",
     });
   };
 
@@ -261,7 +263,11 @@ const TheaterDetail = ({
                 >
                   <option value="">Select Setlist</option>
                   {setlist?.map((item, idx) => (
-                    <option key={idx} value={item._id} selected={item._id === formData.setlist._id}>
+                    <option
+                      key={idx}
+                      value={item._id}
+                      selected={item._id === formData.setlist._id}
+                    >
                       {item.name}
                     </option>
                   ))}
@@ -288,6 +294,36 @@ const TheaterDetail = ({
                   onChange={handleChange}
                   placeholder="Birthday Member"
                   disabled={!formData.isBirthdayShow}
+                />
+              </FormGroup>
+            </Col>
+            <Col md="6">
+              <FormGroup>
+                <Label for="ticketShowroom">
+                  <b>Ticket Showroom</b>
+                </Label>
+                <Input
+                  type="text"
+                  name="ticketShowroom"
+                  id="ticketShowroom"
+                  value={formData.ticketShowroom}
+                  onChange={handleChange}
+                  required
+                />
+              </FormGroup>
+            </Col>
+            <Col md="6">
+              <FormGroup>
+                <Label for="ticketTheater">
+                  <b>Ticket Theater</b>
+                </Label>
+                <Input
+                  type="text"
+                  name="ticketTheater"
+                  id="ticketTheater"
+                  value={formData.ticketTheater}
+                  onChange={handleChange}
+                  required
                 />
               </FormGroup>
             </Col>
