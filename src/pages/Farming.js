@@ -322,6 +322,13 @@ function Farming(props) {
   };
 
   const startFarming = async () => {
+    gaTag({
+      action: "Start Farming",
+      category: "Farming",
+      label: "Farming Page",
+      value: null,
+      username: getSession()?.profile?.name,
+    });
     for (let i = 0; i < officialRoom.length; i++) {
       setIsFarming(true);
       const roomId = officialRoom[i].room_id;
