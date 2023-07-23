@@ -464,7 +464,7 @@ function Farming(props) {
         ]
       )
     );
-  }, [allMessage]);
+  }, []);
 
   const checkAllStars = () => {
     const values = Object.values(star); // Get all values from the `star` object
