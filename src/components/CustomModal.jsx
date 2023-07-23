@@ -7,6 +7,7 @@ const CustomModal = ({
   children,
   isShowButton = true,
   autoShowModal = false,
+  color = "primary"
 }) => {
   const [isOpen, setIsOpen] = useState(autoShowModal);
 
@@ -17,7 +18,7 @@ const CustomModal = ({
   return (
     <div>
       {isShowButton && (
-        <Button color="primary" onClick={toggleModal}>
+        <Button color={color} onClick={toggleModal}>
           {buttonText}
         </Button>
       )}

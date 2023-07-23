@@ -4,10 +4,9 @@ import { FaUsersCog, FaUsersSlash, FaUsers } from "react-icons/fa";
 import { MdResetTv } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { gaEvent } from "utils/gaEvent";
-import { useState } from "react";
-import ModalSorry from "./ModalSorry";
 import { GiFarmer } from "react-icons/gi";
 import { useSelector } from "react-redux";
+import SettingsRoom from "./SettingsRoom";
 
 function MultiMenu({
   layout,
@@ -23,12 +22,7 @@ function MultiMenu({
     marginBottom: 2,
   };
 
-  const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state) => state.user.user);
-
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-  };
 
   const button = [
     ...(user?.can_3_room
@@ -91,6 +85,7 @@ function MultiMenu({
   };
 
   const fourLayout = () => {
+    gaEvent("Multi Room Setting", "Set 4 Room Success", "Multi Room");
     setLayout("3");
   };
 
@@ -137,10 +132,12 @@ function MultiMenu({
             >
               <AiFillCloseCircle style={iconCss} /> Hide Options
             </Button>
+            <div className="float-right">
+              <SettingsRoom set3Room={changeLayout} set4Room={fourLayout} iconCss={iconCss} />
+            </div>
           </Col>
         </>
       )}
-      <ModalSorry isOpen={isOpen} toggle={toggleModal} />
     </Row>
   );
 }

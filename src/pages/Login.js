@@ -211,7 +211,7 @@ function Login(props) {
                     }
                   >
                     {buttonLoading ? (
-                      <Loading color="white" size={8} />
+                      <Loading color="white" />
                     ) : (
                       "Login"
                     )}

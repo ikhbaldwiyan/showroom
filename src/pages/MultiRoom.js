@@ -69,7 +69,6 @@ export default function MultiRoom(props) {
   const handleClearRoom = () => {
     setMultiRoom(multiRoomState);
     localStorage.removeItem('multiRoom');
-    // window.location.reload(true)
   };
 
   const removeSelectedRoom = (number) => {

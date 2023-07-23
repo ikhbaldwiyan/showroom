@@ -8,7 +8,7 @@ import {
   FaUserEdit,
   FaUsers,
   FaUsersCog,
-  FaWindowClose,
+  FaWindowClose
 } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
 import { RiLogoutBoxFill } from "react-icons/ri";
@@ -23,7 +23,7 @@ import { GiFarmer } from "react-icons/gi";
 import {
   clearProfile,
   getUserLoad,
-  getUserSuccess,
+  getUserSuccess
 } from "redux/actions/userActions";
 import { Link } from "react-router-dom";
 
@@ -48,7 +48,7 @@ export default function UserProfile({ data, session, theme }) {
     residence: "",
     user_id: "",
     name: "",
-    description: "",
+    description: ""
   });
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function UserProfile({ data, session, theme }) {
       csrf_token: session.csrf_token,
       cookies_id: session.cookie_login_id,
       residence: 48,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
   };
 
@@ -79,12 +79,12 @@ export default function UserProfile({ data, session, theme }) {
         toast.info(response.data.message, {
           theme: "colored",
           autoClose: 1200,
-          icon: <FaUserCheck size={30} />,
+          icon: <FaUserCheck size={30} />
         });
       }
     } catch (error) {
       toast.error(error.message, {
-        theme: "colored",
+        theme: "colored"
       });
     }
     setIsLoading(false);
@@ -94,7 +94,7 @@ export default function UserProfile({ data, session, theme }) {
     async function getUser() {
       await axios
         .post(USER_PROFILE, {
-          user_id: data.user_id,
+          user_id: data.user_id
         })
         .then((res) => {
           setUser(res.data);
@@ -129,7 +129,7 @@ export default function UserProfile({ data, session, theme }) {
     toast.success("Logout success", {
       theme: "colored",
       autoClose: 1200,
-      icon: <RiLogoutBoxFill size={30} />,
+      icon: <RiLogoutBoxFill size={30} />
     });
     setTimeout(() => {
       navigate.push("/login");
@@ -173,7 +173,7 @@ export default function UserProfile({ data, session, theme }) {
         <ModalHeader
           style={{
             backgroundColor: "#24a2b7",
-            color: "white",
+            color: "white"
           }}
           toggle={toggle}
         >
@@ -198,7 +198,7 @@ export default function UserProfile({ data, session, theme }) {
                         width: "289px",
                         marginLeft: "auto",
                         marginRight: "auto",
-                        borderTopRightRadius: isMobile && ".5rem",
+                        borderTopRightRadius: isMobile && ".5rem"
                       }}
                     >
                       <h5 className="my-3">Profile</h5>
@@ -366,15 +366,12 @@ export default function UserProfile({ data, session, theme }) {
                               disabled={loading}
                               style={{
                                 backgroundColor: "#008080",
-                                border: "none",
+                                border: "none"
                               }}
                               onClick={updateProfile}
                             >
                               {loading ? (
-                                <>
-                                  <Loading color="white" size="6" />
-                                  <Loading color="white" size="6" />
-                                </>
+                                <Loading color="white" />
                               ) : (
                                 "Update Profile"
                               )}
