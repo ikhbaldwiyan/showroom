@@ -206,7 +206,7 @@ function Farming(props) {
     } else if (message?.includes("Offline")) {
       return "text-secondary";
     } else {
-      return "text-secondary";
+      return "text-white";
     }
   };
 
@@ -450,14 +450,17 @@ function Farming(props) {
   };
 
   useEffect(() => {
+    const today = new Date();
+    const time = today.getHours() + ":" + today.getMinutes();
+
     localStorage.setItem(
       "farming_log",
       JSON.stringify(
         allMessage ?? [
           {
-            messages: "Open Farming Page",
-            timestamp: "Now",
-          },
+            message: "Open Farming Page",
+            timestamp: time
+          }
         ]
       )
     );
