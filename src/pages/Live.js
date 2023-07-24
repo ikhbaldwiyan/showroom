@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { LIVE_STREAM_URL } from "utils/api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import SummerTour from "../assets/images/summer-tour-banner.png";
 
 import MainLayout from "./layout/MainLayout";
 import Stream from "./streaming/Stream";
@@ -21,11 +20,12 @@ import {
   StarButton,
   NoTicket,
 } from "components";
-import { isDesktop, isMobile } from "react-device-detect";
+import { isMobile } from "react-device-detect";
 import { useSelector } from "react-redux";
 import FarmStars from "components/FarmStars";
 import { getSession } from "utils/getSession";
 import { MdError } from "react-icons/md";
+import { useRef } from "react";
 
 function Live(props) {
   let { id, name } = useParams();
@@ -115,6 +115,19 @@ function Live(props) {
     setSecretKey(secretKey);
   }, []);
 
+  const [refreshKey, setRefreshKey] = useState(0);
+  const playerRef = useRef(null);
+
+  const handleRefresh = () => {
+    // Increment the key to trigger ReactPlayer reload
+    setRefreshKey((prevKey) => prevKey + 1);
+
+    // Pause the player (optional)
+    if (playerRef?.current) {
+      playerRef?.current.seekTo(0);
+    }
+  };
+
   return (
     <MainLayout
       title={room_name}
@@ -135,7 +148,11 @@ function Live(props) {
             {url && url.length > 0 ? (
               url?.slice(0, 1)?.map((item, idx) => (
                 <>
-                  <Stream key={idx} url={item?.url} />
+                  <Stream
+                    refreshKey={refreshKey}
+                    key={idx}
+                    url={item?.url}
+                  />
                   <Title
                     roomId={roomId}
                     hideMenu={hideMenu}
@@ -147,6 +164,7 @@ function Live(props) {
                     setIsFarming={setIsFarming}
                     isCustomLive={isCustomLive}
                     secretKey={secretKey}
+                    handleRefresh={handleRefresh}
                   />
                   {session && !isMobile && !hideStars && !secretKey && (
                     <StarButton

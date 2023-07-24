@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Col } from "reactstrap";
 import { LIVE_STREAM_URL } from "utils/api/api";
 import { getSession } from "utils/getSession";
@@ -68,12 +68,25 @@ export default function Multi({
 
   const isMultiRoom = window.location.pathname !== "/multi-room";
 
+  const [refreshKey, setRefreshKey] = useState(0);
+  const playerRef = useRef(null);
+
+  const handleRefresh = () => {
+    // Increment the key to trigger ReactPlayer reload
+    setRefreshKey((prevKey) => prevKey + 1);
+
+    // Pause the player (optional)
+    if (playerRef?.current) {
+      playerRef?.current.seekTo(0);
+    }
+  };
+
   return (
     <Col lg={layout}>
       {url && roomId ? (
         url.slice(0, 1).map((item, idx) => (
           <>
-            <Stream key={idx} url={item.url} />
+            <Stream refreshKey={refreshKey} key={idx} url={item.url} />
             <Title
               roomId={roomId}
               hideMenu={hideMenu}
@@ -86,6 +99,7 @@ export default function Multi({
               removeSelectedRoom={removeSelectedRoom}
               updateMenu={setMenu}
               setUrl={setUrl}
+              handleRefresh={handleRefresh}
             />
           </>
         ))

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaUserFriends } from "react-icons/fa";
-import { IoTimeSharp } from "react-icons/io5";
+import { IoReload, IoTimeSharp } from "react-icons/io5";
 import formatViews from "utils/formatViews";
 import { API, LIVE_INFO } from "utils/api/api";
 
@@ -10,6 +10,7 @@ import Settings from "./Settings";
 import LastSeen from "./LastSeen";
 import getTimes from "utils/getTimes";
 import { getSession } from "utils/getSession";
+import { Button } from "reactstrap";
 
 function Title({
   roomId,
@@ -27,7 +28,8 @@ function Title({
   number,
   removeSelectedRoom,
   updateMenu,
-  setUrl
+  setUrl,
+  handleRefresh,
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -148,6 +150,14 @@ function Title({
         </Views>
       )}
       <Settings {...propSettings} />
+      <Button
+        onClick={handleRefresh}
+        color="secondary"
+        style={{ borderRadius: "10px" }}
+        className="ml-2 mb-1"
+      >
+        <IoReload size={20} />
+      </Button>
     </div>
   );
 }
