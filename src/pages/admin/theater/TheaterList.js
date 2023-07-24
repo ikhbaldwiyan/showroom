@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Container, Table, Button } from "reactstrap";
+import {
+  Container,
+  Table,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 import axios from "axios";
 import MainLayout from "pages/layout/MainLayout";
 import moment from "moment";
@@ -26,6 +34,8 @@ function TheaterList(props) {
     memberList: [],
     isOnWeekSchedule: false,
   });
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [deletingScheduleId, setDeletingScheduleId] = useState(null);
 
   useEffect(() => {
     fetchSchedules();
@@ -68,6 +78,27 @@ function TheaterList(props) {
       showToast("error", "Error deleting schedule:", error);
       console.error("Error deleting schedule:", error);
     }
+  };
+
+  // Function to show the confirm modal for delete
+  const showConfirmModalForDelete = (scheduleId) => {
+    setDeletingScheduleId(scheduleId);
+    setShowConfirmModal(true);
+  };
+
+  // Function to handle the delete action
+  const handleDeleteConfirm = async () => {
+    if (deletingScheduleId) {
+      await handleDelete(deletingScheduleId);
+      setShowConfirmModal(false);
+      setDeletingScheduleId(null);
+    }
+  };
+
+  // Function to close the confirm modal
+  const closeConfirmModal = () => {
+    setShowConfirmModal(false);
+    setDeletingScheduleId(null);
   };
 
   const editProps = {
@@ -171,7 +202,7 @@ function TheaterList(props) {
                       <Button
                         className="mr-1"
                         color="danger"
-                        onClick={() => handleDelete(schedule._id)}
+                        onClick={() => showConfirmModalForDelete(schedule._id)}
                       >
                         <FaTrash size={16} />
                       </Button>
@@ -183,6 +214,27 @@ function TheaterList(props) {
           </Table>
         </div>
         <TheaterDetail {...editProps} />
+        {/* Confirm Modal */}
+        <Modal isOpen={showConfirmModal} toggle={closeConfirmModal}>
+          <ModalHeader
+            toggle={closeConfirmModal}
+            className="text-light"
+            style={{ backgroundColor: "#DC3545" }}
+          >
+            Confirm Delete
+          </ModalHeader>
+          <ModalBody className="text-dark my-2">
+            Are you sure you want to delete this schedule?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" onClick={handleDeleteConfirm}>
+              Yes
+            </Button>
+            <Button color="secondary" onClick={closeConfirmModal}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
       </Container>
     </MainLayout>
   );
