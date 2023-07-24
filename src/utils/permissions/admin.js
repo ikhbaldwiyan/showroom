@@ -20,6 +20,10 @@ export const isAdmin = () => {
       name: "Ikhbal",
       accountId: "dispatch"
     },
+    {
+      name: "Rendi",
+      accountId: "rendii10"
+    },
   ];
 
   const admin = adminAccount.some(user => user?.accountId === accountId);

@@ -17,6 +17,8 @@ import {
   Setlist,
   StarMulti,
 } from "components";
+import { gaTag } from "utils/gaTag";
+import { gaEvent } from "utils/gaEvent";
 
 export default function Multi({
   layout,
@@ -79,6 +81,15 @@ export default function Multi({
     if (playerRef?.current) {
       playerRef?.current.seekTo(0);
     }
+
+    gaEvent("Multi Room", "Refresh Button - Multi Room", "Multi Room")
+    gaTag({
+      action: "refresh_button_multi",
+      category: "Refresh - Multi Room",
+      label: "Multi Room",
+      value: null,
+      username: getSession()?.profile?.name,
+    });
   };
 
   return (

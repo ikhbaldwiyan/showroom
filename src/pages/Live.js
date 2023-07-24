@@ -26,6 +26,8 @@ import FarmStars from "components/FarmStars";
 import { getSession } from "utils/getSession";
 import { MdError } from "react-icons/md";
 import { useRef } from "react";
+import { gaTag } from "utils/gaTag";
+import { gaEvent } from "utils/gaEvent";
 
 function Live(props) {
   let { id, name } = useParams();
@@ -126,6 +128,15 @@ function Live(props) {
     if (playerRef?.current) {
       playerRef?.current.seekTo(0);
     }
+
+    gaEvent("Live Stream", "Refresh Button - Regular", "Live Stream");
+    gaTag({
+      action: "refresh_button_regular",
+      category: "Refresh - Regular",
+      label: "Live Stream",
+      value: null,
+      username: getSession()?.profile?.name,
+    });
   };
 
   return (
@@ -148,11 +159,7 @@ function Live(props) {
             {url && url.length > 0 ? (
               url?.slice(0, 1)?.map((item, idx) => (
                 <>
-                  <Stream
-                    refreshKey={refreshKey}
-                    key={idx}
-                    url={item?.url}
-                  />
+                  <Stream refreshKey={refreshKey} key={idx} url={item?.url} />
                   <Title
                     roomId={roomId}
                     hideMenu={hideMenu}
