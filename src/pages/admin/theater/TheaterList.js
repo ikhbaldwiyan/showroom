@@ -98,80 +98,90 @@ function TheaterList(props) {
             <FaPlus className="mb-1" /> Add Schedule
           </Button>
         </div>
-        <Table className="mt-4" dark>
-          <thead>
-            <tr style={{ color: "white" }}>
-              <th>No</th>
-              <th>Date</th>
-              <th>Image</th>
-              <th>Setlist</th>
-              <th>Time</th>
-              <th>Scheduled</th>
-              <th>Birthday Show</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody style={{ color: "white" }}>
-            {schedules.map((schedule, idx) => (
-              <tr key={schedule._id}>
-                <td>{idx + 1}</td>
-                <td>{moment(schedule.showDate).format("DD MMMM")}</td>
-                <td>
-                  <img
-                    src={schedule?.setlist?.image}
-                    width="100"
-                    alt="img"
-                    style={{
-                      maxHeight: "70px",
-                      objectFit: "cover",
-                      borderRadius: "6px",
-                    }}
-                  />{" "}
-                </td>
-                <td>{schedule.setlist.name}</td>
-                <td>{schedule.showTime}</td>
-                <td>
-                  {schedule.isOnWeekSchedule ? (
-                    <AiFillCheckCircle size={30} color="green" />
-                  ) : (
-                    <AiFillCloseCircle size={30} color="#dc3545" />
-                  )}
-                </td>
-                <td>
-                  {schedule.isBirthdayShow ? (
-                    <FaBirthdayCake size={30} color="#ecfafc" />
-                  ) : (
-                    <AiFillCloseCircle size={30} color="#dc3545" />
-                  )}
-                </td>
-                <td>
-                  <a
-                    href={`/theater/${slugify(schedule?.setlist?.name)}/${
-                      schedule?._id
-                    }`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Button
-                      style={{ backgroundColor: "#0069d9", border: "none" }}
-                    >
-                      <FaEye size={18} />
-                    </Button>{" "}
-                  </a>
-                  <Button color="info" onClick={() => handleEdit(schedule)}>
-                    <FaEdit size={18} />
-                  </Button>{" "}
-                  <Button
-                    color="danger"
-                    onClick={() => handleDelete(schedule._id)}
-                  >
-                    <FaTrash size={16} />
-                  </Button>
-                </td>
+        <div style={{ overflowX: "scroll", maxWidth: "100%" }}>
+          <Table className="mt-4" dark>
+            <thead>
+              <tr style={{ color: "white" }}>
+                <th>No</th>
+                <th>Date</th>
+                <th>Image</th>
+                <th>Setlist</th>
+                <th>Time</th>
+                <th>Scheduled</th>
+                <th>Birthday Show</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody style={{ color: "white" }}>
+              {schedules.map((schedule, idx) => (
+                <tr key={schedule._id}>
+                  <td>{idx + 1}</td>
+                  <td>{moment(schedule.showDate).format("DD MMMM")}</td>
+                  <td>
+                    <img
+                      src={schedule?.setlist?.image}
+                      width="100"
+                      alt="img"
+                      style={{
+                        maxHeight: "70px",
+                        objectFit: "cover",
+                        borderRadius: "6px",
+                      }}
+                    />{" "}
+                  </td>
+                  <td>{schedule.setlist.name}</td>
+                  <td>{schedule.showTime}</td>
+                  <td>
+                    {schedule.isOnWeekSchedule ? (
+                      <AiFillCheckCircle size={30} color="green" />
+                    ) : (
+                      <AiFillCloseCircle size={30} color="#dc3545" />
+                    )}
+                  </td>
+                  <td>
+                    {schedule.isBirthdayShow ? (
+                      <FaBirthdayCake size={30} color="#ecfafc" />
+                    ) : (
+                      <AiFillCloseCircle size={30} color="#dc3545" />
+                    )}
+                  </td>
+                  <td>
+                    <div className="d-flex">
+                      <a
+                        href={`/theater/${slugify(schedule?.setlist?.name)}/${
+                          schedule?._id
+                        }`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Button
+                          className="mr-1"
+                          style={{ backgroundColor: "#0069d9", border: "none" }}
+                        >
+                          <FaEye size={18} />
+                        </Button>{" "}
+                      </a>
+                      <Button
+                        className="mr-1"
+                        color="info"
+                        onClick={() => handleEdit(schedule)}
+                      >
+                        <FaEdit size={18} />
+                      </Button>{" "}
+                      <Button
+                        className="mr-1"
+                        color="danger"
+                        onClick={() => handleDelete(schedule._id)}
+                      >
+                        <FaTrash size={16} />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
         <TheaterDetail {...editProps} />
       </Container>
     </MainLayout>
