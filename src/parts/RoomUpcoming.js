@@ -15,12 +15,12 @@ export default function RoomUpcoming({room, search}) {
                                 
   return (
     isUpcoming && !search && (
-      <div className="py-2">
+      <div className="mt-4 mb-2">
         <h3 className="mb-3">Upcoming Live</h3>
         <div className="container-grid">
           {room.map((item, idx) => (
            item.next_live_schedule !== 0 && (
-              <Room key={idx} item={item} style="column-6">
+              <Room key={idx} item={item} style="column-6" isUpcoming>
                 <div className="tag" style={{backgroundColor: '#18A2B8'}}>
                   <b>{getSchedule(item.next_live_schedule)}</b> 
                 </div>

@@ -4,7 +4,11 @@ import Button from "elements/Button";
 import { Link } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 
-export default function Room({ idx, item, children, style }) {
+export default function Room({ idx, item, children, style, isUpcoming }) {
+  const image = isUpcoming
+    ? item.image_url?.replace("_m", "_l")
+    : item?.image_url ?? item?.image ?? item.image_l;
+
   return (
     <div
       key={idx}
@@ -20,11 +24,7 @@ export default function Room({ idx, item, children, style }) {
             {children}
             <figure className="img-wrapper">
               <img
-                src={
-                  item?.image_url ??
-                  item?.image ??
-                  item.image_l
-                }
+                src={image}
                 alt={item?.name ?? item?.room_name}
                 className="img-cover"
               />
