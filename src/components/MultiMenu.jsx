@@ -7,6 +7,7 @@ import { gaEvent } from "utils/gaEvent";
 import { GiFarmer } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import SettingsRoom from "./SettingsRoom";
+import { getSession } from "utils/getSession";
 
 function MultiMenu({
   layout,
@@ -133,7 +134,13 @@ function MultiMenu({
               <AiFillCloseCircle style={iconCss} /> Hide Options
             </Button>
             <div className="float-right">
-              <SettingsRoom set3Room={changeLayout} set4Room={fourLayout} iconCss={iconCss} />
+              {getSession().session && (
+                <SettingsRoom
+                  set3Room={changeLayout}
+                  set4Room={fourLayout}
+                  iconCss={iconCss}
+                />
+              )}
             </div>
           </Col>
         </>

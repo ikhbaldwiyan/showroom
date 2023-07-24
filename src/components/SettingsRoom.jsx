@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
-import { FaKey, FaLock, FaEye, FaEyeSlash, FaUsers, FaUsersCog, FaInfo } from 'react-icons/fa';
-import { Input, Button, Popover, PopoverBody, Form } from 'reactstrap';
+import React, { useState } from "react";
+import {
+  FaKey,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaUsers,
+  FaUsersCog,
+  FaInfo,
+} from "react-icons/fa";
+import { Input, Button, Popover, PopoverBody, Form } from "reactstrap";
 import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
 import { showToast } from "utils/showToast";
-import CustomModal from './CustomModal';
+import CustomModal from "./CustomModal";
 
 const SettingsRoom = ({ iconCss, set3Room, set4Room }) => {
   const [modal, setModal] = useState(false);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [showButtons, setShowButtons] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to show/hide password
   const [showInfoPopover, setShowInfoPopover] = useState(false); // State to control info popover
-  const secretPassword = 'sorumMultiStre@m';
+  const secretPassword = "sorumMultiStre@m";
 
   const handleModalPassword = () => {
     setModal(!modal);
@@ -26,7 +34,7 @@ const SettingsRoom = ({ iconCss, set3Room, set4Room }) => {
     e.preventDefault();
     if (password === secretPassword) {
       setShowButtons(true);
-      showToast("success", "Congrats Multi Room Access Unlocked")
+      showToast("success", "Congrats Multi Room Access Unlocked");
       gaTag({
         action: "submit_multi_access_valid",
         category: "Multi Room Secret",
@@ -36,7 +44,7 @@ const SettingsRoom = ({ iconCss, set3Room, set4Room }) => {
       });
     } else {
       setShowButtons(false);
-      showToast("error", "Password salah silahkan cek discord server")
+      showToast("error", "Password salah silahkan cek discord server");
       gaTag({
         action: "submit_multi_access_failed",
         category: "Multi Room Secret",
@@ -60,13 +68,16 @@ const SettingsRoom = ({ iconCss, set3Room, set4Room }) => {
       color="success"
       autoShowModal={modal}
       toggle={handleModalPassword}
-      buttonText={(
-        <FaKey style={iconCss} />
-      )}
+      buttonText={<FaKey style={iconCss} />}
       modalTitle="Multi Room Access"
     >
       <b>
-        <p> {!showButtons ? "Unlock Settings Room" : "Multi Room Access Unlocked"} </p>
+        <p>
+          {" "}
+          {!showButtons
+            ? "Unlock Settings Room"
+            : "Multi Room Access Unlocked"}{" "}
+        </p>
       </b>
       {showButtons ? (
         <div>
@@ -81,24 +92,53 @@ const SettingsRoom = ({ iconCss, set3Room, set4Room }) => {
         <Form onSubmit={handlePasswordSubmit}>
           <Input
             placeholder="Input Password"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={handlePasswordChange}
           />
-          <Button className="mt-3" color="danger" onClick={handlePasswordSubmit}>
-            <FaLock className="mb-1" />  Unlock
+          <Button
+            className="mt-3"
+            color="danger"
+            onClick={handlePasswordSubmit}
+          >
+            <FaLock className="mb-1" /> Unlock
           </Button>
           {/* Toggle show/hide password icon */}
-          <Button className="mt-3 ml-2" color="secondary" onClick={handleToggleShowPassword}>
-            {showPassword ? <FaEyeSlash style={iconCss} /> : <FaEye style={iconCss} />}
+          <Button
+            className="mt-3 ml-2"
+            color="secondary"
+            onClick={handleToggleShowPassword}
+          >
+            {showPassword ? (
+              <FaEyeSlash style={iconCss} />
+            ) : (
+              <FaEye style={iconCss} />
+            )}
           </Button>
           {/* Separate button with FaInfo icon for the informative text */}
-          <Button className="mt-3 ml-2" color="info" id="popover-info" onClick={handleToggleInfoPopover}>
+          <Button
+            className="mt-3 ml-2"
+            color="info"
+            id="popover-info"
+            onClick={handleToggleInfoPopover}
+          >
             <FaInfo style={iconCss} />
           </Button>
           {/* Popover for the separate informative text */}
-          <Popover style={{ borderRadius: "8px" }} placement="bottom" isOpen={showInfoPopover} target="popover-info" toggle={handleToggleInfoPopover}>
-            <PopoverBody style={{ backgroundColor: "#282c34", color: "white", borderRadius: "8px" }}>
+          <Popover
+            style={{ borderRadius: "8px" }}
+            placement="bottom"
+            isOpen={showInfoPopover}
+            target="popover-info"
+            toggle={handleToggleInfoPopover}
+          >
+            <PopoverBody
+              style={{
+                backgroundColor: "#282c34",
+                color: "white",
+                borderRadius: "8px",
+              }}
+            >
               Silahkan join server discord untuk mendapatkan password.
             </PopoverBody>
           </Popover>
