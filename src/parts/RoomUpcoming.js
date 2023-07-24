@@ -11,7 +11,7 @@ export default function RoomUpcoming({room, search}) {
       const upcomingLive = upcoming.next_live_schedule
       upcomingLive && setIsUpcoming(true)
     }
-  }, [])
+  }, [room])
                                 
   return (
     isUpcoming && !search && (
