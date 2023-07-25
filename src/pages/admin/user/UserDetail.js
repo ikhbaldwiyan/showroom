@@ -24,6 +24,7 @@ const UserDetail = ({ isCreate, isOpen, toggleModal, userId }) => {
     can_farming_detail: false,
     can_farming_multi: false,
   });
+  const [selectAll, setSelectAll] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -69,6 +70,19 @@ const UserDetail = ({ isCreate, isOpen, toggleModal, userId }) => {
     toggleModal();
   };
 
+  const handleSelectAllChange = (e) => {
+    const { checked } = e.target;
+    setSelectAll(checked);
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      can_3_room: checked,
+      can_4_room: checked,
+      can_farming_page: checked,
+      can_farming_detail: checked,
+      can_farming_multi: checked,
+    }));
+  };
+
   const clearInputForm = () => {
     setUserData({
       user_id: "",
@@ -92,7 +106,7 @@ const UserDetail = ({ isCreate, isOpen, toggleModal, userId }) => {
         style={{ backgroundColor: "#24a2b7", color: "white" }}
         toggle={handleCloseButton}
       >
-        {isCreate ? "Create User" : "User Detail"}
+        {isCreate ? "Create User" : "User Permissions Detail"}
       </ModalHeader>
       <ModalBody style={{ backgroundColor: "#21252b" }}>
         <Form>
@@ -122,11 +136,22 @@ const UserDetail = ({ isCreate, isOpen, toggleModal, userId }) => {
             <Label check>
               <Input
                 type="checkbox"
+                name="selectAll"
+                checked={selectAll}
+                onChange={handleSelectAllChange}
+              />{" "}
+              <h6 style={{color: "green"}}>Select All Features</h6>
+            </Label>
+          </FormGroup>
+          <FormGroup check>
+            <Label check>
+              <Input
+                type="checkbox"
                 name="can_3_room"
                 checked={userData.can_3_room}
                 onChange={handleChange}
               />{" "}
-              Can Access 3 Room
+              3 Room
             </Label>
           </FormGroup>
           <FormGroup check>
@@ -137,7 +162,7 @@ const UserDetail = ({ isCreate, isOpen, toggleModal, userId }) => {
                 checked={userData.can_4_room}
                 onChange={handleChange}
               />{" "}
-              Can Access 4 Room
+              4 Room
             </Label>
           </FormGroup>
           <FormGroup check>
@@ -148,7 +173,7 @@ const UserDetail = ({ isCreate, isOpen, toggleModal, userId }) => {
                 checked={userData.can_farming_page}
                 onChange={handleChange}
               />{" "}
-              Can Access Farming Page
+              Farming Page
             </Label>
           </FormGroup>
           <FormGroup check>
@@ -159,7 +184,7 @@ const UserDetail = ({ isCreate, isOpen, toggleModal, userId }) => {
                 checked={userData.can_farming_detail}
                 onChange={handleChange}
               />{" "}
-              Can Access Farming Detail
+              Farming Detail
             </Label>
           </FormGroup>
           <FormGroup check>
@@ -170,7 +195,7 @@ const UserDetail = ({ isCreate, isOpen, toggleModal, userId }) => {
                 checked={userData.can_farming_multi}
                 onChange={handleChange}
               />{" "}
-              Can Access Multi-Farming
+              Multi Farming
             </Label>
           </FormGroup>
         </Form>
