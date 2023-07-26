@@ -30,6 +30,7 @@ const TheaterDetail = ({
   setFormData,
 }) => {
   const [setlist, setSetlist] = useState();
+  const allMember = [...memberOptions, ...memberTrainee];
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -42,6 +43,7 @@ const TheaterDetail = ({
       memberList: [],
       ticketShowroom: "",
       ticketTheater: "",
+      birthdayMember: {},
     });
   };
 
@@ -59,6 +61,13 @@ const TheaterDetail = ({
       ...prevData,
       [name]: checked,
     }));
+
+    if (!checked) {
+      setFormData((prevData) => ({
+        ...prevData,
+        birthdayMember: null,
+      }));
+    }
   };
 
   const handleMemberRegularChange = (e) => {
@@ -81,6 +90,18 @@ const TheaterDetail = ({
     });
   };
 
+  const handleBirthdayMember = (e) => {
+    const selectedMemberId = e.target.value;
+    const selectedMember = memberOptions.find(
+      (member) => member._id === selectedMemberId
+    );
+
+    setFormData({
+      ...formData,
+      birthdayMember: selectedMember,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -89,7 +110,7 @@ const TheaterDetail = ({
         showToast("success", "Jadwal Theater Created");
       } else if (modalTitle.includes("Edit Schedule")) {
         await axios.put(DETAIL_SCHEDULE(formData._id), formData);
-        showToast("info", "Jadwal Theater Updated");
+        showToast("success", "Jadwal Theater Updated");
       }
       toggleModal();
       fetchSchedules();
@@ -97,7 +118,6 @@ const TheaterDetail = ({
       showToast("error", "Error submitting:", error);
       console.error("Error submitting:", error);
     }
-    console.log(formData);
   };
 
   const handleRemoveMember = (index) => {
@@ -286,15 +306,25 @@ const TheaterDetail = ({
                   checked={formData.isBirthdayShow}
                   onChange={handleCheckboxChange}
                 />
-                <Input
-                  type="text"
-                  name="birthdayMemberName"
-                  id="birthdayMemberName"
-                  value={formData.birthdayMemberName}
-                  onChange={handleChange}
-                  placeholder="Birthday Member"
+                <select
+                  className="form-control"
+                  name="birthdayMember"
+                  onChange={(e) => handleBirthdayMember(e)}
                   disabled={!formData.isBirthdayShow}
-                />
+                >
+                  <option value="">Select a member</option>
+                  {allMember?.map((member, idx) => {
+                    return (
+                      <option
+                        key={idx}
+                        value={member._id}
+                        selected={member._id === formData?.birthdayMember?._id}
+                      >
+                        {member.name}
+                      </option>
+                    );
+                  })}
+                </select>
               </FormGroup>
             </Col>
             <Col md="6">
