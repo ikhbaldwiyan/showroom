@@ -9,6 +9,7 @@ import {
   PROFILE_API,
   LIVE_INFO,
   LIVE_COMMENT,
+  PREMIUM_LIVE_DETAIL,
 } from "utils/api/api";
 import { toast } from "react-toastify";
 import { FiSend } from "react-icons/fi";
@@ -59,7 +60,14 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
       const response = await axios.get(LIVE_INFO(roomId, secretKey ?? cookies));
       setSocketKey(response?.data?.websocket?.key);
     }
-    getWebsocketInfo();
+
+    if (roomId === "332503") {
+      axios.get(PREMIUM_LIVE_DETAIL("64c0fb1693c763af0ae9e886")).then((res) => {
+        setSocketKey(res?.data?.webSocketId);
+      });
+    } else {
+      getWebsocketInfo();
+    }
 
     const newSocket = new WebSocket(socketUrl);
     newSocket.addEventListener("open", () => {
@@ -270,11 +278,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
               }}
               disabled={buttonLoading ? true : false}
             >
-              {buttonLoading ? (
-                <Loading color="white" />
-              ) : (
-                <FiSend size={20} />
-              )}
+              {buttonLoading ? <Loading color="white" /> : <FiSend size={20} />}
             </button>
           </form>
         </>

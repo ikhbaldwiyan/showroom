@@ -22,6 +22,7 @@ import DetailLiveHistory from "pages/DetailLiveHistory";
 import UserList from "pages/admin/user/UserList";
 import TheaterList from "pages/admin/theater/TheaterList";
 import MemberList from "pages/admin/members/MemberList";
+import PremiumLiveList from "pages/admin/premium-live/PremiumLiveList";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -50,6 +51,7 @@ function App(props) {
         <Route path="/users" component={() => <UserList {...props} />} />
         <Route path="/theaters" component={() => <TheaterList {...props} />} />
         <Route path="/members" component={() => <MemberList {...props} />} />
+        <Route path="/premium-live" component={() => <PremiumLiveList {...props} />} />
       </div>
     </ThemeProvider>
   );

@@ -71,6 +71,12 @@ const DETAIL_MEMBER = (memberId) => {
   return `${ADMIN_API}/member/${memberId}`
 }
 
+//PREMIUM LIVE
+const PREMIUM_LIVE_LIST = `${ADMIN_API}/premium-lives`;
+const PREMIUM_LIVE_DETAIL = (liveId) => {
+  return `${ADMIN_API}/premium-lives/${liveId}`
+}
+
 // BOT API
 const THEATER_SCHEDULE_BOT= `${BOT_API}/theater-notif`;
 const THEATER_SCHEDULE_SHOWROOM_BOT = `${BOT_API}/theater-showroom`;
@@ -162,5 +168,7 @@ export {
   MESSAGES_BOT,
   THEATER_SCHEDULE_SHOWROOM_BOT,
   SETLIST_API,
-  DETAIL_SETLIST
+  DETAIL_SETLIST,
+  PREMIUM_LIVE_LIST,
+  PREMIUM_LIVE_DETAIL
 };

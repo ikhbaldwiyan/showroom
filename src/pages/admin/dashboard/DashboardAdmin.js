@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import {
   FaDiscord,
   FaGithub,
+  FaLaptopCode,
   FaTheaterMasks,
-  FaUserAstronaut,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -36,11 +36,11 @@ const DashboardAdmin = ({ totalTheater, totalMembers, totalUsers }) => {
       link: "/users",
     },
     {
-      name: "MEMBERS",
-      title: "Member",
+      name: "LIVE",
+      title: "Settings",
       total: totalMembers,
-      icon: <FaUserAstronaut className="mb-3" size={75} />,
-      link: "/members",
+      icon: <FaLaptopCode className="mb-3" size={75} />,
+      link: "/premium-live",
     },
   ];
 
@@ -54,8 +54,8 @@ const DashboardAdmin = ({ totalTheater, totalMembers, totalUsers }) => {
   }, [router]);
 
   const toggleModal = () => {
-   setBotModal(!botModal)
-  }
+    setBotModal(!botModal);
+  };
 
   return (
     <Container>
@@ -84,7 +84,11 @@ const DashboardAdmin = ({ totalTheater, totalMembers, totalUsers }) => {
             )}
           </div>
         ))}
-        <BotModal modal={botModal} modalTitle="Discord Bot List" toggleModal={toggleModal}  />
+        <BotModal
+          modal={botModal}
+          modalTitle="Discord Bot List"
+          toggleModal={toggleModal}
+        />
       </div>
     </Container>
   );
