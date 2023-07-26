@@ -53,7 +53,9 @@ const TheaterScheduleDetail = (props) => {
                   <FaTheaterMasks className="mb-2" color="#ECFAFC" size={65} />
                   <div className="mt-1">
                     <span className="setlist-name">
-                      {theater?.setlist?.name ?? <Loading size={20} color="#ECFAFC" />}
+                      {theater?.setlist?.name ?? (
+                        <Loading size={20} color="#ECFAFC" />
+                      )}
                     </span>
                     <p className="setlist-subname mt-2">
                       {theater?.setlist?.originalName}
@@ -88,13 +90,57 @@ const TheaterScheduleDetail = (props) => {
                   </div>
                 </div>
               </div>
+              {theater?.isBirthdayShow && (
+                <div className="birthday-btn">
+                  <div className="menu-ticket">
+                    <FaBirthdayCake
+                      className="mb-2"
+                      color="#ECFAFC"
+                      size={70}
+                    />
+                    <div
+                      className="d-flex flex-column justify-content-center text-center"
+                      style={{
+                        backgroundColor: "#ECFAFC",
+                        borderRadius: "6px",
+                        color: "#24A2B7",
+                        width: "140px",
+                        height: "60px",
+                      }}
+                    >
+                      <span
+                        className="setlist-subname mt-3"
+                        style={{ color: "#24A2B7", fontSize: "20px" }}
+                      >
+                        <b>BIRTHDAY</b>
+                      </span>
+                      <p
+                        className="setlist-subname mt-1"
+                        style={{
+                          color: "#24A2B7",
+                          borderRadius: "6px",
+                          fontSize: "20px",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        <b>{theater?.birthdayMember?.stage_name}</b>
+                      </p>
+                    </div>
+                    <img
+                      className="member-image"
+                      src={theater?.birthdayMember?.image}
+                      alt=""
+                    />
+                  </div>
+                </div>
+              )}
               <div className="ticket-info">
                 <div className="menu-ticket">
                   <FaMoneyCheckAlt className="mb-2" color="#ECFAFC" size={80} />
                   <div className="d-flex flex-column justify-content-center text-center">
                     <div className="ticket-name">SHOWROOM</div>
                     <p className="setlist-subname mt-2">
-                      <b>RP. 50.000</b>
+                      <b>385 JPY</b>
                     </p>
                   </div>
                   <a
