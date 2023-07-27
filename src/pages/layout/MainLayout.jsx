@@ -21,7 +21,7 @@ function MainLayout(props) {
           name="keywords"
           content={
             props.keywords ??
-            "aplikasi showroom jkt48, cara nonton showroom jkt48, showroom jkt48, jkt48 showroom, dimana nonton showroom jkt48"
+            "showroom jkt48, jkt48 showroom, multi showroom jkt48, jkt48 showroom, dimana nonton showroom jkt48, jkt48 multi stream, jkt48 live multi stream, jadwal showroom jkt48"
           }
         />
       </Helmet>

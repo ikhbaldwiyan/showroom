@@ -143,7 +143,7 @@ function Live(props) {
     <MainLayout
       title={room_name}
       description={`Showroom ${room_name.replace("Room", "")}`}
-      keywords={`Nonton Showroom ${room_name.replace("Room", "")}`}
+      keywords={`showroom ${room_name.replace("Room", "")}`}
       {...props}
     >
       <Container>
