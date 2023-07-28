@@ -44,6 +44,7 @@ const TheaterDetail = ({
       ticketShowroom: "",
       ticketTheater: "",
       birthdayMember: {},
+      webImage: "",
     });
   };
 
@@ -374,6 +375,37 @@ const TheaterDetail = ({
             </Col>
           </Row>
           <MemberList />
+          <Row>
+            {formData.webImage && (
+              <Col md="12">
+              <img
+                src={formData?.webImage ?? formData?.setlist?.image}
+                width="100%"
+                alt="img"
+                style={{
+                  objectFit: "cover",
+                  borderRadius: "6px",
+                }}
+              />
+            </Col>
+            )}
+            <Col md="12">
+              <FormGroup>
+                <Label className="mt-2" for="webImage">
+                  <b>Web Image</b>
+                </Label>
+                <Input
+                  type="text"
+                  name="webImage"
+                  id="webImage"
+                  placeholder="input screenshot image web url"
+                  value={formData.webImage}
+                  onChange={handleChange}
+                  required
+                />
+              </FormGroup>
+            </Col>
+          </Row>
         </ModalBody>
         <ModalFooter>
           <Button color="primary" type="submit">
