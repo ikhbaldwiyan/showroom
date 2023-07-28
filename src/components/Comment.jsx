@@ -62,7 +62,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
     }
 
     if (roomId === "332503") {
-      axios.get(PREMIUM_LIVE_DETAIL("64c0fb1693c763af0ae9e886")).then((res) => {
+      axios.get(PREMIUM_LIVE_DETAIL("64c129da37f36b98750760a4")).then((res) => {
         setSocketKey(res?.data?.webSocketId);
       });
     } else {

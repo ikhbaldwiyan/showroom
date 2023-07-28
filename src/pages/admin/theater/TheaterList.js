@@ -18,6 +18,7 @@ import { FaBirthdayCake, FaEdit, FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import DashboardAdmin from "pages/admin/dashboard/DashboardAdmin";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { slugify } from "utils/slugify";
+import { IoSchoolSharp } from "react-icons/io5";
 
 function TheaterList(props) {
   const [schedules, setSchedules] = useState([]);
@@ -30,6 +31,9 @@ function TheaterList(props) {
     showTime: "",
     isBirthdayShow: false,
     birthdayMemberName: "",
+    isComingSoon: false,
+    isGraduationShow: false,
+    graduationMember: {},
     setlist: "",
     memberList: [],
     isOnWeekSchedule: false,
@@ -138,8 +142,8 @@ function TheaterList(props) {
                 <th>Image</th>
                 <th>Setlist</th>
                 <th>Time</th>
-                <th>Scheduled</th>
-                <th>Birthday Show</th>
+                <th>Showing</th>
+                <th>Special Show</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -172,6 +176,8 @@ function TheaterList(props) {
                   <td>
                     {schedule.isBirthdayShow ? (
                       <FaBirthdayCake size={30} color="#ecfafc" />
+                    ) : schedule.isGraduationShow ? (
+                      <IoSchoolSharp size={30} color="#8660d3" />
                     ) : (
                       <AiFillCloseCircle size={30} color="#dc3545" />
                     )}

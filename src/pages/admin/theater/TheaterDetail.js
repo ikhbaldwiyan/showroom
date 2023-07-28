@@ -39,11 +39,14 @@ const TheaterDetail = ({
       showDate: "",
       showTime: "",
       isBirthdayShow: false,
+      birthdayMember: {},
+      isComingSoon: false,
+      isGraduationShow: false,
+      graduateMember: {},
       setlist: "",
       memberList: [],
       ticketShowroom: "",
       ticketTheater: "",
-      birthdayMember: {},
       webImage: "",
     });
   };
@@ -63,10 +66,17 @@ const TheaterDetail = ({
       [name]: checked,
     }));
 
-    if (!checked) {
+    if (name === "isBirthdayShow" && !checked) {
       setFormData((prevData) => ({
         ...prevData,
         birthdayMember: null,
+      }));
+    }
+
+    if (name === "isGraduationShow" && !checked) {
+      setFormData((prevData) => ({
+        ...prevData,
+        graduateMember: null,
       }));
     }
   };
@@ -100,6 +110,18 @@ const TheaterDetail = ({
     setFormData({
       ...formData,
       birthdayMember: selectedMember,
+    });
+  };
+
+  const handleGraduateMember = (e) => {
+    const selectedMemberId = e.target.value;
+    const selectedMember = memberOptions.find(
+      (member) => member._id === selectedMemberId
+    );
+
+    setFormData({
+      ...formData,
+      graduateMember: selectedMember,
     });
   };
 
@@ -145,6 +167,7 @@ const TheaterDetail = ({
 
   const MemberList = () => (
     <FormGroup>
+      <hr />
       <Label for="memberList">
         <b>Member List</b>
       </Label>
@@ -174,59 +197,11 @@ const TheaterDetail = ({
           </div>
         ))}
       </Row>
-      <p className="mt-3">
-        <b>Choose Member Regular</b>
-      </p>
-      <select
-        className="form-control"
-        name="member"
-        onChange={(e) => handleMemberRegularChange(e)}
-      >
-        <option value="">Select a member</option>
-        {memberOptions?.map((member, idx) => {
-          if (
-            !formData.memberList.find(
-              (selectedMember) => selectedMember._id === member._id
-            )
-          ) {
-            return (
-              <option key={idx} value={member._id}>
-                {member.name}
-              </option>
-            );
-          }
-          return null;
-        })}
-      </select>
-      <p className="mt-3">
-        <b>Choose Member Trainee</b>
-      </p>
-      <select
-        className="form-control"
-        name="member"
-        onChange={(e) => handleMemberTraineeChange(e)}
-      >
-        <option value="">Select a member</option>
-        {memberTrainee?.map((member, idx) => {
-          if (
-            !formData.memberList.find(
-              (selectedMember) => selectedMember._id === member._id
-            )
-          ) {
-            return (
-              <option key={idx} value={member._id}>
-                {member.name}
-              </option>
-            );
-          }
-          return null;
-        })}
-      </select>
     </FormGroup>
   );
 
   return (
-    <Modal size="md" isOpen={showModal} toggle={toggleModal} centered>
+    <Modal size="lg" isOpen={showModal} toggle={toggleModal} centered>
       <Form onSubmit={handleSubmit}>
         <ModalHeader
           style={{
@@ -239,38 +214,7 @@ const TheaterDetail = ({
         </ModalHeader>
         <ModalBody style={{ color: "black" }}>
           <Row>
-            <Col md="6">
-              <FormGroup>
-                <Label for="showDate">
-                  <b>Show Date</b>
-                </Label>
-                <Input
-                  type="date"
-                  name="showDate"
-                  id="showDate"
-                  value={moment(formData.showDate).format("YYYY-MM-DD")}
-                  onChange={handleChange}
-                  required
-                />
-              </FormGroup>
-            </Col>
-            <Col md="6">
-              <FormGroup>
-                <Label for="showTime">
-                  <b>Show Time</b>
-                </Label>
-                <Input
-                  type="time"
-                  name="showTime"
-                  id="showTime"
-                  value={formData.showTime}
-                  onChange={handleChange}
-                  required
-                />
-              </FormGroup>
-            </Col>
-
-            <Col md="6">
+            <Col md="4">
               <FormGroup>
                 <Label for="setlist">
                   <b>Setlist</b>
@@ -295,7 +239,95 @@ const TheaterDetail = ({
                 </Input>
               </FormGroup>
             </Col>
-            <Col md="6">
+            <Col md="4">
+              <FormGroup>
+                <Label for="showDate">
+                  <b>Show Date</b>
+                </Label>
+                <Input
+                  type="date"
+                  name="showDate"
+                  id="showDate"
+                  value={moment(formData.showDate).format("YYYY-MM-DD")}
+                  onChange={handleChange}
+                  required
+                />
+              </FormGroup>
+            </Col>
+            <Col md="4">
+              <FormGroup>
+                <Label for="showTime">
+                  <b>Show Time</b>
+                </Label>
+                <Input
+                  type="time"
+                  name="showTime"
+                  id="showTime"
+                  value={formData.showTime}
+                  onChange={handleChange}
+                  required
+                />
+              </FormGroup>
+            </Col>
+            <Col md="4">
+              {formData?.setlist === "64ba3ff18b8a8470e8d0f092" ||
+              formData?.setlist?._id === "64ba3ff18b8a8470e8d0f092" ? (
+                <FormGroup>
+                  <Label>
+                    <b>Choose Member Trainee</b>
+                  </Label>
+                  <select
+                    className="form-control"
+                    name="member"
+                    onChange={(e) => handleMemberTraineeChange(e)}
+                  >
+                    <option value="">Select a member</option>
+                    {memberTrainee?.map((member, idx) => {
+                      if (
+                        !formData.memberList.find(
+                          (selectedMember) => selectedMember._id === member._id
+                        )
+                      ) {
+                        return (
+                          <option key={idx} value={member._id}>
+                            {member.name}
+                          </option>
+                        );
+                      }
+                      return null;
+                    })}
+                  </select>
+                </FormGroup>
+              ) : (
+                <FormGroup>
+                  <Label>
+                    <b>Choose Member Regular</b>
+                  </Label>
+                  <select
+                    className="form-control"
+                    name="member"
+                    onChange={(e) => handleMemberRegularChange(e)}
+                  >
+                    <option value="">Select a member</option>
+                    {memberOptions?.map((member, idx) => {
+                      if (
+                        !formData.memberList.find(
+                          (selectedMember) => selectedMember._id === member._id
+                        )
+                      ) {
+                        return (
+                          <option key={idx} value={member._id}>
+                            {member.name}
+                          </option>
+                        );
+                      }
+                      return null;
+                    })}
+                  </select>
+                </FormGroup>
+              )}
+            </Col>
+            <Col md="4">
               <FormGroup>
                 <Label>
                   <b>Is Birthday Show</b>
@@ -328,6 +360,84 @@ const TheaterDetail = ({
                 </select>
               </FormGroup>
             </Col>
+            <Col md="4">
+              <FormGroup>
+                <Label>
+                  <b>Is Graduation Show</b>
+                </Label>
+                <Input
+                  className="ml-2 mt-2"
+                  type="checkbox"
+                  name="isGraduationShow"
+                  checked={formData.isGraduationShow}
+                  onChange={handleCheckboxChange}
+                />
+                <select
+                  className="form-control"
+                  name="graduateMember"
+                  onChange={(e) => handleGraduateMember(e)}
+                  disabled={!formData.isGraduationShow}
+                >
+                  <option value="">Select a member</option>
+                  {allMember?.map((member, idx) => {
+                    return (
+                      <option
+                        key={idx}
+                        value={member._id}
+                        selected={member._id === formData?.graduateMember?._id}
+                      >
+                        {member.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col md="4">
+              <FormGroup check>
+                <Input
+                  type="checkbox"
+                  name="isOnWeekSchedule"
+                  checked={formData.isOnWeekSchedule}
+                  onChange={handleCheckboxChange}
+                />
+                <Label>
+                  <b>Is On Schedule</b>
+                </Label>
+              </FormGroup>
+            </Col>
+            <Col md="4">
+              <FormGroup check>
+                <Input
+                  type="checkbox"
+                  name="isComingSoon"
+                  checked={formData.isComingSoon}
+                  onChange={handleCheckboxChange}
+                />
+                <Label>
+                  <b>Is Coming Soon</b>
+                </Label>
+              </FormGroup>
+            </Col>
+          </Row>
+          <MemberList />
+          <Row>
+            {formData.webImage && (
+              <Col md="12">
+                <img
+                  className="mb-3"
+                  src={formData?.webImage ?? formData?.setlist?.image}
+                  width="100%"
+                  alt="img"
+                  style={{
+                    objectFit: "cover",
+                    borderRadius: "6px",
+                  }}
+                />
+              </Col>
+            )}
             <Col md="6">
               <FormGroup>
                 <Label for="ticketShowroom">
@@ -338,6 +448,7 @@ const TheaterDetail = ({
                   name="ticketShowroom"
                   id="ticketShowroom"
                   value={formData.ticketShowroom}
+                  placeholder="Input url link web"
                   onChange={handleChange}
                   required
                 />
@@ -353,42 +464,12 @@ const TheaterDetail = ({
                   name="ticketTheater"
                   id="ticketTheater"
                   value={formData.ticketTheater}
+                  placeholder="Input url link web"
                   onChange={handleChange}
                   required
                 />
               </FormGroup>
             </Col>
-          </Row>
-          <Row>
-            <Col md="6">
-              <FormGroup check>
-                <Input
-                  type="checkbox"
-                  name="isOnWeekSchedule"
-                  checked={formData.isOnWeekSchedule}
-                  onChange={handleCheckboxChange}
-                />
-                <Label>
-                  <b>Is On Schedule</b>
-                </Label>
-              </FormGroup>
-            </Col>
-          </Row>
-          <MemberList />
-          <Row>
-            {formData.webImage && (
-              <Col md="12">
-              <img
-                src={formData?.webImage ?? formData?.setlist?.image}
-                width="100%"
-                alt="img"
-                style={{
-                  objectFit: "cover",
-                  borderRadius: "6px",
-                }}
-              />
-            </Col>
-            )}
             <Col md="12">
               <FormGroup>
                 <Label className="mt-2" for="webImage">
@@ -398,10 +479,9 @@ const TheaterDetail = ({
                   type="text"
                   name="webImage"
                   id="webImage"
-                  placeholder="input screenshot image web url"
+                  placeholder="Input screenshot image web url"
                   value={formData.webImage}
                   onChange={handleChange}
-                  required
                 />
               </FormGroup>
             </Col>
