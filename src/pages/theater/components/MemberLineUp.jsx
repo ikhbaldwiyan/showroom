@@ -10,7 +10,8 @@ const MemberLineUp = ({ members, isComingSoon }) => {
       style={{
         border: "none",
         borderRadius: "6px",
-        height: "100%",
+        height: "auto",
+        marginBottom: "6px"
       }}
     >
       <CardBody className="member-wrapper">
@@ -43,15 +44,13 @@ const MemberLineUp = ({ members, isComingSoon }) => {
                 </div>
               )
             )
+          ) : isComingSoon ? (
+            <div className="d-flex align-items-center justify-content-center flex-column">
+              <IoIosPeople size={60} />
+              <h3>Coming Soon</h3>
+            </div>
           ) : (
-            isComingSoon ? (
-              <div className="d-flex align-items-center justify-content-center flex-column">
-                <IoIosPeople size={60} />
-                <h3>Coming Soon</h3>
-              </div>
-            ) : (
-              <Loading size={20} color="white" />
-            )
+            <Loading size={20} color="white" />
           )}
         </div>
       </CardBody>

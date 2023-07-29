@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "reactstrap";
 import { AiFillGift, AiFillStar, AiFillTrophy } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
-import { FaKey, FaListAlt } from "react-icons/fa";
+import { FaInfoCircle, FaListAlt, FaMusic } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
 import { PROFILE_API } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
@@ -17,9 +17,7 @@ function Menu({
   hideMenu,
   isMultiRoom,
   isFarming,
-  isCustomLive,
-  customUrl,
-  setCustomUrl,
+  isPremiumLive,
 }) {
   const [roomName, setRoomName] = useState("");
 
@@ -50,11 +48,21 @@ function Menu({
       menu: "rank",
       icon: <AiFillTrophy style={icon} />,
     },
-    {
-      name: !isMultiRoom && !isMobile && !isFarming ? "Gift" : "",
-      menu: "gift",
-      icon: <AiFillGift style={icon} />,
-    },
+    ...(isPremiumLive
+      ? [
+          {
+            name: "Song",
+            menu: "setlist",
+            icon: <FaMusic style={icon} />,
+          },
+        ]
+      : [
+          {
+            name: !isMultiRoom && !isMobile && !isFarming ? "Gift" : "",
+            menu: "gift",
+            icon: <AiFillGift style={icon} />,
+          },
+        ]),
     ...(isMultiRoom || isMobile
       ? [
           {
@@ -93,13 +101,22 @@ function Menu({
   return (
     <Row>
       <Col>
-        {!hideMenu && (
+        {!hideMenu && !isPremiumLive && (
           <Button
             className="menu"
             style={menu === "room" ? buttonActive : buttonStyle}
             onClick={() => handleChangeMenu("room")}
           >
             <FaListAlt style={icon} /> Room
+          </Button>
+        )}
+        {isPremiumLive && (
+          <Button
+            className="menu"
+            style={menu === "info" ? buttonActive : buttonStyle}
+            onClick={() => handleChangeMenu("info")}
+          >
+            <FaInfoCircle style={icon} /> Info
           </Button>
         )}
         {!isLive.length && isLive.code !== 404 && (
@@ -115,7 +132,7 @@ function Menu({
         )}
         {isLive.length !== 0 &&
           isLive.code !== 404 &&
-          !hideMenu && 
+          !hideMenu &&
           listMenu.map((item, idx) => (
             <Button
               key={idx}

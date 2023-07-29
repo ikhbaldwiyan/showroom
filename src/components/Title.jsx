@@ -30,6 +30,7 @@ function Title({
   updateMenu,
   setUrl,
   handleRefresh,
+  setIsPremiumLive
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -72,6 +73,7 @@ function Title({
           const profiles = res.data;
           setProfile(profiles);
           setTitle(profiles.title);
+          setIsPremiumLive(profiles.isPremiumLive)
         },
         [profile]
       );

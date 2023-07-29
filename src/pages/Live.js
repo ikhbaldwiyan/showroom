@@ -2,7 +2,11 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Row, Col, Container, Input, FormFeedback } from "reactstrap";
 import { useParams } from "react-router-dom";
-import { LIVE_STREAM_URL } from "utils/api/api";
+import {
+  DETAIL_SCHEDULE,
+  LIVE_STREAM_URL,
+  PREMIUM_LIVE_DETAIL,
+} from "utils/api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -28,6 +32,8 @@ import { MdError } from "react-icons/md";
 import { useRef } from "react";
 import { gaTag } from "utils/gaTag";
 import { gaEvent } from "utils/gaEvent";
+import Setlist from "./theater/components/Setlist";
+import MemberLineUp from "./theater/components/MemberLineUp";
 
 function Live(props) {
   let { id, name } = useParams();
@@ -47,6 +53,10 @@ function Live(props) {
   const [customUrl, setCustomUrl] = useState(false);
   const [secretKey, setSecretKey] = useState();
   const [isFailed, setIsFailed] = useState();
+  const [setlist, setSetlist] = useState([]);
+  const [member, setMember] = useState([]);
+  const [scheduleId, setScheduleId] = useState();
+  const [isPremiumLive, setIsPremiumLive] = useState(false);
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
 
   useEffect(() => {
@@ -139,6 +149,19 @@ function Live(props) {
     });
   };
 
+  useEffect(() => {
+    if (isPremiumLive) {
+      axios.get(PREMIUM_LIVE_DETAIL("64c129da37f36b98750760a4")).then((res) => {
+        setSetlist(res?.data?.setlist?.songs);
+        setScheduleId(res?.data?.theaterShow?._id);
+      });
+
+      axios.get(DETAIL_SCHEDULE(scheduleId)).then((res) => {
+        setMember(res?.data?.memberList);
+      });
+    }
+  }, [menu]);
+
   return (
     <MainLayout
       title={room_name}
@@ -172,6 +195,7 @@ function Live(props) {
                     isCustomLive={isCustomLive}
                     secretKey={secretKey}
                     handleRefresh={handleRefresh}
+                    setIsPremiumLive={setIsPremiumLive}
                   />
                   {session && !isMobile && !hideStars && !secretKey && (
                     <StarButton
@@ -240,6 +264,7 @@ function Live(props) {
               setIsCustomLive={setIsCustomLive}
               customUrl={customUrl}
               setCustomUrl={setCustomUrl}
+              isPremiumLive={isPremiumLive}
             />
             {menu === "room" ? (
               <RoomList roomId={roomId} setRoomId={setRoomId} />
@@ -253,6 +278,10 @@ function Live(props) {
               <StageUser roomId={roomId} secretKey={secretKey} />
             ) : menu === "gift" ? (
               <Gift roomId={roomId} secretKey={secretKey} />
+            ) : menu === "setlist" ? (
+              <Setlist songs={setlist} />
+            ) : menu === "info" ? (
+              <MemberLineUp members={member} />
             ) : menu === "total" ? (
               <TotalRank roomId={roomId} />
             ) : menu === "star" ? (
