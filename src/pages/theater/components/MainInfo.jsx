@@ -8,6 +8,7 @@ import {
   FaRegClock,
   FaTheaterMasks,
 } from "react-icons/fa";
+import { IoSchoolSharp } from "react-icons/io5";
 
 const MainInfo = ({ theater }) => {
   return (
@@ -82,6 +83,46 @@ const MainInfo = ({ theater }) => {
             <img
               className="member-image"
               src={theater?.birthdayMember?.image}
+              alt=""
+            />
+          </div>
+        </div>
+      )}
+      {theater?.isGraduationShow && (
+        <div className="birthday-btn">
+          <div className="menu-ticket">
+            <IoSchoolSharp className="mb-2" color="#ECFAFC" size={70} />
+            <div
+              className="d-flex flex-column justify-content-center text-center"
+              style={{
+                backgroundColor: "#ECFAFC",
+                borderRadius: "6px",
+                color: "#24A2B7",
+                width: "150px",
+                height: "70px",
+              }}
+            >
+              <span
+                className="setlist-subname mt-3"
+                style={{ color: "#24A2B7", fontSize: "20px" }}
+              >
+                <b>GRADUATION</b>
+              </span>
+              <p
+                className="setlist-subname mt-1"
+                style={{
+                  color: "#24A2B7",
+                  borderRadius: "6px",
+                  fontSize: "20px",
+                  textTransform: "uppercase",
+                }}
+              >
+                <b>{theater?.graduateMember?.stage_name}</b>
+              </p>
+            </div>
+            <img
+              className="member-image"
+              src={theater?.graduateMember?.image}
               alt=""
             />
           </div>

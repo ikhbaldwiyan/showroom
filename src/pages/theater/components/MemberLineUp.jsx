@@ -1,9 +1,10 @@
 import React from "react";
+import { Loading } from "components";
 import { FaUsers } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import { Card, CardBody } from "reactstrap";
 
-const MemberLineUp = ({ members }) => {
+const MemberLineUp = ({ members, isComingSoon }) => {
   return (
     <Card
       style={{
@@ -43,10 +44,14 @@ const MemberLineUp = ({ members }) => {
               )
             )
           ) : (
-            <div className="d-flex align-items-center justify-content-center flex-column">
-              <IoIosPeople size={60} />
-              <h3>Coming Soon</h3>
-            </div>
+            isComingSoon ? (
+              <div className="d-flex align-items-center justify-content-center flex-column">
+                <IoIosPeople size={60} />
+                <h3>Coming Soon</h3>
+              </div>
+            ) : (
+              <Loading size={20} color="white" />
+            )
           )}
         </div>
       </CardBody>

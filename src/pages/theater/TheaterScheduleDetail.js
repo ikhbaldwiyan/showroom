@@ -49,7 +49,7 @@ const TheaterScheduleDetail = (props) => {
             <MainInfo theater={theater} />
           </Col>
           <Col md="4 mb-2">
-            <MemberLineUp members={members} />
+            <MemberLineUp members={members} isComingSoon={theater?.isComingSoon} />
           </Col>
         </Row>
       </Container>
