@@ -23,59 +23,49 @@ const Schedule = ({ theme, isSearch }) => {
 
   return (
     !isSearch &&
-    schedule.length !== 0 && (
+    schedule.length !== 0 && schedule.some(item => item.isOnWeekSchedule) && (
       <>
         <h3 className="py-2 theater-title">Jadwal Theater</h3>
         <div className="container-grid">
           {schedule.length ? (
-            schedule.map(
-              (item, idx) =>
-                item.isOnWeekSchedule && (
-                  <div
-                    key={idx}
-                    className={`item ${
-                      isMobile ? "column-12" : `column-3`
-                    } row-1`}
-                  >
-                    <Fade bottom>
-                      <div className="card card-featured">
-                        <Button
-                          href={`/theater/${slugify(item?.setlist?.name)}/${
-                            item?._id
-                          }`}
-                          type="link"
-                        >
-                          <div
-                            className="tag"
-                            style={{ backgroundColor: "teal" }}
+            schedule
+              .filter((item) => item.isOnWeekSchedule)
+              .map((item, idx) => (
+                <div
+                  key={idx}
+                  className={`item ${isMobile ? "column-12" : "column-3"} row-1`}
+                >
+                  <Fade bottom>
+                    <div className="card card-featured">
+                      <Button
+                        href={`/theater/${slugify(item?.setlist?.name)}/${item?._id}`}
+                        type="link"
+                      >
+                        <div className="tag" style={{ backgroundColor: "teal" }}>
+                          {moment(item?.showDate).format("DD MMMM")}
+                        </div>
+                        <figure className="img-wrapper">
+                          <img
+                            src={item?.setlist?.image}
+                            alt={item?.setlist?.name}
+                            className="img-cover"
+                          />
+                        </figure>
+                        <div className="meta-wrapper">
+                          <Button
+                            type="link"
+                            style={{ textDecoration: "none" }}
+                            className="strecthed-link d-block text-white"
+                            href={`/theater/${slugify(item?.setlist?.name)}/${item?._id}`}
                           >
-                            {moment(item?.showDate).format("DD MMMM")}
-                          </div>
-                          <figure className="img-wrapper">
-                            <img
-                              src={item?.setlist?.image}
-                              alt={item?.setlist?.name}
-                              className="img-cover"
-                            />
-                          </figure>
-                          <div className="meta-wrapper">
-                            <Button
-                              type="link"
-                              style={{ textDecoration: "none" }}
-                              className="strecthed-link d-block text-white"
-                              href={`/theater/${slugify(item?.setlist?.name)}/${
-                                item?._id
-                              }`}
-                            >
-                              <h5>{item?.setlist?.name}</h5>
-                            </Button>
-                          </div>
-                        </Button>
-                      </div>
-                    </Fade>
-                  </div>
-                )
-            )
+                            <h5>{item?.setlist?.name}</h5>
+                          </Button>
+                        </div>
+                      </Button>
+                    </div>
+                  </Fade>
+                </div>
+              ))
           ) : (
             <SkeletonLive theme={theme} />
           )}
