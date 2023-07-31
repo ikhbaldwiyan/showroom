@@ -32,7 +32,11 @@ const TheaterScheduleDetail = (props) => {
   }, []);
 
   return (
-    <MainLayout {...props}>
+    <MainLayout
+      title={`${theater?.setlist?.name} - Jadwal Theater JKT48`}
+      keywords={`jadwal showroom ${theater?.setlist?.name}, jadwal theater JKT48, jadwal theater ${theater?.setlist?.name}`}
+      {...props}
+    >
       <Container>
         <Row>
           <Col md="4">
@@ -49,7 +53,10 @@ const TheaterScheduleDetail = (props) => {
             <MainInfo theater={theater} />
           </Col>
           <Col md="4 mb-2">
-            <MemberLineUp members={members} isComingSoon={theater?.isComingSoon} />
+            <MemberLineUp
+              members={members}
+              isComingSoon={theater?.isComingSoon}
+            />
           </Col>
         </Row>
       </Container>
