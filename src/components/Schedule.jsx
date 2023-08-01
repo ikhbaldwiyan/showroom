@@ -13,7 +13,7 @@ const Schedule = ({ theme, isSearch }) => {
 
   useEffect(() => {
     try {
-      axios.get(SCHEDULES_API).then((res) => {
+      axios.get(`${SCHEDULES_API}?isOnWeekSchedule=true`).then((res) => {
         setSchedule(res.data);
       });
     } catch (error) {
@@ -22,15 +22,12 @@ const Schedule = ({ theme, isSearch }) => {
   }, []);
 
   return (
-    !isSearch &&
-    schedule.length !== 0 && schedule.some(item => item.isOnWeekSchedule) && (
+    !isSearch && (
       <>
         <h3 className="py-2 theater-title">Jadwal Theater</h3>
         <div className="container-grid">
           {schedule.length ? (
-            schedule
-              .filter((item) => item.isOnWeekSchedule)
-              .map((item, idx) => (
+            schedule.map((item, idx) => (
                 <div
                   key={idx}
                   className={`item ${isMobile ? "column-12" : "column-3"} row-1`}
