@@ -1,27 +1,29 @@
+import React from "react";
 import axios from "axios";
 import Search from "components/Search";
-import React from "react";
+import moment from "moment";
 import { useState } from "react";
 import { useEffect } from "react";
 import { AiFillGift } from "react-icons/ai";
-import { BiTimeFive } from "react-icons/bi";
-import { BsCalendarDateFill, BsFillStopCircleFill } from "react-icons/bs";
-import { GiPodiumWinner, GiSandsOfTime } from "react-icons/gi";
-import { MdNotStarted } from "react-icons/md";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import {
-  Card,
-  CardBody,
-  CardImg,
-  Col,
-  Container,
-  Row,
-  Button,
-  Table,
-  CardTitle,
-} from "reactstrap";
+  FaCommentDots,
+  FaComments,
+  FaRegCalendarAlt,
+  FaUser,
+  FaUsers,
+} from "react-icons/fa";
+import { GiPodiumWinner } from "react-icons/gi";
+import {
+  RiBookmark3Fill,
+  RiPlayCircleLine,
+  RiStopCircleLine,
+  RiTimerFlashFill,
+} from "react-icons/ri";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { Col, Container, Row, Button, Table } from "reactstrap";
 import { DETAIL_LIVE_HISTORY } from "utils/api/api";
 import formatLongDate from "utils/formatLongDate";
+import formatNumber from "utils/formatNumber";
 import formatViews from "utils/formatViews";
 import { getLiveDuration } from "utils/getLiveDuration";
 import MainLayout from "./layout/MainLayout";
@@ -35,20 +37,20 @@ const DetailLiveHistory = (props) => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    async function getRoomList() {
+    async function getDetailHistory() {
       try {
         const response = await axios.get(DETAIL_LIVE_HISTORY(id));
         const data = response.data;
         setHistory(data);
         setRank(data.fans);
         setGift(data.live_info.gift.list);
-        console.log(gift);
         window.document.title = `${response.data?.room_info?.name}Live History`;
       } catch (error) {
         console.log(error);
       }
     }
-    getRoomList();
+    getDetailHistory();
+    window.scrollTo(0, 0);
   }, [search]);
 
   const filterName = !search
@@ -62,88 +64,229 @@ const DetailLiveHistory = (props) => {
       <Container>
         <Row className="mb-4">
           <Col md="4">
-            <h4 className="py-1">
-              {history?.room_info?.url.replace("/JKT48_", "")} JKT48 Live Log{" "}
-            </h4>
-            <Card
-              style={{
-                background: `linear-gradient(165deg, #282c34, #24a2b7)`,
-                borderColor: props.theme === "dark" ? "white" : "",
-                color: "white",
-              }}
-            >
-              <CardImg
-                top
-                alt={history?.room_info?.name}
-                src={history?.room_info?.img}
-              />
-              <CardBody>
-                <h4 className="py-1">
-                  {history?.room_info?.url.replace("/JKT48_", "")} JKT48 Live
-                  History{" "}
-                </h4>
-                <div
-                  className="d-flex align-items-center mt-2"
-                  style={{ color: "#CBD5E0" }}
-                >
-                  <BsCalendarDateFill size={20} className="mr-2 mb-2" />
-                  <h5>{formatLongDate(history?.live_info.date.start)}</h5>
+            <img
+              className="rounded-lg"
+              width="100%"
+              alt={history?.room_info?.name}
+              src={history?.room_info?.img.replace("m.jpeg", "l.jpeg")}
+            />
+            <div className="row mt-3">
+              <div className="col-6">
+                <div className="live-start">
+                  <div className="live-info-wrapper mt-1">
+                    <RiPlayCircleLine
+                      className="mb-2"
+                      color="#ECFAFC"
+                      size={50}
+                    />
+                    <div className="mt-1">
+                      <span className="live-text">Live Start</span>
+                      <p className="theater-time mt-1">
+                        {formatLongDate(history?.live_info.date.start, true)}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </CardBody>
-            </Card>
+              </div>
+              <div className="col-6">
+                <div className="live-end">
+                  <div className="live-info-wrapper mt-1">
+                    <RiStopCircleLine
+                      className="mb-2"
+                      color="#ECFAFC"
+                      size={50}
+                    />
+                    <div className="mt-1">
+                      <span className="live-text">Live End</span>
+                      <p className="theater-time mt-1">
+                        {formatLongDate(history?.live_info.date.end, true)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-3">
+              <div className="col-12">
+                <div className="live-duration">
+                  <div className="duration-wrapper mt-1">
+                    <RiTimerFlashFill
+                      className="mb-2 ml-1"
+                      color="#ECFAFC"
+                      size={50}
+                    />
+                    <div className="mt-1">
+                      <span className="live-text">Duration</span>
+                      <p className="theater-time mt-1">
+                        {getLiveDuration(
+                          history?.live_info.date.start,
+                          history?.live_info.date.end
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-3">
+              <div className="col-12">
+                <div className="live-date">
+                  <div className="duration-wrapper mt-1">
+                    <FaRegCalendarAlt
+                      className="mb-2 ml-1"
+                      color="#ECFAFC"
+                      size={50}
+                    />
+                    <div className="mt-1">
+                      <span className="live-text">Live Date</span>
+                      <p className="theater-time mt-1">
+                        {moment(history?.live_info.date.start).format(
+                          "dddd DD MMMM YYYY"
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row py-3">
+              <div className="col-12">
+                <div className="live-start">
+                  <div className="duration-wrapper mt-1">
+                    <FaComments
+                      className="mb-2 ml-1"
+                      color="#ECFAFC"
+                      size={50}
+                    />
+                    <div className="mt-1">
+                      <span className="live-text">Comments</span>
+                      {history?.live_info?.comments ? (
+                        <p className="theater-time mt-1">
+                          <FaCommentDots className="mb-1 mr-1" />
+                          {formatNumber(history?.live_info?.comments?.num)} of
+                          <FaUser className="mb-1 ml-2" />{" "}
+                          {formatNumber(history?.live_info?.comments?.users)}{" "}
+                          Users
+                        </p>
+                      ) : (
+                        <p>Data comments not found</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </Col>
           <Col md="4">
-            <div className="py-4"></div>
-            <Card
-              style={{
-                background: `linear-gradient(165deg, #282c34, #24a2b7)`,
-                borderColor: props.theme === "dark" ? "white" : "",
-                color: "white",
-              }}
-            >
-              <CardBody>
-                <CardTitle>
-                  <h5 className="py-1">
-                    <BiTimeFive size={25} /> Live Time Info
-                  </h5>
-                  <hr style={{ borderColor: "white" }} />
-                </CardTitle>
-                <div
-                  className=" align-items-center mt-2"
-                  style={{ color: "#CBD5E0" }}
-                >
-                  <div className="d-flex align-items-center">
-                    <div className="d-flex align-items-center">
-                      <MdNotStarted className="mr-1" size={20} />
-                      Start:
+            <div className="main-title-log">
+              <div className="duration-wrapper mt-1">
+                <RiBookmark3Fill
+                  className="mb-2 ml-1"
+                  color="#ECFAFC"
+                  size={55}
+                />
+                <div className="mt-1">
+                  <span className="main-title-text">
+                    {history?.room_info?.url.replace("JKT48_", " ")} History Log
+                  </span>
+                  <p className="text-lg mt-1">
+                    {moment(history?.live_info.date.start).format(
+                      "DD MMMM YYYY"
+                    )}{" "}
+                    {formatLongDate(history?.live_info.date.start, true)} -{" "}
+                    {formatLongDate(history?.live_info.date.end, true)}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-2">
+              <div className="col-6">
+                <div className="viewers">
+                  <div className="viewers-wrapper mt-1">
+                    <FaUsers className="mb-2 ml-2" color="#ECFAFC" size={45} />
+                    <div className="mt-1">
+                      <span className="live-text">Viewers</span>
+                      <p className="theater-time mt-1">
+                        {formatNumber(history?.live_info.viewer)}
+                      </p>
                     </div>
-                    <div className="mx-1">
-                      {formatLongDate(history?.live_info.date.start, true)}
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <div className="d-flex align-items-center">
-                      <BsFillStopCircleFill className="mr-1" size={16} />
-                      End:
-                    </div>
-                    <div className="mx-1">
-                      {formatLongDate(history?.live_info.date.end, true)}
-                    </div>
-                  </div>
-                  <div className="">
-                    <span>
-                      <GiSandsOfTime /> Duration:
-                    </span>
-                    <span className="mx-1">
-                      {getLiveDuration(
-                        history?.live_info.date.start,
-                        history?.live_info.date.end
-                      )}
-                    </span>
                   </div>
                 </div>
-              </CardBody>
-            </Card>
+              </div>
+              <div className="col-6">
+                <div className="gift">
+                  <div className="viewers-wrapper mt-1">
+                    <AiFillGift
+                      className="mb-2 ml-2"
+                      color="#ECFAFC"
+                      size={45}
+                    />
+                    <div className="mt-1">
+                      <span className="live-text">Gift</span>
+                      <p className="theater-time mt-1">
+                        {formatNumber(history?.total_point)} G
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="top-gift-card my-3">
+              <div className="row">
+                <div className="col-12">
+                  <div className="top-gift-title">
+                    <AiFillGift size={24} />
+                    <span className="text-lg font-weight-bold">
+                      TOP GIFT LIST
+                    </span>
+                  </div>
+                  <hr style={{ borderColor: "white" }} />
+                  {Array.from(
+                    { length: Math.ceil(Math.min(gift.length, 10) / 2) },
+                    (_, rowIndex) => (
+                      <div key={rowIndex} className="row">
+                        {gift
+                          .slice(rowIndex * 2, rowIndex * 2 + 2)
+                          .map((item, idx) => (
+                            <div
+                              key={idx}
+                              className={`col-6 ${
+                                rowIndex !== 0 ? "mt-3" : ""
+                              }`}
+                            >
+                              <div className="gift-wrapper">
+                                <img
+                                  width="35"
+                                  className="mr-1"
+                                  alt="gift"
+                                  src={item.img}
+                                />
+                                <div className="d-flex flex-start flex-column">
+                                  <span
+                                    style={{
+                                      fontSize: "14px",
+                                      color: "#ECFAFC",
+                                    }}
+                                  >
+                                    {item.name}
+                                  </span>
+                                  <span
+                                    style={{
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {item.num} x
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
           </Col>
 
           <Col md="4">
@@ -165,7 +308,10 @@ const DetailLiveHistory = (props) => {
             {menu === "podium" ? (
               <>
                 <Table dark>
-                  <Search setSearch={setSearch} placeholder="Search podium name" />
+                  <Search
+                    setSearch={setSearch}
+                    placeholder="Search podium name"
+                  />
                   <div className="scroll-room">
                     <thead
                       style={{
