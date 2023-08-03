@@ -17,8 +17,8 @@ import Register from "pages/Register";
 import TheaterScheduleList from "pages/theater/TheaterScheduleList";
 import TheaterScheduleDetail from "pages/theater/TheaterScheduleDetail";
 import Farming from "pages/Farming";
-import LiveHistory from "pages/LiveHistory";
-import DetailLiveHistory from "pages/DetailLiveHistory";
+import HistoryList from "pages/history/HistoryList";
+import HistoryDetail from "pages/history/HistoryDetail";
 import UserList from "pages/admin/user/UserList";
 import TheaterList from "pages/admin/theater/TheaterList";
 import MemberList from "pages/admin/members/MemberList";
@@ -45,8 +45,8 @@ function App(props) {
         <Route path="/theater-schedule" component={() => <TheaterScheduleList {...props} />} />
         <Route path="/theater/:name/:id" component={() => <TheaterScheduleDetail {...props} />} />
         <Route path="/farming" component={() => <Farming {...props} />} />
-        <Route path="/live-history" component={() => <LiveHistory {...props} />} />
-        <Route path="/history/:name/:id" component={() => <DetailLiveHistory {...props} />} />
+        <Route path="/live-history" component={() => <HistoryList {...props} />} />
+        <Route path="/history/:name/:id" component={() => <HistoryDetail {...props} />} />
         <Route path="/admin" component={() => <TheaterList {...props} />} />
         <Route path="/users" component={() => <UserList {...props} />} />
         <Route path="/theaters" component={() => <TheaterList {...props} />} />

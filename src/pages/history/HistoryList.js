@@ -20,7 +20,7 @@ import {
 import TimeAgo from "react-timeago";
 import formatViews from "utils/formatViews";
 import formatLongDate from "utils/formatLongDate";
-import MainLayout from "./layout/MainLayout";
+import MainLayout from "../layout/MainLayout";
 import Pagination from "parts/Pagination";
 import { Link } from "react-router-dom";
 
@@ -155,7 +155,10 @@ const LiveHistory = (props) => {
                               date={live_info.date.end}
                             />
                           </div>
-                          <Link className="text-white" to={`/history/${member.url}/${log.data_id}`}>
+                          <Link
+                            className="text-white"
+                            to={`/history/${member.url}/${log.data_id}`}
+                          >
                             <div className="d-flex align-items-center">
                               <BiLogInCircle className="mr-1" size={20} />
                               Detail
