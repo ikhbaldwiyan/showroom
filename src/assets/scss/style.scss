@@ -722,3 +722,48 @@ main {
   align-items: center;
   gap: 6px;
 }
+
+.card-schedule {
+  border-radius: 0px 0px 6px 6px;
+  background: linear-gradient(180deg, #24A2B7 0%, #3B82F6 100%);
+  height: 147.564px;
+  padding: 14px;
+}
+
+.card-desc {
+  font-weight: 600;
+  color: white;
+}
+
+.theater-date {
+  border-radius: 10px;
+  background: #DC3545;
+  padding: 8px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  color: white;
+
+}
+
+.theater-schedule-time {
+  border-radius: 10px;
+  background: #1F8D9D;
+  padding: 8px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  color: white;
+
+}
+
+.theater-button {
+  margin-top: 8px;
+  border-radius: 6px;
+  background-color: #ECFAFC;
+  width: 100%;
+  height: 30px;
+  color:#24A2B7;
+  font-weight: bold;
+  border: none;
+}
