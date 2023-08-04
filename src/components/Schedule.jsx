@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment";
 // import SkeletonLive from "parts/skeleton/SkeletonLive";
 import React, { useEffect, useState } from "react";
-import { FaCalendarAlt, FaRegClock } from "react-icons/fa";
+import { FaCalendarAlt, FaRegClock, FaTheaterMasks } from "react-icons/fa";
 import { Fade } from "react-reveal";
 import { Col, Row } from "reactstrap";
 import { SCHEDULES_API } from "utils/api/api";
@@ -10,14 +10,16 @@ import "moment/locale/id";
 import { slugify } from "utils/slugify";
 import { Link } from "react-router-dom";
 
-const Schedule = ({ theme, isSearch }) => {
+const Schedule = ({ isSearch, isShowing }) => {
   const [schedule, setSchedule] = useState([]);
 
   useEffect(() => {
     try {
-      axios.get(`${SCHEDULES_API}?isOnWeekSchedule=true`).then((res) => {
-        setSchedule(res.data);
-      });
+      axios
+        .get(`${SCHEDULES_API}?isOnWeekSchedule=${isShowing}`)
+        .then((res) => {
+          setSchedule(res.data);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +28,6 @@ const Schedule = ({ theme, isSearch }) => {
   return (
     !isSearch && (
       <Fade>
-        <h3 className="py-1 font-weight-bold">Jadwal Theater</h3>
         <Row>
           {schedule.length !== 0 &&
             schedule.map((item, idx) => (
@@ -75,7 +76,10 @@ const Schedule = ({ theme, isSearch }) => {
                 <Link
                   to={`/theater/${slugify(item?.setlist?.name)}/${item?._id}`}
                 >
-                  <button className="theater-button">Detail Theater</button>
+                  <button className="theater-button">
+                    <FaTheaterMasks className="mr-1 mb-1" size={20} />
+                    Detail Show
+                  </button>
                 </Link>
               </Col>
             ))}

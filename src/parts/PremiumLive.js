@@ -68,7 +68,7 @@ const PremiumLive = ({ theme }) => {
                     </div>
                     <figure className="img-wrapper">
                       <img
-                        src={item.image_square ?? item.image}
+                        src={item.image.replace("s.png", "l.png")}
                         alt={item.room_name}
                         className="img-cover"
                       />
@@ -83,9 +83,7 @@ const PremiumLive = ({ theme }) => {
                         }`}
                       >
                         <h5 className="d-inline">
-                          {item.room_url_key
-                            .replace("_", " ")
-                            .replace("JKT48", "") + " JKT48"}{" "}
+                          {item.main_name}{" "}
                         </h5>
                         <h6 className="d-inline" style={{ color: "#ced4da" }}>
                           {getTimes(item.started_at)}
