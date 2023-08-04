@@ -28,7 +28,7 @@ const Schedule = ({ theme, isSearch }) => {
       <Fade>
         <h3 className="py-1 font-weight-bold">Jadwal Theater</h3>
         <Row>
-          {schedule.length &&
+          {schedule.length !== 0 &&
             schedule.map((item, idx) => (
               <Col key={idx} className="mb-4" md="4" sm="12">
                 <h4 className="py-2">
