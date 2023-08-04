@@ -145,7 +145,7 @@ function Home(props) {
               theme={props.theme}
             />
           ) : isLive ? (
-            <Schedule theme={props.theme} />
+            <Schedule isShowing={true} theme={props.theme} />
           ) : (
             ""
           )}
