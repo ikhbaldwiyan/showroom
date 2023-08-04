@@ -9,7 +9,6 @@ import {
   PROFILE_API,
   LIVE_INFO,
   LIVE_COMMENT,
-  PREMIUM_LIVE_DETAIL,
 } from "utils/api/api";
 import { toast } from "react-toastify";
 import { FiSend } from "react-icons/fi";
@@ -60,18 +59,11 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
       const response = await axios.get(LIVE_INFO(roomId, secretKey ?? cookies));
       setSocketKey(response?.data?.websocket?.key);
     }
-
-    if (roomId === "332503") {
-      axios.get(PREMIUM_LIVE_DETAIL("64c129da37f36b98750760a4")).then((res) => {
-        setSocketKey(res?.data?.webSocketId);
-      });
-    } else {
-      getWebsocketInfo();
-    }
+    
+    getWebsocketInfo();
 
     const newSocket = new WebSocket(socketUrl);
     newSocket.addEventListener("open", () => {
-      // console.log('WebSocket connected');
       newSocket.send(`SUB\t${socketKey}`);
     });
 
@@ -129,7 +121,6 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
         csrf: session.csrf_token,
         cookies_id: session.cookie_login_id,
       });
-      console.log(response.data);
       setTextComment("");
       setButtonLoading(false);
 
