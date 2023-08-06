@@ -54,7 +54,7 @@ const RecentLive = () => {
 
   return (
     <div className="mb-4">
-      <div className="d-flex justify-content-between py-3">
+      <div className="d-flex align-items-center justify-content-between py-3">
         <h3>Recent Live</h3>
         <Link to="/live-history">
           <div
