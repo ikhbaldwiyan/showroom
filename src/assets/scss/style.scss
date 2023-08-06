@@ -767,3 +767,59 @@ main {
   font-weight: bold;
   border: none;
 }
+
+.card-recent-live {
+  height: 150px;
+  display: flex;
+  flex-shrink: 0;
+  border-radius: 6px;
+  gap: 6px;
+  background: linear-gradient(180deg,#4724B7  0%,  #24A2B7 100%);
+}
+
+.recent-card-name {
+  margin-top: 8px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #24A2B7 0%, #3B82F6 100%);
+  padding: 4px;
+}
+
+.recent-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ECFAFC;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  margin-left: 3px;
+}
+
+.last-live {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  border-radius: 6px;
+  background: #DC3545;
+  padding: 4px;
+}
+
+.recent-image {
+  width: 110px;
+  border-radius: 6px 0px 0px 6px;
+}
+
+.recent-info-wrapper {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recent-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
