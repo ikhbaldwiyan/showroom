@@ -22,7 +22,7 @@ import {
 } from "parts";
 import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
-import HomeBanner from "parts/HomeBanner";
+import RecentLive from "parts/RecentLive";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -114,6 +114,7 @@ function Home(props) {
               <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
               <RoomUpcoming search={search} room={memberRegular} />
               <PremiumLive theme={props.theme} />
+              <RecentLive />
               <Schedule isShowing={true} isSearch={search} />
               <RoomList
                 isSearchRegular={filtered}
