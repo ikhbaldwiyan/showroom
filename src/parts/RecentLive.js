@@ -61,7 +61,7 @@ const RecentLive = () => {
             className="d-flex align-items-center"
             style={{ color: "#ECFAFC" }}
           >
-            <FaArrowRight className="mb-1 mr-2" size={25} />
+            <FaArrowRight className="mb-2 mr-2" size={25} />
             <h5>See More</h5>
           </div>
         </Link>
@@ -71,7 +71,7 @@ const RecentLive = () => {
         {logs.map((log, idx) => {
           const { member, live_info } = log;
           return (
-            <Col key={idx} md="4" sm="12" className="mb-3">
+            <Col key={idx} md="4" sm="12" className={`${idx !== 2 && "mb-3"}`}>
               <div className="card-recent-live">
                 <img className="recent-image" src={member?.img_alt} alt="" />
                 <div className="recent-info-wrapper">
@@ -124,6 +124,7 @@ const RecentLive = () => {
           );
         })}
       </Row>
+      <hr style={{borderColor: "white"}} />
     </div>
   );
 };
