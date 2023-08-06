@@ -111,7 +111,7 @@ function SearchAndFilter({
       </div>
       <div className="col-12 search-wrapper">
         <Button
-          className="mx-2"
+          className="mr-2"
           color="danger"
           onClick={filterAllMember}
           disabled={allMember ? "disabled" : ""}
@@ -120,7 +120,7 @@ function SearchAndFilter({
           <span className="text-filter">ALL</span>
         </Button>
         <Button
-          className="mx-2"
+          className="mr-2"
           style={{ backgroundColor: "teal", border: "none" }}
           onClick={filterRegular}
           disabled={isRegular ? "disabled" : ""}
@@ -129,7 +129,7 @@ function SearchAndFilter({
           <span className="text-filter">TRAINEE</span>
         </Button>
         <Button
-          className="mx-2"
+          className="mr-2"
           color="info"
           onClick={filterIsLive}
           disabled={isLive ? "disabled" : ""}
