@@ -48,14 +48,14 @@ const BotModal = ({ toggleModal, modal, modalTitle }) => {
       loadingText: "Sending Theater Schedule Bot",
       icon: <FaTheaterMasks className="mr-2" size={25} />,
     },
-    {
-      label: "Run Theater Schedule Showroom Bot",
-      api: THEATER_SCHEDULE_SHOWROOM_BOT,
-      loading: loadingShowroomBot,
-      setLoading: setLoadingShowroomBot,
-      lloadingText: "Sending Theater Showroom Schedule Bot",
-      icon: <FaTheaterMasks className="mr-2" size={25} />,
-    },
+    // {
+    //   label: "Run Theater Schedule Showroom Bot",
+    //   api: THEATER_SCHEDULE_SHOWROOM_BOT,
+    //   loading: loadingShowroomBot,
+    //   setLoading: setLoadingShowroomBot,
+    //   lloadingText: "Sending Theater Showroom Schedule Bot",
+    //   icon: <FaTheaterMasks className="mr-2" size={25} />,
+    // },
     {
       label: "Run Live Notif Bot",
       api: LIVE_NOTIF_BOT,
