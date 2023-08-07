@@ -33,7 +33,7 @@ const MainInfo = ({ theater }) => {
             <div className="mt-1">
               <span className="info-theater">Theater Date</span>
               <p className="theater-time mt-1">
-                {moment(theater?.showDate).format("DD MMMM YYYY")}
+                {moment(theater?.showDate).format("DD MMM YYYY")}
               </p>
             </div>
           </div>
