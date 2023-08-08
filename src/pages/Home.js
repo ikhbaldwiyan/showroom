@@ -114,7 +114,7 @@ function Home(props) {
               <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
               <RoomUpcoming search={search} room={memberRegular} />
               <PremiumLive theme={props.theme} />
-              <RecentLive />
+              <RecentLive isSearch={search} />
               <Schedule isShowing={true} isSearch={search} />
               <RoomList
                 isSearchRegular={filtered}

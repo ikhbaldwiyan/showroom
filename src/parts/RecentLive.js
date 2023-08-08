@@ -19,7 +19,7 @@ import { RECENT_LIVE_LOG_API } from "utils/api/api";
 import formatNumber from "utils/formatNumber";
 import formatViews from "utils/formatViews";
 
-const RecentLive = () => {
+const RecentLive = ({ isSearch }) => {
   const [logs, setLogs] = useState([]);
   const [perPage, setPerpage] = useState(3);
 
@@ -52,7 +52,7 @@ const RecentLive = () => {
     window.document.title = "Member Live History";
   }, []);
 
-  return (
+  return !isSearch && (
     <div className="mb-4">
       <div className="d-flex align-items-center justify-content-between py-3">
         <h3>Recent Live</h3>
@@ -124,7 +124,7 @@ const RecentLive = () => {
           );
         })}
       </Row>
-      <hr style={{borderColor: "white"}} />
+      <hr style={{ borderColor: "white" }} />
     </div>
   );
 };
