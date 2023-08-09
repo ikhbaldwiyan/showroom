@@ -1,13 +1,41 @@
+import axios from "axios";
 import Search from "components/Search";
-import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AiFillGift } from "react-icons/ai";
+import { BiLogInCircle } from "react-icons/bi";
+import { FaClock, FaUserFriends } from "react-icons/fa";
 import { GiPodiumWinner } from "react-icons/gi";
+import { RiBroadcastFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
+import ReactTimeago from "react-timeago";
 import { Button, Table } from "reactstrap";
+import { RECENT_LIVE_LOG_API } from "utils/api/api";
+import formatNumber from "utils/formatNumber";
 import formatViews from "utils/formatViews";
+import { gaTag } from "utils/gaTag";
 
-const RightMenu = ({ gift, setSearch, filterName }) => {
+const RightMenu = ({ gift, setSearch, filterName, id }) => {
   const [menu, setMenu] = useState("podium");
+  const [recentLive, setRecentLive] = useState("");
+
+  useEffect(() => {
+    async function getRecentLive() {
+      try {
+        const history = await axios.get(
+          RECENT_LIVE_LOG_API("date", 1, "active", -1, 6, "")
+        );
+        const { recents } = history.data;
+        setRecentLive(recents);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getRecentLive();
+  }, []);
+
+  const handleChangeHistory = (name) => {
+    gaTag(`Change History ${name}`, "History Page", "Change Room");
+  };
 
   return (
     <>
@@ -24,6 +52,13 @@ const RightMenu = ({ gift, setSearch, filterName }) => {
         onClick={() => setMenu("gift")}
       >
         <AiFillGift className="mb-1" /> Gift
+      </Button>
+      <Button
+        className="menu"
+        style={menu === "recent" ? buttonActive : buttonStyle}
+        onClick={() => setMenu("recent")}
+      >
+        <RiBroadcastFill className="mb-1" /> Recent Live
       </Button>
 
       {menu === "podium" ? (
@@ -65,7 +100,7 @@ const RightMenu = ({ gift, setSearch, filterName }) => {
             </div>
           </Table>
         </>
-      ) : (
+      ) : menu === "gift" ? (
         <Table dark>
           <div className="scroll-room">
             <thead
@@ -101,6 +136,63 @@ const RightMenu = ({ gift, setSearch, filterName }) => {
               ))}
           </div>
         </Table>
+      ) : (
+        <div className="recent-live scroll-room">
+          {recentLive.map((item, idx) => {
+            const { member, live_info } = item;
+            const memberName = member?.url?.replace("JKT48_", "") + " JKT48";
+            return (
+              id !== item.data_id && (
+                <>
+                  <div key={idx} className={`d-flex ${idx !== 0 && ""}`}>
+                    <img
+                      className="rounded"
+                      width={120}
+                      src={member?.img_alt}
+                      alt=""
+                    />
+                    <div className="recent-info-wrapper">
+                      <div className="recent-icon">
+                        <h5 className="font-weight-bold text-lg">
+                          {memberName}
+                        </h5>
+                      </div>
+                      <div className="recent-icon">
+                        <FaClock size={18} />
+                        <ReactTimeago
+                          style={{
+                            color: "#ECFAFC",
+                            fontWeight: "600",
+                            marginBottom: "1px",
+                          }}
+                          date={live_info.date.end}
+                        />
+                      </div>
+                      <div className="recent-icon">
+                        <FaUserFriends size={18} />
+                        {formatNumber(live_info?.viewers)} Views
+                      </div>
+                      <div className="recent-icon">
+                        <Link
+                          onClick={() => handleChangeHistory(memberName)}
+                          to={`/history/${member.url}/${item.data_id}`}
+                        >
+                          <div className="recent-card-name">
+                            <span className="recent-name">
+                              Detail History
+                              <BiLogInCircle size={20} />
+                            </span>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                  <hr style={{ borderColor: "white" }} />
+                </>
+              )
+            );
+          })}
+        </div>
       )}
     </>
   );
