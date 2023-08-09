@@ -45,7 +45,7 @@ function About(props) {
               https://saweria.co/Inzoid
             </a>
           </p>
-          <p>Discord :</p>
+          <p>Social Media :</p>
           <ul>
             <li>
               <a
@@ -59,6 +59,19 @@ function About(props) {
                 Join Discord Grup
               </a>{" "}
               (Discord Community)
+            </li>
+            <li>
+              <a
+                href="https://twitter.com/Jkt48_Showroom"
+                rel="noreferrer"
+                target="_blank"
+                onClick={() =>
+                  gaEvent("About Link", "Twitter Link Click", "About")
+                }
+              >
+                Twitter
+              </a>{" "}
+              (@Jkt48_Showroom)
             </li>
           </ul>
           <p>Source :</p>
@@ -131,27 +144,6 @@ function About(props) {
           </ul>
           <p>Contributors :</p>
           <ul>
-            <li>
-              <a
-                href="https://github.com/AldyRevigustian"
-                rel="noreferrer"
-                target="_blank"
-                onClick={() =>
-                  gaEvent("About Link", "Contributor Aldy Click", "About")
-                }
-              >
-                <img
-                  src="https://avatars.githubusercontent.com/u/72060143?v=4"
-                  alt=""
-                  style={{
-                    borderRadius: "50%",
-                    height: "30px",
-                    marginRight: "10px",
-                  }}
-                />
-                <span>Aldy Revigustian</span>
-              </a>{" "}
-            </li>
             <li className="mt-2">
               <a
                 href="https://github.com/ikhbaldwiyan"
@@ -173,6 +165,28 @@ function About(props) {
                 <span>Ikhbal Dwiyantoro</span>
               </a>{" "}
             </li>
+            <li>
+              <a
+                href="https://github.com/AldyRevigustian"
+                rel="noreferrer"
+                target="_blank"
+                onClick={() =>
+                  gaEvent("About Link", "Contributor Aldy Click", "About")
+                }
+              >
+                <img
+                  src="https://avatars.githubusercontent.com/u/72060143?v=4"
+                  alt=""
+                  style={{
+                    borderRadius: "50%",
+                    height: "30px",
+                    marginRight: "10px",
+                  }}
+                />
+                <span>Aldy Revigustian</span>
+              </a>{" "}
+            </li>
+            
           </ul>
         </div>
       </Container>

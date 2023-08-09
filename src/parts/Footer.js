@@ -70,6 +70,16 @@ export default function Footer({ theme }) {
                     Discord Group
                   </Button>
                 </li>
+                <li className="list-group-item">
+                  <Button
+                    type="link"
+                    href="https://twitter.com/Jkt48_Showroom"
+                    isExternal
+                    target="_blank"
+                  >
+                    Twitter
+                  </Button>
+                </li>
               </ul>
             </div>
           </div>
