@@ -37,7 +37,7 @@ const DetailLiveHistory = (props) => {
     }
     getDetailHistory();
     window.scrollTo(0, 0);
-  }, [search]);
+  }, [search, id]);
 
   const filterName = !search
     ? rank
@@ -166,6 +166,7 @@ const DetailLiveHistory = (props) => {
 
           <Col md="4">
             <RightMenu
+              id={id}
               gift={gift}
               setSearch={setSearch}
               filterName={filterName}
