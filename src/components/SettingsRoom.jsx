@@ -20,7 +20,7 @@ const SettingsRoom = ({ iconCss, set3Room, set4Room }) => {
   const [showButtons, setShowButtons] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to show/hide password
   const [showInfoPopover, setShowInfoPopover] = useState(false); // State to control info popover
-  const secretPassword = "sorumMultiStre@m";
+  const secretPassword = "multiRoomKey48";
 
   const handleModalPassword = () => {
     setModal(!modal);
