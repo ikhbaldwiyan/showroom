@@ -17,7 +17,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { clearFollowedRoom } from "redux/actions/roomFollowed";
-import { DETAIL_USER, UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
+import { ACTIVITY_LOG, DETAIL_USER, UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { GiFarmer } from "react-icons/gi";
 import {
@@ -134,6 +134,12 @@ export default function UserProfile({ data, session, theme }) {
     setTimeout(() => {
       navigate.push("/login");
     }, 2000);
+
+    axios.post(ACTIVITY_LOG, {
+      user_id: userPermisions._id,
+      log_name: "Logout",
+      description: `Logout user ${userPermisions.name}`,
+    });
 
     dispatch(clearFollowedRoom());
     dispatch(clearProfile());

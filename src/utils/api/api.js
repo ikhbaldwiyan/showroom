@@ -123,6 +123,12 @@ const NEXT_LIVE = (roomId) => {
   return `${ROOM}/next_live/${roomId}`;
 };
 
+// ACTIVITY LOG API
+const ACTIVITY_LOG = `${ADMIN_API}/activity`
+const ACTIVITY_LOG_DETAIL = (id) => {
+  return `${ADMIN_API}/activity/${id}`
+}
+
 export {
   API,
   ROOM_LIST_API,
@@ -170,5 +176,7 @@ export {
   SETLIST_API,
   DETAIL_SETLIST,
   PREMIUM_LIVE_LIST,
-  PREMIUM_LIVE_DETAIL
+  PREMIUM_LIVE_DETAIL,
+  ACTIVITY_LOG,
+  ACTIVITY_LOG_DETAIL
 };
