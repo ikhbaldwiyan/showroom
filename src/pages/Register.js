@@ -6,9 +6,10 @@ import { RiLoginBoxFill, RiUser3Fill } from "react-icons/ri";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Container, Input } from "reactstrap";
-import { ACTIVITY_LOG, CREATE_USER, LOGIN, REGISTER } from "utils/api/api";
+import { CREATE_USER, LOGIN, REGISTER } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
 import MainLayout from "./layout/MainLayout";
+import { activityLog } from "utils/activityLog";
 
 const Register = (props) => {
   const [accountId, setAccountId] = useState("");
@@ -53,11 +54,12 @@ const Register = (props) => {
           user_id: accountId,
           name: response.data.profile.name
         }).then((res) => {
-          axios.post(ACTIVITY_LOG, {
-            user_id: res.data.user._id,
-            log_name: "Register",
+          activityLog({
+            userId: res.data.user._id,
+            logName: "Register",
             description: `Register user ${res.data.user.name} from register page`,
           });
+          localStorage.setItem("userProfile", JSON.stringify(res.data.user))
         })
         gaEvent("Register Screen", "Register Success", "Register");
         autoLogin();

@@ -28,6 +28,7 @@ import {
 import { gaEvent } from "utils/gaEvent";
 import { Link } from "react-router-dom";
 import { gaTag } from "utils/gaTag";
+import { activityLog } from "utils/activityLog";
 
 function StarButton({
   roomId,
@@ -68,6 +69,7 @@ function StarButton({
       cookies_login_id: cookiesLoginId,
       room_id: roomId,
     });
+    const user = getSession().userProfile;
 
     if (response.message === "[] Offline") {
       setUrl([]);
@@ -84,6 +86,12 @@ function StarButton({
         label: "Get Free Stars - Live Stream",
         username: getSession()?.profile?.name,
       });
+      
+      activityLog({
+        logName: "Stars",
+        userId: user._id,
+        description: `User ${user.name} get free stars`
+      })
 
       toast.success(response.data.data.toast.message, {
         theme: "colored",

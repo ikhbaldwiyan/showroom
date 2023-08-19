@@ -2,7 +2,7 @@ import { Container } from "reactstrap";
 import MainLayout from "./layout/MainLayout";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { ACTIVITY_LOG, CREATE_USER, DETAIL_USER, LOGIN } from "utils/api/api";
+import { CREATE_USER, DETAIL_USER, LOGIN } from "utils/api/api";
 import { toast } from "react-toastify";
 import { Loading } from "components";
 import { RiLoginBoxFill } from "react-icons/ri";
@@ -11,6 +11,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { gaEvent } from "utils/gaEvent";
 import { gaEvent as loginApi } from "utils/gaEvent";
 import { IoMdLogIn } from "react-icons/io";
+import { activityLog } from "utils/activityLog";
 
 function Login(props) {
   const [accountId, setAccountId] = useState("");
@@ -44,18 +45,18 @@ function Login(props) {
       user_id: accountId,
       name: response.data.profile.name
     }).then((res) => {
-      axios.post(ACTIVITY_LOG, {
-        user_id: res.data.user._id,
-        log_name: "Login and Register",
+      activityLog({
+        userId: res.data.user._id,
+        logName: "Login and Register",
         description: `Register user ${res.data.user.name} first after login success`,
       });
-      console.log(res)
     })
 
-    const detailUser = await axios.get(DETAIL_USER(accountId));
-    axios.post(ACTIVITY_LOG, {
-      user_id: detailUser.data._id,
-      log_name: "Login",
+    const user = await axios.get(DETAIL_USER(accountId));
+    localStorage.setItem("userProfile", JSON.stringify(user.data))
+    activityLog({
+      userId: user.data._id,
+      logName: "Login",
       description: `Login user ${response.data.profile.name} to web`,
     });
   };
