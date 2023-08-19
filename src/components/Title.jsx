@@ -11,6 +11,8 @@ import LastSeen from "./LastSeen";
 import getTimes from "utils/getTimes";
 import { getSession } from "utils/getSession";
 import { Button } from "reactstrap";
+import { showToast } from "utils/showToast";
+import { updateTaskProgress } from "utils/updateTaskProgress";
 
 function Title({
   roomId,
@@ -30,7 +32,7 @@ function Title({
   updateMenu,
   setUrl,
   handleRefresh,
-  setIsPremiumLive
+  setIsPremiumLive,
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -39,6 +41,7 @@ function Title({
   const [hideTime, setHideTime] = useState(true);
   const [hideName, setHideName] = useState(false);
   const [hideViews, setHideViews] = useState(false);
+  const [liveId, setLiveId] = useState("");
   const cookies = getSession()?.session?.cookie_login_id ?? "info";
 
   const propSettings = {
@@ -61,7 +64,7 @@ function Title({
     number,
     removeSelectedRoom,
     updateMenu,
-    setUrl
+    setUrl,
   };
 
   const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };
@@ -73,7 +76,8 @@ function Title({
           const profiles = res.data;
           setProfile(profiles);
           setTitle(profiles.title);
-          setIsPremiumLive(profiles.isPremiumLive)
+          setIsPremiumLive(profiles.isPremiumLive);
+          setLiveId(profiles?.websocket?.live_id);
         },
         [profile]
       );
@@ -81,6 +85,22 @@ function Title({
       console.log(error);
     }
   }, [roomId, secretKey]);
+
+  // Update Task Progress when room live
+  useEffect(() => {
+    const user = getSession().userProfile;
+    if (user) {
+      setTimeout(() => {
+        updateTaskProgress({
+          liveId: liveId,
+          taskId: "64df7dcdbd7d2b4e943ac232",
+          userId: user._id,
+          progress: 10,
+        });
+        showToast("info", "your task progress updated")
+      }, 5000);
+    }
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
