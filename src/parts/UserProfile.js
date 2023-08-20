@@ -138,7 +138,7 @@ export default function UserProfile({ data, session, theme }) {
     axios.post(ACTIVITY_LOG, {
       user_id: userPermisions._id,
       log_name: "Logout",
-      description: `Logout user ${userPermisions.name}`,
+      description: `Logout user from website`,
     });
 
     dispatch(clearFollowedRoom());

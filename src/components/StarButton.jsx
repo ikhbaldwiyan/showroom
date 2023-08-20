@@ -203,7 +203,7 @@ function StarButton({
 
         setAllStar(res.data);
         activityLog({
-          userId: userProfile._id,
+          userId: userProfile?._id,
           logName: "Send Stars",
           description: `Send all stars to ${room_name}`
         })
@@ -269,7 +269,7 @@ function StarButton({
         let data = response.data;
         gaEvent("Stars", "Send Stars", "Live Stream");
         activityLog({
-          userId: userProfile._id,
+          userId: userProfile?._id,
           logName: "Send Stars",
           description: `Send ${value} stars to ${room_name}`
         })
