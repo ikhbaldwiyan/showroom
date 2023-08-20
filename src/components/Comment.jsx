@@ -117,7 +117,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, roo
     e.preventDefault();
     setButtonLoading(true);
     try {
-      const response = await axios.post(SEND_COMMENT, {
+      await axios.post(SEND_COMMENT, {
         room_id: roomId.toString(),
         comment: textComment,
         csrf: session.csrf_token,
@@ -147,7 +147,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, roo
         activityLog({
           userId: userProfile?._id,
           logName: "Comment",
-          description: `Send comment multi room to ${room_name}`
+          description: `Send comment multi room to ${formatName(profile.room_url_key)}`
         });
       } else {
         gaEvent(
@@ -158,7 +158,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, roo
         activityLog({
           userId: userProfile?._id,
           logName: "Comment",
-          description: `Send comment regular to ${room_name}`
+          description: `Send comment regular to ${formatName(profile.room_url_key)}`
         });
       }
     } catch (err) {

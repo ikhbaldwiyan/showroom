@@ -126,7 +126,7 @@ const UserList = (props) => {
           </div>
         </div>
         <div style={{ overflowX: "scroll", maxWidth: "100%" }}>
-          <Table  dark>
+          <Table bordered dark>
             <thead>
               <tr>
                 <th>No</th>

@@ -116,23 +116,23 @@ const ActivityLogList = (props) => {
             }}
           >
             Log Detail{" "}
-            {moment(selectedLog?.timestamp).format("dddd, DD MMM HH:mm ")}
+            {selectedLog?.log_name}
           </ModalHeader>
           <ModalBody style={{ color: "black" }}>
             {selectedLog && (
               <div>
                 <p>
-                  <strong>Log Name:</strong> {selectedLog?.log_name}
+                  <strong>User:</strong> {selectedLog?.user?.name}
+                </p>
+                <p>
+                  <strong>Account ID:</strong> {selectedLog?.user?.user_id}
                 </p>
                 <p>
                   <strong>Description:</strong> {selectedLog?.description}
                 </p>
                 <p>
-                  <strong>User:</strong> {selectedLog?.user?.name}
-                </p>
-                <p>
                   <strong>Timestamp:</strong>{" "}
-                  {moment(selectedLog?.timestamp).format("dddd, DD MMM HH:mm ")}
+                  {moment(selectedLog?.timestamp).format("dddd, DD MMMM HH:mm ")}
                 </p>
               </div>
             )}

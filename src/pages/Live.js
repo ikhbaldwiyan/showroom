@@ -6,6 +6,7 @@ import {
   DETAIL_SCHEDULE,
   LIVE_STREAM_URL,
   PREMIUM_LIVE_DETAIL,
+  PROFILE_API,
 } from "utils/api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,7 +26,7 @@ import {
   NoTicket,
 } from "components";
 import { isMobile } from "react-device-detect";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FarmStars from "components/FarmStars";
 import { getSession } from "utils/getSession";
 import { MdError } from "react-icons/md";
@@ -34,6 +35,7 @@ import { gaTag } from "utils/gaTag";
 import { gaEvent } from "utils/gaEvent";
 import Setlist from "./theater/components/Setlist";
 import MemberLineUp from "./theater/components/MemberLineUp";
+import { getRoomDetailSucces } from "redux/actions/roomDetail";
 
 function Live(props) {
   let { id, name } = useParams();
@@ -58,6 +60,7 @@ function Live(props) {
   const [scheduleId, setScheduleId] = useState();
   const [isPremiumLive, setIsPremiumLive] = useState(false);
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const session = localStorage.getItem("session");
@@ -70,6 +73,14 @@ function Live(props) {
       setCsrfToken(foundSession.csrf_token);
       setUser(userSession);
     }
+
+    axios.post(PROFILE_API, {
+      room_id: roomId.toString(),
+      cookie: session?.cookie_login_id
+    }).then((res) => {
+      const profile = res.data;
+      dispatch(getRoomDetailSucces(profile, profile.is_follow ? 1 : 0));
+    });
   }, []);
 
   useEffect(() => {

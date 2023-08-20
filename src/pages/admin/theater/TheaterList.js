@@ -134,7 +134,7 @@ function TheaterList(props) {
           </Button>
         </div>
         <div style={{ overflowX: "scroll", maxWidth: "100%" }}>
-          <Table className="mt-4" dark>
+          <Table bordered className="mt-4" dark>
             <thead>
               <tr style={{ color: "white" }}>
                 <th>No</th>

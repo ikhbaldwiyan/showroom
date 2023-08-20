@@ -73,7 +73,7 @@ function Title({
           const profiles = res.data;
           setProfile(profiles);
           setTitle(profiles.title);
-          setIsPremiumLive(profiles.isPremiumLive)
+          !isMultiRoom && setIsPremiumLive(profiles.isPremiumLive)
         },
         [profile]
       );

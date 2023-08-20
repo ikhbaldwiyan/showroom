@@ -67,13 +67,6 @@ function StarButton({
     getFirstStar();
     setDisableCount(false);
     setAvatarImage(session?.profile?.avatar_url);
-    axios.post(PROFILE_API, {
-      room_id: roomId.toString(),
-      cookie: session?.cookie_login_id
-    }).then((res) => {
-      const profile = res.data;
-      dispatch(getRoomDetailSucces(profile, profile.is_follow ? 1 : 0));
-    });
 
     if (isPremiumLive) {
       activityLog({
@@ -146,7 +139,7 @@ function StarButton({
       setDisableCount(false);
     }, 1000 * 80);
     return () => clearInterval(interval);
-  }, []);
+  }, [room_name]);
 
   useEffect(() => {
     let timeoutId;
