@@ -217,6 +217,7 @@ function Live(props) {
                       user={user}
                       setUrl={setUrl}
                       room_name={room_name}
+                      isPremiumLive={isPremiumLive}
                     />
                   )}
                 </>
@@ -304,7 +305,8 @@ function Live(props) {
                 csrfToken={csrfToken}
                 theme={props.theme}
                 setUrl={setUrl}
-                isPremiumLive
+                room_name={room_name}
+                isPremiumLive={isPremiumLive}
               />
             ) : menu === "farming" ? (
               <FarmStars isSingleLive />
