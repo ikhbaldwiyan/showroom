@@ -57,7 +57,7 @@ const Register = (props) => {
           activityLog({
             userId: res.data.user._id,
             logName: "Register",
-            description: `Register user ${res.data.user.name} from register page`,
+            description: "Register user from register page",
           });
           localStorage.setItem("userProfile", JSON.stringify(res.data.user))
         })

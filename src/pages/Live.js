@@ -205,6 +205,7 @@ function Live(props) {
                       theme={props.theme}
                       user={user}
                       setUrl={setUrl}
+                      room_name={room_name}
                     />
                   )}
                 </>

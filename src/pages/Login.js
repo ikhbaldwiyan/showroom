@@ -48,7 +48,7 @@ function Login(props) {
       activityLog({
         userId: res.data.user._id,
         logName: "Login and Register",
-        description: `Register user ${res.data.user.name} first after login success`,
+        description: `Register user after login success`,
       });
     })
 
@@ -57,7 +57,7 @@ function Login(props) {
     activityLog({
       userId: user.data._id,
       logName: "Login",
-      description: `Login user ${response.data.profile.name} to web`,
+      description: "Login user to web",
     });
   };
 

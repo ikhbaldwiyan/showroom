@@ -9,7 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "reactstrap";
-import { BULK_GIFT, FARM, LIVE_RANKING, SEND_GIFT } from "utils/api/api";
+import { BULK_GIFT, FARM, LIVE_RANKING, PROFILE_API, SEND_GIFT } from "utils/api/api";
 import Loading from "./Loading";
 import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
@@ -29,6 +29,7 @@ import { gaEvent } from "utils/gaEvent";
 import { Link } from "react-router-dom";
 import { gaTag } from "utils/gaTag";
 import { activityLog } from "utils/activityLog";
+import { getRoomDetailSucces } from "redux/actions/roomDetail";
 
 function StarButton({
   roomId,
@@ -37,6 +38,7 @@ function StarButton({
   csrfToken,
   user,
   setUrl,
+  room_name
 }) {
   const { starsRedux, clickCountRedux, isLoadingStars } = useSelector(
     (state) => state.stars
@@ -51,6 +53,9 @@ function StarButton({
   const [rank, setRank] = useState();
   const [avatarY, setAvatarY] = useState(0);
   const [avatarImage, setAvatarImage] = useState();
+  
+  const userProfile = getSession().userProfile;
+  const session = getSession();
 
   const avatarAnimation = useAnimation();
   const toggle = () => setModal(!modal);
@@ -60,8 +65,14 @@ function StarButton({
     setDisableCount(true);
     getFirstStar();
     setDisableCount(false);
-    const session = getSession();
     setAvatarImage(session?.profile?.avatar_url);
+    axios.post(PROFILE_API, {
+      room_id: roomId.toString(),
+      cookie: session?.cookie_login_id
+    }).then((res) => {
+      const profile = res.data;
+      dispatch(getRoomDetailSucces(profile, profile.is_follow ? 1 : 0));
+    });
   }, [cookiesLoginId]);
 
   const getFirstStar = async () => {
@@ -69,7 +80,6 @@ function StarButton({
       cookies_login_id: cookiesLoginId,
       room_id: roomId,
     });
-    const user = getSession().userProfile;
 
     if (response.message === "[] Offline") {
       setUrl([]);
@@ -89,8 +99,8 @@ function StarButton({
       
       activityLog({
         logName: "Stars",
-        userId: user._id,
-        description: `User ${user.name} get free stars`
+        userId: userProfile._id,
+        description: `Get free stars from ${room_name}`
       })
 
       toast.success(response.data.data.toast.message, {
@@ -174,6 +184,11 @@ function StarButton({
         });
 
         setAllStar(res.data);
+        activityLog({
+          userId: userProfile._id,
+          logName: "Send Stars",
+          description: `Send all stars to ${room_name}`
+        })
 
         toast.success(`Sukses Mengirim Semua Star`, {
           theme: "colored",
@@ -205,6 +220,11 @@ function StarButton({
 
       if (response.data.ok) {
         let data = response.data;
+        activityLog({
+          userId: userProfile._id,
+          logName: "Send Stars",
+          description: `Send 10 stars to ${room_name}`
+        })
         dispatch(sendStarSuccess(key, data.remaining_num));
         gaEvent("Stars", "Send Ten Stars", "Live Stream");
 
@@ -230,6 +250,11 @@ function StarButton({
       if (response.data.ok) {
         let data = response.data;
         gaEvent("Stars", "Send Stars", "Live Stream");
+        activityLog({
+          userId: userProfile._id,
+          logName: "Send Stars",
+          description: `Send ${value} stars to ${room_name}`
+        })
         dispatch(sendStarSuccess(key, data.remaining_num));
 
         setDisableCount(false);
