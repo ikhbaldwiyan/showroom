@@ -16,7 +16,7 @@ export const activityLog = ({ userId, logName, description, taskId }) => {
         activityLog({
           userId: res.data.user._id,
           logName: "Auto Register",
-          description: "Auto Register user from activity log"
+          description: `Auto Register user from activity log ${logName.toLowerCase()}`
         });
         localStorage.setItem("userProfile", JSON.stringify(res.data.user));
 

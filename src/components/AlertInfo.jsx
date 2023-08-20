@@ -4,9 +4,19 @@ import { UncontrolledAlert } from "reactstrap";
 import { gaEvent } from "utils/gaEvent";
 import { useSelector } from "react-redux";
 import { getSession } from "utils/getSession";
+import { activityLog } from "utils/activityLog";
 
 const AlertInfo = ({ page, label }) => {
   const user = useSelector((state) => state.user.user);
+
+  const trackLinkClicked = () => {
+    gaEvent(page, "Discord Link Click", label)
+    activityLog({
+      userId: user._id ?? "64e2090061ec79ea209a0160",
+      logName: "Discord Link",
+      description: "Discord Link Click",
+    })
+  }
 
   return (user?.can_3_room === false || getSession()?.session === null) && (
     <UncontrolledAlert color="primary">
@@ -16,7 +26,7 @@ const AlertInfo = ({ page, label }) => {
         href={process.env.REACT_APP_DISCORD_LINK}
         target="_blank"
         rel="noreferrer"
-        onClick={() => gaEvent(page, "Discord Link Click", label)}
+        onClick={trackLinkClicked}
       >
         <b className="mx-1 discord-text">
           JOIN DISINI
