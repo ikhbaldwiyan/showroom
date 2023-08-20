@@ -38,7 +38,8 @@ function StarButton({
   csrfToken,
   user,
   setUrl,
-  room_name
+  room_name,
+  isPremiumLive
 }) {
   const { starsRedux, clickCountRedux, isLoadingStars } = useSelector(
     (state) => state.stars
@@ -73,6 +74,15 @@ function StarButton({
       const profile = res.data;
       dispatch(getRoomDetailSucces(profile, profile.is_follow ? 1 : 0));
     });
+
+    if (isPremiumLive) {
+      activityLog({
+        logName: "Premium Live",
+        userId: userProfile?._id,
+        description: `Watch Premium Live ${cookiesLoginId}`
+      })
+    }
+    
   }, [cookiesLoginId]);
 
   const getFirstStar = async () => {
@@ -99,9 +109,17 @@ function StarButton({
       
       activityLog({
         logName: "Stars",
-        userId: userProfile._id,
+        userId: userProfile?._id,
         description: `Get free stars from ${room_name}`
       })
+
+      if (isPremiumLive) {
+        activityLog({
+          logName: "Premium Live",
+          userId: userProfile?._id,
+          description: `Watch Premium Live ${cookiesLoginId}`
+        })
+      }
 
       toast.success(response.data.data.toast.message, {
         theme: "colored",

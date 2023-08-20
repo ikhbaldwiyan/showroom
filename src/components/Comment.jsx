@@ -16,8 +16,9 @@ import { Link } from "react-router-dom";
 import { gaEvent } from "utils/gaEvent";
 import formatName from "utils/formatName";
 import { getSession } from "utils/getSession";
+import { activityLog } from "utils/activityLog";
 
-export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
+export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, room_name }) {
   const [comment, setComment] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [session, setSession] = useState("");
@@ -29,6 +30,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
   const [socketUrl, setSocketUrl] = useState("wss://online.showroom-live.com/");
   const [socketKey, setSocketKey] = useState("");
   const cookies = getSession()?.session?.cookie_login_id ?? "comment";
+  const userProfile = getSession().userProfile;
 
   useEffect(() => {
     async function getComments() {
@@ -142,12 +144,22 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey }) {
           `Send Comment Multi (${formatName(profile.room_url_key)})`,
           textComment
         );
+        activityLog({
+          userId: userProfile?._id,
+          logName: "Comment",
+          description: `Send comment multi room to ${room_name}`
+        });
       } else {
         gaEvent(
           "Comment",
           `Send Comment Regular (${formatName(profile.room_url_key)})`,
           textComment
         );
+        activityLog({
+          userId: userProfile?._id,
+          logName: "Comment",
+          description: `Send comment regular to ${room_name}`
+        });
       }
     } catch (err) {
       if (textComment.length > 50) {

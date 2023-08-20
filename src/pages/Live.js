@@ -274,6 +274,7 @@ function Live(props) {
                 roomId={roomId}
                 setRoomId={setRoomId}
                 secretKey={secretKey}
+                room_name={room_name}
               />
             ) : menu === "rank" ? (
               <StageUser roomId={roomId} secretKey={secretKey} />
@@ -292,6 +293,7 @@ function Live(props) {
                 csrfToken={csrfToken}
                 theme={props.theme}
                 setUrl={setUrl}
+                isPremiumLive
               />
             ) : menu === "farming" ? (
               <FarmStars isSingleLive />
