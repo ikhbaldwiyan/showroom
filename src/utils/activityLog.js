@@ -5,6 +5,7 @@ import { getSession } from "./getSession";
 export const activityLog = ({ userId, logName, description, taskId }) => {
   const user = getSession().user;
   const profile = getSession().profile;
+  const blackListUserId = ["64bcd236a8b31ffeb54ae41d"]
 
   if (!userId) {
     axios
@@ -27,7 +28,7 @@ export const activityLog = ({ userId, logName, description, taskId }) => {
           description
         });
       });
-  } else {
+  } else if (!userId.includes(blackListUserId)) {
     return axios.post(ACTIVITY_LOG, {
       user_id: userId,
       task_id: taskId,
