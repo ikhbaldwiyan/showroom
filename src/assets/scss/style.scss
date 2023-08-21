@@ -830,3 +830,73 @@ main {
   stroke: #ECFAFC;
   border-radius: 6px;
 }
+
+.task-list-card {
+  position: absolute;
+  top: 100%; /* Adjust this value to position the card correctly */
+  left: 70%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  border-radius: 7px;
+  border: 3px solid #FFF;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 500px;
+  height: auto;
+}
+
+/* Style for card content */
+.task-list-card .card {
+  border: none;
+  border-radius: 7px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(180deg, #24A2B7 0%, #2563EB 100%);
+  height: auto;
+}
+
+.task-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 300px;
+}
+
+.task-title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.point-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.point-text {
+  font-size: 14px;
+}
+
+.claim-btn {
+  font-weight: bold;
+  border-radius: 10px;
+  background: #ECFAFC;
+  color: #22a2b7;
+  font-size: 12px;
+  border: none;
+}
+
+.task-bar {
+  height: 10px;
+  border-radius: 100px;
+  background: #2DCE94;
+  width: 100%;
+}

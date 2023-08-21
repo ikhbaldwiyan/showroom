@@ -10,15 +10,17 @@ import { RiAdminFill, RiBroadcastFill } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiFileList3Fill, RiLoginBoxFill } from "react-icons/ri";
 import { BsInfoCircleFill } from "react-icons/bs";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaTasks } from "react-icons/fa";
 import UserProfile from "./UserProfile";
 import { isAdmin } from "utils/permissions/admin";
+import TaskListCard from "./TaskListCard";
 
 export default function Header({ theme, toggleTheme, isMultiRoom }) {
   const [user, setUser] = useState("");
   const [profile, setProfile] = useState("");
   const [session, setSession] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isTaskListOpen, setIsTaskListOpen] = useState(false);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -110,10 +112,28 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     <RiFileList3Fill style={iconHome} /> History
                   </Button>
                 </li>
+                {profile && (
+                  <li className={`nav-item ${isTaskListOpen && "active"} `}>
+                    <Button
+                      className="nav-link"
+                      type="link"
+                      onClick={() => setIsTaskListOpen(!isTaskListOpen)}
+                      style={{ borderColor: "silver" }}
+                    >
+                      <FaTasks size={24} style={iconHome} />
+                    </Button>
+                  </li>
+                )}
                 {isAdmin() ? (
                   <li className={`nav-item${getNavLinkClass("/admin")}`}>
                     <Button className="nav-link" type="link" href="/admin">
-                      <RiAdminFill style={iconHome} /> Admin
+                      <RiAdminFill size={24} style={iconHome} />
+                    </Button>
+                  </li>
+                ) : profile ? (
+                  <li className={`nav-item${getNavLinkClass("/about")}`}>
+                    <Button className="nav-link" type="link" href="/about">
+                      <BsInfoCircleFill style={iconHome} size={24} />
                     </Button>
                   </li>
                 ) : (
@@ -150,6 +170,9 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
               </ul>
             </div>
           </nav>
+          {isTaskListOpen && (
+            <TaskListCard />
+          )}
         </div>
       </header>
     </Fade>
