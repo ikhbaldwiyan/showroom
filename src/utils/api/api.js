@@ -129,6 +129,10 @@ const ACTIVITY_LOG_DETAIL = (id) => {
   return `${ADMIN_API}/activity/${id}`
 }
 
+// TASK LIST
+const TASK_LIST = `${ADMIN_API}/tasks`
+
+
 export {
   API,
   ROOM_LIST_API,
@@ -178,5 +182,6 @@ export {
   PREMIUM_LIVE_LIST,
   PREMIUM_LIVE_DETAIL,
   ACTIVITY_LOG,
-  ACTIVITY_LOG_DETAIL
+  ACTIVITY_LOG_DETAIL,
+  TASK_LIST
 };
