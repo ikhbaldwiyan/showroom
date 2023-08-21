@@ -131,10 +131,14 @@ const ACTIVITY_LOG_DETAIL = (id) => {
 
 // TASK LIST
 const TASK_LIST = `${ADMIN_API}/tasks`
+
 const COMPLETE_TASK = (taskId) => {
   return `${ADMIN_API}/tasks/complete-task/${taskId}`
 }
 
+const UPDATE_TASK_PROGRESS = (taskId) => {
+  return `${ADMIN_API}/tasks/update-progress/${taskId}`
+}
 
 export {
   API,
@@ -187,5 +191,6 @@ export {
   ACTIVITY_LOG,
   ACTIVITY_LOG_DETAIL,
   TASK_LIST,
-  COMPLETE_TASK
+  COMPLETE_TASK,
+  UPDATE_TASK_PROGRESS
 };

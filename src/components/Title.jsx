@@ -11,6 +11,8 @@ import LastSeen from "./LastSeen";
 import getTimes from "utils/getTimes";
 import { getSession } from "utils/getSession";
 import { Button } from "reactstrap";
+import { updateTaskProgress } from "utils/updateTaskProgress";
+import { useSelector } from "react-redux";
 
 function Title({
   roomId,
@@ -30,7 +32,7 @@ function Title({
   updateMenu,
   setUrl,
   handleRefresh,
-  setIsPremiumLive
+  setIsPremiumLive,
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -39,6 +41,7 @@ function Title({
   const [hideTime, setHideTime] = useState(true);
   const [hideName, setHideName] = useState(false);
   const [hideViews, setHideViews] = useState(false);
+  const [liveId, setLiveId] = useState("");
   const cookies = getSession()?.session?.cookie_login_id ?? "info";
 
   const propSettings = {
@@ -61,10 +64,11 @@ function Title({
     number,
     removeSelectedRoom,
     updateMenu,
-    setUrl
+    setUrl,
   };
 
   const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };
+  const user = useSelector((state) => state.user.user);
 
   useEffect(() => {
     try {
@@ -73,7 +77,8 @@ function Title({
           const profiles = res.data;
           setProfile(profiles);
           setTitle(profiles.title);
-          !isMultiRoom && setIsPremiumLive(profiles.isPremiumLive)
+          !isMultiRoom && setIsPremiumLive(profiles.isPremiumLive);
+          setLiveId(profiles?.websocket?.live_id);
         },
         [profile]
       );
@@ -81,6 +86,22 @@ function Title({
       console.log(error);
     }
   }, [roomId, secretKey]);
+
+  // Update task progress when user watch live
+  useEffect(() => {
+    if (user && liveId !== "") {
+      setTimeout(() => {
+        updateTaskProgress({
+          liveId: liveId,
+          taskId: "64df1cd62764ed6eb87eec5c",
+          userId: user._id,
+          progress: 1,
+          user: user,
+          type: "watch",
+        });
+      }, 30000);
+    }
+  }, [liveId]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

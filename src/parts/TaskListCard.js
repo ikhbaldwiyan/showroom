@@ -89,6 +89,7 @@ const TaskListCard = ({ isTaskListOpen }) => {
         <div className="card-body">
           {taskList.data
             ?.filter((item) => item.status !== "completed")
+            ?.filter((item) => item.active === true)
             .map((item, idx) => (
               <>
                 {idx !== 0 && (
