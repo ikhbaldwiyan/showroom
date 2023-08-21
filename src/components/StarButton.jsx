@@ -29,7 +29,6 @@ import { gaEvent } from "utils/gaEvent";
 import { Link } from "react-router-dom";
 import { gaTag } from "utils/gaTag";
 import { activityLog } from "utils/activityLog";
-import { getRoomDetailSucces } from "redux/actions/roomDetail";
 
 function StarButton({
   roomId,

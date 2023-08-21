@@ -169,7 +169,7 @@ export default function UserProfile({ data, session, theme }) {
               className="row"
               style={{ lineHeight: "0px", fontSize: ".8rem" }}
             >
-              Level {profile?.fan_level ?? "0"}
+              {userPermisions?.points ?? "0"} Point 
             </span>
           </div>
         </li>

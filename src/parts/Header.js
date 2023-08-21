@@ -170,7 +170,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
               </ul>
             </div>
           </nav>
-          {isTaskListOpen && (
+          {isTaskListOpen && profile && (
             <TaskListCard isTaskListOpen={isTaskListOpen} />
           )}
         </div>

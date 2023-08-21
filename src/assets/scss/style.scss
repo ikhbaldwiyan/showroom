@@ -900,3 +900,14 @@ main {
   background: #2DCE94;
   width: 100%;
 }
+
+.claim-btn-disabled {
+  font-weight: bold;
+  border-radius: 10px;
+  color: white;
+  font-size: 12px;
+  border: none;
+  border-radius: 6px;
+  opacity: 0.8;
+  background: #c8c6c6;
+}
