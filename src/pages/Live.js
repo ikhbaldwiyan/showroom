@@ -36,6 +36,7 @@ import { gaEvent } from "utils/gaEvent";
 import Setlist from "./theater/components/Setlist";
 import MemberLineUp from "./theater/components/MemberLineUp";
 import { getRoomDetailSucces } from "redux/actions/roomDetail";
+import { activityLog } from "utils/activityLog";
 
 function Live(props) {
   let { id, name } = useParams();
@@ -129,13 +130,15 @@ function Live(props) {
     });
 
   useEffect(() => {
-    const userSession = localStorage.getItem("session");
-    const secretKey = localStorage.getItem("secretKey");
-    if (userSession) {
-      const foundSession = JSON.parse(userSession);
-      setSession(foundSession);
-    }
+    setSession(getSession().session);
     setSecretKey(secretKey);
+    if (isPremiumLive) {
+      activityLog({
+        logName: "Premium Live",
+        userId: user?._id,
+        description: `Watch Premium Live ${cookiesLoginId}`
+      })
+    }
   }, []);
 
   const [refreshKey, setRefreshKey] = useState(0);

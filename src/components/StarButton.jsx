@@ -67,14 +67,6 @@ function StarButton({
     getFirstStar();
     setDisableCount(false);
     setAvatarImage(session?.profile?.avatar_url);
-
-    if (isPremiumLive) {
-      activityLog({
-        logName: "Premium Live",
-        userId: userProfile?._id,
-        description: `Watch Premium Live ${cookiesLoginId}`
-      })
-    }
     
   }, [cookiesLoginId]);
 
