@@ -4,7 +4,6 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from 'utils/darkmode/theme'; 
 import { GlobalStyles } from 'utils/darkmode/global';
 import { useDarkMode } from 'utils/useDarkMode';
-import { inject } from '@vercel/analytics';
 
 import Home from 'pages/Home';
 import Live from 'pages/Live';
@@ -30,7 +29,6 @@ function App(props) {
   const [theme, toggleTheme] = useDarkMode();
 
   props = { theme, toggleTheme }
-  inject();
 
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>

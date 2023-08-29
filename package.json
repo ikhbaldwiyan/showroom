@@ -6,7 +6,6 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.0",
-    "@vercel/analytics": "^1.0.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.1",
     "framer-motion": "^4.1.17",
