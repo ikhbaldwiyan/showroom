@@ -15,9 +15,9 @@ export const updateTaskProgress = ({
   );
 
   const isComplete =
-    currentTask.progress + progress === currentTask.taskId.criteria;
+    currentTask?.progress + progress === currentTask?.taskId?.criteria;
   const taskComplete =
-    currentTask.progress + progress >= currentTask.taskId.criteria;
+    currentTask?.progress + progress >= currentTask?.taskId?.criteria;
 
   if (
     taskComplete &&
