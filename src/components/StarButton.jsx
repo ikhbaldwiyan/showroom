@@ -147,12 +147,10 @@ function StarButton({
     if (isCounting) {
       timeoutId = setTimeout(() => {
         setIsCounting(false);
-        console.log("stop");
         setDisableCount(false);
 
         Object.entries(clickCountRedux).map(([key, value]) => {
           if (value < 10 && value > 0) {
-            console.log(value, key);
             sendStar(key, value);
             dispatch(clearCountStar());
           }

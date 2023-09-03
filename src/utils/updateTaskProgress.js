@@ -5,14 +5,37 @@ import { showToast } from "./showToast";
 export const updateTaskProgress = ({
   taskId,
   userId,
-  liveId,
+  liveId = "",
   progress,
   user,
   type,
 }) => {
   const currentTask = user?.progressData?.taskProgress?.find(
-    (task) => task?._id === taskId
+    (task) => task?.taskId._id.toString() === taskId
   );
+
+  const isComplete =
+    currentTask.progress + progress === currentTask.taskId.criteria;
+  const taskComplete =
+    currentTask.progress + progress >= currentTask.taskId.criteria;
+
+  if (
+    taskComplete &&
+    type === "watch" &&
+    !currentTask?.liveIds?.includes(liveId?.toString())
+  ) {
+    axios
+      .put(UPDATE_TASK_PROGRESS(taskId), {
+        userId,
+        liveId,
+        progress: currentTask?.taskId?.criteria,
+      })
+      .then((res) => {
+        if (isComplete) {
+          showToast("succes", `Task ${currentTask.taskId.name} completed`);
+        }
+      });
+  }
 
   // update task type live
   if (type === "watch" && !currentTask?.liveIds?.includes(liveId?.toString())) {
@@ -23,7 +46,9 @@ export const updateTaskProgress = ({
         progress: currentTask ? (currentTask.progress += progress) : progress,
       })
       .then((res) => {
-        showToast("info", res.data.message);
+        if (!taskComplete) {
+          showToast("info", "Task watch member updated");
+        }
       });
   }
 
@@ -35,7 +60,9 @@ export const updateTaskProgress = ({
         progress: currentTask ? (currentTask.progress += progress) : progress,
       })
       .then((res) => {
-        showToast("info", `Task send stars progress updated`);
+        if (!taskComplete) {
+          showToast("info", `Task send stars progress updated`);
+        }
       });
   }
 };
