@@ -20,7 +20,7 @@ const TaskListCard = ({ isTaskListOpen }) => {
 
   async function getUserDetail() {
     const detailUser = await axios.get(
-      DETAIL_USER(getSession().userProfile.user_id)
+      DETAIL_USER(getSession()?.user?.account_id)
     );
     isTaskListOpen && dispatch(getUserSuccess(detailUser.data));
     axios.get(TASK_LIST).then((res) => {
@@ -39,7 +39,7 @@ const TaskListCard = ({ isTaskListOpen }) => {
 
       task?.forEach((task) => {
         const matchingProgress = userProgress?.find(
-          (progress) => progress._id === task._id
+          (progress) => progress?.taskId?._id === task?._id
         );
         if (matchingProgress) {
           taskList.push({ ...task, ...matchingProgress });
@@ -65,10 +65,11 @@ const TaskListCard = ({ isTaskListOpen }) => {
     }
   };
 
-  const handleCompleteTask = (taskId) => {
+  const handleCompleteTask = (taskId, progressId) => {
     axios
       .put(COMPLETE_TASK(taskId), {
         userId: user._id,
+        progressId: progressId,
       })
       .then((res) => {
         const audio = new Audio(combo);
@@ -126,7 +127,9 @@ const TaskListCard = ({ isTaskListOpen }) => {
                     <b className="point-text">{item.reward} Point</b>
                     {item.progress === item.criteria ? (
                       <button
-                        onClick={() => handleCompleteTask(item._id)}
+                        onClick={() =>
+                          handleCompleteTask(item.taskId._id, item._id)
+                        }
                         className="claim-btn"
                       >
                         CLAIM
@@ -141,13 +144,12 @@ const TaskListCard = ({ isTaskListOpen }) => {
               </>
             ))}
           {/* Condition to display message when all tasks are completed */}
-          {taskList.data &&
-            taskList.data.every((item) => item.status === "completed") && (
-              <div className="d-flex justify-content-center">
-                <AiFillCheckCircle size={30} className="mr-2" />
-                <h4>All tasks already completed</h4>
-              </div>
-            )}
+          {taskList?.data?.every((item) => item.status === "completed") && (
+            <div className="d-flex justify-content-center">
+              <AiFillCheckCircle size={30} className="mr-2" />
+              <h4>All tasks already completed</h4>
+            </div>
+          )}
         </div>
       </div>
     </div>
