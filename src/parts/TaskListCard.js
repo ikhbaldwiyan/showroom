@@ -11,6 +11,7 @@ import { getTaskListSuccess } from "redux/actions/taskList";
 import combo from "../assets/audio/combo.mp3";
 import { showToast } from "utils/showToast";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { activityLog } from "utils/activityLog";
 
 const TaskListCard = ({ isTaskListOpen }) => {
   const dispatch = useDispatch();
@@ -77,6 +78,12 @@ const TaskListCard = ({ isTaskListOpen }) => {
         audio.play();
         getUserDetail();
         showToast("success", res.data.message);
+        activityLog({
+          logName: "Task",
+          userId: user._id,
+          taskId,
+          description: `Complete task ${res?.data?.task?.name}`
+        })
       })
       .catch((err) => {
         console.log(err);
@@ -89,7 +96,7 @@ const TaskListCard = ({ isTaskListOpen }) => {
       <div className="card">
         <div className="card-body">
           {taskList.data
-            ?.filter((item) => item.status !== "completed")
+            ?.filter((item) => item.status !== "claimed")
             ?.filter((item) => item.active === true)
             .map((item, idx) => (
               <>
@@ -143,8 +150,8 @@ const TaskListCard = ({ isTaskListOpen }) => {
                 </div>
               </>
             ))}
-          {/* Condition to display message when all tasks are completed */}
-          {taskList?.data?.every((item) => item.status === "completed") && (
+          {/* Condition to display message when all tasks are claimed */}
+          {taskList?.data?.every((item) => item.status === "claimed") && (
             <div className="d-flex justify-content-center">
               <AiFillCheckCircle size={30} className="mr-2" />
               <h4>All tasks already completed</h4>

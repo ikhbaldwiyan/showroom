@@ -14,16 +14,10 @@ export const updateTaskProgress = ({
     (task) => task?.taskId._id.toString() === taskId
   );
 
-  const isComplete =
-    currentTask?.progress + progress === currentTask?.taskId?.criteria;
   const taskComplete =
     currentTask?.progress + progress >= currentTask?.taskId?.criteria;
 
-  if (
-    taskComplete &&
-    type === "watch" &&
-    !currentTask?.liveIds?.includes(liveId?.toString())
-  ) {
+  if (taskComplete && !currentTask?.liveIds?.includes(liveId?.toString())) {
     axios
       .put(UPDATE_TASK_PROGRESS(taskId), {
         userId,
@@ -31,9 +25,9 @@ export const updateTaskProgress = ({
         progress: currentTask?.taskId?.criteria,
       })
       .then((res) => {
-        if (isComplete) {
+        const completed = res.data.taskProgress.status === "completed";
+        completed &&
           showToast("succes", `Task ${currentTask.taskId.name} completed`);
-        }
       });
   }
 
