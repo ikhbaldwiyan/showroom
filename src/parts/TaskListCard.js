@@ -66,6 +66,30 @@ const TaskListCard = ({ isTaskListOpen }) => {
     }
   };
 
+  const trackCompleteTask = (res, taskId) => {
+    activityLog({
+      logName: "Task",
+      userId: user._id,
+      taskId,
+      description: `Complete task ${res?.data?.task?.name}`,
+    });
+    activityLog({
+      logName: "Points",
+      userId: user._id,
+      taskId,
+      description: `Get ${res?.data?.task?.points} Points`,
+    });
+
+    if (res?.data?.newLevel) {
+      activityLog({
+        logName: "Level",
+        userId: user._id,
+        taskId,
+        description: `Level up to ${res?.data?.newLevel}`,
+      });
+    }
+  };
+
   const handleCompleteTask = (taskId, progressId) => {
     axios
       .put(COMPLETE_TASK(taskId), {
@@ -78,12 +102,7 @@ const TaskListCard = ({ isTaskListOpen }) => {
         audio.play();
         getUserDetail();
         showToast("success", res.data.message);
-        activityLog({
-          logName: "Task",
-          userId: user._id,
-          taskId,
-          description: `Complete task ${res?.data?.task?.name}`
-        })
+        trackCompleteTask(res, taskId);
       })
       .catch((err) => {
         console.log(err);
@@ -96,7 +115,10 @@ const TaskListCard = ({ isTaskListOpen }) => {
       <div className="card">
         <div className="card-body">
           {taskList.data
-            ?.filter((item) => item.status !== "claimed")
+            ?.filter(
+              (item) =>
+                item.status === "inprogress" || item.status === "completed"
+            )
             ?.filter((item) => item.active === true)
             .map((item, idx) => (
               <>
@@ -151,7 +173,7 @@ const TaskListCard = ({ isTaskListOpen }) => {
               </>
             ))}
           {/* Condition to display message when all tasks are claimed */}
-          {taskList?.data?.every((item) => item.status === "claimed") && (
+          {taskList?.data?.filter((item) => item.active).every((item) => item.status === "claimed") && (
             <div className="d-flex justify-content-center">
               <AiFillCheckCircle size={30} className="mr-2" />
               <h4>All tasks already completed</h4>
