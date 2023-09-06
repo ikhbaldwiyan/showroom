@@ -14,8 +14,20 @@ export const updateTaskProgress = ({
     (task) => task?.taskId._id.toString() === taskId
   );
 
-  const taskComplete =
-    currentTask?.progress + progress >= currentTask?.taskId?.criteria;
+  let tasks = localStorage?.getItem("completedTask");
+  const taskComplete = currentTask?.progress + progress >= currentTask?.taskId?.criteria;
+  const setCompletedTask = (res) => {
+    if (tasks) {
+      tasks = JSON.parse(tasks);
+      !tasks?.includes(res?.data?.task?._id) && tasks.push(res.data.task._id);
+      localStorage.setItem("completedTask", JSON.stringify(tasks));
+    } else {
+      localStorage.setItem(
+        "completedTask",
+        JSON.stringify([res.data.task._id])
+      );
+    }
+  };
 
   if (taskComplete && !currentTask?.liveIds?.includes(liveId?.toString())) {
     axios
@@ -26,8 +38,10 @@ export const updateTaskProgress = ({
       })
       .then((res) => {
         const completed = res.data.taskProgress.status === "completed";
-        completed &&
-          showToast("succes", `Task ${currentTask.taskId.name} completed`);
+        if (completed && !tasks?.includes(res?.data?.task?._id)) {
+          showToast("success", `Task ${currentTask.taskId.name} completed`);
+        }
+        setCompletedTask(res);
       });
   }
 

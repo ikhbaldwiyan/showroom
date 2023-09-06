@@ -193,6 +193,15 @@ function StarButton({
         });
 
         setAllStar(res.data);
+
+        updateTaskProgress({
+          taskId: "64f87314d2e010f68057e7f5",
+          progress: 1,
+          type: "stars",
+          user: userProfile,
+          userId: userProfile?._id,
+        })
+
         activityLog({
           userId: userProfile?._id,
           logName: "Send Stars",

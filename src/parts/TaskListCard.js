@@ -42,10 +42,17 @@ const TaskListCard = ({ isTaskListOpen }) => {
         const matchingProgress = userProgress?.find(
           (progress) => progress?.taskId?._id === task?._id
         );
+
+        const initialTask = {
+          ...task,
+          status: "inprogress",
+        };
+
         if (matchingProgress) {
-          taskList.push({ ...task, ...matchingProgress });
+          initialTask.status = matchingProgress.status;
+          taskList.push({ ...initialTask, ...matchingProgress });
         } else {
-          taskList.push({ ...task });
+          taskList.push(initialTask);
         }
       });
 
@@ -173,7 +180,9 @@ const TaskListCard = ({ isTaskListOpen }) => {
               </>
             ))}
           {/* Condition to display message when all tasks are claimed */}
-          {taskList?.data?.filter((item) => item.active).every((item) => item.status === "claimed") && (
+          {taskList?.data
+            ?.filter((item) => item.active)
+            .every((item) => item.status === "claimed") && (
             <div className="d-flex justify-content-center">
               <AiFillCheckCircle size={30} className="mr-2" />
               <h4>All tasks already completed</h4>
