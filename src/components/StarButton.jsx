@@ -9,7 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "reactstrap";
-import { BULK_GIFT, FARM, LIVE_RANKING, PROFILE_API, SEND_GIFT } from "utils/api/api";
+import { BULK_GIFT, FARM, LIVE_RANKING, SEND_GIFT } from "utils/api/api";
 import Loading from "./Loading";
 import shot from "../assets/audio/shot.mp3";
 import combo from "../assets/audio/combo.mp3";
@@ -29,7 +29,7 @@ import { gaEvent } from "utils/gaEvent";
 import { Link } from "react-router-dom";
 import { gaTag } from "utils/gaTag";
 import { activityLog } from "utils/activityLog";
-import { getRoomDetailSucces } from "redux/actions/roomDetail";
+import { updateTaskProgress } from "utils/updateTaskProgress";
 
 function StarButton({
   roomId,
@@ -44,6 +44,7 @@ function StarButton({
   const { starsRedux, clickCountRedux, isLoadingStars } = useSelector(
     (state) => state.stars
   );
+  const userProfile = useSelector((state) => state.user.user);
 
   const dispatch = useDispatch();
   const [isCounting, setIsCounting] = useState(false);
@@ -55,7 +56,6 @@ function StarButton({
   const [avatarY, setAvatarY] = useState(0);
   const [avatarImage, setAvatarImage] = useState();
   
-  const userProfile = getSession().userProfile;
   const session = getSession();
 
   const avatarAnimation = useAnimation();
@@ -147,12 +147,10 @@ function StarButton({
     if (isCounting) {
       timeoutId = setTimeout(() => {
         setIsCounting(false);
-        console.log("stop");
         setDisableCount(false);
 
         Object.entries(clickCountRedux).map(([key, value]) => {
           if (value < 10 && value > 0) {
-            console.log(value, key);
             sendStar(key, value);
             dispatch(clearCountStar());
           }
@@ -195,6 +193,15 @@ function StarButton({
         });
 
         setAllStar(res.data);
+
+        updateTaskProgress({
+          taskId: "64f87314d2e010f68057e7f5",
+          progress: 1,
+          type: "stars",
+          user: userProfile,
+          userId: userProfile?._id,
+        })
+
         activityLog({
           userId: userProfile?._id,
           logName: "Send Stars",
@@ -236,6 +243,13 @@ function StarButton({
           logName: "Send Stars",
           description: `Send 10 stars to ${room_name}`
         })
+        updateTaskProgress({
+          user: userProfile,
+          userId: userProfile._id,
+          taskId: "64e327250391df8e2c05a6dd",
+          progress: 10,
+          type: "stars",
+        })
         dispatch(sendStarSuccess(key, data.remaining_num));
         gaEvent("Stars", "Send Ten Stars", "Live Stream");
 
@@ -265,6 +279,13 @@ function StarButton({
           userId: userProfile?._id,
           logName: "Send Stars",
           description: `Send ${value} stars to ${room_name}`
+        })
+        updateTaskProgress({
+          user: userProfile,
+          userId: userProfile._id,
+          taskId: "64e327250391df8e2c05a6dd",
+          progress: value,
+          type: "stars",
         })
         dispatch(sendStarSuccess(key, data.remaining_num));
 

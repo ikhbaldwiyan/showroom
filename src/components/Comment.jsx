@@ -17,6 +17,8 @@ import { gaEvent } from "utils/gaEvent";
 import formatName from "utils/formatName";
 import { getSession } from "utils/getSession";
 import { activityLog } from "utils/activityLog";
+import { updateTaskProgress } from "utils/updateTaskProgress";
+import { useSelector } from "react-redux";
 
 export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, room_name }) {
   const [comment, setComment] = useState([]);
@@ -30,7 +32,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, roo
   const [socketUrl, setSocketUrl] = useState("wss://online.showroom-live.com/");
   const [socketKey, setSocketKey] = useState("");
   const cookies = getSession()?.session?.cookie_login_id ?? "comment";
-  const userProfile = getSession().userProfile;
+  const userProfile = useSelector((state) => state.user.user);
 
   useEffect(() => {
     async function getComments() {
@@ -123,6 +125,13 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, roo
         csrf: session.csrf_token,
         cookies_id: session.cookie_login_id,
       });
+      updateTaskProgress({
+        user: userProfile,
+        userId: userProfile._id,
+        taskId: "64eee6e1f0a2bb78cb2baebd",
+        progress: 1,
+        type: "stars",
+      })
       setTextComment("");
       setButtonLoading(false);
 

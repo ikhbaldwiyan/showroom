@@ -129,6 +129,17 @@ const ACTIVITY_LOG_DETAIL = (id) => {
   return `${ADMIN_API}/activity/${id}`
 }
 
+// TASK LIST
+const TASK_LIST = `${ADMIN_API}/tasks`
+
+const COMPLETE_TASK = (taskId) => {
+  return `${ADMIN_API}/tasks/complete-task/${taskId}`
+}
+
+const UPDATE_TASK_PROGRESS = (taskId) => {
+  return `${ADMIN_API}/tasks/update-progress/${taskId}`
+}
+
 export {
   API,
   ROOM_LIST_API,
@@ -178,5 +189,8 @@ export {
   PREMIUM_LIVE_LIST,
   PREMIUM_LIVE_DETAIL,
   ACTIVITY_LOG,
-  ACTIVITY_LOG_DETAIL
+  ACTIVITY_LOG_DETAIL,
+  TASK_LIST,
+  COMPLETE_TASK,
+  UPDATE_TASK_PROGRESS
 };
