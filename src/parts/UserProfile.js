@@ -27,6 +27,7 @@ import {
   getUserSuccess
 } from "redux/actions/userActions";
 import RedeemPoints from "./RedeemPoints";
+import formatNumber from "utils/formatNumber";
 
 export default function UserProfile({ data, session, theme }) {
   const [modal, setModal] = useState(false);
@@ -140,12 +141,12 @@ export default function UserProfile({ data, session, theme }) {
   };
 
   const style = {
-    background: "linear-gradient(to bottom, #24a2b7, #20242A)",
+    background: "linear-gradient(180deg, #24A2B7 0%, #2563EB 100%)",
     borderTopLeftRadius: ".5rem",
     borderBottomLeftRadius: !isMobile && ".5rem",
     color: "#282c34",
     backgroundColor: theme === "light" ? "#24a2b7" : "#282C34",
-    width: "289px",
+    width: isMobile ? "90%" : "289px",
     marginLeft: "auto",
     marginRight: "auto",
     borderTopRightRadius: isMobile && ".5rem"
@@ -179,7 +180,7 @@ export default function UserProfile({ data, session, theme }) {
               className="row"
               style={{ lineHeight: "0px", fontSize: ".8rem" }}
             >
-              {userPermisions?.points ?? "0"} Point
+              {formatNumber(userPermisions?.points ?? "0")} Point
             </span>
           </div>
         </li>
@@ -219,13 +220,13 @@ export default function UserProfile({ data, session, theme }) {
 
                       <div className="d-flex mt-5 mb-2 justify-content-center">
                         <h5 className="ml-3">Avatar</h5>
-                        <FaUserEdit
+                        {/* <FaUserEdit
                           cursor="pointer"
                           onClick={() => setIsEditAvatar(!isEditAvatar)}
                           className="mx-2 mt-1"
                           color="silver"
                           size={18}
-                        />
+                        /> */}
                       </div>
                       <img
                         src={

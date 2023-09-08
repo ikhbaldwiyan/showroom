@@ -1,4 +1,5 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { FaLock, FaUsers, FaUsersCog } from "react-icons/fa";
 import { GiFarmer } from "react-icons/gi";
@@ -87,7 +88,7 @@ const RedeemPoints = ({ userPermisions, handleShowRedeem }) => {
   const hasUnlockedAllFeatures = features.every((feature) => feature.unlocked);
 
   return (
-    <div className="py-4">
+    <div className={`py-4 ${isMobile && "mx-2"} `}>
       <div className="row">
         <div className="col-9">
           <h6>
@@ -108,7 +109,7 @@ const RedeemPoints = ({ userPermisions, handleShowRedeem }) => {
       {!hasUnlockedAllFeatures && (
         <div className="row">
           <div className="col-12">
-            <Table dark>
+            <Table className="rounded" dark>
               <thead>
                 <tr>
                   <th>Feature</th>
@@ -129,7 +130,7 @@ const RedeemPoints = ({ userPermisions, handleShowRedeem }) => {
                         <RiMedalFill className="mb-1" />
                         <b>{formatNumber(feature.points)}</b>
                       </td>
-                      <td>
+                      <td className="text-center">
                         <Button color="success">
                           <FaLock size={16} className="mb-1" />
                         </Button>
