@@ -6,26 +6,27 @@ import {
   FaEdit,
   FaUserCheck,
   FaUserEdit,
-  FaUsers,
-  FaUsersCog,
   FaWindowClose
 } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
-import { RiLogoutBoxFill } from "react-icons/ri";
+import { RiLogoutBoxFill, RiMedalLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { clearFollowedRoom } from "redux/actions/roomFollowed";
-import { ACTIVITY_LOG, DETAIL_USER, UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
-import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
-import { GiFarmer } from "react-icons/gi";
+import {
+  ACTIVITY_LOG,
+  DETAIL_USER,
+  UPDATE_PROFILE,
+  USER_PROFILE
+} from "utils/api/api";
 import {
   clearProfile,
   getUserLoad,
   getUserSuccess
 } from "redux/actions/userActions";
-import { Link } from "react-router-dom";
+import RedeemPoints from "./RedeemPoints";
 
 export default function UserProfile({ data, session, theme }) {
   const [modal, setModal] = useState(false);
@@ -35,6 +36,7 @@ export default function UserProfile({ data, session, theme }) {
   const [isEditAvatar, setIsEditAvatar] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const [userPermisions, setUserPermisions] = useState();
+  const [showFeature, setShowFeature] = useState(false);
 
   const toggle = () => setModal(!modal);
   const toggleLogout = () => setModalLogout(!modalLogout);
@@ -111,15 +113,7 @@ export default function UserProfile({ data, session, theme }) {
       dispatch(getUserSuccess(detailUser.data));
     }
     getUserDetail();
-  }, [data.account_id]);
-
-  const InfoAccess = ({ menu }) => {
-    return menu ? (
-      <AiFillCheckCircle size={32} color="green" />
-    ) : (
-      <AiFillCloseCircle size={32} color="#dc3545" />
-    );
-  };
+  }, [data.account_id, showFeature]);
 
   const handleLogOut = () => {
     toggle();
@@ -138,11 +132,27 @@ export default function UserProfile({ data, session, theme }) {
     axios.post(ACTIVITY_LOG, {
       user_id: userPermisions._id,
       log_name: "Logout",
-      description: `Logout user from website`,
+      description: `Logout user from website`
     });
 
     dispatch(clearFollowedRoom());
     dispatch(clearProfile());
+  };
+
+  const style = {
+    background: "linear-gradient(to bottom, #24a2b7, #20242A)",
+    borderTopLeftRadius: ".5rem",
+    borderBottomLeftRadius: !isMobile && ".5rem",
+    color: "#282c34",
+    backgroundColor: theme === "light" ? "#24a2b7" : "#282C34",
+    width: "289px",
+    marginLeft: "auto",
+    marginRight: "auto",
+    borderTopRightRadius: isMobile && ".5rem"
+  };
+
+  const handleShowRedeem = () => {
+    setShowFeature(!showFeature);
   };
 
   return (
@@ -169,7 +179,7 @@ export default function UserProfile({ data, session, theme }) {
               className="row"
               style={{ lineHeight: "0px", fontSize: ".8rem" }}
             >
-              {userPermisions?.points ?? "0"} Point 
+              {userPermisions?.points ?? "0"} Point
             </span>
           </div>
         </li>
@@ -193,19 +203,7 @@ export default function UserProfile({ data, session, theme }) {
                   <div className="row">
                     <div
                       className="col-md-4 gradient-custom text-center text-white"
-                      style={{
-                        background:
-                          "linear-gradient(to bottom, #24a2b7, #20242A)",
-                        borderTopLeftRadius: ".5rem",
-                        borderBottomLeftRadius: !isMobile && ".5rem",
-                        color: "#282c34",
-                        backgroundColor:
-                          theme === "light" ? "#24a2b7" : "#282C34",
-                        width: "289px",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        borderTopRightRadius: isMobile && ".5rem"
-                      }}
+                      style={style}
                     >
                       <h5 className="my-3">Profile</h5>
                       <img
@@ -240,8 +238,9 @@ export default function UserProfile({ data, session, theme }) {
                       />
                       <h6>Level {user.fan_level}</h6>
                     </div>
+
                     <div className="col-md-8">
-                      {!isEditAvatar ? (
+                      {!isEditAvatar && !showFeature ? (
                         <div className="card-body p-4">
                           <div
                             className="d-flex justify-content-between"
@@ -309,63 +308,6 @@ export default function UserProfile({ data, session, theme }) {
                               )}
                             </div>
                           </div>
-                          <h6>Fitur Achieved</h6>
-                          <hr className="mt-0 mb-4" />
-                          <div className="row ">
-                            <div className="col-12 mb-3">
-                              <div className="row d-flex justify-content-center align-items-center">
-                                <div className="col-6">
-                                  <Link to="/multi-room">
-                                    <Button size="sm" color="info">
-                                      <FaUsers
-                                        size={16}
-                                        className="mb-1 mx-1"
-                                      />
-                                      3 Room
-                                    </Button>
-                                  </Link>
-                                </div>
-                                <div className="col-6">
-                                  <InfoAccess
-                                    menu={userPermisions?.can_3_room}
-                                  />
-                                </div>
-                              </div>
-                              <div className="row d-flex justify-content-center align-items-center py-2">
-                                <div className="col-6">
-                                  <Link to="/multi-room">
-                                    <Button size="sm" color="info">
-                                      <FaUsersCog
-                                        size={16}
-                                        className="mb-1 mx-1"
-                                      />
-                                      4 Room
-                                    </Button>
-                                  </Link>
-                                </div>
-                                <div className="col-6">
-                                  <InfoAccess
-                                    menu={userPermisions?.can_4_room}
-                                  />
-                                </div>
-                              </div>
-                              <div className="row d-flex justify-content-center align-items-center py-1">
-                                <div className="col-6">
-                                  <Link to="/farming">
-                                    <Button color="success">
-                                      <GiFarmer size={16} className="mb-1" />
-                                      Farming
-                                    </Button>
-                                  </Link>
-                                </div>
-                                <div className="col-6">
-                                  <InfoAccess
-                                    menu={userPermisions?.can_farming_page}
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
                           {isEdit ? (
                             <Button
                               block
@@ -385,6 +327,17 @@ export default function UserProfile({ data, session, theme }) {
                           ) : (
                             <div>
                               <hr className="mt-0 my-3" />
+                              <h6>Unlock Feature</h6>
+                              <div className="py-2">
+                                <Button
+                                  onClick={handleShowRedeem}
+                                  color="success"
+                                >
+                                  <RiMedalLine size={20} className="mb-1" />{" "}
+                                  Redeem Points
+                                </Button>
+                              </div>
+                              <hr className="mt-0 my-3" />
                               <Button color="danger" onClick={toggleLogout}>
                                 <RiLogoutBoxFill
                                   size={20}
@@ -395,7 +348,7 @@ export default function UserProfile({ data, session, theme }) {
                             </div>
                           )}
                         </div>
-                      ) : (
+                      ) : isEditAvatar ? (
                         <EditAvatar
                           session={session}
                           isEditAvatar={isEditAvatar}
@@ -403,6 +356,11 @@ export default function UserProfile({ data, session, theme }) {
                           theme={theme}
                           profile={profile}
                           setProfile={setProfile}
+                        />
+                      ) : (
+                        <RedeemPoints
+                          userPermisions={userPermisions}
+                          handleShowRedeem={handleShowRedeem}
                         />
                       )}
                     </div>
