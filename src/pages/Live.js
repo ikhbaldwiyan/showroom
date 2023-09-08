@@ -136,10 +136,10 @@ function Live(props) {
       activityLog({
         logName: "Premium Live",
         userId: user?._id,
-        description: `Watch Premium Live ${cookiesLoginId}`
+        description: `Watch Premium Live Showroom`
       })
     }
-  }, []);
+  }, [isPremiumLive]);
 
   const [refreshKey, setRefreshKey] = useState(0);
   const playerRef = useRef(null);
