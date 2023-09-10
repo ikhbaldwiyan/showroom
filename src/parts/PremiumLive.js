@@ -98,14 +98,11 @@ const PremiumLive = ({ theme }) => {
                       >
                         <h5 className="d-inline">
                           {theater
-                            ? theater?.setlist?.originalName +
-                              " - " +
-                              theater?.setlist?.name +
-                              " "
+                            ? theater?.setlist?.originalName
                             : item?.main_name}
                         </h5>
                         <h6 className="d-inline" style={{ color: "#ced4da" }}>
-                          {getTimes(item.started_at)}
+                          {" "}{getTimes(item.started_at)}
                         </h6>
                       </Button>
                     </div>
