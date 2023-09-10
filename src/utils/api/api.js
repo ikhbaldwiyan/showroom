@@ -55,6 +55,7 @@ const DELETE_USER = (userId) => {
 
 // THEATER SCHEDULES CRUD
 const SCHEDULES_API = `${ADMIN_API}/schedules`
+const TODAY_SCHEDULE_API = `${ADMIN_API}/schedules/today`
 const DETAIL_SCHEDULE = (scheduleId) => {
   return `${ADMIN_API}/schedules/${scheduleId}`
 }
@@ -178,5 +179,6 @@ export {
   PREMIUM_LIVE_LIST,
   PREMIUM_LIVE_DETAIL,
   ACTIVITY_LOG,
-  ACTIVITY_LOG_DETAIL
+  ACTIVITY_LOG_DETAIL,
+  TODAY_SCHEDULE_API
 };

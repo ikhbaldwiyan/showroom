@@ -20,7 +20,7 @@ const SetlistInfo = ({ theater }) => {
         }}
         alt="Banner"
         src={
-          theater?.setlist.image ??
+          theater?.setlist?.image ??
           "https://static.showroom-live.com/image/room/cover/73f495d564945090f4af7338a42ce09ffa12d35fbfa8ce35c856220bcf96c5f3_m.png?v=1683304746"
         }
       />
