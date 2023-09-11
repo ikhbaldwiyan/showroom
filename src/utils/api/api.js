@@ -140,6 +140,10 @@ const UPDATE_TASK_PROGRESS = (taskId) => {
   return `${ADMIN_API}/tasks/update-progress/${taskId}`
 }
 
+const REDEEM_TASK = (featureName) => {
+  return `${ADMIN_API}/tasks/redeem/${featureName}`
+}
+
 export {
   API,
   ROOM_LIST_API,
@@ -192,5 +196,6 @@ export {
   ACTIVITY_LOG_DETAIL,
   TASK_LIST,
   COMPLETE_TASK,
-  UPDATE_TASK_PROGRESS
+  UPDATE_TASK_PROGRESS,
+  REDEEM_TASK
 };

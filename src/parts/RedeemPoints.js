@@ -1,11 +1,22 @@
-import React from "react";
+import axios from "axios";
+import { useState } from "react";
 import { isMobile } from "react-device-detect";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { FaLock, FaUsers, FaUsersCog } from "react-icons/fa";
 import { GiFarmer } from "react-icons/gi";
 import { RiMedalFill } from "react-icons/ri";
-import { Button, Table } from "reactstrap";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Table,
+} from "reactstrap";
+import { REDEEM_TASK } from "utils/api/api";
 import formatNumber from "utils/formatNumber";
+import { getSession } from "utils/getSession";
+import { showToast } from "utils/showToast";
 
 const RedeemPoints = ({ userPermisions, handleShowRedeem }) => {
   const InfoAccess = ({ menu }) => {
@@ -22,21 +33,21 @@ const RedeemPoints = ({ userPermisions, handleShowRedeem }) => {
       icon: <FaUsers size={20} className="mb-1 mx-1" />,
       name: "3 Room",
       points: 2000,
-      unlocked: userPermisions?.can_3_room
+      unlocked: userPermisions?.can_3_room,
     },
     {
       id: "can_4_room",
       icon: <FaUsersCog size={20} className="mb-1 mx-1" />,
       name: "4 Room",
       points: 2500,
-      unlocked: userPermisions?.can_4_room
+      unlocked: userPermisions?.can_4_room,
     },
     {
       id: "can_farming_page",
       icon: <GiFarmer size={20} className="mb-1" />,
       name: "Farming",
       points: 5000,
-      unlocked: userPermisions?.can_farming_page
+      unlocked: userPermisions?.can_farming_page,
     },
     ...(userPermisions?.can_farming_page
       ? [
@@ -45,17 +56,17 @@ const RedeemPoints = ({ userPermisions, handleShowRedeem }) => {
             icon: <GiFarmer size={20} className="mb-1" />,
             name: "Detail",
             points: 6000,
-            unlocked: userPermisions?.can_farming_detail
+            unlocked: userPermisions?.can_farming_detail,
           },
           {
             id: "can_farming_multi",
             icon: <GiFarmer size={20} className="mb-1" />,
             name: "Multi",
             points: 7000,
-            unlocked: userPermisions?.can_farming_multi
-          }
+            unlocked: userPermisions?.can_farming_multi,
+          },
         ]
-      : [])
+      : []),
   ];
 
   const UnlockedFeature = ({ feature, permissions }) => (
@@ -86,6 +97,30 @@ const RedeemPoints = ({ userPermisions, handleShowRedeem }) => {
 
   const hasUnlockedFeatures = features.some((feature) => feature.unlocked);
   const hasUnlockedAllFeatures = features.every((feature) => feature.unlocked);
+
+  const [modal, setModal] = useState(false);
+  const [feature, setFeature] = useState("");
+  const toggle = () => setModal(!modal);
+
+  const handleUnlockFeature = (featureName) => {
+    setFeature(featureName);
+    toggle();
+  };
+
+  const handleReddemFeature = () => {
+    axios
+      .post(REDEEM_TASK(feature), {
+        user_id: getSession()?.userProfile?.user_id,
+      })
+      .then((res) => {
+        handleShowRedeem();
+        showToast("success", res?.data?.message);
+        toggle();
+      })
+      .catch((err) => {
+        showToast("error", err?.data?.message);
+      });
+  };
 
   return (
     <div className={`py-4 ${isMobile && "mx-2"} `}>
@@ -131,7 +166,10 @@ const RedeemPoints = ({ userPermisions, handleShowRedeem }) => {
                         <b>{formatNumber(feature.points)}</b>
                       </td>
                       <td className="text-center">
-                        <Button color="success">
+                        <Button
+                          onClick={() => handleUnlockFeature(feature.id)}
+                          color="success"
+                        >
                           <FaLock size={16} className="mb-1" />
                         </Button>
                       </td>
@@ -162,6 +200,22 @@ const RedeemPoints = ({ userPermisions, handleShowRedeem }) => {
           </div>
         </div>
       )}
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader style={{ backgroundColor: "#24a2b7" }} toggle={toggle}>
+          Unlock Feature
+        </ModalHeader>
+        <ModalBody className="text-dark">
+          Apakah Anda yakin ingin membuka fitur ini dengan point?
+        </ModalBody>
+        <ModalFooter>
+          <Button color="info" onClick={handleReddemFeature}>
+            Yes
+          </Button>
+          <Button color="secondary" onClick={toggle}>
+            No
+          </Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 };
