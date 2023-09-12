@@ -129,7 +129,7 @@ const LiveHistory = (props) => {
                     <CardSubtitle tag="h6" className="mb-2">
                       <div className="d-flex align-items-center py-1">
                         <BsPeopleFill className="mr-2" />
-                        <span> {formatViews(live_info.viewers)}</span>
+                        <span> {formatViews(live_info?.viewers?.num)}</span>
                       </div>
                       <div className="d-flex align-items-center py-1">
                         <FaClock className="mr-2" />

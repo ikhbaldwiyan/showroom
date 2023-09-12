@@ -99,7 +99,6 @@ export default function MultiRoom(props) {
   return (
     <MainLayout title="Multi Room" {...props} isMultiRoom={isMultiRoom}>
       <Container fluid>
-        <AlertInfo page="Multi Room" label="Multi Alert Info" />
         <MultiMenu {...propsMultiRoom} />
         <Row className="d-flex">
           <Multi {...propsMultiRoom} number="1" selectedRoom={multiRoom[1]} />

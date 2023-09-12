@@ -95,7 +95,6 @@ function Home(props) {
   return (
     <MainLayout {...props}>
       <Container className="mb-4">
-        <AlertInfo />
         <ModalInfo />
         <SearchAndFilter
           isLive={isLive}

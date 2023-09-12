@@ -97,7 +97,7 @@ const RecentLive = ({ isSearch }) => {
                     </div>
                     <div className="recent-icon">
                       <FaUserFriends size={18} />
-                      {formatNumber(live_info?.viewers)} Views
+                      {formatNumber(live_info?.viewers?.num)} Views
                     </div>
                     <div className="recent-icon">
                       <FaClock size={18} />
