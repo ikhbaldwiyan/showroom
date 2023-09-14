@@ -65,10 +65,10 @@ function Live(props) {
 
   useEffect(() => {
     const session = localStorage.getItem("session");
-    const user = localStorage.getItem("user");
+    const userProfile = localStorage.getItem("userProfile");
     if (session) {
       const foundSession = JSON.parse(session);
-      const userSession = JSON.parse(user);
+      const userSession = JSON.parse(userProfile);
       setSession(foundSession);
       setCookiesLoginId(foundSession.cookie_login_id);
       setCsrfToken(foundSession.csrf_token);
@@ -175,6 +175,18 @@ function Live(props) {
       });
     }
   }, [menu]);
+
+  useEffect(() => {
+   if (getSession().user) {
+      setTimeout(() => {
+        activityLog({
+          logName: "Watch",
+          userId: user?._id,
+          description: `Watch Live ${room_name}`
+        })
+      }, 180000);
+    }
+  }, [user, room_name])
 
   return (
     <MainLayout
