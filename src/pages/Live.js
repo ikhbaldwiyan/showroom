@@ -3,10 +3,9 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Container, Input, FormFeedback } from "reactstrap";
 import { useParams } from "react-router-dom";
 import {
-  DETAIL_SCHEDULE,
   LIVE_STREAM_URL,
-  PREMIUM_LIVE_DETAIL,
   PROFILE_API,
+  TODAY_SCHEDULE_API,
 } from "utils/api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -58,7 +57,6 @@ function Live(props) {
   const [isFailed, setIsFailed] = useState();
   const [setlist, setSetlist] = useState([]);
   const [member, setMember] = useState([]);
-  const [scheduleId, setScheduleId] = useState();
   const [isPremiumLive, setIsPremiumLive] = useState(false);
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
   const dispatch = useDispatch();
@@ -165,16 +163,12 @@ function Live(props) {
 
   useEffect(() => {
     if (isPremiumLive) {
-      axios.get(PREMIUM_LIVE_DETAIL("64c129da37f36b98750760a4")).then((res) => {
+      axios.get(TODAY_SCHEDULE_API).then((res) => {
         setSetlist(res?.data?.setlist?.songs);
-        setScheduleId(res?.data?.theaterShow?._id);
-      });
-
-      axios.get(DETAIL_SCHEDULE(scheduleId)).then((res) => {
-        setMember(res?.data?.memberList);
+        setMember(res?.data?.memberList)
       });
     }
-  }, [menu]);
+  }, [isPremiumLive]);
 
   useEffect(() => {
    if (getSession().user) {
