@@ -171,7 +171,7 @@ function Live(props) {
   }, [isPremiumLive]);
 
   useEffect(() => {
-   if (getSession().user) {
+   if (getSession().user && url?.length > 1) {
       setTimeout(() => {
         activityLog({
           logName: "Watch",
