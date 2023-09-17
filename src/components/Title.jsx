@@ -85,7 +85,7 @@ function Title({
   useEffect(() => {
     const intervalId = setInterval(() => {
       try {
-        axios.get(`${API}/lives/info/${roomId}`).then((res) => {
+        axios.get(`${API}/lives/info/${roomId}/${cookies}`).then((res) => {
           const profiles = res.data;
           setProfile(profiles);
           setTitle(profiles.title);
@@ -93,7 +93,7 @@ function Title({
       } catch (error) {
         console.log(error);
       }
-    }, 300000); // fetch every 5 minutes
+    }, 180000); // fetch every 3 minutes
 
     return () => clearInterval(intervalId);
   }, [roomId]);
