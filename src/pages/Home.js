@@ -23,6 +23,7 @@ import {
 import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
 import RecentLive from "parts/RecentLive";
+import Twitter from "parts/Twitter";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -114,6 +115,7 @@ function Home(props) {
               <RoomUpcoming search={search} room={memberRegular} />
               <PremiumLive theme={props.theme} />
               <RecentLive isSearch={search} />
+              <Twitter />
               <Schedule isShowing={true} isSearch={search} />
               <RoomList
                 isSearchRegular={filtered}
