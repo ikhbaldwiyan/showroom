@@ -82,7 +82,7 @@ const DetailLiveHistory = (props) => {
                     <div className="mt-1">
                       <span className="live-text">Viewers</span>
                       <p className="theater-time mt-1">
-                        {formatNumber(history?.live_info.viewer)}
+                        {formatNumber(history?.live_info.viewers?.num)}
                       </p>
                     </div>
                   </div>

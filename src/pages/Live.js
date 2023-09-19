@@ -48,7 +48,7 @@ function Live(props) {
   const [csrfToken, setCsrfToken] = useState("");
   const [session, setSession] = useState("");
   const [user, setUser] = useState("");
-  const { room_name } = useSelector((state) => state.roomDetail);
+  const { room_name, profile } = useSelector((state) => state.roomDetail);
   const [hideStars, setHideStars] = useState(true);
   const [isFarming, setIsFarming] = useState(false);
   const [isCustomLive, setIsCustomLive] = useState(false);
@@ -80,7 +80,7 @@ function Live(props) {
       const profile = res.data;
       dispatch(getRoomDetailSucces(profile, profile.is_follow ? 1 : 0));
     });
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
     try {
@@ -171,16 +171,17 @@ function Live(props) {
   }, [isPremiumLive]);
 
   useEffect(() => {
-   if (getSession().user && url?.length > 1) {
+    if (getSession().user && url?.length > 1 && profile) {
       setTimeout(() => {
         activityLog({
           logName: "Watch",
           userId: user?._id,
-          description: `Watch Live ${room_name}`
+          description: `Watch Live ${room_name}`,
+          liveId: profile.live_id
         })
       }, 180000);
     }
-  }, [user, room_name])
+  }, [user, room_name, roomId])
 
   return (
     <MainLayout

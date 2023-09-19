@@ -2,7 +2,7 @@ import axios from "axios";
 import { ACTIVITY_LOG, CREATE_USER } from "./api/api";
 import { getSession } from "./getSession";
 
-export const activityLog = ({ userId, logName, description, taskId }) => {
+export const activityLog = ({ userId, logName, description, liveId }) => {
   const user = getSession().user;
   const profile = getSession().profile;
 
@@ -23,7 +23,7 @@ export const activityLog = ({ userId, logName, description, taskId }) => {
 
           return axios.post(ACTIVITY_LOG, {
             user_id: res.data.user._id,
-            task_id: taskId,
+            live_id: liveId,
             log_name: logName,
             description
           });
@@ -31,7 +31,7 @@ export const activityLog = ({ userId, logName, description, taskId }) => {
     } else {
       return axios.post(ACTIVITY_LOG, {
         user_id: userId,
-        task_id: taskId,
+        live_id: liveId,
         log_name: logName,
         description
       });

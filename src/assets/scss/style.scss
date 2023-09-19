@@ -154,6 +154,9 @@ section {
     min-height: 30px;
     border-radius: 0 15px;
     font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 2px;
     span {
       font-weight: 300;
     }

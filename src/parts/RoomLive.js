@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { isMobile } from "react-device-detect";
-import { FaUser } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 import { IoVideocamOff } from "react-icons/io5";
 import Fade from "react-reveal";
 
@@ -73,7 +73,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
                     <div className="card card-featured">
                       <Fade right>
                         <div className="tag">
-                          <FaUser style={{ width: "10" }} className="mb-1" />{" "}
+                          <FaStar size={15} />{" "}
                           {formatViews(item.view_num)}
                         </div>
                         <figure className="img-wrapper">

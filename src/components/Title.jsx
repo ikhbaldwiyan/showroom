@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { FaUserFriends } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 import { IoReload, IoTimeSharp } from "react-icons/io5";
 import formatViews from "utils/formatViews";
 import { API, LIVE_INFO } from "utils/api/api";
@@ -138,7 +138,7 @@ function Title({
         >
           {!isTime ? (
             <>
-              <FaUserFriends style={icon} />{" "}
+              <FaStar size={15} style={icon} />{" "}
               {profile.views ? formatViews(profile.views) : "0"}
             </>
           ) : (
