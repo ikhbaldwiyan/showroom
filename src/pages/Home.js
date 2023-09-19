@@ -97,6 +97,7 @@ function Home(props) {
     <MainLayout {...props}>
       <Container className="mb-4">
         <ModalInfo />
+        <AlertInfo page="Home" label="Discord Link" />
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
@@ -115,7 +116,7 @@ function Home(props) {
               <RoomUpcoming search={search} room={memberRegular} />
               <PremiumLive theme={props.theme} />
               <RecentLive isSearch={search} />
-              <Twitter />
+              <Twitter  isSearch={search} />
               <Schedule isShowing={true} isSearch={search} />
               <RoomList
                 isSearchRegular={filtered}

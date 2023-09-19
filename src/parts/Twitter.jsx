@@ -3,8 +3,8 @@ import { TwitterTimelineEmbed, TwitterTweetEmbed } from "react-twitter-embed";
 import { Col, Row } from "reactstrap";
 
 
-const Twitter = () => {
-  return (
+const Twitter = ({isSearch}) => {
+  return !isSearch ? (
     <Row>
       <Col lg="12">
         <h3>Twitter</h3>
@@ -20,7 +20,7 @@ const Twitter = () => {
         />
       </Col>
     </Row>
-  )
+  ) : null
 }
 
 export default Twitter
