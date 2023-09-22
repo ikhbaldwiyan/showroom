@@ -53,7 +53,7 @@ function Live(props) {
   const [isFarming, setIsFarming] = useState(false);
   const [isCustomLive, setIsCustomLive] = useState(false);
   const [customUrl, setCustomUrl] = useState(false);
-  const [secretKey, setSecretKey] = useState();
+  const [secretKey, setSecretKey] = useState(localStorage?.getItem("secretKey"));
   const [isFailed, setIsFailed] = useState();
   const [setlist, setSetlist] = useState([]);
   const [member, setMember] = useState([]);
@@ -257,7 +257,7 @@ function Live(props) {
                   {isFailed && <FormFeedback>Secret Code Failed</FormFeedback>}
                 </div>
               </>
-            ) : url.code === 404 && name === "officialJKT48" && !secretKey ? (
+            ) : url.code === 404 && name === "officialJKT48" ? (
               <NoTicket
                 isCustomLive={isCustomLive}
                 setIsCustomLive={setIsCustomLive}
@@ -277,7 +277,7 @@ function Live(props) {
             )}
           </Col>
           <Col lg="4">
-            {url.code === 404 && name === "officialJKT48" && !secretKey ? (
+            {url.code === 404 && name === "officialJKT48" ? (
               <MemberLineUp members={member} isComingSoon={false} />
             ) : (
               <>
