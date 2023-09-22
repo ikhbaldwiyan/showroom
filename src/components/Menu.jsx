@@ -18,9 +18,6 @@ function Menu({
   isMultiRoom,
   isFarming,
   isPremiumLive,
-  isCustomLive,
-  customUrl,
-  setCustomUrl,
 }) {
   const [roomName, setRoomName] = useState("");
 
@@ -104,26 +101,6 @@ function Menu({
   return (
     <Row>
       <Col>
-        {!hideMenu && !isPremiumLive && (
-          <>
-            <Button
-              className="menu"
-              style={menu === "room" ? buttonActive : buttonStyle}
-              onClick={() => handleChangeMenu("room")}
-            >
-              <FaListAlt style={icon} /> Room
-            </Button>
-            {isCustomLive && (
-              <Button
-                className="mb-2 mr-1"
-                onClick={() => setCustomUrl(!customUrl)}
-                color="danger"
-              >
-                <FaKey className="mb-1" />
-              </Button>
-            )}
-          </>
-        )}
         {isPremiumLive && (
           <Button
             className="menu"

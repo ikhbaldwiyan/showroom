@@ -1,10 +1,16 @@
 import React from "react";
-import { FaInfoCircle, FaMusic } from "react-icons/fa";
+import { FaInfoCircle, FaKey, FaMusic } from "react-icons/fa";
 import { RiFileList3Fill } from "react-icons/ri";
 import { Button, Col, Row } from "reactstrap";
 import { gaEvent } from "utils/gaEvent";
 
-const MenuSetlist = ({ menu, setMenu }) => {
+const MenuSetlist = ({
+  menu,
+  setMenu,
+  isCustomLive,
+  setCustomUrl,
+  customUrl,
+}) => {
   const menus = [
     {
       name: "Theater",
@@ -16,11 +22,15 @@ const MenuSetlist = ({ menu, setMenu }) => {
       menu: "setlist",
       icon: <FaMusic style={icon} />,
     },
-    {
-      name: "Encore",
-      menu: "encore",
-      icon: <RiFileList3Fill style={icon} />,
-    },
+    ...(!isCustomLive
+      ? [
+          {
+            name: "Encore",
+            menu: "encore",
+            icon: <RiFileList3Fill style={icon} />,
+          },
+        ]
+      : []),
   ];
 
   const handleChangeMenu = (menu) => {
@@ -41,6 +51,16 @@ const MenuSetlist = ({ menu, setMenu }) => {
             {item.icon} {item.name}
           </Button>
         ))}
+
+        {isCustomLive && (
+          <Button
+            className="mb-2 mr-1"
+            onClick={() => setCustomUrl(!customUrl)}
+            color="danger"
+          >
+            <FaKey className="mb-1" />
+          </Button>
+        )}
       </Col>
     </Row>
   );

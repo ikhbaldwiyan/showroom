@@ -137,6 +137,7 @@ function Live(props) {
         logName: "Premium Live",
         userId: user?._id,
         description: `Watch Premium Live Showroom`,
+        liveId: profile?.live_id,
       });
     }
   }, [isPremiumLive]);

@@ -17,7 +17,12 @@ import Loading from "./Loading";
 import moment from "moment";
 import { getSession } from "utils/getSession";
 
-const NoTicket = ({ isCustomLive, setIsCustomLive }) => {
+const NoTicket = ({
+  isCustomLive,
+  setIsCustomLive,
+  customUrl,
+  setCustomUrl,
+}) => {
   const [theater, setTheater] = useState({});
   const [menu, setMenu] = useState("theater");
 
@@ -33,7 +38,13 @@ const NoTicket = ({ isCustomLive, setIsCustomLive }) => {
   return (
     <Row>
       <Col md="6">
-        <MenuSetlist menu={menu} setMenu={setMenu} />
+        <MenuSetlist
+          menu={menu}
+          setMenu={setMenu}
+          isCustomLive={isCustomLive}
+          customUrl={customUrl}
+          setCustomUrl={setCustomUrl}
+        />
         {menu === "theater" ? (
           <SetlistInfo theater={theater} />
         ) : menu === "setlist" ? (
@@ -135,15 +146,11 @@ const NoTicket = ({ isCustomLive, setIsCustomLive }) => {
         </h3>
         <p className="text-center">
           {getSession().session ? (
-            <>
-              Silahkan klik button dibawah untuk
-              beli tiket
-            </>
+            <>Silahkan klik button dibawah untuk beli tiket</>
           ) : (
             <>
               Silahkan <Link to="/login">Login</Link> jika sudah punya tiket
-              atau klik button dibawah untuk
-              beli tiket
+              atau klik button dibawah untuk beli tiket
             </>
           )}
         </p>

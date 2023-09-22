@@ -158,7 +158,8 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, roo
         activityLog({
           userId: userProfile?._id,
           logName: "Comment",
-          description: `Send comment regular to ${formatName(profile.room_url_key)}`
+          description: `Send comment regular to ${formatName(profile.room_url_key)}`,
+          liveId: profile?.live_id
         });
       }
     } catch (err) {
