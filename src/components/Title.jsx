@@ -85,7 +85,7 @@ function Title({
   useEffect(() => {
     const intervalId = setInterval(() => {
       try {
-        axios.get(`${API}/lives/info/${roomId}/${cookies}`).then((res) => {
+        axios.get(LIVE_INFO(roomId, secretKey ?? cookies)).then((res) => {
           const profiles = res.data;
           setProfile(profiles);
           setTitle(profiles.title);
