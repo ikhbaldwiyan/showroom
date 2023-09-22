@@ -73,13 +73,15 @@ function Live(props) {
       setUser(userSession);
     }
 
-    axios.post(PROFILE_API, {
-      room_id: roomId.toString(),
-      cookie: session?.cookie_login_id
-    }).then((res) => {
-      const profile = res.data;
-      dispatch(getRoomDetailSucces(profile, profile.is_follow ? 1 : 0));
-    });
+    axios
+      .post(PROFILE_API, {
+        room_id: roomId.toString(),
+        cookie: session?.cookie_login_id,
+      })
+      .then((res) => {
+        const profile = res.data;
+        dispatch(getRoomDetailSucces(profile, profile.is_follow ? 1 : 0));
+      });
   }, [roomId]);
 
   useEffect(() => {
@@ -134,8 +136,8 @@ function Live(props) {
       activityLog({
         logName: "Premium Live",
         userId: user?._id,
-        description: `Watch Premium Live Showroom`
-      })
+        description: `Watch Premium Live Showroom`,
+      });
     }
   }, [isPremiumLive]);
 
@@ -162,12 +164,10 @@ function Live(props) {
   };
 
   useEffect(() => {
-    if (isPremiumLive) {
-      axios.get(TODAY_SCHEDULE_API).then((res) => {
-        setSetlist(res?.data?.setlist?.songs);
-        setMember(res?.data?.memberList)
-      });
-    }
+    axios.get(TODAY_SCHEDULE_API).then((res) => {
+      setSetlist(res?.data?.setlist?.songs);
+      setMember(res?.data?.memberList);
+    });
   }, [isPremiumLive]);
 
   useEffect(() => {
@@ -177,11 +177,11 @@ function Live(props) {
           logName: "Watch",
           userId: user?._id,
           description: `Watch Live ${room_name}`,
-          liveId: profile.live_id
-        })
+          liveId: profile.live_id,
+        });
       }, 180000);
     }
-  }, [user, room_name, roomId])
+  }, [user, room_name, roomId]);
 
   return (
     <MainLayout
@@ -276,52 +276,58 @@ function Live(props) {
             )}
           </Col>
           <Col lg="4">
-            <Menu
-              menu={menu}
-              setMenu={setMenu}
-              isLive={url}
-              roomId={roomId}
-              hideMenu={hideMenu}
-              isFarming={isFarming}
-              isCustomLive={isCustomLive}
-              setIsCustomLive={setIsCustomLive}
-              customUrl={customUrl}
-              setCustomUrl={setCustomUrl}
-              isPremiumLive={isPremiumLive}
-            />
-            {menu === "room" ? (
-              <RoomList roomId={roomId} setRoomId={setRoomId} />
-            ) : menu === "chat" ? (
-              <LiveChat
-                roomId={roomId}
-                setRoomId={setRoomId}
-                secretKey={secretKey}
-                room_name={room_name}
-              />
-            ) : menu === "rank" ? (
-              <StageUser roomId={roomId} secretKey={secretKey} />
-            ) : menu === "gift" ? (
-              <Gift roomId={roomId} secretKey={secretKey} />
-            ) : menu === "setlist" ? (
-              <Setlist songs={setlist} />
-            ) : menu === "info" ? (
-              <MemberLineUp members={member} />
-            ) : menu === "total" ? (
-              <TotalRank roomId={roomId} />
-            ) : menu === "star" ? (
-              <StarButton
-                roomId={roomId}
-                cookiesLoginId={cookiesLoginId}
-                csrfToken={csrfToken}
-                theme={props.theme}
-                setUrl={setUrl}
-                room_name={room_name}
-                isPremiumLive={isPremiumLive}
-              />
-            ) : menu === "farming" ? (
-              <FarmStars isSingleLive />
+            {url.code === 404 && name === "officialJKT48" && !secretKey ? (
+              <MemberLineUp members={member} isComingSoon={false} />
             ) : (
-              ""
+              <>
+                <Menu
+                  menu={menu}
+                  setMenu={setMenu}
+                  isLive={url}
+                  roomId={roomId}
+                  hideMenu={hideMenu}
+                  isFarming={isFarming}
+                  isCustomLive={isCustomLive}
+                  setIsCustomLive={setIsCustomLive}
+                  customUrl={customUrl}
+                  setCustomUrl={setCustomUrl}
+                  isPremiumLive={isPremiumLive}
+                />
+                {menu === "room" ? (
+                  <RoomList roomId={roomId} setRoomId={setRoomId} />
+                ) : menu === "chat" ? (
+                  <LiveChat
+                    roomId={roomId}
+                    setRoomId={setRoomId}
+                    secretKey={secretKey}
+                    room_name={room_name}
+                  />
+                ) : menu === "rank" ? (
+                  <StageUser roomId={roomId} secretKey={secretKey} />
+                ) : menu === "gift" ? (
+                  <Gift roomId={roomId} secretKey={secretKey} />
+                ) : menu === "setlist" ? (
+                  <Setlist songs={setlist} />
+                ) : menu === "info" ? (
+                  <MemberLineUp members={member} />
+                ) : menu === "total" ? (
+                  <TotalRank roomId={roomId} />
+                ) : menu === "star" ? (
+                  <StarButton
+                    roomId={roomId}
+                    cookiesLoginId={cookiesLoginId}
+                    csrfToken={csrfToken}
+                    theme={props.theme}
+                    setUrl={setUrl}
+                    room_name={room_name}
+                    isPremiumLive={isPremiumLive}
+                  />
+                ) : menu === "farming" ? (
+                  <FarmStars isSingleLive />
+                ) : (
+                  ""
+                )}
+              </>
             )}
           </Col>
         </Row>
