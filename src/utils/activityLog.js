@@ -1,4 +1,5 @@
 import axios from "axios";
+import { isMobile } from "react-device-detect";
 import { ACTIVITY_LOG, CREATE_USER } from "./api/api";
 import { getSession } from "./getSession";
 
@@ -25,7 +26,8 @@ export const activityLog = ({ userId, logName, description, liveId }) => {
             user_id: res.data.user._id,
             live_id: liveId,
             log_name: logName,
-            description
+            description,
+            device: isMobile ? "Mobile" : "Desktop"
           });
         });
     } else {
@@ -33,7 +35,8 @@ export const activityLog = ({ userId, logName, description, liveId }) => {
         user_id: userId,
         live_id: liveId,
         log_name: logName,
-        description
+        description,
+        device: isMobile ? "Mobile" : "Desktop"
       });
     }
   }
