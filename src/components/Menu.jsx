@@ -26,7 +26,7 @@ function Menu({
       const profiles = res.data;
       const roomName =
         profiles.room_url_key !== "officialJKT48" &&
-          profiles.room_url_key.includes("JKT48")
+        profiles.room_url_key.includes("JKT48")
           ? profiles.room_url_key.slice(6) + " JKT48"
           : profiles.room_name;
       setRoomName(roomName);
@@ -50,36 +50,36 @@ function Menu({
     },
     ...(isPremiumLive
       ? [
-        {
-          name: "Song",
-          menu: "setlist",
-          icon: <FaMusic style={icon} />,
-        },
-      ]
+          {
+            name: "Song",
+            menu: "setlist",
+            icon: <FaMusic style={icon} />,
+          },
+        ]
       : [
-        {
-          name: !isMultiRoom && !isMobile && !isFarming ? "Gift" : "",
-          menu: "gift",
-          icon: <AiFillGift style={icon} />,
-        },
-      ]),
+          {
+            name: !isMultiRoom && !isMobile && !isFarming ? "Gift" : "",
+            menu: "gift",
+            icon: <AiFillGift style={icon} />,
+          },
+        ]),
     ...(isMultiRoom || isMobile
       ? [
-        {
-          name: !isMobile && !isMultiRoom && "Star",
-          menu: "star",
-          icon: <AiFillStar style={icon} />,
-        },
-      ]
+          {
+            name: !isMobile && !isMultiRoom && "Star",
+            menu: "star",
+            icon: <AiFillStar style={icon} />,
+          },
+        ]
       : []),
     ...(isFarming && !isMultiRoom
       ? [
-        {
-          name: !isMobile && !isMultiRoom && "",
-          menu: "farming",
-          icon: <GiFarmer style={icon} />,
-        },
-      ]
+          {
+            name: !isMobile && !isMultiRoom && "",
+            menu: "farming",
+            icon: <GiFarmer style={icon} />,
+          },
+        ]
       : []),
   ];
 
@@ -101,6 +101,13 @@ function Menu({
   return (
     <Row>
       <Col>
+        <Button
+          className="menu"
+          style={menu === "room" ? buttonActive : buttonStyle}
+          onClick={() => handleChangeMenu("room")}
+        >
+          <FaListAlt style={icon} /> Room
+        </Button>
         {isPremiumLive && (
           <Button
             className="menu"
