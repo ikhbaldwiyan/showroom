@@ -101,20 +101,21 @@ function Menu({
   return (
     <Row>
       <Col>
-        <Button
-          className="menu"
-          style={menu === "room" ? buttonActive : buttonStyle}
-          onClick={() => handleChangeMenu("room")}
-        >
-          <FaListAlt style={icon} /> Room
-        </Button>
-        {isPremiumLive && (
+        {isPremiumLive ? (
           <Button
             className="menu"
             style={menu === "info" ? buttonActive : buttonStyle}
             onClick={() => handleChangeMenu("info")}
           >
             <FaInfoCircle style={icon} /> Info
+          </Button>
+        ) : (
+          <Button
+            className="menu"
+            style={menu === "room" ? buttonActive : buttonStyle}
+            onClick={() => handleChangeMenu("room")}
+          >
+            <FaListAlt style={icon} /> Room
           </Button>
         )}
         {!isLive.length && isLive.code !== 404 && (
