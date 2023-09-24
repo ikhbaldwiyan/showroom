@@ -5,6 +5,7 @@ import DarkModeToggle from "react-dark-mode-toggle";
 import Button from "elements/Button";
 import Logo from "parts/Logo";
 import { isMobile } from "react-device-detect";
+import { Button as LoginButton } from "reactstrap";
 import { AiFillHome } from "react-icons/ai";
 import { RiAdminFill, RiBroadcastFill } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
@@ -13,12 +14,14 @@ import { BsInfoCircleFill } from "react-icons/bs";
 import { FaBars } from "react-icons/fa";
 import UserProfile from "./UserProfile";
 import { isAdmin } from "utils/permissions/admin";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function Header({ theme, toggleTheme, isMultiRoom }) {
   const [user, setUser] = useState("");
   const [profile, setProfile] = useState("");
   const [session, setSession] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useHistory();
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -50,7 +53,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
         ? "ghostwhite"
         : theme === "dark"
         ? "#21252b"
-        : "ghostwhite",
+        : "ghostwhite"
   };
 
   const toggleMobileMenu = () => {
@@ -132,9 +135,13 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                   />
                 ) : (
                   <li className={`nav-item${getNavLinkClass("/login")}`}>
-                    <Button className="nav-link" type="link" href="/login">
+                    <LoginButton
+                      color="info"
+                      className="nav-link text-white"
+                      onClick={() => navigate.push("/login")}
+                    >
                       <RiLoginBoxFill style={iconHome} /> Login
-                    </Button>
+                    </LoginButton>
                   </li>
                 )}
                 {isMobile && (
