@@ -17,8 +17,15 @@ import { gaEvent } from "utils/gaEvent";
 import formatName from "utils/formatName";
 import { getSession } from "utils/getSession";
 import { activityLog } from "utils/activityLog";
+import { showToast } from "utils/showToast";
 
-export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, room_name }) {
+export default function Comment({
+  roomId,
+  isMultiRoom,
+  setRoomId,
+  secretKey,
+  room_name,
+}) {
   const [comment, setComment] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [session, setSession] = useState("");
@@ -61,7 +68,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, roo
       const response = await axios.get(LIVE_INFO(roomId, secretKey ?? cookies));
       setSocketKey(response?.data?.websocket?.key);
     }
-    
+
     getWebsocketInfo();
 
     const newSocket = new WebSocket(socketUrl);
@@ -147,7 +154,9 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, roo
         activityLog({
           userId: userProfile?._id,
           logName: "Comment",
-          description: `Send comment multi room to ${formatName(profile.room_url_key)}`
+          description: `Send comment multi room to ${formatName(
+            profile.room_url_key
+          )}`,
         });
       } else {
         gaEvent(
@@ -158,8 +167,10 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, roo
         activityLog({
           userId: userProfile?._id,
           logName: "Comment",
-          description: `Send comment regular to ${formatName(profile.room_url_key)}`,
-          liveId: profile?.live_id
+          description: `Send comment regular to ${formatName(
+            profile.room_url_key
+          )}`,
+          liveId: profile?.live_id,
         });
       }
     } catch (err) {
@@ -170,12 +181,7 @@ export default function Comment({ roomId, isMultiRoom, setRoomId, secretKey, roo
       }
       setButtonLoading(false);
       setError("Please try again");
-      toast.error(
-        "Nomor telepon belum di verifikasi, silahkan verifikasi via aplikasi showroom",
-        {
-          theme: "colored",
-        }
-      );
+      showToast("error", "Server error")
     }
   };
 
