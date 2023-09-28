@@ -2,15 +2,16 @@ import axios from "axios";
 import moment from "moment";
 // import SkeletonLive from "parts/skeleton/SkeletonLive";
 import React, { useEffect, useState } from "react";
-import { FaCalendarAlt, FaRegClock, FaTheaterMasks } from "react-icons/fa";
+import { FaArrowRight, FaCalendarAlt, FaRegClock, FaTheaterMasks } from "react-icons/fa";
 import { Fade } from "react-reveal";
 import { Col, Row } from "reactstrap";
 import { SCHEDULES_API } from "utils/api/api";
 import "moment/locale/id";
 import { slugify } from "utils/slugify";
 import { Link } from "react-router-dom";
+import { BiLogInCircle } from "react-icons/bi";
 
-const Schedule = ({ isSearch, isShowing }) => {
+const Schedule = ({ isSearch, isShowing, isHome }) => {
   const [schedule, setSchedule] = useState([]);
 
   useEffect(() => {
@@ -29,27 +30,40 @@ const Schedule = ({ isSearch, isShowing }) => {
     !isSearch && (
       <Fade>
         <Row>
+          {isHome && (
+            <Col lg="12">
+              <div className="d-flex align-items-center justify-content-between mb-3">
+                <h3>Jadwal Theater</h3>
+                <Link to="/theater-schedule">
+                  <div
+                    className="d-flex align-items-center"
+                    style={{ color: "#ECFAFC" }}
+                  >
+                    <FaArrowRight className="mb-2 mr-2" size={25} />
+                    <h5>See More</h5>
+                  </div>
+                </Link>
+              </div>
+            </Col>
+          )}
           {schedule.length !== 0 &&
             schedule.map((item, idx) => (
               <Col key={idx} className="mb-4" md="4" sm="12">
-                <h4 className="py-2">
-                  <b>{item?.setlist?.name}</b>
-                </h4>
+                <div className="theater-schedule-title">
+                  <div className="d-flex align-items-center">
+                    <FaTheaterMasks size={25} className="mr-2" />
+                    {item?.setlist?.name}
+                  </div>
+                </div>
                 <Row>
-                  <Col md="8">
+                  <Col md="12">
                     <div className="theater-date">
                       <div className="d-flex align-items-center">
                         <FaCalendarAlt size={18} className="mr-2" />
                         {moment(item.showDate)
                           .locale("id")
-                          .format("dddd, DD MMMM YYYY")}
-                      </div>
-                    </div>
-                  </Col>
-                  <Col md="4">
-                    <div className="theater-schedule-time">
-                      <div className="d-flex align-items-center">
-                        <FaRegClock size={18} className="mr-2" />
+                          .format("dddd, DD MMMM YYYY")} - {" "}
+                        <FaRegClock size={17} className="ml-2 mr-1" />
                         {item?.showTime}
                       </div>
                     </div>
@@ -68,7 +82,7 @@ const Schedule = ({ isSearch, isShowing }) => {
                 <div className="card-schedule">
                   <div className="card-desc">
                     {item?.setlist?.description &&
-                    item.setlist.description.length > 160
+                      item.setlist.description.length > 160
                       ? item.setlist.description.slice(0, 160) + "..."
                       : item.setlist.description}
                   </div>
@@ -77,7 +91,7 @@ const Schedule = ({ isSearch, isShowing }) => {
                   to={`/theater/${slugify(item?.setlist?.name)}/${item?._id}`}
                 >
                   <button className="theater-button">
-                    <FaTheaterMasks className="mr-1 mb-1" size={20} />
+                    <BiLogInCircle className="mr-1 mb-1" size={20} />
                     Detail Show
                   </button>
                 </Link>

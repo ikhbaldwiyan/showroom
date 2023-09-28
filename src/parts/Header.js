@@ -66,14 +66,6 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
         <div className={classMulti}>
           <nav className="navbar navbar-expand-lg navbar-light">
             <Logo theme={theme} />
-            {!isMobile && (
-              <DarkModeToggle
-                className={!isMobile && "ml-2 dark-mode"}
-                onChange={toggleTheme}
-                checked={theme === "dark"}
-                size={48}
-              />
-            )}
             <button
               className="navbar-toggler"
               type="button"

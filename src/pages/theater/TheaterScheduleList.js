@@ -8,9 +8,9 @@ const TheaterScheduleList = (props) => {
   return (
     <MainLayout title="Jadwal Theater JKT48" {...props}>
       <Container className="mb-4">
-        <h3 className="py-1">Jadwal Theater Minggu Ini</h3>
-        <Schedule isShowing={true}  />
-        <h3 className="py-1">History Jadwal Theater</h3>
+        <h3 className="py-2">Jadwal Theater Minggu Ini</h3>
+        <Schedule isShowing={true} />
+        <h3 className="py-2">History Jadwal Theater</h3>
         <Schedule isShowing={false} />
       </Container>
     </MainLayout>

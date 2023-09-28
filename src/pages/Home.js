@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getRoomListRegular,
   getRoomListAcademy,
-  getRoomListTrainee,
+  getRoomListTrainee
 } from "redux/actions/rooms";
 import {
   RoomList,
@@ -18,7 +18,7 @@ import {
   RoomAcademy,
   RoomUpcoming,
   PremiumLive,
-  SearchAndFilter,
+  SearchAndFilter
 } from "parts";
 import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
@@ -92,7 +92,7 @@ function Home(props) {
     : roomTrainee.filter((room) =>
         room.room_url_key.toLowerCase().includes(search.toLowerCase())
       );
-  
+
   return (
     <MainLayout {...props}>
       <Container className="mb-4">
@@ -116,8 +116,8 @@ function Home(props) {
               <RoomUpcoming search={search} room={memberRegular} />
               <PremiumLive theme={props.theme} />
               <RecentLive isSearch={search} />
-              <Schedule isShowing={true} isSearch={search} />
-              <Twitter  isSearch={search} />
+              <Schedule isShowing={true} isSearch={search} isHome />
+              <Twitter isSearch={search} />
               <RoomList
                 isSearchRegular={filtered}
                 isSearch={search}
@@ -148,7 +148,7 @@ function Home(props) {
               theme={props.theme}
             />
           ) : isLive ? (
-            <Schedule isShowing={true} theme={props.theme} />
+            <Schedule isShowing={true} theme={props.theme} isHome />
           ) : (
             ""
           )}
