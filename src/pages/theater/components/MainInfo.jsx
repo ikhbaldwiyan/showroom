@@ -77,7 +77,7 @@ const MainInfo = ({ theater }) => {
                   textTransform: "uppercase",
                 }}
               >
-                <b>{theater?.birthdayMember?.stage_name}</b>
+                <b>{theater?.birthdayMember?.stage_name ?? theater?.birthdayMemberName}</b>
               </p>
             </div>
             <img

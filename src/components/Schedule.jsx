@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment";
 // import SkeletonLive from "parts/skeleton/SkeletonLive";
 import React, { useEffect, useState } from "react";
-import { FaArrowRight, FaCalendarAlt, FaRegClock, FaTheaterMasks } from "react-icons/fa";
+import { FaArrowRight, FaBirthdayCake, FaCalendarAlt, FaRegClock, FaTheaterMasks } from "react-icons/fa";
 import { Fade } from "react-reveal";
 import { Col, Row } from "reactstrap";
 import { SCHEDULES_API } from "utils/api/api";
@@ -10,6 +10,7 @@ import "moment/locale/id";
 import { slugify } from "utils/slugify";
 import { Link } from "react-router-dom";
 import { BiLogInCircle } from "react-icons/bi";
+import { IoSchoolSharp } from "react-icons/io5";
 
 const Schedule = ({ isSearch, isShowing, isHome }) => {
   const [schedule, setSchedule] = useState([]);
@@ -19,7 +20,7 @@ const Schedule = ({ isSearch, isShowing, isHome }) => {
       axios
         .get(`${SCHEDULES_API}?isOnWeekSchedule=${isShowing}`)
         .then((res) => {
-          setSchedule(res.data);
+          setSchedule(isHome ? res.data : res.data.reverse());
         });
     } catch (error) {
       console.log(error);
@@ -73,6 +74,18 @@ const Schedule = ({ isSearch, isShowing, isHome }) => {
                   to={`/theater/${slugify(item?.setlist?.name)}/${item?._id}`}
                 >
                   <div className="card card-setlist mt-2">
+                    {item?.isBirthdayShow && (
+                      <div className="info">
+                        <FaBirthdayCake size={18} className="mr-1 mb-1" />
+                        {item?.birthdayMember?.stage_name ?? item?.birthdayMemberName}
+                      </div>
+                    )}
+                    {item?.isGraduationShow && (
+                      <div className="info">
+                        <IoSchoolSharp size={18} className="mr-1 mb-1" />
+                        {item?.graduateMember?.stage_name}
+                      </div>
+                    )}
                     <figure className="img-wrapper">
                       <img
                         className="img-cover"

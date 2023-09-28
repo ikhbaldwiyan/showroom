@@ -136,16 +136,6 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     </LoginButton>
                   </li>
                 )}
-                {isMobile && (
-                  <li className="nav-item mx-3 my-3">
-                    <DarkModeToggle
-                      className={!isMobile && "ml-2"}
-                      onChange={toggleTheme}
-                      checked={theme === "dark"}
-                      size={48}
-                    />
-                  </li>
-                )}
               </ul>
             </div>
           </nav>
