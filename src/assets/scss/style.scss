@@ -232,6 +232,45 @@ section {
       }
     }
   }
+
+  &.card-setlist {
+    overflow: hidden;
+    cursor: pointer;
+    height: 215px;
+    border: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+
+    &:after {
+      position: absolute;
+      content: "";
+      top: 0; left: 0; right: 0; bottom: 0;
+      transform: scale(1.1);
+      transition: 0.5s transform ease-in-out;
+      z-index: 2;
+      @include gradient-y(rgba($black, 0), rgba($black, 0.31), 0%, 100%);
+    }
+
+    .img-wrapper {
+      z-index: 1;
+      margin: 0;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      transform: scale(1);
+      transition: 0.25s transform ease-in-out;
+      border-radius: $border-radius;
+    }
+
+
+    &:hover {
+      &:after {
+        transform: scale(1.1);
+      }
+      .img-wrapper {
+        transform: scale(1.1);
+      }
+    }
+  }
 }
 
 .img-cover {
@@ -832,4 +871,27 @@ main {
   stroke-width: 1px;
   stroke: #ECFAFC;
   border-radius: 6px;
+}
+
+.img-setlist {
+   .img-wrapper {
+      z-index: 1;
+      margin: 0;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      transform: scale(1);
+      transition: 0.25s transform ease-in-out;
+      border-radius: $border-radius;
+    }
+  &:hover {
+    .meta-wrapper {
+      transform: translateY(-10px);
+    }
+    &:after {
+      transform: scale(1.1);
+    }
+    .img-wrapper {
+      transform: scale(1.1);
+    }
+  }
 }

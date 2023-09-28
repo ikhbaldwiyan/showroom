@@ -69,16 +69,25 @@ const Schedule = ({ isSearch, isShowing, isHome }) => {
                     </div>
                   </Col>
                 </Row>
-                <img
-                  width="100%"
-                  src={item?.setlist?.image}
-                  alt={item?.setlist?.name}
-                  style={{
-                    maxHeight: "215px",
-                    objectFit: "cover",
-                    borderRadius: "6px 6px 0px 0px",
-                  }}
-                />
+                <Link
+                  to={`/theater/${slugify(item?.setlist?.name)}/${item?._id}`}
+                >
+                  <div className="card card-setlist mt-2">
+                    <figure className="img-wrapper">
+                      <img
+                        className="img-cover"
+                        width="100%"
+                        src={item?.setlist?.image}
+                        alt={item?.setlist?.name}
+                        style={{
+                          maxHeight: "215px",
+                          objectFit: "cover",
+                          borderRadius: "6px 6px 0px 0px",
+                        }}
+                      />
+                    </figure>
+                  </div>
+                </Link>
                 <div className="card-schedule">
                   <div className="card-desc">
                     {item?.setlist?.description &&
