@@ -9,6 +9,7 @@ import {
   PROFILE_API,
   LIVE_INFO,
   LIVE_COMMENT,
+  ROOM_LIVES_API,
 } from "utils/api/api";
 import { toast } from "react-toastify";
 import { FiSend } from "react-icons/fi";
@@ -18,13 +19,15 @@ import formatName from "utils/formatName";
 import { getSession } from "utils/getSession";
 import { activityLog } from "utils/activityLog";
 import { showToast } from "utils/showToast";
+import { useDispatch, useSelector } from "react-redux";
+import { getRoomPremiumLiveFailed, getRoomPremiumLiveLoad, getRoomPremiumLiveSuccess } from "redux/actions/roomLives";
 
 export default function Comment({
   roomId,
   isMultiRoom,
   setRoomId,
   secretKey,
-  room_name,
+  isPremiumLive,
 }) {
   const [comment, setComment] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -38,6 +41,10 @@ export default function Comment({
   const [socketKey, setSocketKey] = useState("");
   const cookies = getSession()?.session?.cookie_login_id ?? "comment";
   const userProfile = getSession().userProfile;
+  const { premium_live } = useSelector(
+    (state) => state.roomLives
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getComments() {
@@ -66,7 +73,8 @@ export default function Comment({
   useEffect(() => {
     async function getWebsocketInfo() {
       const response = await axios.get(LIVE_INFO(roomId, secretKey ?? cookies));
-      setSocketKey(response?.data?.websocket?.key);
+      isPremiumLive ? setSocketKey(premium_live[0]?.bcsvr_key) :
+        setSocketKey(response?.data?.websocket?.key);
     }
 
     getWebsocketInfo();
@@ -106,7 +114,7 @@ export default function Comment({
     return () => {
       newSocket.close();
     };
-  }, [socketKey]);
+  }, [socketKey, isPremiumLive]);
 
   useEffect(() => {
     axios
@@ -223,6 +231,25 @@ export default function Comment({
         </div>
       );
     });
+
+  useEffect(() => {
+    if (isPremiumLive) {
+      dispatch(getRoomPremiumLiveLoad());
+      async function getPremiumLive() {
+        const room = await axios.get(ROOM_LIVES_API);
+        const premiumLiveFilter = room?.data?.data?.filter(
+          (room) => room.premium_room_type === 1
+        );
+
+        if (premiumLiveFilter.length > 0) {
+          dispatch(getRoomPremiumLiveSuccess(premiumLiveFilter));
+        } else {
+          dispatch(getRoomPremiumLiveFailed());
+        }
+      }
+      getPremiumLive();
+    }
+  }, [isPremiumLive]);
 
   return (
     <Card body inverse color="dark" className="p-0 mb-5">
