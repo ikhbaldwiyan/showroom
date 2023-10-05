@@ -303,6 +303,7 @@ function Live(props) {
                     setRoomId={setRoomId}
                     secretKey={secretKey}
                     room_name={room_name}
+                    isPremiumLive={isPremiumLive}
                   />
                 ) : menu === "rank" ? (
                   <StageUser roomId={roomId} secretKey={secretKey} />
