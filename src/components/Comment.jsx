@@ -20,7 +20,11 @@ import { getSession } from "utils/getSession";
 import { activityLog } from "utils/activityLog";
 import { showToast } from "utils/showToast";
 import { useDispatch, useSelector } from "react-redux";
-import { getRoomPremiumLiveFailed, getRoomPremiumLiveLoad, getRoomPremiumLiveSuccess } from "redux/actions/roomLives";
+import {
+  getRoomPremiumLiveFailed,
+  getRoomPremiumLiveLoad,
+  getRoomPremiumLiveSuccess,
+} from "redux/actions/roomLives";
 
 export default function Comment({
   roomId,
@@ -41,9 +45,7 @@ export default function Comment({
   const [socketKey, setSocketKey] = useState("");
   const cookies = getSession()?.session?.cookie_login_id ?? "comment";
   const userProfile = getSession().userProfile;
-  const { premium_live } = useSelector(
-    (state) => state.roomLives
-  );
+  const { premium_live } = useSelector((state) => state.roomLives);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -73,8 +75,9 @@ export default function Comment({
   useEffect(() => {
     async function getWebsocketInfo() {
       const response = await axios.get(LIVE_INFO(roomId, secretKey ?? cookies));
-      isPremiumLive ? setSocketKey(premium_live[0]?.bcsvr_key) :
-        setSocketKey(response?.data?.websocket?.key);
+      isPremiumLive
+        ? setSocketKey(premium_live[0]?.bcsvr_key)
+        : setSocketKey(response?.data?.websocket?.key);
     }
 
     getWebsocketInfo();
@@ -189,7 +192,7 @@ export default function Comment({
       }
       setButtonLoading(false);
       setError("Please try again");
-      showToast("error", "Server error")
+      showToast("error", "Server error");
     }
   };
 
@@ -222,7 +225,7 @@ export default function Comment({
             viewBox="0 0 300 100"
             height={90}
             width={200}
-            backgroundColor="#D1D7E0"
+            backgroundColor="#4A5568"
           >
             <rect x="70" y="10" rx="4" ry="4" width="170" height="10" />
             <rect x="70" y="30" rx="3" ry="3" width="200" height="10" />
@@ -252,50 +255,68 @@ export default function Comment({
   }, [isPremiumLive]);
 
   return (
-    <Card body inverse color="dark" className="p-0 mb-5">
-      <Card body inverse color="dark" className="scroll">
-        <div>
-          {comment && comment?.length != 0 ? (
-            comment?.map(
-              (item, idx) =>
-                item?.comment?.length != "2" &&
-                item?.comment?.length != "1" && (
-                  <div key={idx}>
-                    <h5
+    <Card
+      className="p-0 mb-5"
+      style={{
+        background: "linear-gradient(to bottom, #A0AEC0 0%, #4A5568 100%)",
+        borderRadius: "8px",
+        border: "none"
+      }}
+    >
+      {comment.length > 0 ? (
+        <div className="p-3 scroll">
+          {comment.slice(0, 60).map(
+            (item, idx) =>
+              item?.comment?.length !== "2" &&
+              item?.comment?.length !== "1" && (
+                <div
+                  key={idx}
+                  className="px-3 py-2"
+                  style={{
+                    backgroundColor: "#343a40",
+                    borderRadius: "8px",
+                    marginBottom: "6px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      color: item?.user_id == myName ? "#DC3545" : "#24a2b7",
+                      fontSize: "18px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    <img
+                      src={`https://static.showroom-live.com/image/avatar/${item.avatar_id}.png?v=95`}
+                      alt={item.name}
                       style={{
-                        color: item?.user_id == myName ? "#DC3545" : "#24a2b7",
-                        display: "inline",
-                        fontWeight: 500,
-                        fontSize: "17px",
+                        width: "25px",
+                        marginRight: "10px",
+                        marginBottom: "5px",
                       }}
-                    >
-                      <img
-                        src={`https://static.showroom-live.com/image/avatar/${item.avatar_id}.png?v=95`}
-                        width="25"
-                        alt={item?.name}
-                        className="mr-2 mb-1"
-                      />
-                      {item?.name} {item?.user_id == myName && "(Me)"}
-                    </h5>
-                    <p style={styles.comment}>{item?.comment}</p>
-                    <hr />
+                    />
+                    {item.name}
                   </div>
-                )
-            )
-          ) : (
-            <div>
-              <LoadingMessage />
-              <CommentList />
-            </div>
+                  <p className="text-white" style={{ marginTop: "4px" }}>
+                    {item.comment}
+                  </p>
+                </div>
+              )
           )}
         </div>
-      </Card>
-
-      {session && !secretKey ? (
+      ) : (
+        <div className="p-3">
+          <CommentList />
+        </div>
+      )}
+      {session ? (
         <>
           {error ? <p className="pl-2 pb-0 text-danger">{error}</p> : ""}
-
-          <form className="d-flex sticky-comment" onSubmit={sendComment}>
+          <form
+            className="d-flex sticky-comment"
+            onSubmit={sendComment}
+          >
             <input
               type="text"
               className="form-control"
@@ -310,7 +331,7 @@ export default function Comment({
               style={{
                 borderRadius: "0 0 .25rem 0",
                 height: "3rem",
-                backgroundColor: "#24a2b7",
+                backgroundColor: "#008b9b",
                 width: "90px",
               }}
               disabled={buttonLoading ? true : false}
