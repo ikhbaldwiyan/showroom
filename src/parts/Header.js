@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Fade from "react-reveal/Fade";
-import DarkModeToggle from "react-dark-mode-toggle";
 
 import Button from "elements/Button";
 import Logo from "parts/Logo";
@@ -46,14 +45,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
   const iconHome = { marginBottom: 4 };
   const classMulti = isMultiRoom ? "container-fluid" : "container";
   const mobileMenu = {
-    backgroundColor:
-      isMobileMenuOpen && theme === "dark"
-        ? "#21252b"
-        : isMobileMenuOpen && theme !== "dark"
-        ? "ghostwhite"
-        : theme === "dark"
-        ? "#21252b"
-        : "ghostwhite"
+    backgroundColor: "#21252b"
   };
 
   const toggleMobileMenu = () => {
@@ -65,14 +57,14 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
       <header className="spacing-sm sticky">
         <div className={classMulti}>
           <nav className="navbar navbar-expand-lg navbar-light">
-            <Logo theme={theme} />
+            <Logo theme="dark" />
             <button
               className="navbar-toggler"
               type="button"
               onClick={toggleMobileMenu}
               style={{ borderColor: "silver" }}
             >
-              <FaBars color={theme === "dark" ? "white" : "black"} />
+              <FaBars color="white" />
             </button>
             <div
               className={`collapse navbar-collapse ${

@@ -50,7 +50,7 @@ function Live(props) {
   const [session, setSession] = useState("");
   const [user, setUser] = useState("");
   const { room_name, profile } = useSelector((state) => state.roomDetail);
-  const [hideStars, setHideStars] = useState(true);
+  const [hideStars, setHideStars] = useState(false);
   const [isFarming, setIsFarming] = useState(false);
   const [isCustomLive, setIsCustomLive] = useState(false);
   const [customUrl, setCustomUrl] = useState(false);

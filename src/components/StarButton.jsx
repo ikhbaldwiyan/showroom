@@ -143,8 +143,8 @@ function StarButton({
         setDisableCount(false);
 
         Object.entries(clickCountRedux).map(([key, value]) => {
+          console.log(key);
           if (value < 10 && value > 0) {
-            console.log(value, key);
             sendStar(key, value);
             dispatch(clearCountStar());
           }
@@ -342,7 +342,7 @@ function StarButton({
           display: "flex",
           flex: "1",
           alignItems: "center",
-          backgroundColor: theme === "dark" ? "#343A40" : "white",
+          backgroundColor: "#343A40",
           borderRadius: "10px 0px 0px 10px",
           justifyContent: "center",
         }}
@@ -389,10 +389,10 @@ function StarButton({
               />
               <b className="mb-0">
                 {isLoadingStars ? (
-                  <Loading color={theme === "dark" ? "white" : "black"} />
+                  <Loading color="white" />
                 ) : (
                   gift.count ?? (
-                    <Loading color={theme === "dark" ? "white" : "black"} />
+                    <Loading color="white" />
                   )
                 )}
               </b>
