@@ -221,16 +221,18 @@ function Live(props) {
                     setIsPremiumLive={setIsPremiumLive}
                   />
                   {session && !isMobile && !hideStars && !secretKey && (
-                    <StarButton
-                      roomId={roomId}
-                      cookiesLoginId={cookiesLoginId}
-                      csrfToken={csrfToken}
-                      theme={props.theme}
-                      user={user}
-                      setUrl={setUrl}
-                      room_name={room_name}
-                      isPremiumLive={isPremiumLive}
-                    />
+                    <div className="d-none">
+                      <StarButton
+                        roomId={roomId}
+                        cookiesLoginId={cookiesLoginId}
+                        csrfToken={csrfToken}
+                        theme={props.theme}
+                        user={user}
+                        setUrl={setUrl}
+                        room_name={room_name}
+                        isPremiumLive={isPremiumLive}
+                      />
+                    </div>
                   )}
                 </>
               ))
