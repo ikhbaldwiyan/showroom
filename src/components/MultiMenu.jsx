@@ -133,7 +133,7 @@ function MultiMenu({
             >
               <AiFillCloseCircle style={iconCss} /> Hide Options
             </Button>
-            <div className="float-right">
+            {/* <div className="float-right">
               {getSession().session && (
                 <SettingsRoom
                   set3Room={changeLayout}
@@ -141,7 +141,7 @@ function MultiMenu({
                   iconCss={iconCss}
                 />
               )}
-            </div>
+            </div> */}
           </Col>
         </>
       )}
