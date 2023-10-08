@@ -30,7 +30,9 @@ function Title({
   updateMenu,
   setUrl,
   handleRefresh,
-  setIsPremiumLive
+  setIsPremiumLive,
+  isPremiumLive,
+  showTitle,
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -61,7 +63,7 @@ function Title({
     number,
     removeSelectedRoom,
     updateMenu,
-    setUrl
+    setUrl,
   };
 
   const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };
@@ -73,7 +75,7 @@ function Title({
           const profiles = res.data;
           setProfile(profiles);
           setTitle(profiles.title);
-          !isMultiRoom && setIsPremiumLive(profiles.isPremiumLive)
+          !isMultiRoom && setIsPremiumLive(profiles.isPremiumLive);
         },
         [profile]
       );
@@ -115,13 +117,14 @@ function Title({
       {!hideName && (
         <h4 className="d-inline title">
           <b className="mr-1">
-            {profile &&
-            profile?.room_url_key !== 0 &&
-            profile?.room_url_key?.includes("JKT48") &&
-            profile?.room_url_key !== "officialJKT48"
+            {isPremiumLive
+              ? showTitle
+              : profile &&
+                profile?.room_url_key !== 0 &&
+                profile?.room_url_key?.includes("JKT48") &&
+                profile?.room_url_key !== "officialJKT48"
               ? profile?.room_url_key?.slice(6) + " JKT48"
-              : profile && profile?.room_name}{" "}
-            |
+              : profile && profile?.room_name}
           </b>
         </h4>
       )}

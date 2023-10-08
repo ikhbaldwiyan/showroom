@@ -61,6 +61,7 @@ function Live(props) {
   const [setlist, setSetlist] = useState([]);
   const [member, setMember] = useState([]);
   const [isPremiumLive, setIsPremiumLive] = useState(false);
+  const [title, setTitle] = useState("");
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
   const dispatch = useDispatch();
 
@@ -137,7 +138,7 @@ function Live(props) {
       activityLog({
         logName: "Premium Live",
         userId: user?._id,
-        description: `Watch Premium Live Showroom`,
+        description: `Watch Premium Live ${title}`,
         liveId: cookiesLoginId
       });
     }
@@ -169,6 +170,7 @@ function Live(props) {
     axios.get(TODAY_SCHEDULE_API).then((res) => {
       setSetlist(res?.data?.setlist?.songs);
       setMember(res?.data?.memberList);
+      setTitle(res?.data?.setlist?.name)
     });
   }, [isPremiumLive]);
 
@@ -218,7 +220,9 @@ function Live(props) {
                     isCustomLive={isCustomLive}
                     secretKey={secretKey}
                     handleRefresh={handleRefresh}
+                    isPremiumLive={isPremiumLive}
                     setIsPremiumLive={setIsPremiumLive}
+                    showTitle={title}
                   />
                   {session && !isMobile && !hideStars && !secretKey && (
                     <div className="d-none">
