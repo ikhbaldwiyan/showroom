@@ -148,10 +148,8 @@ function Live(props) {
   const playerRef = useRef(null);
 
   const handleRefresh = () => {
-    // Increment the key to trigger ReactPlayer reload
     setRefreshKey((prevKey) => prevKey + 1);
 
-    // Pause the player (optional)
     if (playerRef?.current) {
       playerRef?.current.seekTo(0);
     }

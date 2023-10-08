@@ -8,24 +8,30 @@ import {
   FaUserEdit,
   FaUsers,
   FaUsersCog,
-  FaWindowClose
+  FaWindowClose,
 } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
-import { RiLogoutBoxFill } from "react-icons/ri";
+import { RiBroadcastFill, RiLogoutBoxFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { clearFollowedRoom } from "redux/actions/roomFollowed";
-import { ACTIVITY_LOG, DETAIL_USER, UPDATE_PROFILE, USER_PROFILE } from "utils/api/api";
+import {
+  DETAIL_USER,
+  PREMIUM_LIVE_DETAIL,
+  UPDATE_PROFILE,
+  USER_PROFILE,
+} from "utils/api/api";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
-import { GiFarmer } from "react-icons/gi";
 import {
   clearProfile,
   getUserLoad,
-  getUserSuccess
+  getUserSuccess,
 } from "redux/actions/userActions";
 import { Link } from "react-router-dom";
+import { activityLog } from "utils/activityLog";
+import { showToast } from "utils/showToast";
 
 export default function UserProfile({ data, session, theme }) {
   const [modal, setModal] = useState(false);
@@ -48,7 +54,7 @@ export default function UserProfile({ data, session, theme }) {
     residence: "",
     user_id: "",
     name: "",
-    description: ""
+    description: "",
   });
 
   useEffect(() => {
@@ -63,7 +69,7 @@ export default function UserProfile({ data, session, theme }) {
       csrf_token: session.csrf_token,
       cookies_id: session.cookie_login_id,
       residence: 48,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -79,12 +85,12 @@ export default function UserProfile({ data, session, theme }) {
         toast.info(response.data.message, {
           theme: "colored",
           autoClose: 1200,
-          icon: <FaUserCheck size={30} />
+          icon: <FaUserCheck size={30} />,
         });
       }
     } catch (error) {
       toast.error(error.message, {
-        theme: "colored"
+        theme: "colored",
       });
     }
     setIsLoading(false);
@@ -94,7 +100,7 @@ export default function UserProfile({ data, session, theme }) {
     async function getUser() {
       await axios
         .post(USER_PROFILE, {
-          user_id: data.user_id
+          user_id: data.user_id,
         })
         .then((res) => {
           setUser(res.data);
@@ -129,20 +135,41 @@ export default function UserProfile({ data, session, theme }) {
     toast.success("Logout success", {
       theme: "colored",
       autoClose: 1200,
-      icon: <RiLogoutBoxFill size={30} />
+      icon: <RiLogoutBoxFill size={30} />,
     });
     setTimeout(() => {
       navigate.push("/login");
     }, 2000);
 
-    axios.post(ACTIVITY_LOG, {
-      user_id: userPermisions._id,
-      log_name: "Logout",
+    activityLog({
+      userId: userPermisions._id,
+      logName: "Logout",
       description: `Logout user from website`,
     });
 
     dispatch(clearFollowedRoom());
     dispatch(clearProfile());
+  };
+
+  const handleSharingLive = async () => {
+    const officialRoom = "/room/officialJKT48/332503";
+    try {
+      const response = await axios.get(
+        PREMIUM_LIVE_DETAIL("64c0fb1693c763af0ae9e886")
+      );
+      if (userPermisions?.can_farming_detail) {
+        localStorage.setItem("secretKey", response?.data?.webSocketId);
+        if (window.location.pathname === officialRoom) {
+          window.location.pathname = officialRoom;
+        } else {
+          navigate.push(officialRoom);
+        }
+      } else {
+        showToast("error", "Don't have permissions");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -179,7 +206,7 @@ export default function UserProfile({ data, session, theme }) {
         <ModalHeader
           style={{
             backgroundColor: "#24a2b7",
-            color: "white"
+            color: "white",
           }}
           toggle={toggle}
         >
@@ -204,7 +231,7 @@ export default function UserProfile({ data, session, theme }) {
                         width: "289px",
                         marginLeft: "auto",
                         marginRight: "auto",
-                        borderTopRightRadius: isMobile && ".5rem"
+                        borderTopRightRadius: isMobile && ".5rem",
                       }}
                     >
                       <h5 className="my-3">Profile</h5>
@@ -349,21 +376,28 @@ export default function UserProfile({ data, session, theme }) {
                                   />
                                 </div>
                               </div>
-                              <div className="row d-flex justify-content-center align-items-center py-1">
-                                <div className="col-6">
-                                  <Link to="/farming">
-                                    <Button color="success">
-                                      <GiFarmer size={16} className="mb-1" />
-                                      Farming
+                              {userPermisions?.can_farming_detail && (
+                                <div className="row d-flex justify-content-center align-items-center py-1">
+                                  <div className="col-6">
+                                    <Button
+                                      onClick={handleSharingLive}
+                                      color="success"
+                                      size="sm"
+                                    >
+                                      <RiBroadcastFill
+                                        size={16}
+                                        className="mb-1 mr-1"
+                                      />
+                                      Sharing
                                     </Button>
-                                  </Link>
+                                  </div>
+                                  <div className="col-6">
+                                    <InfoAccess
+                                      menu={userPermisions?.can_farming_detail}
+                                    />
+                                  </div>
                                 </div>
-                                <div className="col-6">
-                                  <InfoAccess
-                                    menu={userPermisions?.can_farming_page}
-                                  />
-                                </div>
-                              </div>
+                              )}
                             </div>
                           </div>
                           {isEdit ? (
@@ -372,7 +406,7 @@ export default function UserProfile({ data, session, theme }) {
                               disabled={loading}
                               style={{
                                 backgroundColor: "#008080",
-                                border: "none"
+                                border: "none",
                               }}
                               onClick={updateProfile}
                             >

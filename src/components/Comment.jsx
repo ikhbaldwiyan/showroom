@@ -260,15 +260,15 @@ export default function Comment({
       style={{
         background: "linear-gradient(to bottom, #A0AEC0 0%, #4A5568 100%)",
         borderRadius: "8px",
-        border: "none"
+        border: "none",
       }}
     >
       {comment.length > 0 ? (
         <div className="p-3 scroll">
           {comment.slice(0, 60).map(
             (item, idx) =>
-              item?.comment?.length !== "2" &&
-              item?.comment?.length !== "1" && (
+              (item?.comment?.length !== "2" ||
+                item?.comment?.length !== "1") && (
                 <div
                   key={idx}
                   className="px-3 py-2"
@@ -310,13 +310,10 @@ export default function Comment({
           <CommentList />
         </div>
       )}
-      {session ? (
+      {session && !secretKey ? (
         <>
           {error ? <p className="pl-2 pb-0 text-danger">{error}</p> : ""}
-          <form
-            className="d-flex sticky-comment"
-            onSubmit={sendComment}
-          >
+          <form className="d-flex sticky-comment" onSubmit={sendComment}>
             <input
               type="text"
               className="form-control"
