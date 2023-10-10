@@ -33,7 +33,7 @@ export default function Comment({
   secretKey,
   isPremiumLive,
 }) {
-  const [comment, setComment] = useState([]);
+  const [comments, setComments] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [session, setSession] = useState("");
   const [textComment, setTextComment] = useState("");
@@ -53,7 +53,7 @@ export default function Comment({
       try {
         const res = await axios.get(LIVE_COMMENT(roomId, secretKey ?? cookies));
         const comments = res.data;
-        setComment(comments);
+        setComments(comments);
       } catch (error) {
         console.log(error);
       }
@@ -102,7 +102,7 @@ export default function Comment({
           comment: msg.cm,
           created_at: msg.created_at,
         };
-        setComment((prevMessages) => [cm, ...prevMessages]);
+        setComments((prevMessages) => [cm, ...prevMessages]);
       } else if (code === 101) {
         !isMultiRoom ? window.location.reload() : setRoomId(roomId);
       }
@@ -263,12 +263,12 @@ export default function Comment({
         border: "none",
       }}
     >
-      {comment.length > 0 ? (
+      {comments.length > 0 ? (
         <div className="p-3 scroll">
-          {comment.slice(0, 60).map(
+          {comments.slice(0, 60).map(
             (item, idx) =>
-              item?.comment?.length !== "2" &&
-              item?.comment?.length !== "1" && (
+              item?.comment?.length != "2" &&
+              item?.comment?.length != "1" && (
                 <div
                   key={idx}
                   className="px-3 py-2"
