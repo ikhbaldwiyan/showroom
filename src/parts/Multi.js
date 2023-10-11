@@ -19,6 +19,7 @@ import {
 } from "components";
 import { gaTag } from "utils/gaTag";
 import { gaEvent } from "utils/gaEvent";
+import HistoryLive from "./HistoryLive";
 
 export default function Multi({
   layout,
@@ -82,7 +83,7 @@ export default function Multi({
       playerRef?.current.seekTo(0);
     }
 
-    gaEvent("Multi Room", "Refresh Button - Multi Room", "Multi Room")
+    gaEvent("Multi Room", "Refresh Button - Multi Room", "Multi Room");
     gaTag({
       action: "refresh_button_multi",
       category: "Refresh - Multi Room",
@@ -154,6 +155,8 @@ export default function Multi({
         <LiveChat roomId={roomId} setRoomId={setRoomId} isMultiRoom />
       ) : menu === "rank" ? (
         <StageUser roomId={roomId} />
+      ) : menu === "history" ? (
+        <HistoryLive id={roomId} />
       ) : menu === "gift" ? (
         <Gift roomId={roomId} />
       ) : menu === "total" ? (
