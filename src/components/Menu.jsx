@@ -109,7 +109,7 @@ function Menu({
           >
             <FaInfoCircle style={icon} /> Info
           </Button>
-        ) : (
+        ) : !hideMenu ? (
           <Button
             className="menu"
             style={menu === "room" ? buttonActive : buttonStyle}
@@ -117,7 +117,7 @@ function Menu({
           >
             <FaListAlt style={icon} /> Room
           </Button>
-        )}
+        ) : null}
         {!isLive.length && isLive.code !== 404 && (
           <>
             <Button
