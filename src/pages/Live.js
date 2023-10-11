@@ -37,12 +37,13 @@ import MemberLineUp from "./theater/components/MemberLineUp";
 import { getRoomDetailSucces } from "redux/actions/roomDetail";
 import { activityLog } from "utils/activityLog";
 import { showToast } from "utils/showToast";
+import HistoryLive from "parts/HistoryLive";
 
 function Live(props) {
   let { id, name } = useParams();
   const [url, setUrl] = useState([]);
   const [roomId, setRoomId] = useState(id);
-  const [menu, setMenu] = useState("room");
+  const [menu, setMenu] = useState("history");
   const [loading, setLoading] = useState(false);
   const [hideMenu, setHideMenu] = useState(false);
   const [cookiesLoginId, setCookiesLoginId] = useState("");
@@ -311,6 +312,8 @@ function Live(props) {
                   />
                 ) : menu === "rank" ? (
                   <StageUser roomId={roomId} secretKey={secretKey} />
+                ) : menu === "history" ? (
+                  <HistoryLive id={roomId}  />
                 ) : menu === "gift" ? (
                   <Gift roomId={roomId} secretKey={secretKey} />
                 ) : menu === "setlist" ? (

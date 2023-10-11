@@ -102,8 +102,8 @@ const LiveHistory = (props) => {
               <Col key={idx} sm="6" md="4" className="py-3">
                 <Card
                   style={{
-                    background: `linear-gradient(165deg, #282c34, #24a2b7)`,
-                    borderColor: props.theme === "dark" ? "white" : "",
+                    background: `linear-gradient(160deg,#4724B7  0%,  #24A2B7 100%)`,
+                    borderColor: "white",
                     color: "white",
                   }}
                 >

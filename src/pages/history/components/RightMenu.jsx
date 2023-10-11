@@ -170,19 +170,19 @@ const RightMenu = ({ gift, setSearch, filterName, id }) => {
                       </div>
                       <div className="recent-icon">
                         <FaUserFriends size={18} />
-                        {formatNumber(live_info?.viewers)} Views
+                        {formatNumber(live_info?.viewers?.num)} Views
                       </div>
                       <div className="recent-icon">
                         <Link
                           onClick={() => handleChangeHistory(memberName)}
                           to={`/history/${member.url}/${item.data_id}`}
                         >
-                          <div className="recent-card-name">
+                          <Button size="sm" color="dark">
                             <span className="recent-name">
                               Detail History
                               <BiLogInCircle size={20} />
                             </span>
-                          </div>
+                          </Button>
                         </Link>
                       </div>
                     </div>

@@ -8,6 +8,7 @@ import { isMobile } from "react-device-detect";
 import { PROFILE_API } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
 import { GiFarmer } from "react-icons/gi";
+import { RiBroadcastFill } from "react-icons/ri";
 
 function Menu({
   menu,
@@ -122,10 +123,17 @@ function Menu({
           <>
             <Button
               className="menu"
+              style={menu === "history" ? buttonActive : buttonStyle}
+              onClick={() => handleChangeMenu("history")}
+            >
+              <RiBroadcastFill style={icon} /> History Live
+            </Button>
+            <Button
+              className="menu"
               style={menu === "total" ? buttonActive : buttonStyle}
               onClick={() => handleChangeMenu("total")}
             >
-              <AiFillTrophy style={icon} /> Total Rank {roomName}
+              <AiFillTrophy style={icon} /> Rank
             </Button>
           </>
         )}

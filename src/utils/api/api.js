@@ -30,9 +30,10 @@ const RECENT_LIVE_LOG_API = (
   filter = "active",
   order = "-1",
   perpage = "10",
-  search = ""
+  search = "",
+  roomId = ""
 ) => {
-  return `${SHOWROOM_LOG_API}/recent?sort=${sort}&page=${page}&filter=${filter}&order=${order}&perpage=${perpage}&search=${search}`;
+  return `${SHOWROOM_LOG_API}/recent?sort=${sort}&page=${page}&filter=${filter}&order=${order}&perpage=${perpage}&search=${search}&room_id=${roomId}`;
 };
 
 const DETAIL_LIVE_HISTORY = (id) => {
