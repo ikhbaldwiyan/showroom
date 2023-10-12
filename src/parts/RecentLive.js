@@ -79,7 +79,7 @@ const RecentLive = ({ isSearch }) => {
             >
               <BiChevronLeft
                 size={70}
-                color="#282c34"
+                color="white"
                 className={`arrow-button left ${
                   scrollPosition === 0 ? "d-none" : ""
                 }`}
@@ -187,7 +187,7 @@ const RecentLive = ({ isSearch }) => {
           >
             <BiChevronRight
               size={70}
-              color="#282c34"
+              color="white"
               className={`arrow-button right ${
                 scrollPosition >=
                 containerRef.current?.scrollWidth -
