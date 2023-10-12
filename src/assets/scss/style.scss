@@ -829,6 +829,40 @@ main {
   border: none;
 }
 
+.scroll-menu-container {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.arrow-button {
+  position: absolute;
+  top: 30%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: "#4A5568"; /* Text color for buttons */
+  border: none;
+  outline: none;
+  padding: 10px;
+  z-index: 1;
+  transition: box-shadow 0.3s ease; 
+}
+
+.arrow-button.left {
+  left: -8px;
+}
+
+.arrow-button.right {
+  right: -10px;
+}
+
+.recent-live-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 20px;
+  scroll-behavior: smooth; /* Enable smooth scrolling */
+  transition: scroll-left 0.3s ease; /* Add smooth scroll transition */
+}
+
 .card-recent-live {
   height: 150px;
   display: flex;
