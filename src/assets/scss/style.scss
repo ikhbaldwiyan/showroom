@@ -369,7 +369,6 @@ footer {
 
   .brand-tagline {
     color: $gray-500;
-    font-weight: 300;
     margin-top: 8px;
   }
   
@@ -379,18 +378,16 @@ footer {
     border: 0;
     a, span {
       color: $gray-500;
-      font-weight: 300;
     }
     a {
       @include hover-focus {
-        color: $gray-800;
+        color: $cyan;
       }
     }
   }
 
   .copyrights {
     margin-top: 50px;
-    font-weight: 300;
     color: $gray-500;
     margin-bottom: 60px;
   }
@@ -399,7 +396,7 @@ footer {
 main {
   p {
     color: $gray-500;
-    font-weight: 300;
+    font-weight: 400;
   }
 }
 

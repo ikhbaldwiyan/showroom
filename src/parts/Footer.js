@@ -1,11 +1,11 @@
 import React from "react";
 import Button from "elements/Button";
 import Logo from "parts/Logo";
-import { useSelector } from "react-redux";
+import { getSession } from "utils/getSession";
+import { FaDiscord, FaTwitter } from "react-icons/fa";
+import { AiOutlineMail } from "react-icons/ai";
 
 export default function Footer({ theme }) {
-  const user = useSelector((state) => state.user.user);
-
   return (
     <footer>
       <div className="container">
@@ -33,15 +33,11 @@ export default function Footer({ theme }) {
                     Multi Room
                   </Button>
                 </li>
-                <li className="list-group-item">
-                  <Button type="link" href="/theater-schedule">
-                    Theater Schedule
-                  </Button>
-                </li>
-                {user?.can_farming_page === true && (
+
+                {getSession().session && (
                   <li className="list-group-item">
-                    <Button type="link" href="/farming">
-                      Farming
+                    <Button type="link" href="/follow">
+                      Followed Room
                     </Button>
                   </li>
                 )}
@@ -61,15 +57,35 @@ export default function Footer({ theme }) {
                   </Button>
                 </li>
                 <li className="list-group-item">
-                  <Button
-                    type="link"
-                    href={process.env.REACT_APP_DISCORD_LINK}
-                    isExternal
-                    target="_blank"
-                  >
-                    Discord Group
+                  <Button type="link" href="/theater-schedule">
+                    Theater Schedule
                   </Button>
                 </li>
+              </ul>
+            </div>
+            <div className="col-auto mr-5">
+              <h6 className="mt-2">Contact Us</h6>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">
+                  <a
+                    href="mailto:showroomjkt48@gmail.com" 
+                  >
+                    <AiOutlineMail size={18} /> showroomjkt48@gmail.com
+                  </a>
+                </li>
+              </ul>
+
+              <li className="list-group-item">
+                <Button
+                  type="link"
+                  href={process.env.REACT_APP_DISCORD_LINK}
+                  isExternal
+                  target="_blank"
+                >
+                  <FaDiscord size={18} /> Discord Group
+                </Button>
+              </li>
+              <ul className="list-group list-group-flush">
                 <li className="list-group-item">
                   <Button
                     type="link"
@@ -77,7 +93,7 @@ export default function Footer({ theme }) {
                     isExternal
                     target="_blank"
                   >
-                    Twitter
+                    <FaTwitter size={18} /> @Jkt48_Showroom
                   </Button>
                 </li>
               </ul>
@@ -85,7 +101,7 @@ export default function Footer({ theme }) {
           </div>
           <div className="row">
             <div className="col text-center copyrights">
-              Copyright 2023 • All rights reserved • JKT48SHOWROOM - Inzoid
+              Copyright 2023 • All rights reserved • JKT48SHOWROOM
             </div>
           </div>
         </div>
