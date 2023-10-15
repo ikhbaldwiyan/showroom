@@ -33,6 +33,7 @@ function Title({
   setIsPremiumLive,
   isPremiumLive,
   showTitle,
+  refresh
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -161,7 +162,7 @@ function Title({
         style={{ borderRadius: "10px" }}
         className="ml-2 mb-1"
       >
-        <IoReload size={20} />
+        <IoReload className={`${refresh && "spin-animation"}`} size={20} />
       </Button>
     </div>
   );

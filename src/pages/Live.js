@@ -31,7 +31,6 @@ import { getSession } from "utils/getSession";
 import { MdError } from "react-icons/md";
 import { useRef } from "react";
 import { gaTag } from "utils/gaTag";
-import { gaEvent } from "utils/gaEvent";
 import Setlist from "./theater/components/Setlist";
 import MemberLineUp from "./theater/components/MemberLineUp";
 import { getRoomDetailSucces } from "redux/actions/roomDetail";
@@ -63,6 +62,8 @@ function Live(props) {
   const [member, setMember] = useState([]);
   const [isPremiumLive, setIsPremiumLive] = useState(false);
   const [title, setTitle] = useState("");
+  const [isRefresh, setIsRefresh] = useState(false)
+  
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
   const dispatch = useDispatch();
 
@@ -150,12 +151,15 @@ function Live(props) {
 
   const handleRefresh = () => {
     setRefreshKey((prevKey) => prevKey + 1);
-
+    setIsRefresh(true);
     if (playerRef?.current) {
       playerRef?.current.seekTo(0);
     }
 
-    gaEvent("Live Stream", "Refresh Button - Regular", "Live Stream");
+    setTimeout(() => {
+      setIsRefresh(false);
+    }, 2000);
+
     gaTag({
       action: "refresh_button_regular",
       category: "Refresh - Regular",
@@ -222,6 +226,7 @@ function Live(props) {
                     isPremiumLive={isPremiumLive}
                     setIsPremiumLive={setIsPremiumLive}
                     showTitle={title}
+                    refresh={isRefresh}
                   />
                   {session && !isMobile && !hideStars && !secretKey && (
                     <div className="d-none">
