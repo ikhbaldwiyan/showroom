@@ -1,11 +1,43 @@
-import React, { useState } from 'react';
+import axios from "axios";
+import React, { useState } from "react";
 import { RiBroadcastFill } from "react-icons/ri";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  FormGroup,
+  Label,
+  Input,
+} from "reactstrap";
+import { SHARING_LIVE } from "utils/api/api";
+import { getSession } from "utils/getSession";
+import { showToast } from "utils/showToast";
 
-const SharingLive = () => {
+const SharingLive = ({ sharingUsers, theater, setIsRegister }) => {
   const [modal, setModal] = useState(false);
+  const [name, setName] = useState("");
 
   const toggle = () => setModal(!modal);
+
+  const handleRegisterSharingLive = () => {
+    axios
+      .post(SHARING_LIVE, {
+        user_id: getSession()?.userProfile?._id,
+        schedule_id: theater._id,
+        discord_name: name,
+        status: "registered",
+        image: getSession()?.profile?.avatar_url,
+      })
+      .then((res) => {
+        toggle();
+        setIsRegister(true);
+        showToast("success", "Success registered premium live");
+      }).catch((err) => {
+        showToast("error", err?.response?.data?.message)
+      });
+  };
 
   return (
     <div className="ticket-sharing">
@@ -17,22 +49,54 @@ const SharingLive = () => {
             <b>RP. 20.000</b>
           </p>
         </div>
-        <button className="buy d-flex text-align-center justify-content-center align-items-center text-info" onClick={toggle}>
+        <button
+          className="buy d-flex text-align-center justify-content-center align-items-center text-info"
+          onClick={toggle}
+        >
           Buy Ticket
         </button>
       </div>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader className="modal-title" toggle={toggle}>Buy Ticket Sharing Live</ModalHeader>
+        <ModalHeader className="modal-title" toggle={toggle}>
+          Buy Ticket Sharing Live
+        </ModalHeader>
         <ModalBody className="text-dark">
-          <p>Modal Content Goes Here</p>
+          <FormGroup>
+            <Label className="mt-2" for="discord_name">
+              <b>Name</b>
+            </Label>
+            <Input
+              type="text"
+              name="discord_name"
+              id="discord_name"
+              placeholder="Input your discord name"
+              value={getSession()?.profile?.name}
+              disabled
+            />
+            <Label className="mt-2" for="discord_name">
+              <b>Discord Name</b>
+            </Label>
+            <Input
+              type="text"
+              name="discord_name"
+              id="discord_name"
+              placeholder="Input your discord name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </FormGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>Buy</Button>{' '}
-          <Button color="secondary" onClick={toggle}>Cancel</Button>
+          <Button color="primary" onClick={handleRegisterSharingLive}>
+            Register Sharing Live
+          </Button>{" "}
+          <Button color="secondary" onClick={toggle}>
+            Cancel
+          </Button>
         </ModalFooter>
       </Modal>
     </div>
   );
-}
+};
 
 export default SharingLive;

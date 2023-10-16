@@ -11,7 +11,7 @@ import {
 import { IoSchoolSharp } from "react-icons/io5";
 import SharingLive from "./SharingLive";
 
-const MainInfo = ({ theater }) => {
+const MainInfo = ({ theater, sharingUsers, setIsRegister, isSharingLive }) => {
   return (
     <div className="theater-container">
       <div className="setlist-container">
@@ -78,7 +78,10 @@ const MainInfo = ({ theater }) => {
                   textTransform: "uppercase",
                 }}
               >
-                <b>{theater?.birthdayMember?.stage_name ?? theater?.birthdayMemberName}</b>
+                <b>
+                  {theater?.birthdayMember?.stage_name ??
+                    theater?.birthdayMemberName}
+                </b>
               </p>
             </div>
             <img
@@ -129,23 +132,30 @@ const MainInfo = ({ theater }) => {
           </div>
         </div>
       )}
-      <div className="ticket-info">
-        <div className="menu-ticket">
-          <FaMoneyCheckAlt className="mb-2" color="#ECFAFC" size={80} />
-          <div className="d-flex flex-column justify-content-center text-center">
-            <div className="ticket-name">SHOWROOM</div>
-            <p className="setlist-subname mt-2">
-              <b>385 JPY</b>
-            </p>
+      {!isSharingLive && (
+        <div className="ticket-info">
+          <div className="menu-ticket">
+            <FaMoneyCheckAlt className="mb-2" color="#ECFAFC" size={80} />
+            <div className="d-flex flex-column justify-content-center text-center">
+              <div className="ticket-name">SHOWROOM</div>
+              <p className="setlist-subname mt-2">
+                <b>385 JPY</b>
+              </p>
+            </div>
+            <a href={theater?.ticketShowroom} target="_blank" rel="noreferrer">
+              <button className="buy d-flex text-align-center justify-content-center align-items-center">
+                Buy Ticket
+              </button>
+            </a>
           </div>
-          <a href={theater?.ticketShowroom} target="_blank" rel="noreferrer">
-            <button className="buy d-flex text-align-center justify-content-center align-items-center">
-              Buy Ticket
-            </button>
-          </a>
         </div>
-      </div>
-      <SharingLive />
+      )}
+
+      <SharingLive
+        sharingUsers={sharingUsers}
+        theater={theater}
+        setIsRegister={setIsRegister}
+      />
 
       <div className="ticket-info">
         <div className="menu-ticket">
@@ -163,7 +173,6 @@ const MainInfo = ({ theater }) => {
           </a>
         </div>
       </div>
-
     </div>
   );
 };

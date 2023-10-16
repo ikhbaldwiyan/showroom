@@ -10,11 +10,14 @@ import MenuSetlist from "./components/MenuSetlist";
 import SetlistInfo from "./components/SetlistInfo";
 import Songs from "./components/Setlist";
 import MainInfo from "./components/MainInfo";
+import SharingUsers from "./components/SharingUsers";
 
 const TheaterScheduleDetail = (props) => {
   const [menu, setMenu] = useState("theater");
   const [members, setMembers] = useState([]);
   const [theater, setTheater] = useState();
+  const [sharingUsers, setSharingUsers] = useState([]);
+  const [isRegister, setIsRegister] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
@@ -23,13 +26,14 @@ const TheaterScheduleDetail = (props) => {
         const response = await axios.get(DETAIL_SCHEDULE(id));
         setTheater(response.data);
         setMembers(response.data.memberList);
+        setSharingUsers(response.data.sharingUsers);
       } catch (error) {
         console.log(error);
       }
     }
     getTheaterDetail();
     window.scrollTo(0, 0);
-  }, []);
+  }, [isRegister]);
 
   return (
     <MainLayout
@@ -50,13 +54,22 @@ const TheaterScheduleDetail = (props) => {
             ) : null}
           </Col>
           <Col md="4 mb-2">
-            <MainInfo theater={theater} />
+            <MainInfo
+              theater={theater}
+              isSharingLive={props.isSharingLive}
+              sharingUsers={sharingUsers}
+              setIsRegister={setIsRegister}
+            />
           </Col>
           <Col md="4 mb-2">
-            <MemberLineUp
-              members={members}
-              isComingSoon={theater?.isComingSoon}
-            />
+            {props.isSharingLive ? (
+              <SharingUsers sharingUsers={sharingUsers} />
+            ) : (
+              <MemberLineUp
+                members={members}
+                isComingSoon={theater?.isComingSoon}
+              />
+            )}
           </Col>
         </Row>
       </Container>
