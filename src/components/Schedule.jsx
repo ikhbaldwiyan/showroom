@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment";
 // import SkeletonLive from "parts/skeleton/SkeletonLive";
 import React, { useEffect, useState } from "react";
-import { FaArrowRight, FaBirthdayCake, FaCalendarAlt, FaRegClock, FaTheaterMasks } from "react-icons/fa";
+import { FaArrowRight, FaBirthdayCake, FaCalendarAlt, FaRegClock, FaTheaterMasks, FaTicketAlt } from "react-icons/fa";
 import { Fade } from "react-reveal";
 import { Col, Row } from "reactstrap";
 import { SCHEDULES_API } from "utils/api/api";
@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { BiLogInCircle } from "react-icons/bi";
 import { IoSchoolSharp } from "react-icons/io5";
 
-const Schedule = ({ isSearch, isShowing, isHome }) => {
+const Schedule = ({ isSearch, isShowing, isHome, isSharing }) => {
   const [schedule, setSchedule] = useState([]);
 
   useEffect(() => {
@@ -112,15 +112,22 @@ const Schedule = ({ isSearch, isShowing, isHome }) => {
                 <Link
                   to={`/theater/${slugify(item?.setlist?.name)}/${item?._id}`}
                 >
-                  <button className="theater-button">
-                    <BiLogInCircle className="mr-1 mb-1" size={20} />
-                    Detail Show
-                  </button>
+                  {isSharing ? (
+                    <button className="theater-button">
+                      <FaTicketAlt className="mr-1 mb-1" size={20} />
+                      Buy Ticket
+                    </button>
+                  ) : (
+                    <button className="theater-button">
+                      <BiLogInCircle className="mr-1 mb-1" size={20} />
+                      Detail Show
+                    </button>
+                  )}
                 </Link>
               </Col>
             ))}
         </Row>
-      </Fade>
+      </Fade >
     )
   );
 };

@@ -9,6 +9,7 @@ import {
   FaTheaterMasks,
 } from "react-icons/fa";
 import { IoSchoolSharp } from "react-icons/io5";
+import SharingLive from "./SharingLive";
 
 const MainInfo = ({ theater }) => {
   return (
@@ -31,7 +32,7 @@ const MainInfo = ({ theater }) => {
           <div className="menu-setlist mt-1">
             <FaCalendarAlt className="mb-2" color="#ECFAFC" size={35} />
             <div className="mt-1">
-              <span className="info-theater">Theater Date</span>
+              <span className="info-theater">Show Date</span>
               <p className="theater-time mt-1">
                 {moment(theater?.showDate).format("DD MMM YYYY")}
               </p>
@@ -144,6 +145,8 @@ const MainInfo = ({ theater }) => {
           </a>
         </div>
       </div>
+      <SharingLive />
+
       <div className="ticket-info">
         <div className="menu-ticket">
           <FaMoneyCheckAlt className="mb-2" color="#ECFAFC" size={80} />
@@ -160,6 +163,7 @@ const MainInfo = ({ theater }) => {
           </a>
         </div>
       </div>
+
     </div>
   );
 };

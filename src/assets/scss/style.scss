@@ -647,6 +647,22 @@ main {
   background-color: #DC3545;
 }
 
+.ticket-sharing {
+  display: flex;
+  height: 96px;
+  padding: 10px;
+  border-radius: 8px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, #24A2B7 0%, #2563EB 100%);
+}
+
+.modal-title {
+  background-color: $cyan;
+  color: white;
+}
+
 .birthday-btn {
   display: flex;
   padding: 10px;
