@@ -582,6 +582,13 @@ main {
   flex-shrink: 0;
 }
 
+.sharing-info-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  flex-shrink: 0;
+}
+
 .member-detail {
   display: flex;
   flex-direction: column;

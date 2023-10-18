@@ -9,6 +9,7 @@ import {
   FaRegClock,
   FaTheaterMasks,
   FaTicketAlt,
+  FaUsers,
 } from "react-icons/fa";
 import { Fade } from "react-reveal";
 import { Col, Row } from "reactstrap";
@@ -88,6 +89,12 @@ const Schedule = ({ isSearch, isShowing, isHome, isSharing }) => {
                         <FaBirthdayCake size={18} className="mr-1 mb-1" />
                         {item?.birthdayMember?.stage_name ??
                           item?.birthdayMemberName}
+                      </div>
+                    )}
+                    {isSharing && (
+                      <div className="info">
+                        <FaUsers size={18} className="mr-1 mb-1" />
+                        {item?.sharingUsers?.length} Users
                       </div>
                     )}
                     {item?.isGraduationShow && (

@@ -155,6 +155,7 @@ const MainInfo = ({ theater, sharingUsers, setIsRegister, isSharingLive }) => {
         sharingUsers={sharingUsers}
         theater={theater}
         setIsRegister={setIsRegister}
+        isSharingLive={isSharingLive}
       />
 
       <div className="ticket-info">

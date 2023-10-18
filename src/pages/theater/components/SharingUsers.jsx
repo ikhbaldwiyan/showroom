@@ -16,7 +16,7 @@ const SharingUsers = ({ sharingUsers }) => {
           Array.from(
             { length: Math.ceil(sharingUsers.length / 4) },
             (_, rowIndex) => (
-              <div key={rowIndex} className="member-info-wrapper">
+              <div key={rowIndex} className="sharing-info-wrapper">
                 {sharingUsers
                   .slice(rowIndex * 4, rowIndex * 4 + 4)
                   .map((item, idx) => (
@@ -34,7 +34,11 @@ const SharingUsers = ({ sharingUsers }) => {
                         />
                       </div>
                       <div className="btn-member">
-                        <div className="member-name">{item.user_id.name}</div>
+                        <div className="member-name">
+                          {item?.user_id?.name.length > 7
+                            ? item?.user_id.name?.substr(0, 5) + "..."
+                            : item?.user_id.name}
+                        </div>
                       </div>
                     </div>
                   ))}

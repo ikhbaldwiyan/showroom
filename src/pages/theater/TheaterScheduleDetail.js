@@ -68,6 +68,7 @@ const TheaterScheduleDetail = (props) => {
               <MemberLineUp
                 members={members}
                 isComingSoon={theater?.isComingSoon}
+                isSharingLive={props.isSharingLive}
               />
             )}
           </Col>

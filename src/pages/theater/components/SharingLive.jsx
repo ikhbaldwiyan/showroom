@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { RiBroadcastFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import {
   Button,
   Modal,
@@ -15,9 +16,10 @@ import { SHARING_LIVE } from "utils/api/api";
 import { getSession } from "utils/getSession";
 import { showToast } from "utils/showToast";
 
-const SharingLive = ({ sharingUsers, theater, setIsRegister }) => {
+const SharingLive = ({ theater, setIsRegister, isSharingLive }) => {
   const [modal, setModal] = useState(false);
   const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const toggle = () => setModal(!modal);
 
@@ -27,6 +29,7 @@ const SharingLive = ({ sharingUsers, theater, setIsRegister }) => {
         user_id: getSession()?.userProfile?._id,
         schedule_id: theater._id,
         discord_name: name,
+        phone_number: phoneNumber,
         status: "registered",
         image: getSession()?.profile?.avatar_url,
       })
@@ -34,8 +37,9 @@ const SharingLive = ({ sharingUsers, theater, setIsRegister }) => {
         toggle();
         setIsRegister(true);
         showToast("success", "Success registered premium live");
-      }).catch((err) => {
-        showToast("error", err?.response?.data?.message)
+      })
+      .catch((err) => {
+        showToast("error", err?.response?.data?.message);
       });
   };
 
@@ -49,12 +53,20 @@ const SharingLive = ({ sharingUsers, theater, setIsRegister }) => {
             <b>RP. 20.000</b>
           </p>
         </div>
-        <button
-          className="buy d-flex text-align-center justify-content-center align-items-center text-info"
-          onClick={toggle}
-        >
-          Buy Ticket
-        </button>
+        {isSharingLive ? (
+          <button
+            onClick={toggle}
+            className="buy d-flex text-align-center justify-content-center align-items-center text-info"
+          >
+            Buy Ticket
+          </button>
+        ) : (
+          <Link to="/sharing-live">
+            <button className="buy d-flex text-align-center justify-content-center align-items-center text-info">
+              Buy Ticket
+            </button>
+          </Link>
+        )}
       </div>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader className="modal-title" toggle={toggle}>
@@ -69,7 +81,7 @@ const SharingLive = ({ sharingUsers, theater, setIsRegister }) => {
               type="text"
               name="discord_name"
               id="discord_name"
-              placeholder="Input your discord name"
+              placeholder="username"
               value={getSession()?.profile?.name}
               disabled
             />
@@ -83,6 +95,17 @@ const SharingLive = ({ sharingUsers, theater, setIsRegister }) => {
               placeholder="Input your discord name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+            />
+            <Label className="mt-2" for="discord_name">
+              <b>No Telepon</b>
+            </Label>
+            <Input
+              type="number"
+              name="phone_number"
+              id="phone_number"
+              placeholder="Input no telp"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </FormGroup>
         </ModalBody>
