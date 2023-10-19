@@ -19,7 +19,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { clearFollowedRoom } from "redux/actions/roomFollowed";
 import {
   DETAIL_USER,
-  PREMIUM_LIVE_DETAIL,
+  PREMIUM_LIVE_TODAY,
   UPDATE_PROFILE,
   USER_PROFILE,
 } from "utils/api/api";
@@ -154,9 +154,7 @@ export default function UserProfile({ data, session, theme }) {
   const handleSharingLive = async () => {
     const officialRoom = "/room/officialJKT48/332503";
     try {
-      const response = await axios.get(
-        PREMIUM_LIVE_DETAIL("64c0fb1693c763af0ae9e886")
-      );
+      const response = await axios.get(PREMIUM_LIVE_TODAY);
       if (userPermisions?.can_farming_detail) {
         localStorage.setItem("secretKey", response?.data?.webSocketId);
         if (window.location.pathname === officialRoom) {
