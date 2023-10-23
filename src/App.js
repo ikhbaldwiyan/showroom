@@ -25,6 +25,7 @@ import MemberList from "pages/admin/members/MemberList";
 import PremiumLiveList from "pages/admin/premium-live/PremiumLiveList";
 import ActivityLogList from "pages/admin/activity/ActivityLogList";
 import SharingLive from "pages/sharing/SharingLive";
+import SharingLiveDetail from "pages/sharing/SharingLiveDetail";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -56,7 +57,7 @@ function App(props) {
         <Route path="/premium-live" component={() => <PremiumLiveList {...props} />} />
         <Route path="/activity" component={() => <ActivityLogList {...props} />} />
         <Route path="/sharing-live" component={() => <SharingLive {...props} />} />
-        <Route path="/sharing/:name/:id" component={() => <TheaterScheduleDetail isSharingLive={true} {...props} />} />
+        <Route path="/sharing/:name/:id" component={() => <SharingLiveDetail isSharingLive={true} {...props} />} />
       </div>
     </ThemeProvider>
   );

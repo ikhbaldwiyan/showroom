@@ -1,6 +1,7 @@
 import { Loading } from "components";
 import React from "react";
 import { FaUsers } from "react-icons/fa";
+import { IoIosPeople } from "react-icons/io";
 import { CardBody } from "reactstrap";
 
 const SharingUsers = ({ sharingUsers }) => {
@@ -45,6 +46,11 @@ const SharingUsers = ({ sharingUsers }) => {
               </div>
             )
           )
+        ) : sharingUsers.length === 0 ? (
+          <div className="d-flex align-items-center justify-content-center flex-column">
+            <IoIosPeople size={60} />
+            <h3>No Users</h3>
+          </div>
         ) : (
           <Loading size={20} color="white" />
         )}

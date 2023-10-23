@@ -10,7 +10,6 @@ import MenuSetlist from "./components/MenuSetlist";
 import SetlistInfo from "./components/SetlistInfo";
 import Songs from "./components/Setlist";
 import MainInfo from "./components/MainInfo";
-import SharingUsers from "./components/SharingUsers";
 
 const TheaterScheduleDetail = (props) => {
   const [menu, setMenu] = useState("theater");
@@ -56,21 +55,15 @@ const TheaterScheduleDetail = (props) => {
           <Col md="4 mb-2">
             <MainInfo
               theater={theater}
-              isSharingLive={props.isSharingLive}
               sharingUsers={sharingUsers}
               setIsRegister={setIsRegister}
             />
           </Col>
           <Col md="4 mb-2">
-            {props.isSharingLive ? (
-              <SharingUsers sharingUsers={sharingUsers} />
-            ) : (
-              <MemberLineUp
-                members={members}
-                isComingSoon={theater?.isComingSoon}
-                isSharingLive={props.isSharingLive}
-              />
-            )}
+            <MemberLineUp
+              members={members}
+              isComingSoon={theater?.isComingSoon}
+            />
           </Col>
         </Row>
       </Container>
