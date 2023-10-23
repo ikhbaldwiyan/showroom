@@ -977,3 +977,26 @@ main {
 .spin-animation {
   animation: spin 2s infinite linear;
 }
+
+/* AccordionDark.css */
+.custom-accordion.custom-accordion {
+  background-color: #343a40; /* Dark background color */
+}
+
+.custom-accordion .custom-card {
+  background-color: #454d55; /* Darker card background color */
+  border-color: #454d55; /* Darker border color */
+}
+
+.custom-accordion .custom-card .custom-card-header {
+  background-color: #343a40; /* Dark background color for header */
+  color: #ffffff; /* White text color for header */
+  padding: 0px;
+}
+
+.custom-accordion .custom-card .custom-card-body {
+  background-color: #454d55; /* Darker background color for body */
+  color: #ffffff; /* White text color for body */
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

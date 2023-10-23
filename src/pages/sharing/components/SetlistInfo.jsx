@@ -4,7 +4,7 @@ import React from "react";
 import { FaCalendarAlt, FaRegClock, FaTheaterMasks } from "react-icons/fa";
 import { Card, CardBody, CardHeader, CardText } from "reactstrap";
 
-const ShowInfo = ({ theater, sharingUsers, setIsRegister, isSharingLive }) => {
+const ShowInfo = ({ theater }) => {
   return (
     <Card
       className="mt-1 mb-3"

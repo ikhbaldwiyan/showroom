@@ -157,23 +157,6 @@ const MainInfo = ({ theater, sharingUsers, setIsRegister, isSharingLive }) => {
         setIsRegister={setIsRegister}
         isSharingLive={isSharingLive}
       />
-
-      <div className="ticket-info">
-        <div className="menu-ticket">
-          <FaMoneyCheckAlt className="mb-2" color="#ECFAFC" size={80} />
-          <div className="d-flex flex-column justify-content-center text-center">
-            <div className="ticket-name">THEATER</div>
-            <p className="setlist-subname mt-2">
-              <b>RP. 200.000</b>
-            </p>
-          </div>
-          <a href={theater?.ticketTheater} target="_blank" rel="noreferrer">
-            <button className="buy d-flex text-align-center justify-content-center align-items-center">
-              Buy Ticket
-            </button>
-          </a>
-        </div>
-      </div>
     </div>
   );
 };

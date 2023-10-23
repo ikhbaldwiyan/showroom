@@ -1,4 +1,5 @@
 import React from "react";
+import FAQ from "./FAQ";
 import RegisterSharing from "./RegisterSharing";
 
 const SharingInfo = ({
@@ -15,6 +16,7 @@ const SharingInfo = ({
         setIsRegister={setIsRegister}
         isSharingLive={isSharingLive}
       />
+      <FAQ />
     </div>
   );
 };
