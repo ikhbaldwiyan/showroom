@@ -45,7 +45,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
   const iconHome = { marginBottom: 4 };
   const classMulti = isMultiRoom ? "container-fluid" : "container";
   const mobileMenu = {
-    backgroundColor: "#21252b"
+    backgroundColor: "#21252b",
   };
 
   const toggleMobileMenu = () => {
@@ -117,6 +117,12 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     session={session}
                     theme={theme}
                   />
+                ) : isMobile ? (
+                  <li className={`nav-item${getNavLinkClass("/login")}`}>
+                    <Button className="nav-link" type="link" href="/login">
+                      <RiLoginBoxFill style={iconHome} /> Login
+                    </Button>
+                  </li>
                 ) : (
                   <li className={`nav-item${getNavLinkClass("/login")}`}>
                     <LoginButton
