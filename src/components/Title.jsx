@@ -11,6 +11,7 @@ import LastSeen from "./LastSeen";
 import getTimes from "utils/getTimes";
 import { getSession } from "utils/getSession";
 import { Button } from "reactstrap";
+import { isDesktop } from "react-device-detect";
 
 function Title({
   roomId,
@@ -33,7 +34,7 @@ function Title({
   setIsPremiumLive,
   isPremiumLive,
   showTitle,
-  refresh
+  refresh,
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -129,6 +130,8 @@ function Title({
           </b>
         </h4>
       )}
+
+      {profile?.title && isDesktop && <span> | {profile?.title}</span>}
 
       {!hideTime && (
         <LastSeen theme={theme} times={profile.current_live_started_at} />
