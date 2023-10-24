@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiBroadcastFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import {
   Button,
   Modal,
@@ -15,10 +16,11 @@ import { SHARING_LIVE } from "utils/api/api";
 import { getSession } from "utils/getSession";
 import { showToast } from "utils/showToast";
 
-const RegisterSharing = ({ theater, setIsRegister }) => {
+const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
   const [modal, setModal] = useState(false);
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [isRegistered, setIsRegistered] = useState(false);
 
   const toggle = () => setModal(!modal);
 
@@ -42,6 +44,14 @@ const RegisterSharing = ({ theater, setIsRegister }) => {
       });
   };
 
+  useEffect(() => {
+    sharingUsers.map((item) => {
+      if (item.user_id._id === getSession()?.userProfile?._id) {
+        return setIsRegistered(true);
+      }
+    });
+  }, [sharingUsers]);
+
   return (
     <div className="ticket-sharing">
       <div className="menu-ticket">
@@ -56,7 +66,7 @@ const RegisterSharing = ({ theater, setIsRegister }) => {
           onClick={toggle}
           className="buy d-flex text-align-center justify-content-center align-items-center text-info"
         >
-          Buy Ticket
+          {isRegistered ? "Pay Ticket " : "Buy Ticket"}
         </button>
       </div>
       <Modal isOpen={modal} toggle={toggle}>
@@ -64,46 +74,59 @@ const RegisterSharing = ({ theater, setIsRegister }) => {
           Buy Ticket Sharing Live
         </ModalHeader>
         <ModalBody className="text-dark">
-          <FormGroup>
-            <Label className="mt-2" for="discord_name">
-              <b>Name</b>
-            </Label>
-            <Input
-              type="text"
-              name="discord_name"
-              id="discord_name"
-              placeholder="username"
-              value={getSession()?.profile?.name}
-              disabled
-            />
-            <Label className="mt-2" for="discord_name">
-              <b>Discord Name</b>
-            </Label>
-            <Input
-              type="text"
-              name="discord_name"
-              id="discord_name"
-              placeholder="Input your discord name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <Label className="mt-2" for="discord_name">
-              <b>No Telepon</b>
-            </Label>
-            <Input
-              type="number"
-              name="phone_number"
-              id="phone_number"
-              placeholder="Input no telp"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-          </FormGroup>
+          {isRegistered ? (
+            <p>Please pay sharing live ticket</p>
+          ) : getSession()?.session ? (
+            <FormGroup>
+              <Label className="mt-2" for="discord_name">
+                <b>Name</b>
+              </Label>
+              <Input
+                type="text"
+                name="discord_name"
+                id="discord_name"
+                placeholder="username"
+                value={getSession()?.profile?.name}
+                disabled
+              />
+              <Label className="mt-2" for="discord_name">
+                <b>Discord Name</b>
+              </Label>
+              <Input
+                type="text"
+                name="discord_name"
+                id="discord_name"
+                placeholder="Input your discord name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <Label className="mt-2" for="discord_name">
+                <b>No Telepon</b>
+              </Label>
+              <Input
+                type="number"
+                name="phone_number"
+                id="phone_number"
+                placeholder="Input no telp"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </FormGroup>
+          ) : (
+            <p>Login dulu ya untuk daftar sharing live</p>
+          )}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={handleRegisterSharingLive}>
-            Register Sharing Live
-          </Button>{" "}
+          {!isRegistered && getSession().session && (
+            <Button color="primary" onClick={handleRegisterSharingLive}>
+              Register Sharing Live
+            </Button>
+          )}
+          {!getSession().session && (
+            <Link to="/login">
+              <Button color="info">Login Disini</Button>
+            </Link>
+          )}
           <Button color="secondary" onClick={toggle}>
             Cancel
           </Button>

@@ -6,7 +6,7 @@ import { CardBody } from "reactstrap";
 
 const SharingUsers = ({ sharingUsers }) => {
   return (
-    <CardBody className="member-wrapper">
+    <CardBody className="sharing-wrapper">
       <div className="card-member-container">
         <button className="lineup-btn">
           <FaUsers size={28} className="mr-2" />
@@ -22,9 +22,9 @@ const SharingUsers = ({ sharingUsers }) => {
                   .slice(rowIndex * 4, rowIndex * 4 + 4)
                   .map((item, idx) => (
                     <div key={idx} className="member-detail">
-                      <div className="member-image">
+                      <div style={{ display: "flex", alignItems: "center" }}>
                         <img
-                          alt="member"
+                          alt="users"
                           width={50}
                           src={
                             item.image ??
@@ -33,6 +33,21 @@ const SharingUsers = ({ sharingUsers }) => {
                             }.png?v=97`
                           }
                         />
+                        <div
+                          style={{
+                            width: "10px",
+                            height: "10px",
+                            borderRadius: "50%",
+                            backgroundColor:
+                            item.status === 'paid'
+                              ? '#2dce89'
+                              : item.status === 'cancelled'
+                              ? '#DC3545'
+                              : item.status === 'registered'
+                              ? '#ECFAFC'
+                              : 'gray', 
+                          }}
+                        ></div>
                       </div>
                       <div className="btn-member">
                         <div className="member-name">

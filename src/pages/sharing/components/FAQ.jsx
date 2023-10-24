@@ -15,7 +15,7 @@ const FAQ = () => {
     {
       question: "Apa itu sharing live?",
       answer:
-        "Sharing live adalah fitur berbagi akun showroom yang bertujuan untuk bisa menghemat harga tiket show premium live dengan harga murah",
+        "Sharing live adalah fitur berbagi akun showroom yang bertujuan untuk bisa menghemat harga tiket show premium live dengan harga terjangkau",
     },
     {
       question: "Keuntungan join sharing live?",
@@ -25,7 +25,7 @@ const FAQ = () => {
     {
       question: "Gimana cara daftar sharing live?",
       answer:
-        "Kalian bisa klik button buy ticket diatas dan isi form data, bila data sudah lengkap lalu klik register sharing live",
+        "Kalian bisa login dulu terus klik button buy ticket diatas dan isi form data, bila data sudah lengkap lalu klik register sharing live",
     },
     {
       question: "Sistem sharing livenya gimana min?",
@@ -35,7 +35,7 @@ const FAQ = () => {
     {
       question: "Cara nonton show premium live?",
       answer:
-        "Jika sudah membeli tiket sharing live kalian bisa langsung nonton premium live via web JKT48 SHOWROOM dengan cara klik dulu user profile dan klik button sharing live yang warna hijau ",
+        "Jika sudah membeli tiket sharing live kalian bisa langsung nonton premium live via web JKT48 SHOWROOM dengan cara klik dulu user profile dan klik button sharing live yang warna hijau, nanti akan redirect langsung ke show premium live sharing ",
     },
   ];
 
