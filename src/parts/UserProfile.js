@@ -142,7 +142,7 @@ export default function UserProfile({ data, session, theme }) {
     }, 2000);
 
     activityLog({
-      userId: userPermisions._id,
+      userId: userPermisions?._id,
       logName: "Logout",
       description: `Logout user from website`,
     });
