@@ -9,9 +9,10 @@ import { RiLoginBoxFill } from "react-icons/ri";
 import { Link, useHistory } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { gaEvent } from "utils/gaEvent";
-import { gaEvent as loginApi } from "utils/gaEvent";
 import { IoMdLogIn } from "react-icons/io";
 import { activityLog } from "utils/activityLog";
+import { gaTag } from "utils/gaTag";
+import { setLocalStorage } from "utils/setLocalStorage";
 
 function Login(props) {
   const [accountId, setAccountId] = useState("");
@@ -33,29 +34,36 @@ function Login(props) {
     window.scrollTo(0, 0);
   }, []);
 
-  const getSessionUser = async (response) => {
-    localStorage.setItem("user", JSON.stringify(response.data.user));
-    localStorage.setItem("session", JSON.stringify(response.data.session));
-    localStorage.setItem("profile", JSON.stringify(response.data.profile));
-    gaEvent("Login Screen", "Login Success", "Login");
-    loginApi("Login API", accountId, password);
-    loginApi("Login User", response.data.profile.name, "Login Success");
-    
-    axios.post(CREATE_USER, {
-      user_id: accountId,
-      name: response.data.profile.name
-    }).then((res) => {
-      activityLog({
-        userId: res.data.user._id,
-        logName: "Login and Register",
-        description: `Register user after login success`,
-      });
-    })
-
+  const getSessionUser = async (data) => {
     const user = await axios.get(DETAIL_USER(accountId));
-    localStorage.setItem("userProfile", JSON.stringify(user.data))
+
+    if (!user?.data) {
+      axios
+        .post(CREATE_USER, {
+          user_id: accountId,
+          name: data.profile.name,
+        })
+        .then((res) => {
+          activityLog({
+            userId: res.data.user._id,
+            logName: "Login and Register",
+            description: `Register user after login success`,
+          });
+        });
+    }
+
+    setLocalStorage("user", data.user);
+    setLocalStorage("session", data.session);
+    setLocalStorage("profile", data.profile);
+
+    gaTag({
+      action: "Login Success",
+      category: "Login",
+      label: "Login Page",
+    });
+
     activityLog({
-      userId: user.data._id,
+      userId: user?.data?._id,
       logName: "Login",
       description: "Login user to web",
     });
@@ -70,7 +78,7 @@ function Login(props) {
         password: password,
         captcha_word: captchaWord,
         cookies_sr_id: cookiesId ?? "",
-        csrf_token: csrf ?? ""
+        csrf_token: csrf ?? "",
       });
 
       if (response.data.user.captcha_url) {
@@ -85,12 +93,12 @@ function Login(props) {
 
       if (response.data.user.ok) {
         setButtonLoading(false);
-        getSessionUser(response);
+        getSessionUser(response.data);
 
         toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
           theme: "colored",
           autoClose: 1800,
-          icon: <RiLoginBoxFill size={30} />
+          icon: <RiLoginBoxFill size={30} />,
         });
 
         setTimeout(() => {
@@ -107,14 +115,14 @@ function Login(props) {
           response.data.user.error ??
             "An error occured. Please go back and try again.",
           {
-            theme: "colored"
+            theme: "colored",
           }
         );
         setCaptchaWord("");
       }
     } catch (err) {
       toast.error("Server down please contact admin", {
-        theme: "colored"
+        theme: "colored",
       });
       gaEvent("Login Screen", "Login Failed", "Login");
       setButtonLoading(false);
@@ -139,10 +147,9 @@ function Login(props) {
             </h3>
             <p className="text-justify mb-4">
               Silakan login menggunakan akun showroom Anda untuk mengakses fitur
-              kirim komentar dan stars. Tenang, data Anda akan
-              segera dikirimkan ke situs showroom dan tidak akan disimpan dalam
-              basis data kami, sehingga privasi dan keamanan informasi Anda
-              tetap terjaga.
+              kirim komentar dan stars. Tenang, data Anda akan segera dikirimkan
+              ke situs showroom dan tidak akan disimpan dalam basis data kami,
+              sehingga privasi dan keamanan informasi Anda tetap terjaga.
             </p>
             <form onSubmit={handleLogin}>
               <div className="row">
