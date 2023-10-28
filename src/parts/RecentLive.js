@@ -99,6 +99,8 @@ const RecentLive = ({ isSearch }) => {
                   >
                     <div className="card-recent-live">
                       <img
+                        width="110"
+                        height="auto"
                         className="recent-image"
                         src={
                           member?.url === "officialJKT48"
@@ -161,7 +163,7 @@ const RecentLive = ({ isSearch }) => {
                             style={{
                               color: "#ECFAFC",
                               fontWeight: "600",
-                              marginBottom: "1px",
+                              marginBottom: "1px"
                             }}
                             date={live_info.date.end}
                           />

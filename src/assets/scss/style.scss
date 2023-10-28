@@ -779,6 +779,7 @@ main {
   display: flex;
   align-items: center;
   gap: 6px;
+  overflow: hidden;
 }
 
 .card-schedule {
@@ -786,6 +787,7 @@ main {
   background: linear-gradient(180deg, #24A2B7 0%, #3B82F6 100%);
   height: 147.564px;
   padding: 14px;
+  overflow: hidden;
 }
 
 .card-desc {
@@ -876,6 +878,7 @@ main {
   border-radius: 6px;
   background: linear-gradient(180deg, #24A2B7 0%, #3B82F6 100%);
   padding: 4px;
+  overflow: hidden;
 }
 
 .recent-name {
@@ -896,10 +899,10 @@ main {
   border-radius: 6px;
   background: #DC3545;
   padding: 4px;
+  overflow: hidden;
 }
 
 .recent-image {
-  width: 110px;
   border-radius: 6px 0px 0px 6px;
 }
 
@@ -908,6 +911,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow: hidden;
 }
 
 .recent-icon {
