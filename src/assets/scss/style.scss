@@ -520,6 +520,7 @@ main {
   background-color: #008080;
   padding: 12px;
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .setlist-name {
@@ -549,6 +550,7 @@ main {
   background-color: #3B82F6;
   padding: 12px;
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .theater-info {
@@ -572,6 +574,7 @@ main {
 .member-wrapper {
   border-radius: 6px;
   background: linear-gradient(180deg, #24A2B7 0%, #2563EB 100%);
+  overflow: hidden;
 }
 
 .member-info-wrapper {
@@ -645,6 +648,7 @@ main {
   justify-content: space-between;
   align-items: center;
   background-color: #DC3545;
+  overflow: hidden;
 }
 
 .birthday-btn {
@@ -655,6 +659,7 @@ main {
   justify-content: space-between;
   align-items: center;
   background-color: #24A2B7;
+  overflow: hidden;
 }
 
 .ticket-name {

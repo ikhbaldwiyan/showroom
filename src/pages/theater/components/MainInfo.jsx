@@ -31,7 +31,7 @@ const MainInfo = ({ theater }) => {
           <div className="menu-setlist mt-1">
             <FaCalendarAlt className="mb-2" color="#ECFAFC" size={35} />
             <div className="mt-1">
-              <span className="info-theater">Theater Date</span>
+              <span className="info-theater">Show Date</span>
               <p className="theater-time mt-1">
                 {moment(theater?.showDate).format("DD MMM YYYY")}
               </p>
