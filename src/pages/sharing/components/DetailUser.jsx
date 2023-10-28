@@ -69,7 +69,7 @@ const DetailUser = ({ isOpen, user, toggleModal }) => {
                   fontWeight: "600"
                 }}
               >
-                {user?.status.charAt(0).toUpperCase() + user?.status.slice(1)}
+                {user?.status?.charAt(0)?.toUpperCase() + user?.status?.slice(1)}
               </Button>
             </div>
           </div>
