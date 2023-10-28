@@ -1,10 +1,27 @@
+import axios from "axios";
 import { Loading } from "components";
-import React from "react";
+import React, { useState } from "react";
 import { FaUsers } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import { CardBody } from "reactstrap";
+import { SHARING_LIVE_DETAIL } from "utils/api/api";
+import DetailUser from "./DetailUser";
 
 const SharingUsers = ({ sharingUsers }) => {
+  const [modal, setModal] = useState(false);
+  const [user, setUser] = useState({});
+
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  const getSharingUserDetail = (id) => {
+    axios.get(SHARING_LIVE_DETAIL(id)).then((res) => {
+      setUser(res.data);
+      toggleModal();
+    });
+  };
+
   return (
     <CardBody className="sharing-wrapper">
       <div className="card-member-container">
@@ -21,8 +38,18 @@ const SharingUsers = ({ sharingUsers }) => {
                 {sharingUsers
                   .slice(rowIndex * 4, rowIndex * 4 + 4)
                   .map((item, idx) => (
-                    <div key={idx} className="member-detail">
-                      <div style={{ display: "flex", alignItems: "center" }}>
+                    <div
+                      key={idx}
+                      className="member-detail"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => getSharingUserDetail(item._id)}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
                         <img
                           alt="users"
                           width={50}
@@ -39,13 +66,13 @@ const SharingUsers = ({ sharingUsers }) => {
                             height: "10px",
                             borderRadius: "50%",
                             backgroundColor:
-                            item.status === 'paid'
-                              ? '#2dce89'
-                              : item.status === 'cancelled'
-                              ? '#DC3545'
-                              : item.status === 'registered'
-                              ? '#ECFAFC'
-                              : 'gray', 
+                              item.status === "paid"
+                                ? "#2dce89"
+                                : item.status === "cancelled"
+                                ? "#DC3545"
+                                : item.status === "registered"
+                                ? "#ECFAFC"
+                                : "gray",
                           }}
                         ></div>
                       </div>
@@ -70,6 +97,7 @@ const SharingUsers = ({ sharingUsers }) => {
           <Loading size={20} color="white" />
         )}
       </div>
+      <DetailUser user={user} isOpen={modal} toggleModal={toggleModal} />
     </CardBody>
   );
 };

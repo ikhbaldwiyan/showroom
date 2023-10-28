@@ -133,7 +133,9 @@ const ACTIVITY_LOG_DETAIL = (id) => {
 }
 
 const SHARING_LIVE = `${ADMIN_API}/sharing-live`
-
+const SHARING_LIVE_DETAIL = (id) => {
+  return `${ADMIN_API}/sharing-live/${id}`
+}
 export {
   API,
   ROOM_LIST_API,
@@ -186,5 +188,6 @@ export {
   ACTIVITY_LOG_DETAIL,
   TODAY_SCHEDULE_API,
   SHARING_LIVE,
-  PREMIUM_LIVE_TODAY
+  PREMIUM_LIVE_TODAY,
+  SHARING_LIVE_DETAIL
 };
