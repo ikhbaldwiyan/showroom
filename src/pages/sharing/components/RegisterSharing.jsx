@@ -12,7 +12,7 @@ import {
   Label,
   Input,
 } from "reactstrap";
-import { SHARING_LIVE } from "utils/api/api";
+import { MESSAGES_BOT, SHARING_LIVE } from "utils/api/api";
 import { getSession } from "utils/getSession";
 import { showToast } from "utils/showToast";
 
@@ -42,6 +42,21 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
       .catch((err) => {
         showToast("error", err?.response?.data?.message);
       });
+
+    const notif = `**@${name}** berhasil register sharing live **${theater?.setlist?.name}** silahkan kontak <@&1104077539040825365> untuk info lebih lanjut`
+
+    axios
+      .post(MESSAGES_BOT, {
+        "type": "sharing",
+        "messageType": "chat",
+        "message": notif
+      })
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err) => {
+        showToast("error", "Failed to send discord bot");
+      })
   };
 
   useEffect(() => {

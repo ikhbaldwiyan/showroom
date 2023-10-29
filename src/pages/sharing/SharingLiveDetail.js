@@ -7,7 +7,7 @@ import { DETAIL_SCHEDULE } from "utils/api/api";
 import MainLayout from "pages/layout/MainLayout";
 import SharingUsers from "./components/SharingUsers";
 import SharingInfo from "./components/SharingInfo";
-import ShowInfo from "./components/SetlistInfo";
+import ShowInfo from "./components/ShowInfo";
 
 const SharingLiveDetail = (props) => {
   const [theater, setTheater] = useState();
