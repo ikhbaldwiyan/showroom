@@ -136,6 +136,13 @@ const SHARING_LIVE = `${ADMIN_API}/sharing-live`
 const SHARING_LIVE_DETAIL = (id) => {
   return `${ADMIN_API}/sharing-live/${id}`
 }
+
+// NOTIF
+const NOTIFICATION = `${ADMIN_API}/notifications`;
+const USER_NOTIFICATION = (userId) => {
+  return `${ADMIN_API}/notifications/${userId}`
+}
+
 export {
   API,
   ROOM_LIST_API,
@@ -189,5 +196,7 @@ export {
   TODAY_SCHEDULE_API,
   SHARING_LIVE,
   PREMIUM_LIVE_TODAY,
-  SHARING_LIVE_DETAIL
+  SHARING_LIVE_DETAIL,
+  NOTIFICATION,
+  USER_NOTIFICATION
 };

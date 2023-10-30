@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { RiBroadcastFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -14,6 +15,7 @@ import {
 } from "reactstrap";
 import { MESSAGES_BOT, SHARING_LIVE } from "utils/api/api";
 import { getSession } from "utils/getSession";
+import { sendNotif } from "utils/sendNotif";
 import { showToast } from "utils/showToast";
 
 const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
@@ -38,25 +40,37 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
         toggle();
         setIsRegister(true);
         showToast("success", "Success registered premium live");
+
+        // SEND NOTIF ADMIN WEB
+        sendNotif({
+          userId: getSession()?.userProfile?._id,
+          message: `Register sharing live ${
+            theater?.setlist?.name
+          } tanggal ${moment(theater?.showDate).format(
+            "DD MMM YYYY"
+          )} dengan order id ${res.data.order_id}`,
+          type: "Sharing Live",
+        });
+
+        /// SEND NOTIF TO DISCORD SERVER
+        const notif = `**@${name}** berhasil register sharing live **${theater?.setlist?.name}** dengan order id **#${res.data.order_id}** silahkan kontak <@&1104077539040825365> untuk info lebih lanjut`;
+
+        axios
+          .post(MESSAGES_BOT, {
+            type: "sharing",
+            messageType: "chat",
+            message: notif,
+          })
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            showToast("error", "Failed to send discord bot");
+          });
       })
       .catch((err) => {
         showToast("error", err?.response?.data?.message);
       });
-
-    const notif = `**@${name}** berhasil register sharing live **${theater?.setlist?.name}** silahkan kontak <@&1104077539040825365> untuk info lebih lanjut`
-
-    axios
-      .post(MESSAGES_BOT, {
-        "type": "sharing",
-        "messageType": "chat",
-        "message": notif
-      })
-      .then((res) => {
-        console.log(res.data)
-      })
-      .catch((err) => {
-        showToast("error", "Failed to send discord bot");
-      })
   };
 
   useEffect(() => {
