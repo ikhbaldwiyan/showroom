@@ -27,6 +27,7 @@
     "react-reveal": "^1.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-select": "^5.7.7",
     "react-spinners": "^0.10.6",
     "react-timeago": "^6.2.1",
     "react-timer-hook": "^3.0.6",

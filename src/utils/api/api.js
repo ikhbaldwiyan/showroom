@@ -140,8 +140,15 @@ const SHARING_LIVE_DETAIL = (id) => {
 // NOTIF
 const NOTIFICATION = `${ADMIN_API}/notifications`;
 const USER_NOTIFICATION = (userId) => {
-  return `${ADMIN_API}/notifications/${userId}`
-}
+  return `${ADMIN_API}/notifications/${userId}`;
+};
+
+// DISCORD USERS AND NOTIF
+const DISCORD_NOTIFICATION = `http://localhost:8000/notifications/discord`;
+const DISCORD_USERS = `http://localhost:8000/notifications/discord/users`;
+const DISCORD_USERS_SEARCH = (name) => {
+  return `http://localhost:8000/notifications/discord/users?name=${name}`;
+};
 
 export {
   API,
@@ -198,5 +205,8 @@ export {
   PREMIUM_LIVE_TODAY,
   SHARING_LIVE_DETAIL,
   NOTIFICATION,
-  USER_NOTIFICATION
+  USER_NOTIFICATION,
+  DISCORD_NOTIFICATION,
+  DISCORD_USERS,
+  DISCORD_USERS_SEARCH
 };

@@ -13,16 +13,21 @@ import {
   Label,
   Input,
 } from "reactstrap";
-import { MESSAGES_BOT, SHARING_LIVE } from "utils/api/api";
+import {
+  DISCORD_USERS_SEARCH,
+  DISCORD_NOTIFICATION,
+  SHARING_LIVE,
+} from "utils/api/api";
+import AsyncSelect from "react-select/async";
 import { getSession } from "utils/getSession";
 import { sendNotif } from "utils/sendNotif";
 import { showToast } from "utils/showToast";
 
 const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
   const [modal, setModal] = useState(false);
-  const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const toggle = () => setModal(!modal);
 
@@ -31,7 +36,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
       .post(SHARING_LIVE, {
         user_id: getSession()?.userProfile?._id,
         schedule_id: theater._id,
-        discord_name: name,
+        discord_name: selectedOption?.label,
         phone_number: phoneNumber,
         status: "registered",
         image: getSession()?.profile?.avatar_url,
@@ -40,6 +45,17 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
         toggle();
         setIsRegister(true);
         showToast("success", "Success registered premium live");
+
+        // SEND NOTIF DISCORD
+        axios
+          .post(DISCORD_NOTIFICATION, {
+            name: selectedOption?.label,
+            setlist: theater?.setlist?.name,
+            orderId: res.data.order_id,
+          })
+          .then((res) => {
+            console.log(res.data);
+          });
 
         // SEND NOTIF ADMIN WEB
         sendNotif({
@@ -51,22 +67,6 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
           )} dengan order id ${res.data.order_id}`,
           type: "Sharing Live",
         });
-
-        /// SEND NOTIF TO DISCORD SERVER
-        const notif = `**@${name}** berhasil register sharing live **${theater?.setlist?.name}** dengan order id **#${res.data.order_id}** silahkan kontak <@&1104077539040825365> untuk info lebih lanjut`;
-
-        axios
-          .post(MESSAGES_BOT, {
-            type: "sharing",
-            messageType: "chat",
-            message: notif,
-          })
-          .then((res) => {
-            console.log(res.data);
-          })
-          .catch((err) => {
-            showToast("error", "Failed to send discord bot");
-          });
       })
       .catch((err) => {
         showToast("error", err?.response?.data?.message);
@@ -80,6 +80,42 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
       }
     });
   }, [sharingUsers]);
+
+  const loadOptions = async (inputValue) => {
+    try {
+      const response = await axios.get(DISCORD_USERS_SEARCH(inputValue));
+      const users = response.data;
+
+      const options = users.map((user) => ({
+        label: user.user.global_name ?? user.user.username,
+        value: user.user.id,
+        avatar: user.user.avatar
+          ? `https://cdn.discordapp.com/avatars/${user.user.id}/${user.user.avatar}.png`
+          : "https://static.vecteezy.com/system/resources/previews/006/892/625/original/discord-logo-icon-editorial-free-vector.jpg",
+      }));
+
+      return options;
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      return [];
+    }
+  };
+
+  const formatOptionLabel = ({ label, avatar }) => (
+    <div style={{ display: "flex", alignItems: "center", padding: "4px" }}>
+      <img
+        src={avatar}
+        alt="Avatar"
+        style={{
+          marginRight: "8px",
+          borderRadius: "50%",
+          width: "24px",
+          height: "24px",
+        }}
+      />
+      <div>{label}</div>
+    </div>
+  );
 
   return (
     <div className="ticket-sharing">
@@ -121,13 +157,16 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
               <Label className="mt-2" for="discord_name">
                 <b>Discord Name</b>
               </Label>
-              <Input
-                type="text"
-                name="discord_name"
+              <AsyncSelect
                 id="discord_name"
-                placeholder="Input your discord name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                placeholder="Search your discord account"
+                loadOptions={loadOptions}
+                onChange={(selectedOption) => {
+                  setSelectedOption(selectedOption);
+                }}
+                value={selectedOption}
+                isClearable={true}
+                formatOptionLabel={formatOptionLabel}
               />
               <Label className="mt-2" for="discord_name">
                 <b>No Telepon</b>
