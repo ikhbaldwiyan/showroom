@@ -23,6 +23,7 @@ import {
 import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
 import RecentLive from "parts/RecentLive";
+import InfoFeature from "components/InfoFeature";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -96,7 +97,7 @@ function Home(props) {
     <MainLayout {...props}>
       <Container className="mb-4">
         <ModalInfo />
-        <AlertInfo page="Home" label="Discord Link" />
+        <InfoFeature />
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}

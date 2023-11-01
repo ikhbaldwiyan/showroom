@@ -69,7 +69,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
         });
       })
       .catch((err) => {
-        showToast("error", err?.response?.data?.message);
+        showToast("error", err?.response?.data?.error);
       });
   };
 

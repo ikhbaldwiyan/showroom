@@ -55,6 +55,7 @@ function Login(props) {
     setLocalStorage("user", data.user);
     setLocalStorage("session", data.session);
     setLocalStorage("profile", data.profile);
+    setLocalStorage("userProfile", user.data);
 
     gaTag({
       action: "Login Success",

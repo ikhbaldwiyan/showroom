@@ -28,7 +28,7 @@ const Schedule = ({ isSearch, isShowing, isHome, isSharing }) => {
       axios
         .get(`${SCHEDULES_API}?isOnWeekSchedule=${isShowing}`)
         .then((res) => {
-          setSchedule(isHome ? res.data : res.data.reverse());
+          setSchedule(isHome ? res.data : res.data);
         });
     } catch (error) {
       console.log(error);
