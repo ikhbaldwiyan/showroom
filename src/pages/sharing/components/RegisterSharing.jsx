@@ -23,6 +23,7 @@ import { getSession } from "utils/getSession";
 import { sendNotif } from "utils/sendNotif";
 import { showToast } from "utils/showToast";
 import { motion } from "framer-motion";
+import PayTicket from "./PayTicket";
 
 const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
   const [modal, setModal] = useState(false);
@@ -56,17 +57,17 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
             orderId: res.data.order_id,
           })
           .then((res) => {
-            console.log(res.data);
+            // show payment instruction
+            setModal(true)
           });
 
         // SEND NOTIF ADMIN WEB
         sendNotif({
           userId: getSession()?.userProfile?._id,
-          message: `Register sharing live ${
-            theater?.setlist?.name
-          } tanggal ${moment(theater?.showDate).format(
-            "DD MMM YYYY"
-          )} dengan order id ${res.data.order_id}`,
+          message: `Register sharing live ${theater?.setlist?.name
+            } tanggal ${moment(theater?.showDate).format(
+              "DD MMM YYYY"
+            )} dengan order id ${res.data.order_id}`,
           type: "Sharing Live",
         });
       })
@@ -78,7 +79,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
   useEffect(() => {
     sharingUsers.map((item) => {
       if (item.user_id._id === getSession()?.userProfile?._id) {
-        return setIsRegistered(true);
+         setIsRegistered(true);
       }
     });
   }, [sharingUsers]);
@@ -140,11 +141,11 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
       </div>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader className="modal-title" toggle={toggle}>
-          Buy Ticket Sharing Live
+          {isRegistered ? "Pay" : "Buy"} Ticket Sharing Live
         </ModalHeader>
         <ModalBody className="text-dark">
           {isRegistered ? (
-            <p>Please pay sharing live ticket</p>
+            <PayTicket sharingUsers={sharingUsers} />
           ) : getSession()?.session ? (
             <FormGroup>
               <Label className="mt-2" for="discord_name">
@@ -200,7 +201,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
             </Link>
           )}
           <Button color="secondary" onClick={toggle}>
-            Cancel
+            Close
           </Button>
         </ModalFooter>
       </Modal>

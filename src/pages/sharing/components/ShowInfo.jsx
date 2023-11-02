@@ -1,6 +1,7 @@
 import { Loading } from "components";
 import moment from "moment";
 import React from "react";
+import { isMobile } from "react-device-detect";
 import { FaCalendarAlt, FaRegClock, FaTheaterMasks, FaUsers } from "react-icons/fa";
 import { Card, CardBody, CardHeader, CardText } from "reactstrap";
 
@@ -80,7 +81,7 @@ const ShowInfo = ({ theater, sharingUsers }) => {
                 <p className="mt-1">
                   {sharingUsers.length} Users
                   <span className="ml-3">
-                    {sharingUsers?.slice(0, 5).map((item, idx) => (
+                    {sharingUsers?.slice(0, isMobile ? 4 : 5).map((item, idx) => (
                       <img key={idx} width={30} src={item.image} alt={item.discord_name} />
                     ))}
                   </span>
