@@ -8,7 +8,7 @@ import { Button } from "reactstrap"
 import { SHARING_LIVE_DETAIL } from "utils/api/api"
 import { getSession } from "utils/getSession"
 
-const PayTicket = ({ sharingUsers }) => {
+const PayTicket = ({ sharingUsers, orderStatus }) => {
   const [user, setUser] = useState({});
   const [idSharing, setIdSharing] = useState("");
 
@@ -28,7 +28,11 @@ const PayTicket = ({ sharingUsers }) => {
     <div >
       <div className="row">
         <div className="col-12">
-          <p>Berhasil mendaftar sharing live silahkan kontak admin di server discord untuk detail pembayaran dan kirimkan order id dibawah</p>
+          {orderStatus === "paid" ? (
+            <p><b>Yeay Pembayaran berhasil</b>, silahkan cek fitur sharing live di user profile dan tunggu hingga show theater sudah di mulai</p>
+          ) : (
+            <p>Berhasil mendaftar sharing live silahkan kontak admin di server discord untuk info pembayaran dan kirimkan order id dibawah</p>
+          )}
           <hr />
         </div>
       </div>
@@ -48,14 +52,12 @@ const PayTicket = ({ sharingUsers }) => {
             <AiFillInfoCircle size={20} className="mr-1" /> <b>Status:</b>
           </p>
           <Button
+            style={{ backgroundColor: user.status === "registered" && "#6C757D", border: "none" }}
             color={
               user.status === "paid"
                 ? "success"
                 : user.status === "cancelled"
-                  ? "danger"
-                  : user.status === "registered"
-                    ? "secondary"
-                    : "gray"
+                  ? "danger" : "info"
             }
           >
             {user?.status?.charAt(0)?.toUpperCase() + user?.status?.slice(1)}

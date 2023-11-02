@@ -30,6 +30,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [orderStatus, setOrderStatus] = useState("")
 
   const toggle = () => setModal(!modal);
 
@@ -79,7 +80,8 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
   useEffect(() => {
     sharingUsers.map((item) => {
       if (item.user_id._id === getSession()?.userProfile?._id) {
-         setIsRegistered(true);
+        setIsRegistered(true);
+        setOrderStatus(item?.status)
       }
     });
   }, [sharingUsers]);
@@ -135,17 +137,17 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
             onClick={toggle}
             className="buy d-flex text-align-center justify-content-center align-items-center text-info"
           >
-            {isRegistered ? "Pay Ticket " : "Buy Ticket"}
+            {isRegistered && orderStatus === "registered" ? "Pay Ticket" : orderStatus === "paid" ? "Purchased" : "Buy Ticket"}
           </button>
         </motion.div>
       </div>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader className="modal-title" toggle={toggle}>
-          {isRegistered ? "Pay" : "Buy"} Ticket Sharing Live
+          {isRegistered && orderStatus === "registered" ? "Pay Ticket" : orderStatus === "paid" ? "Info" : "Buy Ticket"} Ticket Sharing Live
         </ModalHeader>
         <ModalBody className="text-dark">
           {isRegistered ? (
-            <PayTicket sharingUsers={sharingUsers} />
+            <PayTicket orderStatus={orderStatus} sharingUsers={sharingUsers} />
           ) : getSession()?.session ? (
             <FormGroup>
               <Label className="mt-2" for="discord_name">
