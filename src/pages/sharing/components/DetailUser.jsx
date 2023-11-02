@@ -1,7 +1,7 @@
 import moment from "moment";
 import React from "react";
 import { AiFillInfoCircle } from "react-icons/ai";
-import { FaCalendar, FaDiscord } from "react-icons/fa";
+import { FaCalendar, FaDiscord, FaUser } from "react-icons/fa";
 import { Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 
 const DetailUser = ({ isOpen, user, toggleModal }) => {
@@ -10,7 +10,7 @@ const DetailUser = ({ isOpen, user, toggleModal }) => {
       <ModalHeader
         toggle={toggleModal}
         style={{
-          backgroundColor: "#24a2b7",
+          background: "#24a2b7",
           color: "white",
         }}
       >
@@ -20,6 +20,36 @@ const DetailUser = ({ isOpen, user, toggleModal }) => {
         <div className="container">
           <div className="row">
             <div className="col-md-6">
+              <p className="d-flex align-items-center">
+                <FaCalendar className="mr-1" />
+                <b>Register Date:</b>
+              </p>
+              <p style={{ fontWeight: "600", color: "#6B747B" }}>{moment(user?.created_at).format("dddd, DD MMMM HH:mm ")}</p>
+            </div>
+            <div className="col-md-6">
+              <p className="d-flex align-items-center">
+                <AiFillInfoCircle size={20} className="mr-1" /> <b>Status:</b>
+              </p>
+              <Button
+                color={
+                  user.status === "paid"
+                    ? "success"
+                    : user.status === "cancelled"
+                      ? "danger"
+                      : user.status === "registered"
+                        ? "secondary"
+                        : "gray"
+                }
+              >
+                {user?.status?.charAt(0)?.toUpperCase() + user?.status?.slice(1)}
+              </Button>
+            </div>
+          </div>
+          <div className="row mt-3">
+            <div className="col-md-6">
+              <p className="d-flex align-items-center">
+                <FaUser size={18} className="mr-1" /> <b>Showroom Account:</b>
+              </p>
               <div
                 className="ticket-sharing"
                 style={{
@@ -37,41 +67,24 @@ const DetailUser = ({ isOpen, user, toggleModal }) => {
 
             <div className="col-md-6">
               <p className="d-flex align-items-center">
-                <FaCalendar className="mr-1" />
-                <b>Register Date:</b>
+                <FaDiscord size={20} className="mr-1" /> <b>Discord Account:</b>
               </p>
-              <p>{moment(user?.created_at).format("dddd, DD MMMM HH:mm ")}</p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-6">
-              <p className="d-flex align-items-center">
-                <FaDiscord size={20} className="mr-1" /> <b>Discord:</b>
-              </p>
-              <p>{user?.discord_name}</p>
-            </div>
-            <div className="col-md-6">
-              <p className="d-flex align-items-center">
-                <AiFillInfoCircle size={20} className="mr-1" /> <b>Status:</b>
-              </p>
-              <Button
+              <div
+                className="discord-account"
                 style={{
-                  border: "none",
-                  backgroundColor:
-                    user.status === "paid"
-                      ? "#2dce89"
-                      : user.status === "cancelled"
-                      ? "#DC3545"
-                      : user.status === "registered"
-                      ? "#ECFAFC"
-                      : "gray",
-                  color: user.status === "registered" && "#24a2b7",
-                  fontWeight: "600"
+                  flexDirection: "none",
+                  height: "auto",
+                  marginBottom: "4px",
                 }}
               >
-                {user?.status?.charAt(0)?.toUpperCase() + user?.status?.slice(1)}
-              </Button>
+                <div className="d-flex align-items-center">
+                  <img width={60} className="rounded mr-2" src={user.discord_image ?? "https://static.vecteezy.com/system/resources/previews/006/892/625/original/discord-logo-icon-editorial-free-vector.jpg"} alt="" />
+                  <h4 style={{ color: "#ecfafc" }}>{user?.discord_name}</h4>
+                </div>
+
+              </div>
             </div>
+
           </div>
         </div>
       </ModalBody>

@@ -8,12 +8,18 @@ import MainLayout from "pages/layout/MainLayout";
 import SharingUsers from "./components/SharingUsers";
 import SharingInfo from "./components/SharingInfo";
 import ShowInfo from "./components/ShowInfo";
+import MenuInfo from "./components/MenuInfo";
+import MemberLineUp from "pages/theater/components/MemberLineUp";
+import Songs from "pages/theater/components/Setlist";
 
 const SharingLiveDetail = (props) => {
   const [theater, setTheater] = useState();
   const [sharingUsers, setSharingUsers] = useState([]);
   const [isRegister, setIsRegister] = useState(false);
   const { id } = useParams();
+  const [menu, setMenu] = useState("info");
+  const [members, setMembers] = useState([]);
+
 
   useEffect(() => {
     async function getSharingDetail() {
@@ -21,6 +27,7 @@ const SharingLiveDetail = (props) => {
         const response = await axios.get(DETAIL_SCHEDULE(id));
         setTheater(response.data);
         setSharingUsers(response.data.sharingUsers);
+        setMembers(response.data.memberList);
       } catch (error) {
         console.log(error);
       }
@@ -38,11 +45,21 @@ const SharingLiveDetail = (props) => {
       <Container>
         <Row>
           <Col md="4">
-            <ShowInfo
-              theater={theater}
-              sharingUsers={sharingUsers}
-              setIsRegister={setIsRegister}
-            />
+            <MenuInfo menu={menu} setMenu={setMenu} />
+            {menu === "info" ? (
+              <ShowInfo
+                theater={theater}
+                sharingUsers={sharingUsers}
+                setIsRegister={setIsRegister}
+              />
+            ) : menu === "setlist" ? (
+              <Songs songs={theater?.setlist?.songs} />
+            ) : "line_up" ? (
+              <MemberLineUp
+                members={members}
+                isComingSoon={theater?.isComingSoon}
+              />
+            ) : null}
           </Col>
           <Col md="4 mb-2">
             <SharingInfo

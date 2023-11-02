@@ -22,6 +22,7 @@ import AsyncSelect from "react-select/async";
 import { getSession } from "utils/getSession";
 import { sendNotif } from "utils/sendNotif";
 import { showToast } from "utils/showToast";
+import { motion } from "framer-motion";
 
 const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
   const [modal, setModal] = useState(false);
@@ -37,6 +38,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
         user_id: getSession()?.userProfile?._id,
         schedule_id: theater._id,
         discord_name: selectedOption?.label,
+        discord_image: selectedOption?.avatar,
         phone_number: phoneNumber,
         status: "registered",
         image: getSession()?.profile?.avatar_url,
@@ -127,12 +129,14 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
             <b>RP. 20.000</b>
           </p>
         </div>
-        <button
-          onClick={toggle}
-          className="buy d-flex text-align-center justify-content-center align-items-center text-info"
-        >
-          {isRegistered ? "Pay Ticket " : "Buy Ticket"}
-        </button>
+        <motion.div whileTap={{ scale: 0.9 }}>
+          <button
+            onClick={toggle}
+            className="buy d-flex text-align-center justify-content-center align-items-center text-info"
+          >
+            {isRegistered ? "Pay Ticket " : "Buy Ticket"}
+          </button>
+        </motion.div>
       </div>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader className="modal-title" toggle={toggle}>

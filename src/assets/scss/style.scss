@@ -577,6 +577,7 @@ main {
 .sharing-wrapper {
   border-radius: 6px;
   background: linear-gradient(180deg, #24A2B7 0%, #2563EB 100%);
+  overflow: hidden;
 }
 
 .member-info-wrapper {
@@ -620,6 +621,23 @@ main {
   font-size: 14px;
   color: #24A2B7;
   font-weight: 700;
+}
+
+.showroom-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 65px;
+  height: 21px;
+  font-size: 14px;
+  color: #24A2B7;
+  font-weight: 700;
+
+  &:hover {
+    text-decoration: underline;
+    color: gray;
+    font-weight: 600;
+  }
 }
 
 .card-member-container {
@@ -668,6 +686,19 @@ main {
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(180deg, #24A2B7 0%, #2563EB 100%);
+  overflow: hidden;
+}
+
+.discord-account {
+  display: flex;
+  height: 96px;
+  padding: 10px;
+  border-radius: 8px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: #5865F2;
+  overflow: hidden;
 }
 
 .modal-title {

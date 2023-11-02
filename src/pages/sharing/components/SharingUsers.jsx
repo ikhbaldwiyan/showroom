@@ -6,6 +6,7 @@ import { IoIosPeople } from "react-icons/io";
 import { CardBody } from "reactstrap";
 import { SHARING_LIVE_DETAIL } from "utils/api/api";
 import DetailUser from "./DetailUser";
+import { motion } from "framer-motion";
 
 const SharingUsers = ({ sharingUsers }) => {
   const [modal, setModal] = useState(false);
@@ -38,52 +39,53 @@ const SharingUsers = ({ sharingUsers }) => {
                 {sharingUsers
                   .slice(rowIndex * 4, rowIndex * 4 + 4)
                   .map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="member-detail"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => getSharingUserDetail(item._id)}
-                    >
+                    <motion.div whileTap={{ scale: 0.9 }}>
                       <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                        }}
+                        key={idx}
+                        className="member-detail"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => getSharingUserDetail(item._id)}
                       >
-                        <img
-                          alt="users"
-                          width={50}
-                          src={
-                            item.image ??
-                            `https://static.showroom-live.com/image/avatar/${
-                              idx + 1
-                            }.png?v=97`
-                          }
-                        />
                         <div
                           style={{
-                            width: "10px",
-                            height: "10px",
-                            borderRadius: "50%",
-                            backgroundColor:
-                              item.status === "paid"
-                                ? "#2dce89"
-                                : item.status === "cancelled"
-                                ? "#DC3545"
-                                : item.status === "registered"
-                                ? "#ECFAFC"
-                                : "gray",
+                            display: "flex",
+                            alignItems: "center",
                           }}
-                        ></div>
-                      </div>
-                      <div className="btn-member">
-                        <div className="member-name">
-                          {item?.user_id?.name.length > 7
-                            ? item?.user_id.name?.substr(0, 5) + "..."
-                            : item?.user_id.name}
+                        >
+                          <img
+                            alt="users"
+                            width={50}
+                            src={
+                              item.image ??
+                              `https://static.showroom-live.com/image/avatar/${idx + 1
+                              }.png?v=97`
+                            }
+                          />
+                          <div
+                            style={{
+                              width: "10px",
+                              height: "10px",
+                              borderRadius: "50%",
+                              backgroundColor:
+                                item.status === "paid"
+                                  ? "#2dce89"
+                                  : item.status === "cancelled"
+                                    ? "#DC3545"
+                                    : item.status === "registered"
+                                      ? "#ECFAFC"
+                                      : "gray",
+                            }}
+                          ></div>
+                        </div>
+                        <div className="btn-member">
+                          <div className="showroom-name">
+                            {item?.user_id?.name.length > 7
+                              ? item?.user_id.name?.substr(0, 5) + "..."
+                              : item?.user_id.name}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
               </div>
             )

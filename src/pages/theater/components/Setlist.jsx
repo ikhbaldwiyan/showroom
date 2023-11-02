@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "reactstrap";
 
-const Setlist = ({ songs, isEncore }) => {
+const Songs = ({ songs, isEncore }) => {
   const data = isEncore ? songs.slice(13, 16) : songs;
 
   return (
@@ -27,4 +27,4 @@ const Setlist = ({ songs, isEncore }) => {
   );
 };
 
-export default Setlist;
+export default Songs;
