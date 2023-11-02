@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import { IoReload, IoTimeSharp } from "react-icons/io5";
 import formatViews from "utils/formatViews";
-import { API, LIVE_INFO } from "utils/api/api";
+import { LIVE_INFO } from "utils/api/api";
 
 import Views from "elements/Button";
 import Settings from "./Settings";
@@ -119,7 +119,7 @@ function Title({
       {!hideName && (
         <h4 className="d-inline title">
           <b className="mr-1">
-            {isPremiumLive
+            {isPremiumLive && showTitle !== ""
               ? showTitle
               : profile &&
                 profile?.room_url_key !== 0 &&
