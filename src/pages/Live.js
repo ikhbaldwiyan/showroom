@@ -186,7 +186,7 @@ function Live(props) {
           description: `Watch Live ${room_name}`,
           liveId: profile.live_id
         });
-      }, 120000);
+      }, 2000);
     }
   }, [user, room_name, roomId]);
 
