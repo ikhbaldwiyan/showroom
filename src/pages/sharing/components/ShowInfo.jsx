@@ -1,10 +1,10 @@
 import { Loading } from "components";
 import moment from "moment";
 import React from "react";
-import { FaCalendarAlt, FaRegClock, FaTheaterMasks } from "react-icons/fa";
+import { FaCalendarAlt, FaRegClock, FaTheaterMasks, FaUsers } from "react-icons/fa";
 import { Card, CardBody, CardHeader, CardText } from "reactstrap";
 
-const ShowInfo = ({ theater }) => {
+const ShowInfo = ({ theater, sharingUsers }) => {
   return (
     <Card
       className="mt-1 mb-3"
@@ -68,6 +68,22 @@ const ShowInfo = ({ theater }) => {
                 <span className="info-theater">Show Time</span>
                 <p className="theater-time mt-1">
                   {theater?.showTime + " WIB"}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="d-flex">
+            <div className="menu-setlist mt-1 mr-4">
+              <FaUsers className="mb-2" color="#ECFAFC" size={50} />
+              <div className="mt-1">
+                <span className="info-theater">Total Sharing User Registered</span>
+                <p className="mt-1">
+                  {sharingUsers.length} Users
+                  <span className="ml-3">
+                    {sharingUsers?.slice(0, 5).map((item, idx) => (
+                      <img key={idx} width={30} src={item.image} alt={item.discord_name} />
+                    ))}
+                  </span>
                 </p>
               </div>
             </div>
