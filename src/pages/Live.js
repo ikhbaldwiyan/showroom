@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import {
   LIVE_STREAM_URL,
   PROFILE_API,
-  TODAY_SCHEDULE_API
+  TODAY_SCHEDULE_API,
 } from "utils/api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,7 +22,7 @@ import {
   TotalRank,
   Gift,
   StarButton,
-  NoTicket
+  NoTicket,
 } from "components";
 import { isMobile } from "react-device-detect";
 import { useDispatch, useSelector } from "react-redux";
@@ -62,8 +62,8 @@ function Live(props) {
   const [member, setMember] = useState([]);
   const [isPremiumLive, setIsPremiumLive] = useState(false);
   const [title, setTitle] = useState("");
-  const [isRefresh, setIsRefresh] = useState(false)
-  
+  const [isRefresh, setIsRefresh] = useState(false);
+
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
   const dispatch = useDispatch();
 
@@ -82,7 +82,7 @@ function Live(props) {
     axios
       .post(PROFILE_API, {
         room_id: roomId.toString(),
-        cookie: session?.cookie_login_id
+        cookie: session?.cookie_login_id,
       })
       .then((res) => {
         const profile = res.data;
@@ -99,8 +99,7 @@ function Live(props) {
 
         if (secretKey && streamUrl.code !== 404) {
           const secretCode = localStorage.getItem("secretKey");
-          !secretCode &&
-          showToast("success", "Congrats secret code is valid")
+          !secretCode && showToast("success", "Congrats secret code is valid");
           localStorage.setItem("secretKey", secretKey);
         }
 
@@ -130,7 +129,7 @@ function Live(props) {
   const messages = () =>
     toast.error("Room Offline", {
       theme: "colored",
-      autoClose: 1200
+      autoClose: 1200,
     });
 
   useEffect(() => {
@@ -141,7 +140,15 @@ function Live(props) {
         logName: "Premium Live",
         userId: user?._id,
         description: `Watch Premium Live ${title}`,
-        liveId: cookiesLoginId
+        liveId: cookiesLoginId,
+      });
+    }
+
+    if (secretKey) {
+      activityLog({
+        logName: "Sharing Live",
+        userId: user?._id,
+        description: `Watch Sharing Live ${title}`,
       });
     }
   }, [isPremiumLive]);
@@ -165,7 +172,7 @@ function Live(props) {
       category: "Refresh - Regular",
       label: "Live Stream",
       value: null,
-      username: getSession()?.profile?.name
+      username: getSession()?.profile?.name,
     });
   };
 
@@ -173,7 +180,7 @@ function Live(props) {
     axios.get(TODAY_SCHEDULE_API).then((res) => {
       setSetlist(res?.data?.setlist?.songs);
       setMember(res?.data?.memberList);
-      setTitle(res?.data?.setlist?.name)
+      setTitle(res?.data?.setlist?.name);
     });
   }, [isPremiumLive]);
 
@@ -184,7 +191,7 @@ function Live(props) {
           logName: "Watch",
           userId: user?._id,
           description: `Watch Live ${room_name}`,
-          liveId: profile.live_id
+          liveId: profile.live_id,
         });
       }, 120000);
     }
@@ -318,7 +325,7 @@ function Live(props) {
                 ) : menu === "rank" ? (
                   <StageUser roomId={roomId} secretKey={secretKey} />
                 ) : menu === "history" ? (
-                  <HistoryLive id={roomId}  />
+                  <HistoryLive id={roomId} />
                 ) : menu === "gift" ? (
                   <Gift roomId={roomId} secretKey={secretKey} />
                 ) : menu === "setlist" ? (
