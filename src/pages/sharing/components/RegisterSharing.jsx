@@ -30,7 +30,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [orderStatus, setOrderStatus] = useState("")
+  const [orderStatus, setOrderStatus] = useState("");
 
   const toggle = () => setModal(!modal);
 
@@ -56,19 +56,21 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
             name: selectedOption?.label,
             setlist: theater?.setlist?.name,
             orderId: res.data.order_id,
+            type: "register"
           })
           .then((res) => {
             // show payment instruction
-            setModal(true)
+            setModal(true);
           });
 
         // SEND NOTIF ADMIN WEB
         sendNotif({
           userId: getSession()?.userProfile?._id,
-          message: `Register sharing live ${theater?.setlist?.name
-            } tanggal ${moment(theater?.showDate).format(
-              "DD MMM YYYY"
-            )} dengan order id ${res.data.order_id}`,
+          message: `Register sharing live ${
+            theater?.setlist?.name
+          } tanggal ${moment(theater?.showDate).format(
+            "DD MMM YYYY"
+          )} dengan order id ${res.data.order_id}`,
           type: "Sharing Live",
         });
       })
@@ -81,7 +83,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
     sharingUsers.map((item) => {
       if (item.user_id._id === getSession()?.userProfile?._id) {
         setIsRegistered(true);
-        setOrderStatus(item?.status)
+        setOrderStatus(item?.status);
       }
     });
   }, [sharingUsers]);
@@ -90,7 +92,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
     try {
       const response = await axios.get(DISCORD_USERS_SEARCH(inputValue));
       const users = response.data;
-
+  
       const options = users.map((user) => ({
         label: user.user.global_name ?? user.user.username,
         value: user.user.id,
@@ -137,13 +139,22 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
             onClick={toggle}
             className="buy d-flex text-align-center justify-content-center align-items-center text-info"
           >
-            {isRegistered && orderStatus === "registered" ? "Pay Ticket" : orderStatus === "paid" ? "Purchased" : "Buy Ticket"}
+            {isRegistered && orderStatus === "registered"
+              ? "Pay Ticket"
+              : orderStatus === "paid"
+              ? "Purchased"
+              : "Buy Ticket"}
           </button>
         </motion.div>
       </div>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader className="modal-title" toggle={toggle}>
-          {isRegistered && orderStatus === "registered" ? "Pay Ticket" : orderStatus === "paid" ? "Info" : "Buy Ticket"} Ticket Sharing Live
+          {isRegistered && orderStatus === "registered"
+            ? "Pay Ticket"
+            : orderStatus === "paid"
+            ? "Info"
+            : "Buy Ticket"}{" "}
+          Ticket Sharing Live
         </ModalHeader>
         <ModalBody className="text-dark">
           {isRegistered ? (
@@ -167,6 +178,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
               <AsyncSelect
                 id="discord_name"
                 placeholder="Search your discord account"
+                defaultOptions
                 loadOptions={loadOptions}
                 onChange={(selectedOption) => {
                   setSelectedOption(selectedOption);
