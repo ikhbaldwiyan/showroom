@@ -7,7 +7,7 @@ JKT48 SHOWROOM is a Fanmade streaming website for filtering JKT48 SHOWROOM Membe
     ```bash
     git clone https://github.com/ikhbaldwiyan/showroom
     ```
-2. Install dependecies (`npm install`) (node v14)
+2. Install dependecies (`npm install`)
 3. Start the development environment
     ```bash
     npm run start
@@ -36,7 +36,7 @@ If you'd like to request a new function, feel free to do so by opening an issue 
 
 ### Showcase
 
-https://jkt48-showroom.vercel.app/
+https://www.jkt48showroom.com/
 
 ### API
 
