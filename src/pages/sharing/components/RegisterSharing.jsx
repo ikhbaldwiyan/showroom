@@ -1,7 +1,7 @@
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { RiBroadcastFill } from "react-icons/ri";
+import { RiBroadcastFill, RiSlideshow3Fill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -11,7 +11,7 @@ import {
   ModalFooter,
   FormGroup,
   Label,
-  Input,
+  UncontrolledAlert,
 } from "reactstrap";
 import {
   DISCORD_USERS_SEARCH,
@@ -24,13 +24,20 @@ import { sendNotif } from "utils/sendNotif";
 import { showToast } from "utils/showToast";
 import { motion } from "framer-motion";
 import PayTicket from "./PayTicket";
+import {
+  FaCalendarAlt,
+  FaDiscord,
+  FaRegClock,
+  FaTheaterMasks,
+  FaUser,
+} from "react-icons/fa";
 
 const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
   const [modal, setModal] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [orderStatus, setOrderStatus] = useState("");
+  const profile = getSession()?.profile;
 
   const toggle = () => setModal(!modal);
 
@@ -41,7 +48,6 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
         schedule_id: theater._id,
         discord_name: selectedOption?.label,
         discord_image: selectedOption?.avatar,
-        phone_number: phoneNumber,
         status: "registered",
         image: getSession()?.profile?.avatar_url,
       })
@@ -56,7 +62,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
             name: selectedOption?.label,
             setlist: theater?.setlist?.name,
             orderId: res.data.order_id,
-            type: "register"
+            type: "register",
           })
           .then((res) => {
             // show payment instruction
@@ -92,7 +98,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
     try {
       const response = await axios.get(DISCORD_USERS_SEARCH(inputValue));
       const users = response.data;
-  
+
       const options = users.map((user) => ({
         label: user.user.global_name ?? user.user.username,
         value: user.user.id,
@@ -150,28 +156,75 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader className="modal-title" toggle={toggle}>
           {isRegistered && orderStatus === "registered"
-            ? "Pay Ticket"
+            ? "Bayar"
             : orderStatus === "paid"
             ? "Info"
-            : "Buy Ticket"}{" "}
-          Ticket Sharing Live
+            : "Buy"}{" "}
+          Ticket
         </ModalHeader>
         <ModalBody className="text-dark">
           {isRegistered ? (
             <PayTicket orderStatus={orderStatus} sharingUsers={sharingUsers} />
           ) : getSession()?.session ? (
             <FormGroup>
-              <Label className="mt-2" for="discord_name">
-                <b>Name</b>
-              </Label>
-              <Input
-                type="text"
-                name="discord_name"
-                id="discord_name"
-                placeholder="username"
-                value={getSession()?.profile?.name}
-                disabled
-              />
+              <div className="row">
+                <div className="col-md-6">
+                  <p className="d-flex align-items-center">
+                    <FaUser size={16} className="mr-1" />{" "}
+                    <b>Showroom Account:</b>
+                  </p>
+                  <div
+                    className="ticket-sharing"
+                    style={{
+                      flexDirection: "none",
+                      height: "auto",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    <div className="d-flex align-items-center">
+                      <img
+                        width={60}
+                        className="mr-2"
+                        src={profile.avatar_url}
+                        alt=""
+                      />
+                      <h4 style={{ color: "#ecfafc" }}>{profile?.name}</h4>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <p className="d-flex align-items-center">
+                    <RiSlideshow3Fill size={20} className="mr-1" />{" "}
+                    <b>Show Theater:</b>
+                  </p>
+                  <div
+                    style={{
+                      flexDirection: "none",
+                      height: "auto",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    <div className="d-flex flex-column">
+                      <div className="d-flex">
+                        <FaTheaterMasks
+                          color="#18a2b8"
+                          className="mb-2 mr-1"
+                          size={18}
+                        />
+                        <h6 className="text-info">{theater?.setlist?.name}</h6>
+                      </div>
+                      <div className="d-flex">
+                        <FaCalendarAlt className="mb-2 mr-1" size={18} />
+                        {moment(theater?.showDate).format("DD MMM YYYY")}
+                      </div>
+                      <div className="d-flex align-items-center">
+                        <FaRegClock className="mr-1" size={18} />
+                        {theater?.showTime} WIB
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <Label className="mt-2" for="discord_name">
                 <b>Discord Name</b>
               </Label>
@@ -187,20 +240,24 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
                 isClearable={true}
                 formatOptionLabel={formatOptionLabel}
               />
-              <Label className="mt-2" for="discord_name">
-                <b>No Telepon</b>
-              </Label>
-              <Input
-                type="number"
-                name="phone_number"
-                id="phone_number"
-                placeholder="Input no telp"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-              />
             </FormGroup>
           ) : (
             <p>Login dulu ya untuk daftar sharing live</p>
+          )}
+          {orderStatus === "" && (
+            <UncontrolledAlert color="primary">
+              <FaDiscord size="23px" className="mb-1 mr-2" />
+              <span className="discord-text">
+                Pastikan sudah join server discord ya
+              </span>
+              <a
+                href={process.env.REACT_APP_DISCORD_LINK}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <b className="mx-1 discord-text">JOIN</b>
+              </a>
+            </UncontrolledAlert>
           )}
         </ModalBody>
         <ModalFooter>
