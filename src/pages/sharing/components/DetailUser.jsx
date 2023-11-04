@@ -21,23 +21,25 @@ const DetailUser = ({ isOpen, user, toggleModal }) => {
           <div className="col-md-6">
             <p className="d-flex align-items-center">
               <FaCalendar className="mr-1" />
-              <b>Register Date:</b>
+              <b>Register Date</b>
             </p>
             <p style={{ fontWeight: "600", color: "#6B747B" }}>{moment(user?.created_at).format("dddd, DD MMMM HH:mm ")}</p>
           </div>
           <div className="col-md-6">
             <p className="d-flex align-items-center">
-              <AiFillInfoCircle size={20} className="mr-1" /> <b>Status:</b>
+              <AiFillInfoCircle size={20} className="mr-1" /> <b>Status</b>
             </p>
             <Button
+              style={{
+                backgroundColor: user.status === "registered" && "#6C757D",
+                border: "none",
+              }}
               color={
                 user.status === "paid"
                   ? "success"
                   : user.status === "cancelled"
-                    ? "danger"
-                    : user.status === "registered"
-                      ? "secondary"
-                      : "gray"
+                  ? "danger"
+                  : "info"
               }
             >
               {user?.status?.charAt(0)?.toUpperCase() + user?.status?.slice(1)}
@@ -47,7 +49,7 @@ const DetailUser = ({ isOpen, user, toggleModal }) => {
         <div className="row mt-3">
           <div className="col-md-6">
             <p className="d-flex align-items-center">
-              <FaUser size={18} className="mr-1" /> <b>Showroom Account:</b>
+              <FaUser size={16} className="mr-1" /> <b>Showroom Account</b>
             </p>
             <div
               className="ticket-sharing"
@@ -66,7 +68,7 @@ const DetailUser = ({ isOpen, user, toggleModal }) => {
 
           <div className="col-md-6">
             <p className="d-flex align-items-center">
-              <FaDiscord size={20} className="mr-1" /> <b>Discord Account:</b>
+              <FaDiscord size={20} className="mr-1" /> <b>Discord Account</b>
             </p>
             <div
               className="discord-account"

@@ -164,14 +164,14 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
         </ModalHeader>
         <ModalBody className="text-dark">
           {isRegistered ? (
-            <PayTicket orderStatus={orderStatus} sharingUsers={sharingUsers} />
+            <PayTicket theater={theater} orderStatus={orderStatus} sharingUsers={sharingUsers} />
           ) : getSession()?.session ? (
             <FormGroup>
               <div className="row">
                 <div className="col-md-6">
                   <p className="d-flex align-items-center">
                     <FaUser size={16} className="mr-1" />{" "}
-                    <b>Showroom Account:</b>
+                    <b>Showroom Account</b>
                   </p>
                   <div
                     className="ticket-sharing"
@@ -195,7 +195,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
                 <div className="col-md-6">
                   <p className="d-flex align-items-center">
                     <RiSlideshow3Fill size={20} className="mr-1" />{" "}
-                    <b>Show Theater:</b>
+                    <b>Show Theater</b>
                   </p>
                   <div
                     style={{
@@ -213,11 +213,11 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
                         />
                         <h6 className="text-info">{theater?.setlist?.name}</h6>
                       </div>
-                      <div className="d-flex">
+                      <div className="d-flex mt-1">
                         <FaCalendarAlt className="mb-2 mr-1" size={18} />
                         {moment(theater?.showDate).format("DD MMM YYYY")}
                       </div>
-                      <div className="d-flex align-items-center">
+                      <div className="d-flex mt-1 align-items-center">
                         <FaRegClock className="mr-1" size={18} />
                         {theater?.showTime} WIB
                       </div>
@@ -225,8 +225,9 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
                   </div>
                 </div>
               </div>
+              <hr />
               <Label className="mt-2" for="discord_name">
-                <b>Discord Name</b>
+                <b>Discord Account</b>
               </Label>
               <AsyncSelect
                 id="discord_name"
