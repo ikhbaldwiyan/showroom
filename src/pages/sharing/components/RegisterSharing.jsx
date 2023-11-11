@@ -63,6 +63,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
             setlist: theater?.setlist?.name,
             orderId: res.data.order_id,
             type: "register",
+            sharingId: res?.data?._id
           })
           .then((res) => {
             // show payment instruction
