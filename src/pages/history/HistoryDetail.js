@@ -47,7 +47,7 @@ const DetailLiveHistory = (props) => {
 
   return (
     <MainLayout {...props}>
-      <Container>
+      <div className="layout">
         <Row className="mb-4">
           <Col md="4">
             <LiveInfo history={history} />
@@ -174,7 +174,7 @@ const DetailLiveHistory = (props) => {
           </Col>
         </Row>
         <Row></Row>
-      </Container>
+      </div>
     </MainLayout>
   );
 };

@@ -115,7 +115,7 @@ function Live(props) {
   }, [roomId, secretKey]);
 
   useEffect(() => {
-    menu === "room" && window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
 
     setLoading(true);
     setTimeout(() => {
@@ -197,7 +197,7 @@ function Live(props) {
       keywords={`showroom ${room_name.replace("Room", "")}`}
       {...props}
     >
-      <Container>
+      <div className="layout">
         {!isMobile && (
           <Row>
             <Col>
@@ -346,7 +346,7 @@ function Live(props) {
             )}
           </Col>
         </Row>
-      </Container>
+      </div>
     </MainLayout>
   );
 }

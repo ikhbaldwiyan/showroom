@@ -37,29 +37,27 @@ const TheaterScheduleDetail = (props) => {
       keywords={`jadwal showroom ${theater?.setlist?.name}, jadwal theater JKT48, jadwal theater ${theater?.setlist?.name}`}
       {...props}
     >
-      <Container>
-        <Row>
-          <Col md="4">
-            <MenuSetlist menu={menu} setMenu={setMenu} />
-            {menu === "theater" ? (
-              <SetlistInfo theater={theater} />
-            ) : menu === "setlist" ? (
-              <Songs songs={theater?.setlist?.songs} />
-            ) : "encore" ? (
-              <Songs songs={theater?.setlist?.songs} isEncore />
-            ) : null}
-          </Col>
-          <Col md="4 mb-2">
-            <MainInfo theater={theater} />
-          </Col>
-          <Col md="4 mb-2">
-            <MemberLineUp
-              members={members}
-              isComingSoon={theater?.isComingSoon}
-            />
-          </Col>
-        </Row>
-      </Container>
+      <Row className="layout">
+        <Col md="4">
+          <MenuSetlist menu={menu} setMenu={setMenu} />
+          {menu === "theater" ? (
+            <SetlistInfo theater={theater} />
+          ) : menu === "setlist" ? (
+            <Songs songs={theater?.setlist?.songs} />
+          ) : "encore" ? (
+            <Songs songs={theater?.setlist?.songs} isEncore />
+          ) : null}
+        </Col>
+        <Col md="4 mb-2">
+          <MainInfo theater={theater} />
+        </Col>
+        <Col md="4 mb-2">
+          <MemberLineUp
+            members={members}
+            isComingSoon={theater?.isComingSoon}
+          />
+        </Col>
+      </Row>
     </MainLayout>
   );
 };
