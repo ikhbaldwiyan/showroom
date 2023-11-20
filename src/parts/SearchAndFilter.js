@@ -46,7 +46,7 @@ function SearchAndFilter({
   };
 
   return !isMobile ? (
-    <div className="row mt-4">
+    <div className="row mt-2">
       <div className="col-md-5 col-sm-12 search-wrapper">
         <FcSearch className="search-bar" color="#03665c" size="1.5em" />
         <input
@@ -75,25 +75,6 @@ function SearchAndFilter({
         >
           <IoSchoolSharp className="mb-1 mr-1" />
           <span className="text-filter">TRAINEE</span>
-        </Button>
-        <Button
-          className="mx-2"
-          color="info"
-          onClick={filterAcademy}
-          disabled={isAcademy ? "disabled" : ""}
-          style={{ font: "poppins" }}
-        >
-          <RiGlobalLine className="mb-1" />{" "}
-          <span className="text-filter">GEN 10</span>
-        </Button>
-        <Button
-          className="mx-2 btn-onlive"
-          style={{ border: "none", backgroundColor: "#cd0c0e" }}
-          onClick={filterIsLive}
-          disabled={isLive ? "disabled" : ""}
-        >
-          <AiFillCalendar className="mb-1" />{" "}
-          <span className="text-filter">Theater Schedule</span>
         </Button>
       </div>
     </div>
