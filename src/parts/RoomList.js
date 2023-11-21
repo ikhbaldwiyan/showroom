@@ -12,8 +12,8 @@ function RoomList({ room, theme, isSearch, isSearchAcademy, isRoomFollowed }) {
           className="d-flex"
           style={{ justifyContent: "space-between", alignItems: "center" }}
         >
-          <h3 className="py-4">Follow List</h3>
-          <h5 className="py-4">Total Followed Room: {room.length} </h5>
+          <h3 className="mb-4">Follow List</h3>
+          <h5 className="mb-4">Total Followed Room: {room.length} </h5>
         </div>
       ) : (
         <h3 className="py-3">{!isSearch && "Room List"}</h3>

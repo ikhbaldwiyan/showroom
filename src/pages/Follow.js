@@ -5,7 +5,7 @@ import { FaPersonBooth } from "react-icons/fa";
 import { IoLogIn } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button, Container } from "reactstrap";
+import { Button } from "reactstrap";
 import {
   getRoomFollowedLoad,
   getRoomFollowedSuccess,
@@ -50,40 +50,38 @@ const Follow = (props) => {
 
   return (
     <MainLayout {...props}>
-      <Container>
-        <Container className="mb-4">
-          {!isLogin ? (
-            <div className="row mb-4">
-              <h3 className="py-4">Follow List</h3>
+      <div className="layout">
+        {!isLogin ? (
+          <div className="row px-4 mb-4">
+            <h3>Follow List</h3>
+            <div className="col-12 mt-5 text-center align-items-center">
+              <IoLogIn size={100} />
+              <p className="py-3">Room not found! Please login to see</p>
+              <Link to="/login">
+                <Button color="info">Login</Button>
+              </Link>
+            </div>
+          </div>
+        ) : data.length >= 1 ? (
+          <RoomList room={data} isRoomFollowed />
+        ) : isLoading ? (
+          <>
+            <h3 className="py-4">Follow List</h3>
+            {!isMobile && <SkeletonList theme={props.theme} />}
+          </>
+        ) : data.length === 0 ? (
+          <div className="container">
+            <div className="row">
               <div className="col-12 mt-5 text-center align-items-center">
-                <IoLogIn size={100} />
-                <p className="py-3">Room not found! Please login to see</p>
-                <Link to="/login">
-                  <Button color="info">Login</Button>
-                </Link>
+                <FaPersonBooth size={100} />
+                <h3 className="py-3">No Room Followed</h3>
               </div>
             </div>
-          ) : data.length >= 1 ? (
-            <RoomList room={data} isRoomFollowed />
-          ) : isLoading ? (
-            <>
-              <h3 className="py-4">Follow List</h3>
-              {!isMobile && <SkeletonList theme={props.theme} />}
-            </>
-          ) : data.length === 0 ? (
-            <div className="container">
-              <div className="row">
-                <div className="col-12 mt-5 text-center align-items-center">
-                  <FaPersonBooth size={100} />
-                  <h3 className="py-3">No Room Followed</h3>
-                </div>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-        </Container>
-      </Container>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
     </MainLayout>
   );
 };

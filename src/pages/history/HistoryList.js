@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Col, Container, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { RECENT_LIVE_LOG_API } from "utils/api/api";
 import { FaClock } from "react-icons/fa";
 import { BsCalendarDateFill, BsPeopleFill } from "react-icons/bs";
@@ -71,7 +71,7 @@ const LiveHistory = (props) => {
 
   return (
     <MainLayout {...props}>
-      <Container>
+      <div className="layout">
         <div className="d-flex justify-content-between align-items-center">
           <h3>Showroom Live History</h3>
         </div>
@@ -173,7 +173,7 @@ const LiveHistory = (props) => {
             );
           })}
         </Row>
-      </Container>
+      </div>
     </MainLayout>
   );
 };

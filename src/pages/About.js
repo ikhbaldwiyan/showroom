@@ -1,15 +1,14 @@
 import React from "react";
-import { Container } from "reactstrap";
 import MainLayout from "./layout/MainLayout";
 import { gaEvent } from "utils/gaEvent";
 
 function About(props) {
   return (
     <MainLayout title="About" description="jkt48 showroom" keywords="apa itu jkt48 showroom?" {...props}>
-      <Container>
+      <div className="layout p-2">
         <div className="mb-4" style={{ height: "auto" }}>
           <h3>About</h3>
-          <p>
+          <p className="mt-4">
             JKT48 SHOWROOM adalah website fanmade yang bertujuan untuk memfilter
             room member JKT48. <br />
             disini kalian bisa mencoba ngidol dengan pengalaman baru dan User
@@ -189,7 +188,7 @@ function About(props) {
             
           </ul>
         </div>
-      </Container>
+      </div>
     </MainLayout>
   );
 }

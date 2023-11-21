@@ -9,6 +9,7 @@ import { PROFILE_API } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
 import { GiFarmer } from "react-icons/gi";
 import { RiBroadcastFill } from "react-icons/ri";
+import useWindowDimensions from "utils/useWindowDimension";
 
 function Menu({
   menu,
@@ -21,6 +22,7 @@ function Menu({
   isPremiumLive,
 }) {
   const [roomName, setRoomName] = useState("");
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     axios.post(PROFILE_API, { room_id: roomId.toString() }).then((res) => {
@@ -45,7 +47,7 @@ function Menu({
       icon: <BsFillChatDotsFill style={icon} />,
     },
     {
-      name: !isMultiRoom && !isMobile && !isFarming ? "Rank" : "",
+      name: !isMultiRoom && !isMobile && !isFarming  && width > 1200 ? "Rank" : "",
       menu: "rank",
       icon: <AiFillTrophy style={icon} />,
     },
@@ -59,7 +61,10 @@ function Menu({
         ]
       : [
           {
-            name: !isMultiRoom && !isMobile && !isFarming ? "Gift" : "",
+            name:
+              !isMultiRoom && !isMobile && !isFarming && width > 1280
+                ? "Gift"
+                : "",
             menu: "gift",
             icon: <AiFillGift style={icon} />,
           },
@@ -98,6 +103,8 @@ function Menu({
     setMenu(menu);
     gaEvent("Menu", `Set ${menu}`, "Live Stream");
   };
+
+  console.log(width);
 
   return (
     <Row>

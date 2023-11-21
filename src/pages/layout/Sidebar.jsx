@@ -12,23 +12,21 @@ import { HiUsers } from "react-icons/hi";
 import { RiLoginBoxFill } from "react-icons/ri";
 import { BsInfoCircleFill } from "react-icons/bs";
 import Button from "elements/Button";
-import { useEffect } from "react";
-import { useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import UserProfile from "parts/UserProfile";
 import { isAdmin } from "utils/permissions/admin";
 import { FaDiscord, FaTheaterMasks } from "react-icons/fa";
 import { motion } from "framer-motion";
+import useWindowDimensions from "utils/useWindowDimension";
+import { getSession } from "utils/getSession";
+import { activityLog } from "utils/activityLog";
 
 const Sidebar = () => {
-  const [user, setUser] = useState("");
-  const [profile, setProfile] = useState("");
-  const [session, setSession] = useState("");
+  const user = getSession().user;
+  const profile = getSession().profile;
+  const session = getSession().session;
   const navigate = useHistory();
-
-  const getNavLinkClass = (path) => {
-    return window.location.pathname === path ? " active" : "";
-  };
+  const { width } = useWindowDimensions();
 
   const iconHome = {
     marginBottom: 4,
@@ -41,21 +39,6 @@ const Sidebar = () => {
   const isActive = (page) => {
     return window.location.pathname === page;
   };
-
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    const userSession = localStorage.getItem("session");
-    const userProfile = localStorage.getItem("profile");
-
-    if (loggedInUser && userSession) {
-      const foundUser = JSON.parse(loggedInUser);
-      const foundSession = JSON.parse(userSession);
-      const foundProfile = JSON.parse(userProfile);
-      setUser(foundUser);
-      setSession(foundSession);
-      setProfile(foundProfile);
-    }
-  }, []);
 
   const menus = [
     {
@@ -88,12 +71,15 @@ const Sidebar = () => {
       icon: <RiUserFollowFill style={iconHome} />,
       link: "/follow",
     },
-    {
-      name: "Join Discord",
-      icon: <FaDiscord style={iconHome} />,
-      link: "https://discord.com/invite/BX8BAs4kgu",
-    },
   ];
+
+  const trackLinkClicked = () => {
+    activityLog({
+      userId: user._id ?? "64e2090061ec79ea209a0160",
+      logName: "Discord Link",
+      description: "Discord Link Click",
+    });
+  };
 
   return (
     <div style={{ position: "sticky", top: 0 }}>
@@ -107,52 +93,80 @@ const Sidebar = () => {
         <Logo theme="dark" />
         <div className="sidebar">
           <ul className="navbar-nav ml-auto">
-            {menus.map((item, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ scale: 0.9 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <li className="mt-1">
+            {menus.map((item, idx) => {
+              const roomUrl = "/room" + window.location.pathname.replace("room/", "");
+              const page = item.name === "Live Stream" ? roomUrl : item.link;
+
+              return (
+                <motion.div
+                  key={idx}
+                  whileHover={{ scale: 0.9 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <li className="mt-1">
+                    <Button
+                      style={{
+                        color: isActive(page) ? "#24A2B7" : "white",
+                        fontSize: isActive(page) ? "20px" : "18px",
+                        fontWeight: isActive(page) ? "700" : "600",
+                      }}
+                      className="nav-link"
+                      type="link"
+                      href={item.link}
+                      isExternal={item.name === "Join Discord"}
+                    >
+                      {item.icon} {width > 900 && item.name}
+                    </Button>
+                  </li>
+                </motion.div>
+              );
+            })}
+
+            <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.9 }}>
+              <li className="mt-2">
+                <a
+                  href="https://discord.com/invite/BX8BAs4kgu"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={trackLinkClicked}
+                  style={buttonStyle}
+                >
+                  <FaDiscord style={iconHome} /> {width > 900 && "Join Discord"}
+                </a>
+              </li>
+            </motion.div>
+
+            {isAdmin() ? (
+              <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.9 }}>
+                <li className="mt-2">
                   <Button
-                    style={{
-                      color: isActive(item.link) ? "#24A2B7" : "white",
-                      fontSize: isActive(item.link) ? "22px" : "20px",
-                      fontWeight: isActive(item.link) ? "600" : "500",
-                    }}
+                    style={buttonStyle}
                     className="nav-link"
                     type="link"
-                    href={item.link}
-                    isExternal={item.name === "Join Discord"}
+                    href="/admin"
                   >
-                    {item.icon} {item.name}
+                    <RiAdminFill style={iconHome} /> Admin
                   </Button>
                 </li>
               </motion.div>
-            ))}
-
-            {!isAdmin() ? (
-              <li className={`nav-item${getNavLinkClass("/admin")}`}>
-                <Button
-                  style={buttonStyle}
-                  className="nav-link"
-                  type="link"
-                  href="/admin"
-                >
-                  <RiAdminFill style={iconHome} /> Admin
-                </Button>
-              </li>
             ) : (
-              <li className={`nav-item${getNavLinkClass("/about")}`}>
-                <Button
-                  style={buttonStyle}
-                  className="nav-link"
-                  type="link"
-                  href="/about"
-                >
-                  <BsInfoCircleFill style={iconHome} /> About
-                </Button>
-              </li>
+              <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.9 }}>
+                <li className="mt-2">
+                  <Button
+                    className="nav-link"
+                    type="link"
+                    href="/about"
+                    style={{
+                      color: isActive("/about") ? "#24A2B7" : "white",
+                      fontSize: isActive("/about") ? "20px" : "18px",
+                      fontWeight: isActive("/about") ? "700" : "600",
+                    }}
+                  >
+                    <BsInfoCircleFill style={iconHome} />{" "}
+                    {width > 900 && "About"}
+                  </Button>
+                </li>
+              </motion.div>
             )}
           </ul>
         </div>

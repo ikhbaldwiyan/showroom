@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { Col, Container, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { DETAIL_SCHEDULE } from "utils/api/api";
 
 import MainLayout from "pages/layout/MainLayout";
