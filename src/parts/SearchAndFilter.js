@@ -5,7 +5,7 @@ import { RiDashboardFill, RiUserSearchFill } from "react-icons/ri";
 import { AiFillAppstore, AiFillCalendar } from "react-icons/ai";
 import { IoSchoolSharp } from "react-icons/io5";
 import { isMobile } from "react-device-detect";
-import { FaUserGraduate } from "react-icons/fa";
+import { FaTwitter, FaUserGraduate } from "react-icons/fa";
 
 function SearchAndFilter({
   handleSearch,
@@ -51,17 +51,22 @@ function SearchAndFilter({
       <div className="col-md-4 col-sm-12 search-wrapper">
         <RiUserSearchFill className="search-bar" color="#333333" size="1.5em" />
         <input
-          style={{ width: "100%", padding: "1rem 1rem 1rem 3rem", borderRadius: "5px" }}
+          style={{
+            width: "100%",
+            padding: "1rem 1rem 1rem 3rem",
+            borderRadius: "5px",
+          }}
           type="text"
-          placeholder={isLive ? "Search theater schedule" : "Search member name"}
+          placeholder={
+            isLive ? "Search theater schedule" : "Search member name"
+          }
           onChange={handleSearch}
           className="form-control"
         />
       </div>
-      <div className="col-md-7 col-sm-12 search-wrapper">
+      <div className="col-md-4 col-sm-12 search-wrapper">
         <Button
-          className="mx-2"
-          style={{ backgroundColor: "teal", border: "none", borderRadius: "5px" }}
+          className="menu-button mx-2"
           onClick={filterAllMember}
           disabled={allMember ? "disabled" : ""}
         >
@@ -69,14 +74,31 @@ function SearchAndFilter({
           <span className="text-filter">All Members</span>
         </Button>
         <Button
-          className="mx-2"
-          style={{ backgroundColor: "teal", border: "none", borderRadius: "5px" }}
+          className="menu-button mx-2"
           onClick={filterRegular}
           disabled={isRegular ? "disabled" : ""}
         >
           <FaUserGraduate size={20} className="mb-1 mr-2" />
           <span className="text-filter">Trainee</span>
         </Button>
+      </div>
+      <div
+        className="col-md-4 col-sm-12 search-wrapper"
+        style={{ display: "flex", justifyContent: "end" }}
+      >
+        <a
+          href="https://twitter.com/Jkt48_Showroom"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Button
+            className="mx-2"
+            color="info"
+          >
+            <FaTwitter size={20} className="mb-1 mr-2" />
+            <span className="text-filter">Follow Twitter</span>
+          </Button>
+        </a>
       </div>
     </div>
   ) : (
@@ -86,7 +108,9 @@ function SearchAndFilter({
         <input
           style={{ width: "100%", padding: "1rem 1rem 1rem 3rem" }}
           type="text"
-          placeholder={isLive ? "Search theater schedule" : "Search member name"}
+          placeholder={
+            isLive ? "Search theater schedule" : "Search member name"
+          }
           onChange={handleSearch}
           className="form-control"
         />

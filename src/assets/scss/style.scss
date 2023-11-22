@@ -120,11 +120,22 @@
   margin-top: 30px;
 }
 
+.main-sidebar {
+  background-color: #21252b;
+  height: 100vh;
+  padding: 12px;
+}
+
 .sidebar {
   margin-top: 20px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.sticky-sidebar {
+  position: sticky;
+  top: 0;
 }
 
 header {
@@ -991,4 +1002,10 @@ main {
 
 .spin-animation {
   animation: spin 2s infinite linear;
+}
+
+.menu-button {
+  background-color: teal !important;
+  border: none !important;
+  border-radius: 5px !important;
 }

@@ -48,10 +48,10 @@ const TheaterScheduleDetail = (props) => {
             <Songs songs={theater?.setlist?.songs} isEncore />
           ) : null}
         </Col>
-        <Col md="4 mb-2">
+        <Col md="4 px-0 mb-2">
           <MainInfo theater={theater} />
         </Col>
-        <Col md="4 p-0 mb-2">
+        <Col md="4 px-2 mb-2">
           <MemberLineUp
             members={members}
             isComingSoon={theater?.isComingSoon}

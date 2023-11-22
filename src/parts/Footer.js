@@ -7,7 +7,7 @@ import { AiOutlineMail } from "react-icons/ai";
 
 export default function Footer({ theme }) {
   return (
-    <footer>
+    <footer className="mt-1">
       <div className="container">
         <div className="container">
           <div className="row">

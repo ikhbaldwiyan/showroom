@@ -82,19 +82,14 @@ const Sidebar = () => {
   };
 
   return (
-    <div style={{ position: "sticky", top: 0 }}>
-      <div
-        style={{
-          backgroundColor: "#21252b",
-          height: "768px",
-          padding: "10px",
-        }}
-      >
+    <div className="sticky-sidebar">
+      <div className="main-sidebar">
         <Logo theme="dark" />
         <div className="sidebar">
           <ul className="navbar-nav ml-auto">
             {menus.map((item, idx) => {
-              const roomUrl = "/room" + window.location.pathname.replace("room/", "");
+              const roomUrl =
+                "/room" + window.location.pathname.replace("room/", "");
               const page = item.name === "Live Stream" ? roomUrl : item.link;
 
               return (
@@ -170,12 +165,12 @@ const Sidebar = () => {
             )}
           </ul>
         </div>
-        <div
-          style={{ marginTop: "150px", position: "sticky", bottom: 10 }}
-          className="mx-1"
-        >
-          <hr style={{ borderColor: "white" }} />
-
+      </div>
+      <div
+        style={{ position: "sticky", bottom: 10, backgroundColor: "#21252b" }}
+      >
+        <div className="mx-2">
+          <hr style={{ borderColor: "white"}} />
           {profile ? (
             <UserProfile
               profile={profile}

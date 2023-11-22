@@ -175,7 +175,7 @@ export default function UserProfile({ data, session, theme }) {
   return (
     <>
       <div type="button" onClick={toggle}>
-        <li className="row mx-1 button-dropdown mt-1">
+        <li className="row mx-1 button-dropdown">
           <div className="d-flex justify-content-between">
             <img
               src={
@@ -194,13 +194,13 @@ export default function UserProfile({ data, session, theme }) {
                 <b>{profile?.name ?? "User"}</b>
               </span>
               <span
-                className="row mt-1"
+                className="row mt-1 mb-3"
                 style={{ lineHeight: "0px", fontSize: ".8rem" }}
               >
                 Level {profile?.fan_level ?? "0"}
               </span>
             </div>
-            <div className="ml-3 mt-1">
+            <div className="ml-3 mt-1 mb-2">
               <RiLogoutBoxRLine size={35} />
             </div>
           </div>
