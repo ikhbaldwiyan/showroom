@@ -62,7 +62,7 @@ function Menu({
       : [
           {
             name:
-              !isMultiRoom && !isMobile && !isFarming && width > 1280
+              !isMultiRoom && !isMobile && !isFarming && width > 1200
                 ? "Gift"
                 : "",
             menu: "gift",
