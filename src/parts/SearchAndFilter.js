@@ -6,6 +6,8 @@ import { AiFillAppstore, AiFillCalendar } from "react-icons/ai";
 import { IoSchoolSharp } from "react-icons/io5";
 import { isMobile } from "react-device-detect";
 import { FaTwitter, FaUserGraduate } from "react-icons/fa";
+import { activityLog } from "utils/activityLog";
+import { getSession } from "utils/getSession";
 
 function SearchAndFilter({
   handleSearch,
@@ -45,6 +47,14 @@ function SearchAndFilter({
     setAllMember(false);
     setIsAcademy(false);
   };
+
+  const trackTwitterClick = () => {
+    activityLog({
+      description: "Twitter Button Click",
+      logName: "Twitter Link",
+      userId: getSession().userProfile._id
+    })
+  }
 
   return !isMobile ? (
     <div className="row">
@@ -90,6 +100,7 @@ function SearchAndFilter({
           href="https://twitter.com/JKT48_SHOWROOM"
           target="_blank"
           rel="noreferrer"
+          onClick={trackTwitterClick}
         >
           <Button
             className="mx-2"
