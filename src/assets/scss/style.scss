@@ -45,7 +45,7 @@
 @import "container-grid";
 
 .brand-text-icon {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   font-family: "Poopins", sans-serif;
   color: $primary;
@@ -60,10 +60,26 @@
   }
 }
 
+@media (max-width: 1450px) {
+  .brand-text-icon {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .brand-text-icon {
+    font-size: 15px;
+  }
+}
+
 .logo-icon {
-  @media only screen and (max-width: 400px) {
+  @media only screen and (min-width: 320px) {
     display: none;
   }
+}
+
+.logo-icon {
+  display: inline;
 }
 
 .theater-title {
@@ -74,7 +90,7 @@
 
 .brand-text-icon {
   @media only screen and (max-width: 700px) {
-    font-size: 25px;
+    font-size: 22px;
   }
 }
 
@@ -104,11 +120,50 @@
   z-index: 99;
 }
 
+.layout {
+  margin-top: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
+@media (max-width: 768px) {
+  .layout {
+    margin-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .detail-layout {
+    padding: 0 !important;
+  }
+}
+
+.main-sidebar {
+  background-color: #21252b;
+  height: 100vh;
+  padding: 12px;
+}
+
+.sidebar {
+  margin-top: 20px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sticky-sidebar {
+  position: sticky;
+  top: 0;
+}
+
 header {
   border-bottom: 2px solid $gray-300;
   width: 100%;
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   background-color: ghostwhite;
 
   .navbar {
@@ -364,6 +419,8 @@ section {
 }
 
 footer {
+  background-color: #21252b;
+
   border-top: 1px solid $gray-200;
   padding-top: 50px;
 
@@ -373,7 +430,7 @@ footer {
   }
   
   .list-group-item {
-    background-color: white;
+    background-color: #21252b !important;
     padding: 0.3125rem 0;
     border: 0;
     a, span {
@@ -529,6 +586,12 @@ main {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+}
+
+@media (max-width: 1450px) {
+  .setlist-name {
+    font-size: 18px;
+  }
 }
 
 .setlist-subname {
@@ -962,4 +1025,10 @@ main {
 
 .spin-animation {
   animation: spin 2s infinite linear;
+}
+
+.menu-button {
+  background-color: teal !important;
+  border: none !important;
+  border-radius: 5px !important;
 }

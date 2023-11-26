@@ -11,7 +11,7 @@ import {
   FaWindowClose,
 } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
-import { RiBroadcastFill, RiLogoutBoxFill } from "react-icons/ri";
+import { RiBroadcastFill, RiLogoutBoxFill, RiLogoutBoxRLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
@@ -175,29 +175,34 @@ export default function UserProfile({ data, session, theme }) {
   return (
     <>
       <div type="button" onClick={toggle}>
-        <li className="row mx-2 button-dropdown mt-1">
-          <img
-            src={
-              profile.avatar_url ??
-              "https://static.showroom-live.com/assets/img/no_profile.jpg"
-            }
-            alt="profile"
-            style={{ width: "2.2rem", height: "2.2rem" }}
-            className="rounded-circle"
-          />{" "}
-          <div className="col ml-2 profile-link">
-            <span
-              className="row d-inline-block text-truncate"
-              style={{ maxWidth: "4rem", fontSize: ".9rem" }}
-            >
-              <b>{profile?.name ?? "User"}</b>
-            </span>
-            <span
-              className="row"
-              style={{ lineHeight: "0px", fontSize: ".8rem" }}
-            >
-              Level {profile?.fan_level ?? "0"}
-            </span>
+        <li className="row mx-1 button-dropdown">
+          <div className="d-flex justify-content-between">
+            <img
+              src={
+                profile.avatar_url ??
+                "https://static.showroom-live.com/assets/img/no_profile.jpg"
+              }
+              alt="profile"
+              width="45"
+              className="rounded-circle"
+            />{" "}
+            <div className="col ml-2 profile-link">
+              <span
+                className="row d-inline-block text-truncate"
+                style={{ maxWidth: "4rem", fontSize: "16px" }}
+              >
+                <b>{profile?.name ?? "User"}</b>
+              </span>
+              <span
+                className="row mt-1 mb-3"
+                style={{ lineHeight: "0px", fontSize: ".8rem" }}
+              >
+                Level {profile?.fan_level ?? "0"}
+              </span>
+            </div>
+            <div className="ml-3 mt-1 mb-2">
+              <RiLogoutBoxRLine size={35} />
+            </div>
           </div>
         </li>
       </div>

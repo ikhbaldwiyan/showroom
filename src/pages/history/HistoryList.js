@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Col, Container, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { RECENT_LIVE_LOG_API } from "utils/api/api";
 import { FaClock } from "react-icons/fa";
 import { BsCalendarDateFill, BsPeopleFill } from "react-icons/bs";
@@ -71,9 +71,9 @@ const LiveHistory = (props) => {
 
   return (
     <MainLayout {...props}>
-      <Container>
+      <div className="layout">
         <div className="d-flex justify-content-between align-items-center">
-          <h3>Showroom Live History</h3>
+          <h3>History Live Showroom</h3>
         </div>
         <Row className="d-flex">
           <div className="col-md-4 col-sm-12 search-wrapper">
@@ -111,6 +111,12 @@ const LiveHistory = (props) => {
                     top
                     src={member.img.replace("m.jpeg", "l.jpeg")}
                     alt={member.img_alt}
+                    style={{
+                      borderTopRightRadius: "6px",
+                      borderTopLeftRadius: "6px",
+                      maxHeight: "180px",
+                      objectFit: "cover",
+                    }}
                   />
                   <CardBody>
                     <CardTitle tag="h5" style={{ fontWeight: "bold" }}>
@@ -173,7 +179,7 @@ const LiveHistory = (props) => {
             );
           })}
         </Row>
-      </Container>
+      </div>
     </MainLayout>
   );
 };

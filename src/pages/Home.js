@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { ROOM_LIST_API, ROOM_GEN_10, ROOM_TRAINEE_API } from "utils/api/api";
-import { Container } from "reactstrap";
 import Fade from "react-reveal/Fade";
 
 import MainLayout from "pages/layout/MainLayout";
@@ -94,9 +93,8 @@ function Home(props) {
 
   return (
     <MainLayout {...props}>
-      <Container className="mb-4">
+      <div className="layout my-0 mb-4">
         <ModalInfo />
-        <AlertInfo page="Home" label="Discord Link" />
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
@@ -155,7 +153,7 @@ function Home(props) {
           isOpen={isServerError}
           toggle={() => setIsServerError(!isServerError)}
         />
-      </Container>
+      </div>
     </MainLayout>
   );
 }

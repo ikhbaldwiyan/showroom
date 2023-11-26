@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { Col, Container, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { DETAIL_SCHEDULE } from "utils/api/api";
 
 import MainLayout from "pages/layout/MainLayout";
@@ -10,6 +10,7 @@ import MenuSetlist from "./components/MenuSetlist";
 import SetlistInfo from "./components/SetlistInfo";
 import Songs from "./components/Setlist";
 import MainInfo from "./components/MainInfo";
+import { isDesktop } from "react-device-detect";
 
 const TheaterScheduleDetail = (props) => {
   const [menu, setMenu] = useState("theater");
@@ -37,7 +38,7 @@ const TheaterScheduleDetail = (props) => {
       keywords={`jadwal showroom ${theater?.setlist?.name}, jadwal theater JKT48, jadwal theater ${theater?.setlist?.name}`}
       {...props}
     >
-      <Container>
+      <div className="layout">
         <Row>
           <Col md="4">
             <MenuSetlist menu={menu} setMenu={setMenu} />
@@ -49,17 +50,19 @@ const TheaterScheduleDetail = (props) => {
               <Songs songs={theater?.setlist?.songs} isEncore />
             ) : null}
           </Col>
-          <Col md="4 mb-2">
+          <Col md="4" className="detail-layout mb-2">
             <MainInfo theater={theater} />
           </Col>
-          <Col md="4 mb-2">
-            <MemberLineUp
-              members={members}
-              isComingSoon={theater?.isComingSoon}
-            />
+          <Col md="4" className="detail-layout mb-2">
+            <div className={`${isDesktop && "px-2"}`}>
+              <MemberLineUp
+                members={members}
+                isComingSoon={theater?.isComingSoon}
+              />
+            </div>
           </Col>
         </Row>
-      </Container>
+      </div>
     </MainLayout>
   );
 };
