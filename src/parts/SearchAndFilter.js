@@ -47,7 +47,7 @@ function SearchAndFilter({
   };
 
   return !isMobile ? (
-    <div className="row mt-2">
+    <div className="row">
       <div className="col-md-4 col-sm-12 search-wrapper">
         <RiUserSearchFill className="search-bar" color="#333333" size="1.5em" />
         <input
@@ -102,7 +102,7 @@ function SearchAndFilter({
       </div>
     </div>
   ) : (
-    <div className="row mt-4">
+    <div className="row">
       <div className="col-12 search-wrapper">
         <FcSearch className="search-bar" color="#03665c" size="1.5em" />
         <input

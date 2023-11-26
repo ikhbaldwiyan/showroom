@@ -84,7 +84,7 @@ const Sidebar = () => {
   return (
     <div className="sticky-sidebar">
       <div className="main-sidebar">
-        <Logo theme="dark" />
+        <Logo />
         <div className="sidebar">
           <ul className="navbar-nav ml-auto">
             {menus.map((item, idx) => {
@@ -166,31 +166,36 @@ const Sidebar = () => {
           </ul>
         </div>
       </div>
-      <div
-        style={{ position: "sticky", bottom: 10, backgroundColor: "#21252b" }}
-      >
-        <div className="mx-2">
-          <hr style={{ borderColor: "white"}} />
-          {profile ? (
-            <UserProfile
-              profile={profile}
-              data={user}
-              session={session}
-              theme="dark"
-            />
-          ) : (
-            <LoginButton
-              block
-              color="info"
-              className="nav-link text-white"
-              onClick={() => navigate.push("/login")}
-              style={{ fontWeight: 600, fontSize: "18px", borderRadius: "6px" }}
-            >
-              <RiLoginBoxFill style={iconHome} /> Login
-            </LoginButton>
-          )}
+      {width > 900 && (
+        <div
+          style={{ position: "sticky", bottom: 10, backgroundColor: "#21252b" }}
+        >
+          <div className="mx-2">
+            <hr style={{ borderColor: "white" }} />
+            {profile ? (
+              <UserProfile
+                profile={profile}
+                data={user}
+                session={session}
+              />
+            ) : (
+              <LoginButton
+                block
+                color="info"
+                className="nav-link text-white"
+                onClick={() => navigate.push("/login")}
+                style={{
+                  fontWeight: 600,
+                  fontSize: "18px",
+                  borderRadius: "6px",
+                }}
+              >
+                <RiLoginBoxFill style={iconHome} /> Login
+              </LoginButton>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

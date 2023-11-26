@@ -30,7 +30,7 @@ const LiveInfo = ({ history }) => {
             <div className="live-info-wrapper mt-1">
               <RiPlayCircleLine className="mb-2" color="#ECFAFC" size={50} />
               <div className="mt-1">
-                <span className="live-text">Live Start</span>
+                <span className="live-text">Start</span>
                 <p className="theater-time mt-1">
                   {formatLongDate(history?.live_info.date.start, true)}
                 </p>
@@ -43,7 +43,7 @@ const LiveInfo = ({ history }) => {
             <div className="live-info-wrapper mt-1">
               <RiStopCircleLine className="mb-2" color="#ECFAFC" size={50} />
               <div className="mt-1">
-                <span className="live-text">Live End</span>
+                <span className="live-text">End</span>
                 <p className="theater-time mt-1">
                   {formatLongDate(history?.live_info.date.end, true)}
                 </p>

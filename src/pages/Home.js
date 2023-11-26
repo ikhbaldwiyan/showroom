@@ -93,9 +93,8 @@ function Home(props) {
 
   return (
     <MainLayout {...props}>
-      <div className="mb-4 px-2">
+      <div className="layout my-0 mb-4">
         <ModalInfo />
-        {/* <AlertInfo page="Home" label="Discord Link" /> */}
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}

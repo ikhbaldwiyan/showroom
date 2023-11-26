@@ -52,7 +52,7 @@ const DetailLiveHistory = (props) => {
           <Col md="4">
             <LiveInfo history={history} />
           </Col>
-          <Col md="4">
+          <Col md="4" className="detail-layout">
             <div className="main-title-log">
               <div className="duration-wrapper mt-1">
                 <RiBookmark3Fill

@@ -56,7 +56,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
     <Fade>
       <header className="spacing-sm sticky">
         <div className={classMulti}>
-          <nav className="navbar navbar-expand-lg navbar-light">
+          <nav className="navbar navbar-expand-lg navbar-light px-1">
             <Logo theme="dark" />
             <button
               className="navbar-toggler"

@@ -287,7 +287,7 @@ function Live(props) {
               ""
             )}
           </Col>
-          <Col className="p-0" lg="4">
+          <Col className="detail-layout" lg="4">
             {url.code === 404 && name === "officialJKT48" ? (
               <MemberLineUp members={member} isComingSoon={false} />
             ) : (

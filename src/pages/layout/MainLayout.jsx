@@ -7,8 +7,11 @@ import { Helmet } from "react-helmet";
 import Header from "parts/Header";
 import Footer from "parts/Footer";
 import Sidebar from "./Sidebar";
+import useWindowDimensions from "utils/useWindowDimension";
 
 function MainLayout(props) {
+  const { width } = useWindowDimensions();
+
   return (
     <>
       <Helmet>
@@ -26,7 +29,7 @@ function MainLayout(props) {
           }
         />
       </Helmet>
-      {isMobile ? (
+      {isMobile || width < 768 ? (
         <>
           <Header {...props} />
           {props.children}
@@ -49,9 +52,7 @@ function MainLayout(props) {
                 <Sidebar />
               </Col>
               <Col md="10">
-                <div className="mt-3">
-                  {props.children}
-                </div>
+                <div className="mt-3">{props.children}</div>
               </Col>
               <ToastContainer position="top-right" autoClose={3000} />
             </Row>
