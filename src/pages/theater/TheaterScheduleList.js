@@ -6,11 +6,13 @@ const TheaterScheduleList = (props) => {
   window.scrollTo(0, 0);
   return (
     <MainLayout title="Jadwal Theater JKT48" {...props}>
-      <div className="mb-4 p-1">
-        <h3 className="py-2">Jadwal Theater Minggu Ini</h3>
-        <Schedule isShowing={true} />
-        <h3 className="py-2">History Jadwal Theater</h3>
-        <Schedule isShowing={false} />
+      <div className="layout">
+        <div className="mb-4">
+          <h3 className="mb-3">Jadwal Theater Minggu Ini</h3>
+          <Schedule isShowing={true} />
+          <h3 className="py-2">History Jadwal Theater</h3>
+          <Schedule isShowing={false} />
+        </div>
       </div>
     </MainLayout>
   );

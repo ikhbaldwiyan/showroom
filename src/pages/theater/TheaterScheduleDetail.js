@@ -53,11 +53,13 @@ const TheaterScheduleDetail = (props) => {
           <Col md="4" className="detail-layout mb-2">
             <MainInfo theater={theater} />
           </Col>
-          <Col md="4" className={`${isDesktop && "px-2"} detail-layout mb-2`}>
-            <MemberLineUp
-              members={members}
-              isComingSoon={theater?.isComingSoon}
-            />
+          <Col md="4" className="detail-layout mb-2">
+            <div className={`${isDesktop && "px-2"}`}>
+              <MemberLineUp
+                members={members}
+                isComingSoon={theater?.isComingSoon}
+              />
+            </div>
           </Col>
         </Row>
       </div>

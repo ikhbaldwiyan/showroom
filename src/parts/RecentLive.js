@@ -102,11 +102,7 @@ const RecentLive = ({ isSearch }) => {
                         width="110"
                         height="auto"
                         className="recent-image"
-                        src={
-                          member?.url === "officialJKT48"
-                            ? "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/JKT48.svg/1200px-JKT48.svg.png"
-                            : member?.img_alt
-                        }
+                        src={member?.img_alt}
                         alt={member?.name}
                       />
                       <div className="recent-info-wrapper">
@@ -163,7 +159,7 @@ const RecentLive = ({ isSearch }) => {
                             style={{
                               color: "#ECFAFC",
                               fontWeight: "600",
-                              marginBottom: "1px"
+                              marginBottom: "1px",
                             }}
                             date={live_info.date.end}
                           />

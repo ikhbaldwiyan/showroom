@@ -111,6 +111,12 @@ const LiveHistory = (props) => {
                     top
                     src={member.img.replace("m.jpeg", "l.jpeg")}
                     alt={member.img_alt}
+                    style={{
+                      borderTopRightRadius: "6px",
+                      borderTopLeftRadius: "6px",
+                      maxHeight: "180px",
+                      objectFit: "cover",
+                    }}
                   />
                   <CardBody>
                     <CardTitle tag="h5" style={{ fontWeight: "bold" }}>

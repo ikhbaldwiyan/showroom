@@ -23,6 +23,12 @@ const LiveInfo = ({ history }) => {
         width="100%"
         alt={history?.room_info?.name}
         src={history?.room_info?.img.replace("m.jpeg", "l.jpeg")}
+        style={{
+          borderTopRightRadius: "6px",
+          borderTopLeftRadius: "6px",
+          maxHeight: "215px",
+          objectFit: "cover",
+        }}
       />
       <div className="row mt-3">
         <div className="col-6">
