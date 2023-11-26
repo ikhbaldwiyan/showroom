@@ -86,7 +86,7 @@ export default function Footer({ theme }) {
             <li className="list-group-item">
               <Button
                 type="link"
-                href="https://twitter.com/Jkt48_Showroom"
+                href="https://twitter.com/JKT48_SHOWROOM"
                 isExternal
                 target="_blank"
               >

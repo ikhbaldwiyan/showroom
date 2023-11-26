@@ -87,7 +87,7 @@ function SearchAndFilter({
         style={{ display: "flex", justifyContent: "end" }}
       >
         <a
-          href="https://twitter.com/Jkt48_Showroom"
+          href="https://twitter.com/JKT48_SHOWROOM"
           target="_blank"
           rel="noreferrer"
         >

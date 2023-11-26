@@ -61,7 +61,7 @@ function About(props) {
             </li>
             <li>
               <a
-                href="https://twitter.com/Jkt48_Showroom"
+                href="https://twitter.com/JKT48_SHOWROOM"
                 rel="noreferrer"
                 target="_blank"
                 onClick={() =>

@@ -73,7 +73,7 @@ const LiveHistory = (props) => {
     <MainLayout {...props}>
       <div className="layout">
         <div className="d-flex justify-content-between align-items-center">
-          <h3>Showroom Live History</h3>
+          <h3>History Live Showroom</h3>
         </div>
         <Row className="d-flex">
           <div className="col-md-4 col-sm-12 search-wrapper">
