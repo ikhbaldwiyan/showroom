@@ -32,7 +32,7 @@ export const activityLog = ({ userId, logName, description, liveId }) => {
         });
     } else {
       return axios.post(ACTIVITY_LOG, {
-        user_id: userId,
+        user_id: getSession()?.userProfile?._id ?? "64e2090061ec79ea209a0160",
         live_id: liveId,
         log_name: logName,
         description,
