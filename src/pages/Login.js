@@ -52,9 +52,6 @@ function Login(props) {
         });
     }
 
-    setLocalStorage("user", data.user);
-    setLocalStorage("session", data.session);
-    setLocalStorage("profile", data.profile);
     setLocalStorage("userProfile", user.data);
 
     gaTag({
@@ -93,8 +90,12 @@ function Login(props) {
       }
 
       if (response.data.user.ok) {
+        const data = response.data;
         setButtonLoading(false);
-        getSessionUser(response.data);
+        getSessionUser(data);
+        setLocalStorage("user", data.user);
+        setLocalStorage("session", data.session);
+        setLocalStorage("profile", data.profile);
 
         toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
           theme: "colored",
