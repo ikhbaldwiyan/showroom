@@ -22,6 +22,7 @@ import {
 import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
 import RecentLive from "parts/RecentLive";
+import { isMobile } from "react-device-detect";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -106,6 +107,9 @@ function Home(props) {
           handleSearch={handleSearch}
           setIsRegular={setIsRegular}
         />
+        {isMobile && (
+          <AlertInfo />
+        )}
         <Fade bottom>
           {allMember ? (
             <>

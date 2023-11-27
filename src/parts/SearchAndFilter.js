@@ -3,9 +3,8 @@ import { FcSearch } from "react-icons/fc";
 import { Button } from "reactstrap";
 import { RiDashboardFill, RiUserSearchFill } from "react-icons/ri";
 import { AiFillAppstore, AiFillCalendar } from "react-icons/ai";
-import { IoSchoolSharp } from "react-icons/io5";
 import { isMobile } from "react-device-detect";
-import { FaTwitter, FaUserGraduate } from "react-icons/fa";
+import { FaDiscord, FaTheaterMasks, FaTwitter, FaUserGraduate } from "react-icons/fa";
 import { activityLog } from "utils/activityLog";
 import { getSession } from "utils/getSession";
 
@@ -48,13 +47,13 @@ function SearchAndFilter({
     setIsAcademy(false);
   };
 
-  const trackTwitterClick = () => {
+  const socmedClick = (type) => {
     activityLog({
-      description: "Twitter Button Click",
-      logName: "Twitter Link",
-      userId: getSession().userProfile._id
-    })
-  }
+      description: `${type} Button Click`,
+      logName: `${type} Link`,
+      userId: getSession()?.userProfile?._id,
+    });
+  };
 
   return !isMobile ? (
     <div className="row">
@@ -97,17 +96,29 @@ function SearchAndFilter({
         style={{ display: "flex", justifyContent: "end" }}
       >
         <a
-          href="https://twitter.com/JKT48_SHOWROOM"
+          href={process.env.REACT_APP_DISCORD_LINK}
           target="_blank"
           rel="noreferrer"
-          onClick={trackTwitterClick}
+          onClick={() => socmedClick("Discord")}
         >
           <Button
             className="mx-2"
             color="info"
+            style={{ backgroundColor: "#5865F2", border: "none" }}
           >
+            <FaDiscord size={20} className="mb-1 mr-2" />
+            <span className="text-filter">Discord</span>
+          </Button>
+        </a>
+        <a
+          href="https://twitter.com/JKT48_SHOWROOM"
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => socmedClick("Twitter")}
+        >
+          <Button className="mx-2" color="info">
             <FaTwitter size={20} className="mb-1 mr-2" />
-            <span className="text-filter">Follow Twitter</span>
+            <span className="text-filter">Twitter</span>
           </Button>
         </a>
       </div>
@@ -133,7 +144,7 @@ function SearchAndFilter({
           onClick={filterAllMember}
           disabled={allMember ? "disabled" : ""}
         >
-          <AiFillAppstore className="mb-1" />{" "}
+          <RiDashboardFill className="mb-1" />{" "}
           <span className="text-filter">ALL</span>
         </Button>
         <Button
@@ -142,7 +153,7 @@ function SearchAndFilter({
           onClick={filterRegular}
           disabled={isRegular ? "disabled" : ""}
         >
-          <IoSchoolSharp className="mb-1 mr-1" />{" "}
+          <FaUserGraduate className="mb-1 mr-1" />{" "}
           <span className="text-filter">TRAINEE</span>
         </Button>
         <Button
@@ -151,7 +162,7 @@ function SearchAndFilter({
           onClick={filterIsLive}
           disabled={isLive ? "disabled" : ""}
         >
-          <AiFillCalendar className="mb-1" />{" "}
+          <FaTheaterMasks className="mb-1" />{" "}
           <span className="text-filter">Schedule</span>
         </Button>
       </div>
