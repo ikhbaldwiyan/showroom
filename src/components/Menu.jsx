@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "reactstrap";
-import { AiFillGift, AiFillStar, AiFillTrophy } from "react-icons/ai";
+import { AiFillGift, AiFillTrophy } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
-import { FaInfoCircle, FaKey, FaListAlt, FaMusic } from "react-icons/fa";
+import { FaInfoCircle, FaMusic, FaUsers } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
 import { PROFILE_API } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
@@ -71,11 +71,11 @@ function Menu({
         ]),
     ...(isMultiRoom || isMobile
       ? [
-          {
-            name: !isMobile && !isMultiRoom && "Star",
-            menu: "star",
-            icon: <AiFillStar style={icon} />,
-          },
+          // {
+          //   name: !isMobile && !isMultiRoom && "Star",
+          //   menu: "star",
+          //   icon: <AiFillStar style={icon} />,
+          // },
         ]
       : []),
     ...(isFarming && !isMultiRoom
@@ -123,7 +123,7 @@ function Menu({
             style={menu === "room" ? buttonActive : buttonStyle}
             onClick={() => handleChangeMenu("room")}
           >
-            <FaListAlt style={icon} /> Room
+            <FaUsers style={icon} /> Room
           </Button>
         ) : null}
         {!isLive.length && isLive.code !== 404 && (

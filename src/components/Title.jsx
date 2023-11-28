@@ -134,7 +134,7 @@ function Title({
       {profile?.title && isDesktop && <span> | {profile?.title}</span>}
 
       {!hideTime && (
-        <LastSeen theme={theme} times={profile.current_live_started_at} />
+         <LastSeen times={profile.current_live_started_at} />
       )}
 
       {!hideViews && (
