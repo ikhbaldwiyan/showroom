@@ -10,7 +10,7 @@ import {
 } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiLoginBoxFill } from "react-icons/ri";
-import { BsInfoCircleFill } from "react-icons/bs";
+import { BsCollectionPlayFill, BsInfoCircleFill } from "react-icons/bs";
 import Button from "elements/Button";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import UserProfile from "parts/UserProfile";
@@ -45,6 +45,11 @@ const Sidebar = () => {
       name: "Home",
       icon: <AiFillHome style={iconHome} />,
       link: "/",
+    },
+    {
+      name: "Wrapped ",
+      icon: <BsCollectionPlayFill style={iconHome} />,
+      link: "/wrapped",
     },
     {
       name: "Live Stream",
