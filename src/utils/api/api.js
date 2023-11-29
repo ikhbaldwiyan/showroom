@@ -131,6 +131,10 @@ const ACTIVITY_LOG_DETAIL = (id) => {
   return `${ADMIN_API}/activity/${id}`
 }
 
+// SHOWROOM WRAPPER
+const MOST_WATCH = `${ADMIN_API}/scrapper/most-visit`;
+const PREMIUM_LIVES = `${ADMIN_API}/scrapper/premium-live-history`;
+
 export {
   API,
   ROOM_LIST_API,
@@ -181,5 +185,7 @@ export {
   PREMIUM_LIVE_DETAIL,
   ACTIVITY_LOG,
   ACTIVITY_LOG_DETAIL,
-  TODAY_SCHEDULE_API
+  TODAY_SCHEDULE_API,
+  MOST_WATCH,
+  PREMIUM_LIVES
 };

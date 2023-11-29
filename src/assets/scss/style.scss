@@ -1036,7 +1036,7 @@ main {
 .user {
   border-radius: 8px;
   background: #865CD6;
-  width: 180px;
+  width: fit-content;
   padding: 6px;
 }
 
@@ -1063,6 +1063,7 @@ main {
 }
 
 .user-image {
+  object-fit: cover;
   width: 50px;
   height: 48.571px;
   border-radius: 100%;
@@ -1128,7 +1129,7 @@ main {
 
 @media only screen and (max-width: 600px) {
   .top-member-wrap {
-    font-size: 14px;
+    font-size: 15px;
   }
 }
 
