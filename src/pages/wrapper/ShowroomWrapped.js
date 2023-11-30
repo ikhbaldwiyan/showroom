@@ -3,7 +3,7 @@ import { Loading } from "components";
 import MainLayout from "pages/layout/MainLayout";
 import React, { useEffect, useState } from "react";
 import { BsCollectionPlayFill } from "react-icons/bs";
-import { FaMoneyBillWave, FaTheaterMasks } from "react-icons/fa";
+import { FaMoneyBillWave, FaTheaterMasks, FaVideoSlash } from "react-icons/fa";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Col, Row } from "reactstrap";
 import { MOST_WATCH, PREMIUM_LIVES } from "utils/api/api";
@@ -15,6 +15,7 @@ import Logo from "../../../src/assets/images/logo-dark.svg";
 const ShowroomWrapped = () => {
   const [mostWatch, setMostWatch] = useState([]);
   const [premiumLives, setPremiumLives] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const token = getSession()?.session?.cookie_login_id;
   const profile = getSession()?.profile;
@@ -22,13 +23,23 @@ const ShowroomWrapped = () => {
   const router = useHistory();
 
   useEffect(() => {
-    axios.post(MOST_WATCH, { token }).then((res) => {
-      setMostWatch(res.data);
-    });
+    try {
+      axios.post(MOST_WATCH, { token }).then((res) => {
+        setMostWatch(res.data);
+      });
+    } catch (error) {
+      console.log(error);
+    }
 
-    axios.post(PREMIUM_LIVES, { token }).then((res) => {
-      setPremiumLives(res.data);
-    });
+    try {
+      setIsLoading(true);
+      axios.post(PREMIUM_LIVES, { token }).then((res) => {
+        setPremiumLives(res.data);
+        setIsLoading(false);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   useEffect(() => {
@@ -110,7 +121,10 @@ const ShowroomWrapped = () => {
                 <h5 className="wrapper-title">Top Premium Live Setlist 2023</h5>
               </div>
               <div className="setlist-wrapped">
-                {premiumLives?.topSetlist ? (
+                {isLoading ? (
+                  <img src={Logo} alt="logo" width={50} />
+                ) : premiumLives?.topSetlist !==
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/JKT48.svg/1200px-JKT48.svg.png" ? (
                   <img
                     className="img-setlist"
                     src={premiumLives?.topSetlist}
@@ -129,14 +143,26 @@ const ShowroomWrapped = () => {
                   style={{ paddingLeft: "30px" }}
                   className="top-setlist-wrap"
                 >
-                  {premiumLives?.show?.slice(0, 3)?.map((item, idx) => (
-                    <li key={idx}>
-                      {item?.name} - <b>{item?.total}x</b>
-                    </li>
-                  ))}
+                  {premiumLives?.show?.length > 0 ? (
+                    premiumLives?.show?.slice(0, 3)?.map((item, idx) => (
+                      <li key={idx}>
+                        {item?.name} - <b>{item?.total}x</b>
+                      </li>
+                    ))
+                  ) : isLoading ? (
+                    <Loading />
+                  ) : (
+                    <div className="align-items-center justify-items-center">
+                      <FaVideoSlash className="mr-2" size={40} />
+                      <br />
+                      <span className="text-sm">
+                        Premium Live History not found
+                      </span>
+                    </div>
+                  )}
                 </ol>
               </div>
-              {premiumLives?.totalPaidLive !== 0 && (
+              {premiumLives?.totalPaidLive !== 0 && !isLoading && (
                 <div className="total-paid-live">
                   <span>
                     Total Premium Live: {premiumLives?.totalPaidLive}x

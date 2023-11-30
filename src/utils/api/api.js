@@ -4,6 +4,7 @@ const ADMIN_API = "https://showroom-admin.ikhbaldwiyan.repl.co"
 const BOT_API = "https://jkt48-showroom-bot.ikhbaldwiyan.repl.co/discord"
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
+const SHOWROOM_WRAPPED = "https://jkt48-showroom-wrapped.vercel.app"
 
 // LARAVEL API
 const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
@@ -132,8 +133,8 @@ const ACTIVITY_LOG_DETAIL = (id) => {
 }
 
 // SHOWROOM WRAPPER
-const MOST_WATCH = `${ADMIN_API}/scrapper/most-visit`;
-const PREMIUM_LIVES = `${ADMIN_API}/scrapper/premium-live-history`;
+const MOST_WATCH = `${SHOWROOM_WRAPPED}/most-watch`;
+const PREMIUM_LIVES = `${SHOWROOM_WRAPPED}/premium-lives`;
 
 export {
   API,
