@@ -131,13 +131,7 @@ const ShowroomWrapped = () => {
                     alt=""
                   />
                 ) : (
-                  <img
-                    alt="JKT48"
-                    className="rounded mb-2"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/JKT48.svg/1200px-JKT48.svg.png"
-                    width="60"
-                    height={80}
-                  />
+                  ""
                 )}
                 <ol
                   style={{ paddingLeft: "30px" }}
@@ -152,9 +146,8 @@ const ShowroomWrapped = () => {
                   ) : isLoading ? (
                     <Loading />
                   ) : (
-                    <div className="align-items-center justify-items-center">
-                      <FaVideoSlash className="mr-2" size={40} />
-                      <br />
+                    <div className="d-flex flex-column align-items-center justify-content-center justify-items-center">
+                      <FaVideoSlash size={40} />
                       <span className="text-sm">
                         Premium Live History not found
                       </span>
@@ -165,7 +158,7 @@ const ShowroomWrapped = () => {
               {premiumLives?.totalPaidLive !== 0 && !isLoading && (
                 <div className="total-paid-live">
                   <span>
-                    Total Premium Live: {premiumLives?.totalPaidLive}x
+                    Total Pembelian: {premiumLives?.totalPaidLive}x
                   </span>
                 </div>
               )}
@@ -181,12 +174,26 @@ const ShowroomWrapped = () => {
               </div>
               <div className="setlist-wrapped">
                 <ul className="top-setlist-wrap money-spend">
-                  <li>
-                    Total JPY: <b>{formatNumber(premiumLives?.totalJPY)} JPY</b>
-                  </li>
-                  <li>
-                    Total IDR: <b>{premiumLives?.totalIDR}</b>
-                  </li>
+                  {isLoading ? (
+                    <>
+                      <li>
+                        Total JPY: <Loading />
+                      </li>
+                      <li>
+                        Total IDR: <Loading />
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li>
+                        Total JPY:{" "}
+                        <b>{formatNumber(premiumLives?.totalJPY)} JPY</b>
+                      </li>
+                      <li>
+                        Total IDR: <b>{premiumLives?.totalIDR}</b>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
             </div>
