@@ -82,7 +82,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                   <Button
                     className="nav-link"
                     type="link"
-                    href="/room/officialJKT48/332503"
+                    href="/wrapped"
                   >
                     <BsCollectionPlayFill style={iconHome} /> Wrapped
                   </Button>

@@ -1150,3 +1150,42 @@ main {
   padding-left: 15px;
   font-size: 18px;
 }
+
+.header-wrapped {
+  width: 100%;
+  height: 81px;
+  flex-shrink: 0;
+  padding: 10px;
+  padding-left: 15px;
+  background: #21252B;
+}
+
+@media only screen and (min-width: 1200px) {
+  .header-wrapped {
+    padding-left: 20px;
+  }
+}
+
+.logo-wrapped {
+  display: inline-flex;
+  height: 61.335px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.wrapped-title {
+  color: #24A2B7;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.web-title {
+  color: #D9D9D9;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
