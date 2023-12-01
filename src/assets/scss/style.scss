@@ -1121,18 +1121,6 @@ main {
   padding: 2px;
 }
 
-@media only screen and (max-width: 600px) {
-  .top-setlist-wrap {
-    font-size: 12px;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .top-member-wrap {
-    font-size: 15px;
-  }
-}
-
 .setlist-wrapped {
   display: flex;
   gap: 0px;

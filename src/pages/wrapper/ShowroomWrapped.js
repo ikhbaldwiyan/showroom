@@ -7,6 +7,7 @@ import {
   FaDownload,
   FaMoneyBillWave,
   FaTheaterMasks,
+  FaUser,
   FaVideoSlash,
 } from "react-icons/fa";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -107,24 +108,13 @@ const ShowroomWrapped = () => {
                   <div className="user">
                     <div className="user-wrapper">
                       <div>
-                        <img
-                          className="user-image"
-                          src={profile?.image}
-                          alt=""
-                        />
+                        <FaUser size={35} />
                       </div>
                       <div>
                         <b className="username">{profile?.name}</b> <br />
-                        <span>ID: {user?.account_id}</span>
-                      </div>
-                      <div>
-                        <div>
-                          <img
-                            className="user-image"
-                            src={profile?.avatar_url}
-                            alt="avatar"
-                          />
-                        </div>
+                        <span style={{ fontSize: "14px" }}>
+                          ID: {user?.account_id}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -152,9 +142,13 @@ const ShowroomWrapped = () => {
                       {mostWatch.length > 0 ? (
                         mostWatch?.slice(0, 3).map((item, idx) => (
                           <>
-                            <li>
-                              {item.name} - <b>{item.visit}x</b>
-                            </li>
+                            {item.visit === 0 ? (
+                              <li>-</li>
+                            ) : (
+                              <li>
+                                {item.name} - <b>{item.visit}x</b>
+                              </li>
+                            )}
                           </>
                         ))
                       ) : (
@@ -173,26 +167,20 @@ const ShowroomWrapped = () => {
                     <h5 className="wrapper-title">Top Premium Live Setlist</h5>
                   </div>
                   <div className="setlist-wrapped">
-                    {isLoading ? (
-                      <img src={Logo} alt="logo" width={50} />
-                    ) : premiumLives?.topSetlist !==
-                      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/JKT48.svg/1200px-JKT48.svg.png" ? (
-                      <img
-                        className="img-setlist"
-                        src={premiumLives?.topSetlist}
-                        alt=""
-                      />
-                    ) : (
-                      ""
-                    )}
                     <ol
-                      style={{ paddingLeft: "30px" }}
+                      style={{ paddingLeft: "20px" }}
                       className="top-setlist-wrap"
                     >
                       {premiumLives?.show?.length > 0 ? (
                         premiumLives?.show?.slice(0, 3)?.map((item, idx) => (
                           <li key={idx}>
-                            {item?.name} - <b>{item?.total}x</b>
+                            {item?.total === 0 ? (
+                              <span>-</span>
+                            ) : (
+                              <div>
+                                {item?.name} - <b>{item?.total}x</b>
+                              </div>
+                            )}
                           </li>
                         ))
                       ) : isLoading ? (
@@ -222,7 +210,9 @@ const ShowroomWrapped = () => {
                 <div className="money-container mb-2">
                   <div className="d-flex mb-1">
                     <FaMoneyBillWave className="mr-2" size={24} />
-                    <h5 className="wrapper-title">Money Spend</h5>
+                    <h5 className="wrapper-title">
+                      Money Spend (Premium Live)
+                    </h5>
                   </div>
                   <div className="setlist-wrapped">
                     <ul className="top-setlist-wrap money-spend">
@@ -242,7 +232,12 @@ const ShowroomWrapped = () => {
                             <b>{formatNumber(premiumLives?.totalJPY)} JPY</b>
                           </li>
                           <li>
-                            Total IDR: <b>{premiumLives?.totalIDR}</b>
+                            Total IDR:{" "}
+                            <b>
+                              {premiumLives?.totalIDR === "Rp 00"
+                                ? "Rp 0"
+                                : premiumLives?.totalIDR}
+                            </b>
                           </li>
                         </>
                       )}
