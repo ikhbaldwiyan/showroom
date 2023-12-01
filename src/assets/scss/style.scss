@@ -1171,6 +1171,16 @@ main {
   line-height: normal;
 }
 
+@media only screen and (max-width: 370px) {
+  .wrapped-title {
+    font-size: 16px;
+  }
+
+  .web-title {
+    font-size: 14px;
+  }
+}
+
 .web-title {
   color: #D9D9D9;
   font-style: normal;
@@ -1179,6 +1189,7 @@ main {
 }
 
 .wrapped-container {
+  margin-top: 10px;
   margin-right: 10px;
   margin-left: 10px;
 }
@@ -1188,5 +1199,4 @@ main {
     margin-right: 0px;
     margin-left: 0px;
   }
-  
 }

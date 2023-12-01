@@ -219,10 +219,10 @@ const ShowroomWrapped = () => {
                       {isLoading ? (
                         <>
                           <li>
-                            Total JPY: <Loading />
+                            Total JPY: <Loading size={12} />
                           </li>
                           <li>
-                            Total IDR: <Loading />
+                            Total IDR: <Loading size={12} />
                           </li>
                         </>
                       ) : (
