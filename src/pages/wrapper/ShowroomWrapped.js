@@ -47,38 +47,40 @@ const ShowroomWrapped = () => {
       showToast("info", "Please login before using JKT48 Showroom Wrapped");
 
       setTimeout(() => {
-        router.push("/");
-      }, 2800);
+        router.push("/login");
+      }, 2500);
     }
   }, []);
 
   return (
     <MainLayout>
       <div className="layout">
-        <Row>
-          <Col className="d-flex" md="12">
-            <div className="user">
-              <div className="user-wrapper">
-                <div>
-                  <img className="user-image" src={profile?.image} alt="" />
-                </div>
-                <div>
-                  <b className="username">{profile?.name}</b> <br />
-                  <span>ID: {user?.account_id}</span>
-                </div>
-                <div>
+        {getSession().session && (
+          <Row>
+            <Col className="d-flex" md="12">
+              <div className="user">
+                <div className="user-wrapper">
                   <div>
-                    <img
-                      className="user-image"
-                      src={profile?.avatar_url}
-                      alt="avatar"
-                    />
+                    <img className="user-image" src={profile?.image} alt="" />
+                  </div>
+                  <div>
+                    <b className="username">{profile?.name}</b> <br />
+                    <span>ID: {user?.account_id}</span>
+                  </div>
+                  <div>
+                    <div>
+                      <img
+                        className="user-image"
+                        src={profile?.avatar_url}
+                        alt="avatar"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        )}
         <Row className="py-3">
           <Col sm="12" md="5">
             <div className="wrapper-container">
@@ -157,9 +159,7 @@ const ShowroomWrapped = () => {
               </div>
               {premiumLives?.totalPaidLive !== 0 && !isLoading && (
                 <div className="total-paid-live">
-                  <span>
-                    Total Pembelian: {premiumLives?.totalPaidLive}x
-                  </span>
+                  <span>Total Pembelian: {premiumLives?.totalPaidLive}x</span>
                 </div>
               )}
             </div>

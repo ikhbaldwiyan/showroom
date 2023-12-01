@@ -22,7 +22,7 @@ import {
 import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
 import RecentLive from "parts/RecentLive";
-import { isMobile } from "react-device-detect";
+import WrappedAlert from "components/WrappedAlert";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -96,6 +96,7 @@ function Home(props) {
     <MainLayout {...props}>
       <div className="layout my-0 mb-4">
         <ModalInfo />
+        <WrappedAlert />
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
@@ -107,9 +108,6 @@ function Home(props) {
           handleSearch={handleSearch}
           setIsRegular={setIsRegular}
         />
-        {isMobile && (
-          <AlertInfo />
-        )}
         <Fade bottom>
           {allMember ? (
             <>
