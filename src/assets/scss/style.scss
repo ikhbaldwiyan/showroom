@@ -1189,3 +1189,16 @@ main {
   font-weight: 500;
   line-height: normal;
 }
+
+.wrapped-container {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  .wrapped-container {
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+  
+}
