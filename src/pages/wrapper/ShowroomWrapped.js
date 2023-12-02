@@ -7,7 +7,7 @@ import {
   FaDownload,
   FaMoneyBillWave,
   FaTheaterMasks,
-  FaVideoSlash,
+  FaTwitter,
 } from "react-icons/fa";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Button, Col, Row } from "reactstrap";
@@ -19,6 +19,8 @@ import useWindowDimensions from "utils/useWindowDimension";
 import Logo from "../../../src/assets/images/logo-dark.svg";
 import Header from "./Header";
 import html2canvas from "html2canvas";
+import { RiBroadcastFill } from "react-icons/ri";
+import { activityLog } from "utils/activityLog";
 
 const ShowroomWrapped = () => {
   const [mostWatch, setMostWatch] = useState([]);
@@ -73,11 +75,16 @@ const ShowroomWrapped = () => {
         useCORS: true,
         scrollX: 0,
         scrollY: 0,
-        windowWidth: 400,
+        windowWidth: 370,
         windowHeight: 900,
       }).then((canvas) => {
         const screenshotImage = canvas.toDataURL("image/png");
 
+        activityLog({
+          logName: "Wrapped",
+          description: "Download Showroom Wrapped",
+          userId: getSession()?.userProfile?._id
+        })
         // Restore the original background color
         targetElement.style.backgroundColor = originalBackgroundColor;
 
@@ -88,6 +95,25 @@ const ShowroomWrapped = () => {
         downloadLink.click();
       });
     }
+  };
+
+  const shareToTwitter = () => {
+    const hashtag1 = "JKT48ShowroomWrapped";
+    const hashtag2 = "#JKT48ShowroomWrapped2023";
+    const additionalText = "My JKT48 Showroom Wrapped"; // Additional text to be included
+  
+    const encodedHashtags = encodeURIComponent(`${hashtag1} ${hashtag2}`);
+    const encodedText = encodeURIComponent(additionalText);
+  
+    const twitterShareUrl = `https://twitter.com/intent/tweet?hashtags=${encodedHashtags}&text=${encodedText}`;
+
+    activityLog({
+      logName: "Wrapped",
+      description: "Share twitter showroom wrapped ",
+      userId: getSession()?.userProfile?._id
+    })
+  
+    window.open(twitterShareUrl, "_blank");
   };
 
   return (
@@ -127,15 +153,15 @@ const ShowroomWrapped = () => {
                 </Col>
               </Row>
             )}
-            <Row className="py-3">
+            <Row className="py-2">
               <Col sm="12" md="5">
                 <div className="wrapper-container">
                   <div className="d-flex mb-2">
                     <BsCollectionPlayFill className="mr-2" size={23} />
                     <h5 className="wrapper-title">Most Watch Showroom</h5>
                   </div>
-                  <div className="d-flex">
-                    {mostWatch[0]?.image ? (
+                  <div className="d-flex align-items-center">
+                    {mostWatch[0]?.image && mostWatch[0]?.visit !== 0 ? (
                       <img
                         className="img-top"
                         src={mostWatch[0]?.image}
@@ -165,7 +191,7 @@ const ShowroomWrapped = () => {
                 </div>
               </Col>
             </Row>
-            <Row className="mb-3">
+            <Row className="mb-2">
               <Col sm="12" md="5">
                 <div className="wrapper-container">
                   <div className="d-flex mb-2">
@@ -192,10 +218,10 @@ const ShowroomWrapped = () => {
                       ) : isLoading ? (
                         <Loading />
                       ) : (
-                        <div className="d-flex flex-column align-items-center justify-content-center justify-items-center">
-                          <FaVideoSlash size={40} />
+                        <div className="d-flex flex-column align-items-center justify-items-center">
+                          <RiBroadcastFill size={40} />
                           <span className="text-sm">
-                            Premium Live History not found
+                            No data premium live
                           </span>
                         </div>
                       )}
@@ -211,7 +237,7 @@ const ShowroomWrapped = () => {
                 </div>
               </Col>
             </Row>
-            <Row className="mb-3">
+            <Row className="mb-2">
               <Col sm="12" md="5">
                 <div className="money-container mb-2">
                   <div className="d-flex mb-1">
@@ -255,12 +281,26 @@ const ShowroomWrapped = () => {
           </div>
         </div>
         <Col>
-          <Button color="primary" onClick={takeScreenshot}>
-            <div className="d-flex align-items-center">
-              <FaDownload className="mr-2" />
-              Download
+          {!isLoading && (
+            <div className="d-flex">
+              <Button className="mr-3" color="success" onClick={takeScreenshot}>
+                <div className="d-flex align-items-center">
+                  <FaDownload className="mr-2" />
+                  Download
+                </div>
+              </Button>
+              <Button
+                style={{ backgroundColor: "#1DA1F2", border: "none" }}
+                color="info"
+                onClick={shareToTwitter}
+              >
+                <div className="d-flex align-items-center text-white">
+                  <FaTwitter className="mr-1" />
+                  <span>Share to Twitter</span>
+                </div>
+              </Button>
             </div>
-          </Button>
+          )}
         </Col>
       </Col>
     </Row>
