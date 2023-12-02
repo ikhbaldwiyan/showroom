@@ -7,7 +7,6 @@ import {
   FaDownload,
   FaMoneyBillWave,
   FaTheaterMasks,
-  FaUser,
   FaVideoSlash,
 } from "react-icons/fa";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -108,7 +107,14 @@ const ShowroomWrapped = () => {
                   <div className="user">
                     <div className="user-wrapper">
                       <div>
-                        <FaUser size={35} />
+                        <img
+                          className="user-image"
+                          src={
+                            premiumLives?.user?.image ??
+                            "https://static.showroom-live.com/assets/img/no_profile.jpg"
+                          }
+                          alt="user profile"
+                        />
                       </div>
                       <div>
                         <b className="username">{profile?.name}</b> <br />
@@ -141,7 +147,7 @@ const ShowroomWrapped = () => {
                     <ol className="top-member-wrap">
                       {mostWatch.length > 0 ? (
                         mostWatch?.slice(0, 3).map((item, idx) => (
-                          <>
+                          <div key={idx}>
                             {item.visit === 0 ? (
                               <li>-</li>
                             ) : (
@@ -149,7 +155,7 @@ const ShowroomWrapped = () => {
                                 {item.name} - <b>{item.visit}x</b>
                               </li>
                             )}
-                          </>
+                          </div>
                         ))
                       ) : (
                         <Loading />
