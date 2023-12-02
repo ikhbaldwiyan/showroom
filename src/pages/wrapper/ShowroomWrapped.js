@@ -142,8 +142,8 @@ const ShowroomWrapped = () => {
                           alt="user profile"
                         />
                       </div>
-                      <div>
-                        <b className="username">{profile?.name}</b> <br />
+                      <div className="d-flex flex-column">
+                        <b className="username">{profile?.name}</b>
                         <span style={{ fontSize: "14px" }}>
                           ID: {user?.account_id}
                         </span>

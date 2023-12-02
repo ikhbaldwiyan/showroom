@@ -18,7 +18,7 @@ const Header = () => {
           </div>
           <div className="d-flex align-items-center">
             <div className="web-title mt-1">
-              <RiGlobalLine size={20} className="mr-1" />
+              <RiGlobalLine size={18} className="mr-1" />
               www.jkt48showroom.com/wrapped
             </div>
           </div>
