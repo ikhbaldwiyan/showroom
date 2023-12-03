@@ -22,6 +22,7 @@ import html2canvas from "html2canvas";
 import { RiBroadcastFill } from "react-icons/ri";
 import { activityLog } from "utils/activityLog";
 import { gaTag } from "utils/gaTag";
+import { ToastContainer } from "react-toastify";
 
 const ShowroomWrapped = () => {
   const [mostWatch, setMostWatch] = useState([]);
@@ -40,6 +41,7 @@ const ShowroomWrapped = () => {
         setMostWatch(res.data);
       });
     } catch (error) {
+      showToast("error", "Server Full Please try again later")
       console.log(error);
     }
 
@@ -50,6 +52,7 @@ const ShowroomWrapped = () => {
         setIsLoading(false);
       });
     } catch (error) {
+      showToast("error", "Server Full Please try again")
       console.log(error);
     }
   }, []);
@@ -319,6 +322,7 @@ const ShowroomWrapped = () => {
           )}
         </Col>
       </Col>
+      <ToastContainer position="bottom-center" autoClose={3000} />
     </Row>
   );
 };

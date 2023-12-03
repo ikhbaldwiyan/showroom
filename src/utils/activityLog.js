@@ -11,7 +11,7 @@ export const activityLog = ({ userId, logName, description, liveId }) => {
     if (!userId) {
       axios
         .post(CREATE_USER, {
-          user_id: user.account_id,
+          user_id: user?.account_id,
           name: profile.name
         })
         .then((res) => {
