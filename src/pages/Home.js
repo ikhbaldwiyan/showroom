@@ -97,6 +97,7 @@ function Home(props) {
       <div className="layout my-0 mb-4">
         <ModalInfo />
         <WrappedAlert />
+        <AlertInfo />
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
