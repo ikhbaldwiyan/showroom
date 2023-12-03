@@ -54,6 +54,7 @@ const ShowroomWrapped = () => {
   }, []);
 
   useEffect(() => {
+    window.document.title = "JKT48 SHOWROOM WRAPPED"
     if (!profile) {
       showToast("info", "Please login before using JKT48 Showroom Wrapped");
 
@@ -83,7 +84,8 @@ const ShowroomWrapped = () => {
         activityLog({
           logName: "Wrapped",
           description: "Download Showroom Wrapped",
-          userId: getSession()?.userProfile?._id
+          userId: getSession()?.userProfile?._id,
+          liveId: getSession()?.session.cookie_login_id
         })
         // Restore the original background color
         targetElement.style.backgroundColor = originalBackgroundColor;
@@ -110,7 +112,8 @@ const ShowroomWrapped = () => {
     activityLog({
       logName: "Wrapped",
       description: "Share twitter showroom wrapped ",
-      userId: getSession()?.userProfile?._id
+      userId: getSession()?.userProfile?._id,
+      liveId: getSession()?.session.cookie_login_id
     })
   
     window.open(twitterShareUrl, "_blank");
