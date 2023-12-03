@@ -9,8 +9,8 @@ import { AiFillHome } from "react-icons/ai";
 import { RiAdminFill, RiBroadcastFill } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiFileList3Fill, RiLoginBoxFill } from "react-icons/ri";
-import { BsInfoCircleFill } from "react-icons/bs";
-import { FaBars } from "react-icons/fa";
+import { BsCollectionPlayFill, BsInfoCircleFill } from "react-icons/bs";
+import { FaBars, FaDiscord } from "react-icons/fa";
 import UserProfile from "./UserProfile";
 import { isAdmin } from "utils/permissions/admin";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -82,6 +82,15 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                   <Button
                     className="nav-link"
                     type="link"
+                    href="/wrapped"
+                  >
+                    <BsCollectionPlayFill style={iconHome} /> Wrapped
+                  </Button>
+                </li>
+                <li className={`nav-item${getNavLinkClass(roomUrl)}`}>
+                  <Button
+                    className="nav-link"
+                    type="link"
                     href="/room/officialJKT48/332503"
                   >
                     <RiBroadcastFill style={iconHome} /> Live Stream
@@ -97,19 +106,28 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     <RiFileList3Fill style={iconHome} /> History
                   </Button>
                 </li>
-                {isAdmin() ? (
+                {isAdmin() && (
                   <li className={`nav-item${getNavLinkClass("/admin")}`}>
                     <Button className="nav-link" type="link" href="/admin">
                       <RiAdminFill style={iconHome} /> Admin
                     </Button>
                   </li>
-                ) : (
-                  <li className={`nav-item${getNavLinkClass("/about")}`}>
-                    <Button className="nav-link" type="link" href="/about">
-                      <BsInfoCircleFill style={iconHome} /> About
-                    </Button>
-                  </li>
                 )}
+                <li className={`nav-item${getNavLinkClass("/about")}`}>
+                  <Button className="nav-link" type="link" href="/about">
+                    <BsInfoCircleFill style={iconHome} /> About
+                  </Button>
+                </li>
+                <li className={`nav-item${getNavLinkClass("/about")}`}>
+                  <Button
+                    href="https://discord.com/invite/BX8BAs4kgu"
+                    className="nav-link"
+                    type="link"
+                    isExternal
+                  >
+                    <FaDiscord style={iconHome} /> Join Discord
+                  </Button>
+                </li>
                 {profile ? (
                   <UserProfile
                     profile={profile}

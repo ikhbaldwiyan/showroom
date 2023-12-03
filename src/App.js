@@ -24,6 +24,7 @@ import TheaterList from "pages/admin/theater/TheaterList";
 import MemberList from "pages/admin/members/MemberList";
 import PremiumLiveList from "pages/admin/premium-live/PremiumLiveList";
 import ActivityLogList from "pages/admin/activity/ActivityLogList";
+import ShowroomWrapped from "pages/wrapper/ShowroomWrapped";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -54,6 +55,7 @@ function App(props) {
         <Route path="/members" component={() => <MemberList {...props} />} />
         <Route path="/premium-live" component={() => <PremiumLiveList {...props} />} />
         <Route path="/activity" component={() => <ActivityLogList {...props} />} />
+        <Route path="/wrapped" component={() => <ShowroomWrapped {...props} />} />
       </div>
     </ThemeProvider>
   );
