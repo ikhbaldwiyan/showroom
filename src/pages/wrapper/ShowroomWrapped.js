@@ -21,6 +21,7 @@ import Header from "./Header";
 import html2canvas from "html2canvas";
 import { RiBroadcastFill } from "react-icons/ri";
 import { activityLog } from "utils/activityLog";
+import { gaTag } from "utils/gaTag";
 
 const ShowroomWrapped = () => {
   const [mostWatch, setMostWatch] = useState([]);
@@ -54,7 +55,7 @@ const ShowroomWrapped = () => {
   }, []);
 
   useEffect(() => {
-    window.document.title = "JKT48 SHOWROOM WRAPPED"
+    window.document.title = "JKT48 SHOWROOM WRAPPED";
     if (!profile) {
       showToast("info", "Please login before using JKT48 Showroom Wrapped");
 
@@ -85,8 +86,15 @@ const ShowroomWrapped = () => {
           logName: "Wrapped",
           description: "Download Showroom Wrapped",
           userId: getSession()?.userProfile?._id,
-          liveId: getSession()?.session.cookie_login_id
-        })
+          liveId: getSession()?.session.cookie_login_id,
+        });
+
+        gaTag({
+          action: "download_showroom_wrapped",
+          label: "Showroom Wrapped",
+          category: "wrapped",
+          value: getSession().profile.name,
+        });
         // Restore the original background color
         targetElement.style.backgroundColor = originalBackgroundColor;
 
@@ -103,19 +111,26 @@ const ShowroomWrapped = () => {
     const hashtag1 = "JKT48ShowroomWrapped";
     const hashtag2 = "#JKT48ShowroomWrapped2023";
     const additionalText = "My JKT48 Showroom Wrapped"; // Additional text to be included
-  
+
     const encodedHashtags = encodeURIComponent(`${hashtag1} ${hashtag2}`);
     const encodedText = encodeURIComponent(additionalText);
-  
+
     const twitterShareUrl = `https://twitter.com/intent/tweet?hashtags=${encodedHashtags}&text=${encodedText}`;
 
     activityLog({
       logName: "Wrapped",
       description: "Share twitter showroom wrapped ",
       userId: getSession()?.userProfile?._id,
-      liveId: getSession()?.session.cookie_login_id
-    })
-  
+      liveId: getSession()?.session.cookie_login_id,
+    });
+
+    gaTag({
+      action: "share_showroom_wrapped",
+      label: "Showroom Wrapped",
+      category: "wrapped",
+      value: getSession().profile.name,
+    });
+
     window.open(twitterShareUrl, "_blank");
   };
 
@@ -223,9 +238,7 @@ const ShowroomWrapped = () => {
                       ) : (
                         <div className="d-flex flex-column align-items-center justify-items-center">
                           <RiBroadcastFill size={40} />
-                          <span className="text-sm">
-                            No data premium live
-                          </span>
+                          <span className="text-sm">No data premium live</span>
                         </div>
                       )}
                     </ol>
