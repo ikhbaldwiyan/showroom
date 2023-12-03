@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { activityLog } from "utils/activityLog";
 import { Link } from "react-router-dom";
 import { BsCollectionPlayFill } from "react-icons/bs";
+import { gaTag } from "utils/gaTag";
+import { getSession } from "utils/getSession";
 
 const WrappedAlert = () => {
   const user = useSelector((state) => state.user.user);
@@ -13,6 +15,13 @@ const WrappedAlert = () => {
       userId: user._id ?? "64e2090061ec79ea209a0160",
       logName: "Wrapped",
       description: "Showroom Wrapped Link",
+    });
+
+    gaTag({
+      action: "banner_showroom_wrapped",
+      label: "Showroom Wrapped",
+      category: "wrapped",
+      username: getSession().profile.name ?? "Guest",
     });
   };
 

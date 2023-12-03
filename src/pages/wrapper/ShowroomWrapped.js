@@ -93,7 +93,7 @@ const ShowroomWrapped = () => {
           action: "download_showroom_wrapped",
           label: "Showroom Wrapped",
           category: "wrapped",
-          value: getSession().profile.name,
+          username: getSession().profile.name,
         });
         // Restore the original background color
         targetElement.style.backgroundColor = originalBackgroundColor;
@@ -128,7 +128,7 @@ const ShowroomWrapped = () => {
       action: "share_showroom_wrapped",
       label: "Showroom Wrapped",
       category: "wrapped",
-      value: getSession().profile.name,
+      username: getSession().profile.name,
     });
 
     window.open(twitterShareUrl, "_blank");
