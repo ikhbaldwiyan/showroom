@@ -12,11 +12,11 @@ export const activityLog = ({ userId, logName, description, liveId }) => {
       axios
         .post(CREATE_USER, {
           user_id: user?.account_id,
-          name: profile.name
+          name: profile?.name
         })
         .then((res) => {
           activityLog({
-            userId: res.data.user._id,
+            userId: res?.data?.user?._id,
             logName: "Auto Register",
             description: `Auto Register user from activity log ${logName.toLowerCase()}`
           });

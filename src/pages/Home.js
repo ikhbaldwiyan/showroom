@@ -98,7 +98,7 @@ function Home(props) {
       <div className="layout my-0 mb-4">
         <ModalInfo />
         <WrappedAlert />
-        {!isMobile && (
+        {isMobile && (
           <AlertInfo />
         )}
         <SearchAndFilter
