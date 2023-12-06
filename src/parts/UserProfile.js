@@ -215,7 +215,7 @@ export default function UserProfile({ data, session, theme }) {
           }}
           toggle={toggle}
         >
-          User Profile {profile.name}
+          User Profile {profile?.name}
         </ModalHeader>
         <ModalBody classNameName="text-dark my-2 justify-content-center">
           <div className="container py-2">
@@ -249,7 +249,7 @@ export default function UserProfile({ data, session, theme }) {
                         className="img-fluid mb-2 rounded-circle"
                         style={{ height: "80px", width: "80px" }}
                       />
-                      <p>ID : {data.account_id}</p>
+                      <p>ID : {data?.account_id}</p>
 
                       <div className="d-flex mt-5 mb-2 justify-content-center">
                         <h5 className="ml-3">Avatar</h5>

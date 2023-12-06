@@ -4,7 +4,12 @@ import { gaEvent } from "utils/gaEvent";
 
 function About(props) {
   return (
-    <MainLayout title="About" description="jkt48 showroom" keywords="apa itu jkt48 showroom?" {...props}>
+    <MainLayout
+      title="About"
+      description="jkt48 showroom"
+      keywords="apa itu jkt48 showroom?"
+      {...props}
+    >
       <div className="layout p-2">
         <div className="mb-4" style={{ height: "auto" }}>
           <h3>About</h3>
@@ -55,7 +60,7 @@ function About(props) {
                   gaEvent("About Link", "Discord Link Click", "About")
                 }
               >
-                Join Discord Grup
+                Discord Grup
               </a>{" "}
               (Discord Community)
             </li>
@@ -70,7 +75,7 @@ function About(props) {
               >
                 Twitter
               </a>{" "}
-              (@Jkt48_Showroom)
+              (@JKT48_SHOWROOM)
             </li>
           </ul>
           <p>Source :</p>
@@ -89,16 +94,39 @@ function About(props) {
               <a
                 style={{ wordBreak: "break-word" }}
                 rel="noreferrer"
-                href="https://qiita.com/takeru7584/items/f4ba4c31551204279ed2"
                 target="_blank"
+                href="https://qiita.com/takeru7584/items/f4ba4c31551204279ed2"
               >
                 https://qiita.com/takeru7584/items/f4ba4c31551204279ed2
               </a>{" "}
               (Showroom API Documentation)
             </li>
+            <li>
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href="https://dc.crstlnz.site/recent"
+              >
+                https://dc.crstlnz.site/recent
+              </a>{" "}
+              (History Live Showroom)
+            </li>
           </ul>
-          <p>Source Code :</p>
+          <p>Github Source Code :</p>
           <ul>
+            <li>
+              <a
+                href="https://github.com/jkt48-showroom"
+                rel="noreferrer"
+                target="_blank"
+                onClick={() =>
+                  gaEvent("About Link", "Github Web Click", "About")
+                }
+              >
+                https://github.com/jkt48-showroom
+              </a>{" "}
+              (Github Organization)
+            </li>
             <li>
               <a
                 href="https://github.com/ikhbaldwiyan/showroom"
@@ -138,7 +166,7 @@ function About(props) {
               >
                 https://github.com/AldyRevigustian/Showroom-Api
               </a>{" "}
-              (SHOWROOM API)
+              (AUTH SHOWROOM API)
             </li>
           </ul>
           <p>Contributors :</p>
@@ -185,7 +213,6 @@ function About(props) {
                 <span>Aldy Revigustian</span>
               </a>{" "}
             </li>
-            
           </ul>
         </div>
       </div>
