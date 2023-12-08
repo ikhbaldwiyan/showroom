@@ -10,6 +10,7 @@ import { CREATE_USER, LOGIN, REGISTER } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
 import MainLayout from "./layout/MainLayout";
 import { activityLog } from "utils/activityLog";
+import { gaTag } from "utils/gaTag";
 
 const Register = (props) => {
   const [accountId, setAccountId] = useState("");
@@ -50,25 +51,32 @@ const Register = (props) => {
             icon: <RiLoginBoxFill size={30} />,
           }
         );
-        axios.post(CREATE_USER, {
-          user_id: accountId,
-          name: response.data.profile.name
-        }).then((res) => {
-          activityLog({
-            userId: res.data.user._id,
-            logName: "Register",
-            description: "Register user from register page",
+        axios
+          .post(CREATE_USER, {
+            user_id: accountId,
+            name: response.data.profile.name,
+          })
+          .then((res) => {
+            activityLog({
+              userId: res.data.user._id,
+              logName: "Register",
+              description: "Register user from register page",
+            });
+            localStorage.setItem("userProfile", JSON.stringify(res.data.user));
           });
-          localStorage.setItem("userProfile", JSON.stringify(res.data.user))
-        })
-        gaEvent("Register Screen", "Register Success", "Register");
+        gaTag({
+          label: "Register Screen",
+          action: "Register Success",
+          category: "Register",
+        });
         autoLogin();
       }
     } catch (err) {
-      toast.error("Server down please contact admin", {
-        theme: "colored",
+      gaTag({
+        label: "Register Screen",
+        action: "Register Failed",
+        category: "Register",
       });
-      gaEvent("Register Screen", "Register Failed", "Register");
       setButtonLoading(false);
     }
   };
@@ -82,7 +90,11 @@ const Register = (props) => {
     localStorage.setItem("user", JSON.stringify(response.data.user));
     localStorage.setItem("session", JSON.stringify(response.data.session));
     localStorage.setItem("profile", JSON.stringify(response.data.profile));
-    gaEvent("Register Screen", "Auto Login Success", "Register");
+    gaTag({
+      label: "Register Screen",
+      action: "Auto Login Success",
+      category: "Register",
+    });
 
     toast.info(`Login Success, Welcome ${response.data.profile.name}`, {
       theme: "colored",

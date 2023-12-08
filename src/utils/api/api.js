@@ -75,6 +75,7 @@ const DETAIL_MEMBER = (memberId) => {
 }
 
 //PREMIUM LIVE
+const PREMIUM_LIVE_TODAY = `${ADMIN_API}/premium-lives/today`;
 const PREMIUM_LIVE_LIST = `${ADMIN_API}/premium-lives`;
 const PREMIUM_LIVE_DETAIL = (liveId) => {
   return `${ADMIN_API}/premium-lives/${liveId}`
@@ -184,6 +185,7 @@ export {
   DETAIL_SETLIST,
   PREMIUM_LIVE_LIST,
   PREMIUM_LIVE_DETAIL,
+  PREMIUM_LIVE_TODAY,
   ACTIVITY_LOG,
   ACTIVITY_LOG_DETAIL,
   TODAY_SCHEDULE_API,

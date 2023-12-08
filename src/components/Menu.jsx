@@ -104,8 +104,6 @@ function Menu({
     gaEvent("Menu", `Set ${menu}`, "Live Stream");
   };
 
-  console.log(width);
-
   return (
     <Row>
       <Col>
