@@ -2,11 +2,10 @@ import React from "react";
 import { FcSearch } from "react-icons/fc";
 import { Button } from "reactstrap";
 import { RiDashboardFill, RiUserSearchFill } from "react-icons/ri";
-import { AiFillAppstore, AiFillCalendar } from "react-icons/ai";
-import { isMobile } from "react-device-detect";
 import { FaDiscord, FaTheaterMasks, FaTwitter, FaUserGraduate } from "react-icons/fa";
 import { activityLog } from "utils/activityLog";
 import { getSession } from "utils/getSession";
+import useWindowDimensions from "utils/useWindowDimension";
 
 function SearchAndFilter({
   handleSearch,
@@ -55,7 +54,9 @@ function SearchAndFilter({
     });
   };
 
-  return !isMobile ? (
+  const { width } = useWindowDimensions();
+
+  return width > 768 ? (
     <div className="row">
       <div className="col-md-4 col-sm-12 search-wrapper">
         <RiUserSearchFill className="search-bar" color="#333333" size="1.5em" />
