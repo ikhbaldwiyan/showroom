@@ -1,21 +1,17 @@
 import React from "react";
 import { UncontrolledAlert } from "reactstrap";
-import { useSelector } from "react-redux";
-import { activityLog } from "utils/activityLog";
 import { Link } from "react-router-dom";
 import { BsCollectionPlayFill } from "react-icons/bs";
 import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
 
 const WrappedAlert = () => {
-  const user = useSelector((state) => state.user.user);
-
   const trackLinkClicked = () => {
     gaTag({
       action: "banner_showroom_wrapped",
       label: "Showroom Wrapped",
       category: "wrapped",
-      username: getSession().profile.name ?? "Guest",
+      username: getSession()?.profile?.name ?? "Guest",
     });
   };
 

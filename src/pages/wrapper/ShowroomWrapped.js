@@ -131,7 +131,7 @@ const ShowroomWrapped = () => {
       action: "share_showroom_wrapped",
       label: "Showroom Wrapped",
       category: "wrapped",
-      username: getSession().profile.name,
+      username: getSession()?.profile.name,
     });
 
     window.open(twitterShareUrl, "_blank");
