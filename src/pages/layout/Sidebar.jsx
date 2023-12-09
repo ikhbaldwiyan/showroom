@@ -47,14 +47,22 @@ const Sidebar = () => {
       link: "/",
     },
     {
-      name: "Wrapped ",
-      icon: <BsCollectionPlayFill style={iconHome} />,
-      link: "/wrapped",
-    },
-    {
       name: "Live Stream",
       icon: <RiBroadcastFill style={iconHome} />,
       link: "/room/officialJKT48/332503",
+    },
+    {
+      name: "Wrapped ",
+      icon: (
+        <BsCollectionPlayFill
+          style={{
+            marginBottom: 4,
+            fontSize: "24px",
+            marginRight: "8px",
+          }}
+        />
+      ),
+      link: "/wrapped",
     },
     {
       name: "Multi Room",
@@ -178,11 +186,7 @@ const Sidebar = () => {
           <div className="mx-2">
             <hr style={{ borderColor: "white" }} />
             {profile ? (
-              <UserProfile
-                profile={profile}
-                data={user}
-                session={session}
-              />
+              <UserProfile profile={profile} data={user} session={session} />
             ) : (
               <LoginButton
                 block

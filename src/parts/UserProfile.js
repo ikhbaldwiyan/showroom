@@ -117,7 +117,7 @@ export default function UserProfile({ data, session, theme }) {
       dispatch(getUserSuccess(detailUser.data));
     }
     getUserDetail();
-  }, [data.account_id]);
+  }, []);
 
   const InfoAccess = ({ menu }) => {
     return menu ? (
