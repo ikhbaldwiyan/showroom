@@ -1,6 +1,6 @@
 // BASE URL API
 const API = "https://jkt48-showroom-apis.vercel.app/api";
-const ADMIN_API = "https://showroom-admin.ikhbaldwiyan.repl.co"
+const ADMIN_API = "https://showroom-admin.vercel.app"
 const BOT_API = "https://jkt48-showroom-bot.ikhbaldwiyan.repl.co/discord"
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
