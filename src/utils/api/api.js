@@ -24,7 +24,7 @@ const BULK_GIFT = `${LARAVEL_API}/live/bulk_gift`;
 const SEND_GIFT = `${LARAVEL_API}/live/send_gift`;
 
 // SHOWROOM LOG API
-const SHOWROOM_LOG_API = "https://dc.crstlnz.site/api/showroom";
+const SHOWROOM_LOG_API = "https://api.crstlnz.my.id/api";
 const RECENT_LIVE_LOG_API = (
   sort = "date",
   page = "1",
