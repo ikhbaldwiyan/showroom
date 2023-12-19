@@ -10,7 +10,7 @@ import { RiAdminFill, RiBroadcastFill } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiFileList3Fill, RiLoginBoxFill } from "react-icons/ri";
 import { BsCollectionPlayFill, BsInfoCircleFill } from "react-icons/bs";
-import { FaBars, FaDiscord } from "react-icons/fa";
+import { FaBars, FaDiscord, FaDonate } from "react-icons/fa";
 import UserProfile from "./UserProfile";
 import { isAdmin } from "utils/permissions/admin";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -107,8 +107,8 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                   </Button>
                 </li>
                 <li className={`nav-item${getNavLinkClass("/support-project")}`}>
-                  <Button className="nav-link" type="link" href="/live-history">
-                    <RiFileList3Fill style={iconHome} /> Support Us
+                  <Button className="nav-link" type="link" href="/support-project">
+                    <FaDonate style={iconHome} /> Support Us
                   </Button>
                 </li>
                 {isAdmin() && (
