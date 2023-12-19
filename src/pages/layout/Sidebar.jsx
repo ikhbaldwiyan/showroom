@@ -15,7 +15,7 @@ import Button from "elements/Button";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import UserProfile from "parts/UserProfile";
 import { isAdmin } from "utils/permissions/admin";
-import { FaDiscord, FaTheaterMasks } from "react-icons/fa";
+import { FaDiscord, FaDonate, FaTheaterMasks } from "react-icons/fa";
 import { motion } from "framer-motion";
 import useWindowDimensions from "utils/useWindowDimension";
 import { getSession } from "utils/getSession";
@@ -80,9 +80,9 @@ const Sidebar = () => {
       link: "/theater-schedule",
     },
     {
-      name: "Followed Room",
-      icon: <RiUserFollowFill style={iconHome} />,
-      link: "/follow",
+      name: "Support Us",
+      icon: <FaDonate style={iconHome} />,
+      link: "/support-project",
     },
   ];
 

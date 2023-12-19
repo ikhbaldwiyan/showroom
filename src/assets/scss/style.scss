@@ -1198,3 +1198,42 @@ main {
     margin-left: 0px;
   }
 }
+
+.rounded-large {
+  border-radius: 10px;
+}
+
+.list-donator {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #3B82F6 0%, #24A2B7 100%);
+}
+
+.user-donate {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.donator-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.donator-name {
+  padding: 4px;
+  padding-left: 6px;
+  padding-right: px;
+  width: auto;
+  border-radius: 4px;
+  background: #ECFAFC;
+}
+
+.donator-text {
+  color: #24A2B7;
+  font-weight: 700;
+  font-size: 16px;
+}
