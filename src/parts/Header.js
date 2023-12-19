@@ -106,6 +106,11 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     <RiFileList3Fill style={iconHome} /> History
                   </Button>
                 </li>
+                <li className={`nav-item${getNavLinkClass("/support-project")}`}>
+                  <Button className="nav-link" type="link" href="/live-history">
+                    <RiFileList3Fill style={iconHome} /> Support Us
+                  </Button>
+                </li>
                 {isAdmin() && (
                   <li className={`nav-item${getNavLinkClass("/admin")}`}>
                     <Button className="nav-link" type="link" href="/admin">
