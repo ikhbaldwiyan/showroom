@@ -133,9 +133,12 @@ const ACTIVITY_LOG_DETAIL = (id) => {
   return `${ADMIN_API}/activity/${id}`
 }
 
-// SHOWROOM WRAPPER
+// SHOWROOM WRAPPED
 const MOST_WATCH = `${SHOWROOM_WRAPPED}/most-watch`;
 const PREMIUM_LIVES = `${SHOWROOM_WRAPPED}/premium-lives`;
+
+// SUPPORT PROJECT
+const LIST_DONATOR = `${ADMIN_API}/discord/role?type=donator`
 
 export {
   API,
@@ -190,5 +193,6 @@ export {
   ACTIVITY_LOG_DETAIL,
   TODAY_SCHEDULE_API,
   MOST_WATCH,
-  PREMIUM_LIVES
+  PREMIUM_LIVES,
+  LIST_DONATOR
 };
