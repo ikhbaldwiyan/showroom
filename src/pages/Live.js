@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Row, Col, Container, Input, FormFeedback } from "reactstrap";
+import { Row, Col, Input, FormFeedback } from "reactstrap";
 import { useParams } from "react-router-dom";
 import {
+  DETAIL_USER,
   LIVE_STREAM_URL,
   PROFILE_API,
   TODAY_SCHEDULE_API
@@ -189,6 +190,28 @@ function Live(props) {
       }, 2000);
     }
   }, [user, room_name, roomId]);
+
+  useEffect(() => {
+   const updateAvatarUser =  async () => {
+    const API_USER = DETAIL_USER(getSession()?.userProfile?.user_id)
+    const user = await axios.get(API_USER);
+
+    if (!user?.data?.avatar) {
+      axios
+        .put(API_USER, {
+          avatar: getSession()?.profile?.avatar_url
+        })
+        .then((res) => {
+          activityLog({
+            userId: user?.data?._id,
+            logName: "User",
+            description: `Update avatar image`,
+          });
+        });
+    }
+   }
+   updateAvatarUser()
+  }, [])
 
   return (
     <MainLayout
