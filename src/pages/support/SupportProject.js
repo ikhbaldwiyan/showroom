@@ -24,8 +24,8 @@ const SupportProject = () => {
   const handleDonateClick = () => {
     window.open("https://saweria.co/Inzoid");
     activityLog({
-      logName: "Support Project",
-      description: "donate saweria button click",
+      logName: "Donate",
+      description: "Donate saweria button click",
       userId: getSession()?.userProfile?._id ?? "64e2090061ec79ea209a0160",
     });
   };
