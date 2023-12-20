@@ -55,6 +55,7 @@ const Register = (props) => {
           .post(CREATE_USER, {
             user_id: accountId,
             name: response.data.profile.name,
+            avatar: response?.data?.profile?.avatar_url
           })
           .then((res) => {
             activityLog({
