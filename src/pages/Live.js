@@ -137,6 +137,11 @@ function Live(props) {
   useEffect(() => {
     setSession(getSession().session);
     setSecretKey(secretKey);
+
+    if (roomId === "332503" && url?.length > 1) {
+      setIsPremiumLive(true)
+    }
+    
     if (isPremiumLive) {
       activityLog({
         logName: "Premium Live",
@@ -145,6 +150,7 @@ function Live(props) {
         liveId: cookiesLoginId
       });
     }
+
   }, [isPremiumLive]);
 
   const [refreshKey, setRefreshKey] = useState(0);
