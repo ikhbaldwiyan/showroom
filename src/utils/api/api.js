@@ -34,7 +34,7 @@ const RECENT_LIVE_LOG_API = (
   search = "",
   roomId = ""
 ) => {
-  return `${SHOWROOM_LOG_API}/recent?sort=${sort}&page=${page}&filter=${filter}&order=${order}&perpage=${perpage}&search=${search}&room_id=${roomId}`;
+  return `${SHOWROOM_LOG_API}/recent?sort=${sort}&page=${page}&filter=${filter}&order=${order}&perpage=${perpage}&search=${search}&room_id=${roomId}&group=jkt48`;
 };
 
 const DETAIL_LIVE_HISTORY = (id) => {
