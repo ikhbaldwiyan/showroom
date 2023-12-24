@@ -140,6 +140,12 @@ const PREMIUM_LIVES = `${SHOWROOM_WRAPPED}/premium-lives`;
 // SUPPORT PROJECT
 const LIST_DONATOR = `${ADMIN_API}/discord/role?type=donator`
 
+//IDN LIVES
+const ROOM_LIVES_IDN = `${SHOWROOM_LOG_API}/idn_lives`;
+const ROOM_LIVE_IDN_DETAIL = (slug) => {
+  return `${SHOWROOM_LOG_API}/watch/${slug}/idn`
+}
+
 export {
   API,
   ROOM_LIST_API,
@@ -194,5 +200,7 @@ export {
   TODAY_SCHEDULE_API,
   MOST_WATCH,
   PREMIUM_LIVES,
-  LIST_DONATOR
+  LIST_DONATOR,
+  ROOM_LIVES_IDN,
+  ROOM_LIVE_IDN_DETAIL
 };
