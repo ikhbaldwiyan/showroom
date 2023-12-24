@@ -42,7 +42,7 @@ const IDNLiveList = () => {
                     </div>
                     <figure className="img-wrapper">
                       <img
-                        src={item.image}
+                        src={item.user.avatar}
                         alt={item.user.name}
                         className="img-cover"
                       />
