@@ -12,7 +12,7 @@ export default function Player({ url, views, idnUrl }) {
         <a href={idnUrl} target="_blank" rel="noreferrer">
           <img
             className="mt-1"
-            width={100}
+            width={90}
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/IDN_Live.svg/1024px-IDN_Live.svg.png"
             alt="idn live"
           />
