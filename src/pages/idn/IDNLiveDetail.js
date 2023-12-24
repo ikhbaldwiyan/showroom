@@ -94,7 +94,7 @@ const IDNLiveDetail = () => {
                           <Link
                             to={(location) => ({
                               ...location,
-                              pathname: `/idn/${data.user.username}/${data.slug}`,
+                              pathname: `/idn/${data.user.username}`,
                             })}
                           >
                             <Button color="info">
