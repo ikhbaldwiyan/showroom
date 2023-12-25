@@ -202,7 +202,7 @@ function Live(props) {
     const API_USER = DETAIL_USER(getSession()?.userProfile?.user_id)
     const user = await axios.get(API_USER);
 
-    if (!user?.data?.avatar) {
+    if ((!user?.data?.avatar || user?.data?.avatar !== getSession()?.profile?.avatar_url)) {
       axios
         .put(API_USER, {
           avatar: getSession()?.profile?.avatar_url
