@@ -8,7 +8,7 @@ import axios from "axios";
 import { RiBroadcastFill, RiLiveFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
-const RoomListIDN = () => {
+const RoomListIDN = ({ currentRoom }) => {
   const [room, setRoom] = useState([]);
 
   useEffect(() => {
@@ -19,10 +19,10 @@ const RoomListIDN = () => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [currentRoom]);
 
   return (
-    <div className="scroll-room">
+    <div className="scroll-room rounded">
       <Table dark>
         <thead className="room-list">
           <tr>
@@ -61,7 +61,11 @@ const RoomListIDN = () => {
                       pathname: `/idn/${data.user.username}`,
                     })}
                   >
-                    <Button color="info">
+                    <Button
+                      color={
+                        currentRoom === data.user.username ? "success" : "info"
+                      }
+                    >
                       <RiLiveFill className="mb-1" />
                     </Button>
                   </Link>

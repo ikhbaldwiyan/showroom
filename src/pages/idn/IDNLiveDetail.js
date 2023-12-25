@@ -41,7 +41,7 @@ const IDNLiveDetail = () => {
             </div>
           </Col>
           <Col>
-            <RoomListIDN />
+            <RoomListIDN currentRoom={live?.user?.username} />
           </Col>
         </Row>
       </div>

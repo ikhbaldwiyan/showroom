@@ -2,6 +2,7 @@ import React from "react";
 import ReactPlayer from "react-player";
 import "../../streaming/video.scss";
 import { HiUsers } from "react-icons/hi";
+import { isMobile } from "react-device-detect";
 
 export default function Player({ url, views, idnUrl }) {
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -12,7 +13,7 @@ export default function Player({ url, views, idnUrl }) {
         <a href={idnUrl} target="_blank" rel="noreferrer">
           <img
             className="mt-1"
-            width={90}
+            width={isMobile ? 60 : 90}
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/IDN_Live.svg/1024px-IDN_Live.svg.png"
             alt="idn live"
           />

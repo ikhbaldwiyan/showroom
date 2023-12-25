@@ -240,6 +240,18 @@ section {
   }
 }
 
+@media only screen and (max-width: 450px) {
+  .idn-live {
+    background-color: #21252B;
+  
+    .views {
+      padding: 0.25rem 0.50rem;
+      min-height: 30px;
+      font-size: 14px;
+    }
+  }
+}
+
 .card {
   .tag {
     z-index: 3;
