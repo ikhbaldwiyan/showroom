@@ -65,7 +65,7 @@ const IDNLiveDetail = () => {
   }, [id, live]);
 
   return (
-    <MainLayout title={`IDN Live - ${live?.user?.name}`}>
+    <MainLayout title={`${live?.user?.name} - IDN Live`}>
       <div className="layout">
         <Row>
           <Col md="8">
