@@ -11,6 +11,7 @@ import { IoReload } from "react-icons/io5";
 import { useRef } from "react";
 import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
+import { activityLog } from "utils/activityLog";
 
 const IDNLiveDetail = () => {
   const [live, setLive] = useState("");
@@ -52,8 +53,19 @@ const IDNLiveDetail = () => {
     });
   };
 
+  useEffect(() => {
+    if (getSession().userProfile && live?.stream_url) {
+      activityLog({
+        logName: "Watch",
+        userId: getSession()?.userProfile?._id,
+        description: `Watch IDN Live ${live.user.name}`,
+        liveId: live.slug,
+      });
+    }
+  }, [id, live]);
+
   return (
-    <MainLayout>
+    <MainLayout title={`IDN Live - ${live?.user?.name}`}>
       <div className="layout">
         <Row>
           <Col md="8">
@@ -68,17 +80,17 @@ const IDNLiveDetail = () => {
                 <div className="d-flex mb-3">
                   <h4 className="mr-2">
                     <b>{live?.user?.name}</b> | {live?.title}
-                  <Button
-                    onClick={handleRefresh}
-                    color="secondary"
-                    style={{ borderRadius: "10px" }}
-                    className="ml-3 mb-1"
-                  >
-                    <IoReload
-                      className={`${isRefresh && "spin-animation"}`}
-                      size={20}
-                    />
-                  </Button>
+                    <Button
+                      onClick={handleRefresh}
+                      color="secondary"
+                      style={{ borderRadius: "10px" }}
+                      className="ml-2 mb-1"
+                    >
+                      <IoReload
+                        className={`${isRefresh && "spin-animation"}`}
+                        size={20}
+                      />
+                    </Button>
                   </h4>
                 </div>
               </>
