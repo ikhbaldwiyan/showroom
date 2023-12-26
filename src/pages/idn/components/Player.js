@@ -4,7 +4,7 @@ import "../../streaming/video.scss";
 import { HiUsers } from "react-icons/hi";
 import { isMobile } from "react-device-detect";
 
-export default function Player({ url, views, idnUrl }) {
+export default function Player({ url, views, idnUrl, refreshKey }) {
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
   return (
@@ -26,6 +26,7 @@ export default function Player({ url, views, idnUrl }) {
         </div>
       </div>
       <ReactPlayer
+        key={refreshKey}
         className="react-player"
         config={{
           file: {
