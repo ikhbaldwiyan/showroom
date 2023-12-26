@@ -29,7 +29,7 @@ const IDNLiveDetail = () => {
   }, [id]);
 
   const [refreshKey, setRefreshKey] = useState(0);
-  const [isRefresh, setIsRefresh] = useState(false)
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const playerRef = useRef(null);
 
@@ -48,7 +48,7 @@ const IDNLiveDetail = () => {
       action: "refresh_idn_live",
       category: "Refresh - IDN Live",
       label: "Live Stream",
-      username: getSession()?.profile?.name
+      username: getSession()?.profile?.name,
     });
   };
 
@@ -57,28 +57,34 @@ const IDNLiveDetail = () => {
       <div className="layout">
         <Row>
           <Col md="8">
-            <Player
-              refreshKey={refreshKey}
-              url={live?.stream_url}
-              views={formatNumber(live?.view_count ?? 0)}
-              idnUrl={`https://www.idn.app/${id}/live/${live.slug}`}
-            />
-            <div className="d-flex mb-3">
-              <h4 className="mr-2">
-                <b>{live?.user?.name}</b> | {live?.title}
-              </h4>
-              <Button
-                onClick={handleRefresh}
-                color="secondary"
-                style={{ borderRadius: "10px" }}
-                className="ml-2 mb-1"
-              >
-                <IoReload
-                  className={`${isRefresh && "spin-animation"}`}
-                  size={20}
+            {live?.stream_url ? (
+              <>
+                <Player
+                  refreshKey={refreshKey}
+                  url={live?.stream_url}
+                  views={formatNumber(live?.view_count ?? 0)}
+                  idnUrl={`https://www.idn.app/${id}/live/${live.slug}`}
                 />
-              </Button>
-            </div>
+                <div className="d-flex mb-3">
+                  <h4 className="mr-2">
+                    <b>{live?.user?.name}</b> | {live?.title}
+                  <Button
+                    onClick={handleRefresh}
+                    color="secondary"
+                    style={{ borderRadius: "10px" }}
+                    className="ml-3 mb-1"
+                  >
+                    <IoReload
+                      className={`${isRefresh && "spin-animation"}`}
+                      size={20}
+                    />
+                  </Button>
+                  </h4>
+                </div>
+              </>
+            ) : (
+              <h3>IDN Live Room Offline</h3>
+            )}
           </Col>
           <Col>
             <RoomListIDN currentRoom={live?.user?.username} />
