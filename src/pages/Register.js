@@ -67,7 +67,7 @@ const Register = (props) => {
           });
         gaTag({
           label: "Register Screen",
-          action: "Register Success",
+          action: "register_success",
           category: "Register",
         });
         autoLogin();
@@ -75,7 +75,7 @@ const Register = (props) => {
     } catch (err) {
       gaTag({
         label: "Register Screen",
-        action: "Register Failed",
+        action: "register_failed",
         category: "Register",
       });
       setButtonLoading(false);
@@ -93,7 +93,7 @@ const Register = (props) => {
     localStorage.setItem("profile", JSON.stringify(response.data.profile));
     gaTag({
       label: "Register Screen",
-      action: "Auto Login Success",
+      action: "auto_login_success",
       category: "Register",
     });
 

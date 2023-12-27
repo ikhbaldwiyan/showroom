@@ -14,8 +14,9 @@ import { getSession } from "utils/getSession";
 import { activityLog } from "utils/activityLog";
 
 const IDNLiveDetail = () => {
-  const [live, setLive] = useState("");
   let { id } = useParams();
+  const [live, setLive] = useState("");
+  const { profile , userProfile } = getSession()
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -47,21 +48,31 @@ const IDNLiveDetail = () => {
 
     gaTag({
       action: "refresh_idn_live",
-      category: "Refresh - IDN Live",
+      category: "IDN Live",
       label: "Live Stream",
-      username: getSession()?.profile?.name,
+      username: profile?.name,
+      room: live?.user?.username,
     });
   };
 
   useEffect(() => {
-    if (getSession().userProfile && live?.stream_url) {
+    if (userProfile && live?.stream_url) {
       activityLog({
         logName: "Watch",
-        userId: getSession()?.userProfile?._id,
+        userId: userProfile?._id,
         description: `Watch IDN Live ${live.user.name}`,
         liveId: live.slug,
       });
     }
+
+    gaTag({
+      action: "watch_idn_live",
+      category: "IDN Live",
+      label: "Watch IDN - Live Stream",
+      username: profile?.name,
+      room: live?.user?.username,
+    });
+
   }, [id, live]);
 
   return (
