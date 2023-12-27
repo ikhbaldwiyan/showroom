@@ -56,7 +56,7 @@ const IDNLiveDetail = () => {
   useEffect(() => {
     if (getSession().userProfile && live?.stream_url) {
       activityLog({
-        logName: "IDN",
+        logName: "Watch",
         userId: getSession()?.userProfile?._id,
         description: `Watch IDN Live ${live.user.name}`,
         liveId: live.slug,
