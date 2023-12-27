@@ -197,6 +197,61 @@ section {
   margin-bottom: 70px;
 }
 
+.idn-live {
+  background-color: #21252B;
+  .logo {
+    z-index: 99;
+    cursor: pointer;
+    font-size: 0.875rem;
+    background-color:white;
+    padding: 0.25rem 1rem;
+    position: absolute;
+    top: 0; right:0;
+    color: $white;
+    min-height: 30px;
+    border-radius: 0 8px 0 15px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    span {
+      font-weight: 300;
+    }
+  }
+
+  .views {
+    z-index: 3;
+    font-size: 0.875rem;
+    background-color:#dc3545;
+    padding: 0.25rem 1rem;
+    position: absolute;
+    top: 0; left:0;
+    color: $white;
+    min-height: 40px;
+    border-radius: 8px 0 15px 0;
+    font-weight: 400;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    span {
+      font-weight: 300;
+    }
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .idn-live {
+    background-color: #21252B;
+  
+    .views {
+      padding: 0.25rem 0.50rem;
+      min-height: 30px;
+      font-size: 14px;
+    }
+  }
+}
+
 .card {
   .tag {
     z-index: 3;

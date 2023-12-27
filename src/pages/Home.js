@@ -24,6 +24,7 @@ import ModalInfo from "parts/ModalInfo";
 import RecentLive from "parts/RecentLive";
 import WrappedAlert from "components/WrappedAlert";
 import { isMobile } from "react-device-detect";
+import IDNLiveList from "pages/idn/IDNLiveList";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -116,6 +117,7 @@ function Home(props) {
           {allMember ? (
             <>
               <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
+              <IDNLiveList />
               <RoomUpcoming search={search} room={memberRegular} />
               <PremiumLive theme={props.theme} />
               <RecentLive isSearch={search} />

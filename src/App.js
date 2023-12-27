@@ -26,6 +26,7 @@ import PremiumLiveList from "pages/admin/premium-live/PremiumLiveList";
 import ActivityLogList from "pages/admin/activity/ActivityLogList";
 import ShowroomWrapped from "pages/wrapper/ShowroomWrapped";
 import SupportProject from "pages/support/SupportProject";
+import IDNLiveDetail from "pages/idn/IDNLiveDetail";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -58,6 +59,7 @@ function App(props) {
         <Route path="/activity" component={() => <ActivityLogList {...props} />} />
         <Route path="/wrapped" component={() => <ShowroomWrapped {...props} />} />
         <Route path="/support-project" component={() => <SupportProject {...props} />} />
+        <Route path="/idn/:id" component={() => <IDNLiveDetail {...props} />} />
       </div>
     </ThemeProvider>
   );
