@@ -16,7 +16,7 @@ import { activityLog } from "utils/activityLog";
 const IDNLiveDetail = () => {
   let { id } = useParams();
   const [live, setLive] = useState("");
-  const { profile , userProfile } = getSession()
+  const { profile , userProfile } = getSession();
 
   useEffect(() => {
     window.scrollTo(0, 0);

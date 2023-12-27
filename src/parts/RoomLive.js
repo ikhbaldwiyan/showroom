@@ -51,7 +51,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
 
   return isLive ? (
     <div className="mb-4">
-      <h3 className="mb-3"> {isLoading && "Loading"} Room Live </h3>
+      <h3 className="mb-3"> {isLoading && "Loading"} Showroom Live </h3>
       {isLoading && !isMobile ? (
         <SkeletonLive theme={theme} liveLength={roomLive.length} />
       ) : filteredLive.length !== 0 ? (
