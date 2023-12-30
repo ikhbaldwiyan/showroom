@@ -61,7 +61,7 @@ const SupportProject = () => {
             <img
               className="rounded-large"
               width="100%"
-              src="https://media.discordapp.net/attachments/1108380195175551047/1185638815025606706/image.png?ex=65905731&is=657de231&hm=2f4a8bbb352252f9ca510024be562aa42de256ee6122743c54ef3d3db3549ed8&=&format=webp&quality=lossless&width=1920&height=514"
+              src="https://media.discordapp.net/attachments/1108380195175551047/1190520868728746104/image.png?ex=65a219f5&is=658fa4f5&hm=1072fbaad5f9f0b4432d56aafeaf87618af74be445d01f34bb43c270e9b5f029&=&format=webp&quality=lossless&width=1440&height=381"
               alt="donate"
             />
           </Col>
