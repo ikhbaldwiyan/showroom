@@ -12,6 +12,7 @@ import { useRef } from "react";
 import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
 import { activityLog } from "utils/activityLog";
+import Podium from "components/Podium";
 
 const IDNLiveDetail = () => {
   let { id } = useParams();
@@ -104,6 +105,7 @@ const IDNLiveDetail = () => {
                     </Button>
                   </h4>
                 </div>
+                <Podium liveId={live.slug} isIDNLive />
               </>
             ) : (
               <h3>IDN Live Room Offline</h3>

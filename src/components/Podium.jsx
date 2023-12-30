@@ -1,15 +1,19 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { PODIUM_STAGE } from "utils/api/api";
+import { PODIUM_STAGE, PODIUM_STAGE_IDN } from "utils/api/api";
 
-const Podium = ({ liveId }) => {
+const Podium = ({ liveId, isIDNLive }) => {
   const [users, setUsers] = useState([]);
+  const [views, setViews] = useState()
+
+  const API = isIDNLive ? PODIUM_STAGE_IDN(liveId) : PODIUM_STAGE(liveId);
 
   useEffect(() => {
     try {
-      axios.get(PODIUM_STAGE(liveId)).then((res) => {
+      axios.get(API).then((res) => {
         setUsers(res?.data?.activityLog?.watch);
+        setViews(res?.data?.liveData?.users)
       });
     } catch (error) {}
   }, [liveId]);
