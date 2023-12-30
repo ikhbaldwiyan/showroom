@@ -35,6 +35,7 @@ function Title({
   isPremiumLive,
   showTitle,
   refresh,
+  setLiveId
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -77,6 +78,7 @@ function Title({
           const profiles = res.data;
           setProfile(profiles);
           setTitle(profiles.title);
+          setLiveId(profiles.websocket.live_id)
           !isMultiRoom && setIsPremiumLive(profiles.isPremiumLive);
         },
         [profile]

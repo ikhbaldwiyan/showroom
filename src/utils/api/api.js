@@ -146,6 +146,10 @@ const ROOM_LIVE_IDN_DETAIL = (slug) => {
   return `${SHOWROOM_LOG_API}/watch/${slug}/idn`
 }
 
+const PODIUM_STAGE = (liveId) => {
+  return `${ADMIN_API}/history-live/${liveId}`
+}
+
 export {
   API,
   ROOM_LIST_API,
@@ -202,5 +206,6 @@ export {
   PREMIUM_LIVES,
   LIST_DONATOR,
   ROOM_LIVES_IDN,
-  ROOM_LIVE_IDN_DETAIL
+  ROOM_LIVE_IDN_DETAIL,
+  PODIUM_STAGE
 };

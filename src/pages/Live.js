@@ -38,6 +38,7 @@ import { getRoomDetailSucces } from "redux/actions/roomDetail";
 import { activityLog } from "utils/activityLog";
 import { showToast } from "utils/showToast";
 import HistoryLive from "parts/HistoryLive";
+import Podium from "components/Podium";
 
 function Live(props) {
   let { id, name } = useParams();
@@ -63,7 +64,8 @@ function Live(props) {
   const [member, setMember] = useState([]);
   const [isPremiumLive, setIsPremiumLive] = useState(false);
   const [title, setTitle] = useState("");
-  const [isRefresh, setIsRefresh] = useState(false)
+  const [isRefresh, setIsRefresh] = useState(false);
+  const [liveId, setLiveId] = useState("")
   
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
   const dispatch = useDispatch();
@@ -256,7 +258,9 @@ function Live(props) {
                     setIsPremiumLive={setIsPremiumLive}
                     showTitle={title}
                     refresh={isRefresh}
+                    setLiveId={setLiveId}
                   />
+                  <Podium liveId={liveId} />
                   {session && !isMobile && !hideStars && !secretKey && (
                     <div className="d-none">
                       <StarButton

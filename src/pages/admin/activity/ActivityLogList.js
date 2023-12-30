@@ -25,7 +25,7 @@ const ActivityLogList = (props) => {
 
   useEffect(() => {
     axios.get(ACTIVITY_LOG).then((res) => {
-      setLogData(res.data);
+      setLogData(res.data.data.lists);
     });
   }, [showConfirmModal]);
 
