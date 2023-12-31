@@ -9,17 +9,34 @@ const Podium = ({ liveId, isIDNLive }) => {
 
   const API = isIDNLive ? PODIUM_STAGE_IDN(liveId) : PODIUM_STAGE(liveId);
 
-  useEffect(() => {
+  const fetchPodium = async () => {
     try {
-      axios.get(API).then((res) => {
-        setUsers(res?.data?.activityLog?.watch);
-        setViews(res?.data?.liveData?.users)
-      });
-    } catch (error) {}
-  }, [liveId]);
+      const res = await axios.get(API);
+      setUsers(res?.data?.activityLog?.watch.reverse());
+      setViews(res?.data?.liveData?.users);
+    } catch (error) {
+      console.error("Error fetching user data: ", error);
+    }
+  };
+  
+  useEffect(() => {
+    setTimeout(() => {
+      fetchPodium(); 
+    }, 1000);
+  
+    // Set interval to fetch data every 2 minutes
+    const interval = setInterval(() => {
+      fetchPodium();
+    }, 2 * 60 * 1000); // 2 minutes in milliseconds
+  
+    return () => clearInterval(interval);
+  }, [liveId, views]);
 
-  return (
+  return users?.length > 0 && (
     <div className="podium my-2">
+      <div className="podium-views">
+        <b>{views ?? 0}</b>
+      </div>
       <div className="stage-name mt-1">
         {users?.slice(0, 10)?.map((item, idx) => (
           <div key={idx} className="podium-list">
