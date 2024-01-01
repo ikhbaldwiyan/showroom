@@ -98,7 +98,6 @@ function Home(props) {
     <MainLayout {...props}>
       <div className="layout my-0 mb-4">
         <ModalInfo />
-        <WrappedAlert />
         {isMobile && (
           <AlertInfo />
         )}

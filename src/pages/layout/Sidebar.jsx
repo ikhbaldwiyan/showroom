@@ -52,19 +52,6 @@ const Sidebar = () => {
       link: "/room/officialJKT48/332503",
     },
     {
-      name: "Wrapped ",
-      icon: (
-        <BsCollectionPlayFill
-          style={{
-            marginBottom: 4,
-            fontSize: "24px",
-            marginRight: "8px",
-          }}
-        />
-      ),
-      link: "/wrapped",
-    },
-    {
       name: "Multi Room",
       icon: <HiUsers style={iconHome} />,
       link: "/multi-room",

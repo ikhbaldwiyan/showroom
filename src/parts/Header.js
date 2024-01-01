@@ -82,15 +82,6 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                   <Button
                     className="nav-link"
                     type="link"
-                    href="/wrapped"
-                  >
-                    <BsCollectionPlayFill style={iconHome} /> Wrapped
-                  </Button>
-                </li>
-                <li className={`nav-item${getNavLinkClass(roomUrl)}`}>
-                  <Button
-                    className="nav-link"
-                    type="link"
                     href="/room/officialJKT48/332503"
                   >
                     <RiBroadcastFill style={iconHome} /> Live Stream
