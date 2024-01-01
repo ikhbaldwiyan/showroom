@@ -31,7 +31,7 @@ const SupportProject = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title="Support Project">
       <div className="layout">
         <Row>
           <Col md="6">
