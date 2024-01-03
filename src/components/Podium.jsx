@@ -33,7 +33,7 @@ const Podium = ({ liveId, isIDNLive }) => {
     return () => clearInterval(interval);
   }, [liveId, views]);
 
-  const userResponsive = isMobile ? 4 : 10;
+  const userResponsive = isMobile ? 4 : 9;
 
   return (
     users?.length > 0 && (
@@ -48,7 +48,7 @@ const Podium = ({ liveId, isIDNLive }) => {
             paddingRight: "10px",
           }}
         >
-          <div className="stage-name mt-1">
+          <div className="stage-name mt-2">
             {users?.map((item, idx) => (
               <div key={idx} className="podium-list">
                 <img
