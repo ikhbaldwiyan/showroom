@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { isMobile } from "react-device-detect";
 import { PODIUM_STAGE, PODIUM_STAGE_IDN } from "utils/api/api";
 
 const Podium = ({ liveId, isIDNLive }) => {
   const [users, setUsers] = useState([]);
-  const [views, setViews] = useState()
+  const [views, setViews] = useState();
 
   const API = isIDNLive ? PODIUM_STAGE_IDN(liveId) : PODIUM_STAGE(liveId);
 
@@ -18,34 +19,55 @@ const Podium = ({ liveId, isIDNLive }) => {
       console.error("Error fetching user data: ", error);
     }
   };
-  
+
   useEffect(() => {
     setTimeout(() => {
-      fetchPodium(); 
+      fetchPodium();
     }, 1000);
-  
+
     // Set interval to fetch data every 2 minutes
     const interval = setInterval(() => {
       fetchPodium();
     }, 2 * 60 * 1000); // 2 minutes in milliseconds
-  
+
     return () => clearInterval(interval);
   }, [liveId, views]);
 
-  return users?.length > 0 && (
-    <div className="podium my-2">
-      <div className="podium-views">
-        <b>{views ?? 0}</b>
-      </div>
-      <div className="stage-name mt-1">
-        {users?.slice(0, 10)?.map((item, idx) => (
-          <div key={idx} className="podium-list">
-            <img width={50} src={item.user.avatar} alt="tes" />
-            <p className="podium-name">{item.user.name.slice(0, 9)}</p>
+  const userResponsive = isMobile ? 4 : 10;
+
+  return (
+    users?.length > 0 && (
+      <div className="podium my-2">
+        <div className="podium-views">
+          <b>{views ?? 0}</b>
+        </div>
+        <div
+          style={{
+            overflowX: users?.length >= userResponsive && "scroll",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+          }}
+        >
+          <div className="stage-name mt-1">
+            {users?.map((item, idx) => (
+              <div key={idx} className="podium-list">
+                <img
+                  width={50}
+                  src={
+                    item.user.avatar ??
+                    "https://static.showroom-live.com/image/avatar/1028686.png?v=100"
+                  }
+                  alt="avatar"
+                />
+                <p className="podium-name">
+                  {item.user.name.replace(" ", "").slice(0, 9)}
+                </p>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
-    </div>
+    )
   );
 };
 
