@@ -13,6 +13,7 @@ const RoomMulti = ({
   setRoomTwo,
   setRoomThree,
   setRoomFour,
+  layout,
 }) => {
   const [room, setRoom] = useState([]);
   const [menu, setMenu] = useState("roomOne");
@@ -32,9 +33,7 @@ const RoomMulti = ({
       <Table dark>
         <thead className="room-list">
           <tr>
-            <th>Image</th>
-            <th className="text-center">Name</th>
-            <th>Room</th>
+            <th colSpan={3}>Room List</th>
           </tr>
         </thead>
         {room?.map((data, idx) => (
@@ -99,19 +98,26 @@ const RoomMulti = ({
         >
           Room 2
         </Button>
-        {/* <Button
-          onClick={() => setMenu("roomThree")}
-          color={buttonActive("roomThree")}
-        >
-          Room 3
-        </Button> */}
-        {/* <Button
-          onClick={() => setMenu("roomFour")}
-          color={buttonActive("roomFour")}
-        >
-          Room 4
-        </Button> */}
+
+        {(layout === "threeRoom" || layout === "fourRoom") && (
+          <Button
+            onClick={() => setMenu("roomThree")}
+            color={buttonActive("roomThree")}
+          >
+            Room 3
+          </Button>
+        )}
+
+        {layout === "fourRoom" && (
+          <Button
+            onClick={() => setMenu("roomFour")}
+            color={buttonActive("roomFour")}
+          >
+            Room 4
+          </Button>
+        )}
       </div>
+
       {menu === "roomOne" ? (
         <RoomList setRoom={setRoomOne} />
       ) : menu === "roomTwo" ? (

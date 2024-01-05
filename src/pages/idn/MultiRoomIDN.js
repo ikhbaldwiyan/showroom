@@ -1,67 +1,112 @@
-import axios from "axios";
 import MainLayout from "pages/layout/MainLayout";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { Col, Row } from "reactstrap";
-import { ROOM_LIVE_IDN_DETAIL } from "utils/api/api";
+import { useState } from "react";
+import { Button, Col, Row } from "reactstrap";
 
-import { gaTag } from "utils/gaTag";
-import { getSession } from "utils/getSession";
-import { activityLog } from "utils/activityLog";
 import RoomMulti from "./components/RoomMulti";
-import { RoomPlayer } from "./components/RoomPlayer";
+import RoomPlayer from "./components/RoomPlayer";
 
 const MultiRoomIDN = () => {
-  let { id } = useParams();
-  const [live, setLive] = useState("");
-  const { profile, userProfile } = getSession();
   const [roomOne, setRoomOne] = useState("");
   const [roomTwo, setRoomTwo] = useState("");
+  const [roomThree, setRoomThree] = useState("");
+  const [roomFour, setRoomFour] = useState("");
+  const [layout, setLayout] = useState(
+    localStorage.getItem("multi_room_idn") ?? "twoRoom"
+  );
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
+  const ChooseRoom = () => (
+    <RoomMulti
+      setRoomOne={setRoomOne}
+      setRoomTwo={setRoomTwo}
+      setRoomThree={setRoomThree}
+      setRoomFour={setRoomFour}
+      layout={layout}
+    />
+  );
 
-    try {
-      axios.get(ROOM_LIVE_IDN_DETAIL(id)).then((res) => {
-        setLive(res.data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (userProfile && live?.stream_url) {
-      activityLog({
-        logName: "Watch",
-        userId: userProfile?._id,
-        description: `Watch Multi Room IDN Live`,
-        liveId: live.slug,
-      });
-    }
-
-    gaTag({
-      action: "watch_idn_live",
-      category: "IDN Live",
-      label: "Watch IDN - Live Stream",
-      username: profile?.name,
-      room: live?.user?.username,
-    });
-  }, [id, live]);
+  const settingsLayout = (type) => {
+    setLayout(type);
+    localStorage.setItem("multi_room_idn", type);
+  };
 
   return (
-    <MainLayout title={`Multi Room - IDN Live`}>
+    <MainLayout title="Multi Room - IDN Live">
       <div className="layout">
         <Row>
-          <Col md="4">
-            <RoomPlayer number="1" data={roomOne} />
+          <Col md="12" className="mb-3">
+            <Button
+              className="mr-2"
+              color="info"
+              onClick={() => settingsLayout("twoRoom")}
+            >
+              2 Room
+            </Button>
+            <Button
+              className="mr-2"
+              color="info"
+              onClick={() => settingsLayout("threeRoom")}
+            >
+              3 Room
+            </Button>
+            <Button
+              className="mr-1"
+              color="info"
+              onClick={() => settingsLayout("fourRoom")}
+            >
+              4 Room
+            </Button>
           </Col>
-          <Col md="4">
-            <RoomPlayer number="2" data={roomTwo} />
-          </Col>
-          <Col md="4">
-            <RoomMulti setRoomOne={setRoomOne} setRoomTwo={setRoomTwo} />
-          </Col>
+
+          {layout === "twoRoom" && (
+            <>
+              <Col md="4">
+                <RoomPlayer number="1" data={roomOne} layout={layout} />
+              </Col>
+              <Col md="4">
+                <RoomPlayer number="2" data={roomTwo} layout={layout} />
+              </Col>
+              <Col md="4">
+                <ChooseRoom />
+              </Col>
+            </>
+          )}
+
+          {layout === "threeRoom" && (
+            <>
+              <Col md="3">
+                <RoomPlayer number="1" data={roomOne} layout={layout} />
+              </Col>
+              <Col md="3">
+                <RoomPlayer number="2" data={roomTwo} layout={layout} />
+              </Col>
+              <Col md="3">
+                <RoomPlayer number="3" data={roomThree} layout={layout} />
+              </Col>
+              <Col md="3">
+                <ChooseRoom />
+              </Col>
+            </>
+          )}
+
+          {layout === "fourRoom" && (
+            <>
+              <Col md="3">
+                <RoomPlayer number="1" data={roomOne} layout={layout} />
+              </Col>
+              <Col md="3">
+                <RoomPlayer number="2" data={roomTwo} layout={layout} />
+              </Col>
+              <Col md="3">
+                <RoomPlayer number="3" data={roomThree} layout={layout} />
+              </Col>
+              <Col md="3">
+                <RoomPlayer number="4" data={roomFour} layout={layout} />
+              </Col>
+              <Col md="12" className="mt-3">
+                <ChooseRoom />
+              </Col>
+            </>
+          )}
         </Row>
       </div>
     </MainLayout>
