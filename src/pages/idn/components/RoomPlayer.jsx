@@ -38,8 +38,8 @@ export const RoomPlayer = ({ data, number, layout }) => {
               <b>{data?.user?.name.replace("JKT48", "")}</b>
             </h5>
 
-            <Button isPrimary style={{ borderRadius: "6px" }}>
-              <FaUser className="mb-1" /> {formatNumber(data?.view_count)}
+            <Button isPrimary style={{ borderRadius: "6px", backgroundColor: "#007bff" }}>
+              <FaUser size={14} className="mb-1" /> {formatNumber(data?.view_count)}
             </Button>
           </div>
         </>

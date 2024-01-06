@@ -4,6 +4,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import MainLayout from "pages/layout/MainLayout";
 import RoomMulti from "./components/RoomMulti";
 import RoomPlayer from "./components/RoomPlayer";
+import useWindowDimensions from "utils/useWindowDimension";
 
 const MultiRoomIDN = () => {
   const [roomOne, setRoomOne] = useState("");
@@ -19,6 +20,8 @@ const MultiRoomIDN = () => {
     setLayout(type);
     localStorage.setItem("multi_room_idn", type);
   };
+
+  const { width } = useWindowDimensions();
 
   const layoutColumns = useMemo(() => {
     if (layout === "twoRoom") {
@@ -72,11 +75,11 @@ const MultiRoomIDN = () => {
     if (layout === "twoRoom") {
       setColumn("4");
     } else if (layout === "threeRoom") {
-      setColumn("3");
+      setColumn(width > 1500 ? "3" : "12");
     } else if (layout === "fourRoom") {
       setColumn("12");
     }
-  }, [column, layout]);
+  }, [column, layout, width]);
 
   return (
     <MainLayout title="Multi Room - IDN Live">

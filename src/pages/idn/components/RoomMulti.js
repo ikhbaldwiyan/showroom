@@ -17,6 +17,7 @@ import axios from "axios";
 import { RiBroadcastFill, RiLiveFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { FaUsers, FaUsersCog } from "react-icons/fa";
+import { IoReload } from "react-icons/io5";
 
 const RoomMulti = ({
   currentRoom,
@@ -29,6 +30,7 @@ const RoomMulti = ({
 }) => {
   const [room, setRoom] = useState([]);
   const [activeTab, setActiveTab] = useState("roomOne");
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     try {
@@ -38,7 +40,7 @@ const RoomMulti = ({
     } catch (error) {
       console.log(error);
     }
-  }, [currentRoom]);
+  }, [refresh, layout]);
 
   const toggleTab = (tab) => {
     if (activeTab !== tab) {
@@ -163,6 +165,12 @@ const RoomMulti = ({
             </NavLink>
           </NavItem>
         )}
+
+        <NavItem>
+          <NavLink onClick={() => setRefresh(!refresh)}>
+            <IoReload />
+          </NavLink>
+        </NavItem>
       </Nav>
 
       <TabContent activeTab={activeTab}>
