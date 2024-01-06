@@ -1,11 +1,12 @@
 import React from "react";
-import { Table, Button } from "reactstrap";
+import { Table, Button, Col, Row } from "reactstrap";
 import LiveButton from "elements/Button";
 import { useState, useEffect } from "react";
 import { ROOM_LIVES_IDN } from "utils/api/api";
 import axios from "axios";
 import { RiBroadcastFill, RiLiveFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { FaUsers, FaUsersCog } from "react-icons/fa";
 
 const RoomMulti = ({
   currentRoom,
@@ -14,6 +15,7 @@ const RoomMulti = ({
   setRoomThree,
   setRoomFour,
   layout,
+  settingsLayout,
 }) => {
   const [room, setRoom] = useState([]);
   const [menu, setMenu] = useState("roomOne");
@@ -85,6 +87,31 @@ const RoomMulti = ({
 
   return (
     <div>
+      <Row>
+        <Col md="12" className="mb-3">
+          <Button
+            className="mr-2"
+            color="secondary"
+            onClick={() => settingsLayout("twoRoom")}
+          >
+            Reset
+          </Button>
+          <Button
+            className="mr-2"
+            color="info"
+            onClick={() => settingsLayout("threeRoom")}
+          >
+            <FaUsers /> Set 3
+          </Button>
+          <Button
+            className="mr-1"
+            color="info"
+            onClick={() => settingsLayout("fourRoom")}
+          >
+            <FaUsersCog /> Set 4
+          </Button>
+        </Col>
+      </Row>
       <div className="d-flex mb-2">
         <Button
           onClick={() => setMenu("roomOne")}

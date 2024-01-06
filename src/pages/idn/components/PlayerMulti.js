@@ -2,7 +2,7 @@ import React from "react";
 import ReactPlayer from "react-player";
 import "../../streaming/video.scss";
 
-export default function PlayerMulti({ url, idnUrl, refreshKey }) {
+export default function PlayerMulti({ url, number, refreshKey }) {
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
   return (
@@ -20,6 +20,7 @@ export default function PlayerMulti({ url, idnUrl, refreshKey }) {
         width="100%"
         height="width%"
         playing={true}
+        muted={number != 1}
       />
     </div>
   );
