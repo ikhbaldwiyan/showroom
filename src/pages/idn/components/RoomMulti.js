@@ -1,7 +1,17 @@
-import React from "react";
-import { Table, Button, Col, Row } from "reactstrap";
+import React, { useState, useEffect } from "react";
+import {
+  Table,
+  Button,
+  Col,
+  Row,
+  Badge,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+} from "reactstrap";
 import LiveButton from "elements/Button";
-import { useState, useEffect } from "react";
 import { ROOM_LIVES_IDN } from "utils/api/api";
 import axios from "axios";
 import { RiBroadcastFill, RiLiveFill } from "react-icons/ri";
@@ -18,7 +28,7 @@ const RoomMulti = ({
   settingsLayout,
 }) => {
   const [room, setRoom] = useState([]);
-  const [menu, setMenu] = useState("roomOne");
+  const [activeTab, setActiveTab] = useState("roomOne");
 
   useEffect(() => {
     try {
@@ -30,14 +40,15 @@ const RoomMulti = ({
     }
   }, [currentRoom]);
 
+  const toggleTab = (tab) => {
+    if (activeTab !== tab) {
+      setActiveTab(tab);
+    }
+  };
+
   const RoomList = ({ setRoom }) => (
     <div className="scroll-room rounded">
       <Table dark>
-        <thead className="room-list">
-          <tr>
-            <th colSpan={3}>Room List</th>
-          </tr>
-        </thead>
         {room?.map((data, idx) => (
           <tbody key={idx}>
             <tr>
@@ -82,78 +93,92 @@ const RoomMulti = ({
   );
 
   const buttonActive = (isActive) => {
-    return isActive === menu ? "danger mr-1" : "info mr-1";
+    return isActive === activeTab ? "active-nav-idn mr-1" : "inactive-nav mr-1";
   };
 
   return (
     <div>
       <Row>
         <Col md="12" className="mb-3">
-          <Button
+          <Badge
             className="mr-2"
             color="secondary"
             onClick={() => settingsLayout("twoRoom")}
           >
             Reset
-          </Button>
-          <Button
+          </Badge>
+          <Badge
             className="mr-2"
-            color="info"
+            color="light"
             onClick={() => settingsLayout("threeRoom")}
           >
-            <FaUsers /> Set 3
-          </Button>
-          <Button
+            <FaUsers /> Set 3 Room
+          </Badge>
+          <Badge
             className="mr-1"
-            color="info"
+            color="light"
             onClick={() => settingsLayout("fourRoom")}
           >
-            <FaUsersCog /> Set 4
-          </Button>
+            <FaUsersCog /> Set 4 Room
+          </Badge>
         </Col>
       </Row>
-      <div className="d-flex mb-2">
-        <Button
-          onClick={() => setMenu("roomOne")}
-          color={buttonActive("roomOne")}
-        >
-          Room 1
-        </Button>
-        <Button
-          onClick={() => setMenu("roomTwo")}
-          color={buttonActive("roomTwo")}
-        >
-          Room 2
-        </Button>
+
+      <Nav className="select-room" tabs>
+        <NavItem>
+          <NavLink
+            className={buttonActive("roomOne")}
+            onClick={() => toggleTab("roomOne")}
+          >
+            Room 1
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={buttonActive("roomTwo")}
+            onClick={() => toggleTab("roomTwo")}
+          >
+            Room 2
+          </NavLink>
+        </NavItem>
 
         {(layout === "threeRoom" || layout === "fourRoom") && (
-          <Button
-            onClick={() => setMenu("roomThree")}
-            color={buttonActive("roomThree")}
-          >
-            Room 3
-          </Button>
+          <NavItem>
+            <NavLink
+              className={buttonActive("roomThree")}
+              onClick={() => toggleTab("roomThree")}
+            >
+              Room 3
+            </NavLink>
+          </NavItem>
         )}
 
         {layout === "fourRoom" && (
-          <Button
-            onClick={() => setMenu("roomFour")}
-            color={buttonActive("roomFour")}
-          >
-            Room 4
-          </Button>
+          <NavItem>
+            <NavLink
+              className={buttonActive("roomFour")}
+              onClick={() => toggleTab("roomFour")}
+            >
+              Room 4
+            </NavLink>
+          </NavItem>
         )}
-      </div>
+      </Nav>
 
-      {menu === "roomOne" ? (
-        <RoomList setRoom={setRoomOne} />
-      ) : menu === "roomTwo" ? (
-        <RoomList setRoom={setRoomTwo} />
-      ) : menu === "roomThree" ? (
-        <RoomList setRoom={setRoomThree} />
-      ) : (
-        <RoomList setRoom={setRoomFour} />
-      )}
+      <TabContent activeTab={activeTab}>
+        <TabPane tabId="roomOne">
+          <RoomList setRoom={setRoomOne} />
+        </TabPane>
+        <TabPane tabId="roomTwo">
+          <RoomList setRoom={setRoomTwo} />
+        </TabPane>
+        <TabPane tabId="roomThree">
+          <RoomList setRoom={setRoomThree} />
+        </TabPane>
+        <TabPane tabId="roomFour">
+          <RoomList setRoom={setRoomFour} />
+        </TabPane>
+      </TabContent>
     </div>
   );
 };
