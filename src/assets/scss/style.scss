@@ -219,6 +219,25 @@ section {
     }
   }
 
+  .logo-multi {
+    z-index: 99;
+    cursor: pointer;
+    font-size: 0.875rem;
+    padding: 0.25rem 1rem;
+    position: absolute;
+    top: 0; right:0;
+    color: $white;
+    min-height: 30px;
+    border-radius: 0 8px 0 15px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    span {
+      font-weight: 300;
+    }
+  }
+
   .views {
     z-index: 3;
     font-size: 0.875rem;
