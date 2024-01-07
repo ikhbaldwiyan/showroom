@@ -1,4 +1,5 @@
 import Button from "elements/Button";
+import { isMobile } from "react-device-detect";
 import { FaUser } from "react-icons/fa";
 import formatNumber from "utils/formatNumber";
 import useWindowDimensions from "utils/useWindowDimension";
@@ -9,13 +10,17 @@ export const RoomPlayer = ({ data, number, layout }) => {
 
   const responsive = () => {
     if (width > 1500) {
-      if (layout === "threeRoom" || layout === "fourRoom") {
-        return "230px";
+      if (!isMobile) {
+        if (layout === "threeRoom" || layout === "fourRoom") {
+          return "230px";
+        }
       }
       return "310px";
     } else {
-      if (layout === "threeRoom" || layout === "fourRoom") {
-        return "190px";
+      if (!isMobile) {
+        if (layout === "threeRoom" || layout === "fourRoom") {
+          return "190px";
+        }
       }
       return "260px";
     }
@@ -38,8 +43,12 @@ export const RoomPlayer = ({ data, number, layout }) => {
               <b>{data?.user?.name.replace("JKT48", "")}</b>
             </h5>
 
-            <Button isPrimary style={{ borderRadius: "6px", backgroundColor: "#007bff" }}>
-              <FaUser size={14} className="mb-1" /> {formatNumber(data?.view_count)}
+            <Button
+              isPrimary
+              style={{ borderRadius: "6px", backgroundColor: "#007bff" }}
+            >
+              <FaUser size={14} className="mb-1" />{" "}
+              {formatNumber(data?.view_count)}
             </Button>
           </div>
         </>
