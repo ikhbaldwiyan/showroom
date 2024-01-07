@@ -260,7 +260,9 @@ function Live(props) {
                     refresh={isRefresh}
                     setLiveId={setLiveId}
                   />
-                  <Podium liveId={liveId} />
+                 {!isMobile && (
+                   <Podium liveId={liveId} />
+                 )}
                   {session && !isMobile && !hideStars && !secretKey && (
                     <div className="d-none">
                       <StarButton
@@ -370,8 +372,8 @@ function Live(props) {
                     room_name={room_name}
                     isPremiumLive={isPremiumLive}
                   />
-                ) : menu === "farming" ? (
-                  <FarmStars isSingleLive />
+                ) : menu === "podium" ? (
+                  <Podium /> 
                 ) : (
                   ""
                 )}
