@@ -102,13 +102,15 @@ const RoomMulti = ({
     <div>
       <Row>
         <Col md="12" className="mb-3">
-          <Badge
-            className="mr-2"
-            color="secondary"
-            onClick={() => settingsLayout("twoRoom")}
-          >
-            Reset
-          </Badge>
+          {layout !== "twoRoom" && (
+            <Badge
+              className="mr-2"
+              color="secondary"
+              onClick={() => settingsLayout("twoRoom")}
+            >
+              Reset
+            </Badge>
+          )}
           <Badge
             className="mr-2"
             color="light"

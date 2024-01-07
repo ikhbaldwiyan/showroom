@@ -1,11 +1,21 @@
 import Button from "elements/Button";
 import { isMobile } from "react-device-detect";
 import { FaUser } from "react-icons/fa";
+import { IoCloseCircle } from "react-icons/io5";
+import { Badge } from "reactstrap";
 import formatNumber from "utils/formatNumber";
 import useWindowDimensions from "utils/useWindowDimension";
 import PlayerMulti from "./PlayerMulti";
 
-export const RoomPlayer = ({ data, number, layout }) => {
+export const RoomPlayer = ({
+  data,
+  number,
+  layout,
+  setRoomOne,
+  setRoomTwo,
+  setRoomThree,
+  setRoomFour,
+}) => {
   const { width } = useWindowDimensions();
 
   const responsive = () => {
@@ -23,6 +33,18 @@ export const RoomPlayer = ({ data, number, layout }) => {
         }
       }
       return "260px";
+    }
+  };
+
+  const removeRoom = () => {
+    if (number === "1") {
+      setRoomOne("");
+    } else if (number === "2") {
+      setRoomTwo("");
+    } else if (number === "3") {
+      setRoomThree("");
+    } else if (number === "4") {
+      setRoomFour("");
     }
   };
 
@@ -50,6 +72,9 @@ export const RoomPlayer = ({ data, number, layout }) => {
               <FaUser size={14} className="mb-1" />{" "}
               {formatNumber(data?.view_count)}
             </Button>
+            <Badge onClick={removeRoom} className="ml-2" color="danger">
+              <IoCloseCircle />
+            </Badge>
           </div>
         </>
       ) : (

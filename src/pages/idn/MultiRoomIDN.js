@@ -28,10 +28,20 @@ const MultiRoomIDN = () => {
       return (
         <>
           <Col md="4">
-            <RoomPlayer number="1" data={roomOne} layout={layout} />
+            <RoomPlayer
+              number="1"
+              data={roomOne}
+              layout={layout}
+              setRoomOne={setRoomOne}
+            />
           </Col>
           <Col md="4">
-            <RoomPlayer number="2" data={roomTwo} layout={layout} />
+            <RoomPlayer
+              number="2"
+              data={roomTwo}
+              layout={layout}
+              setRoomTwo={setRoomTwo}
+            />
           </Col>
         </>
       );
@@ -39,13 +49,28 @@ const MultiRoomIDN = () => {
       return (
         <>
           <Col md="3">
-            <RoomPlayer number="1" data={roomOne} layout={layout} />
+            <RoomPlayer
+              number="1"
+              data={roomOne}
+              layout={layout}
+              setRoomOne={setRoomOne}
+            />
           </Col>
           <Col md="3">
-            <RoomPlayer number="2" data={roomTwo} layout={layout} />
+            <RoomPlayer
+              number="2"
+              data={roomTwo}
+              layout={layout}
+              setRoomTwo={setRoomTwo}
+            />
           </Col>
           <Col md="3">
-            <RoomPlayer number="3" data={roomThree} layout={layout} />
+            <RoomPlayer
+              number="3"
+              data={roomThree}
+              layout={layout}
+              setRoomThree={setRoomThree}
+            />
           </Col>
         </>
       );
@@ -53,16 +78,36 @@ const MultiRoomIDN = () => {
       return (
         <>
           <Col md="3">
-            <RoomPlayer number="1" data={roomOne} layout={layout} />
+            <RoomPlayer
+              number="1"
+              data={roomOne}
+              layout={layout}
+              setRoomOne={setRoomOne}
+            />
           </Col>
           <Col md="3">
-            <RoomPlayer number="2" data={roomTwo} layout={layout} />
+            <RoomPlayer
+              number="2"
+              data={roomTwo}
+              layout={layout}
+              setRoomTwo={setRoomTwo}
+            />
           </Col>
           <Col md="3">
-            <RoomPlayer number="3" data={roomThree} layout={layout} />
+            <RoomPlayer
+              number="3"
+              data={roomThree}
+              layout={layout}
+              setRoomThree={setRoomThree}
+            />
           </Col>
           <Col md="3">
-            <RoomPlayer number="4" data={roomFour} layout={layout} />
+            <RoomPlayer
+              number="4"
+              data={roomFour}
+              layout={layout}
+              setRoomFour={setRoomFour}
+            />
           </Col>
         </>
       );
