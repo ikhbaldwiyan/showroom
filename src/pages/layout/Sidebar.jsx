@@ -6,11 +6,10 @@ import {
   RiAdminFill,
   RiBroadcastFill,
   RiChatHistoryFill,
-  RiUserFollowFill,
 } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiLoginBoxFill } from "react-icons/ri";
-import { BsCollectionPlayFill, BsInfoCircleFill } from "react-icons/bs";
+import { BsInfoCircleFill } from "react-icons/bs";
 import Button from "elements/Button";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import UserProfile from "parts/UserProfile";
@@ -20,6 +19,7 @@ import { motion } from "framer-motion";
 import useWindowDimensions from "utils/useWindowDimension";
 import { getSession } from "utils/getSession";
 import { activityLog } from "utils/activityLog";
+import { MdSmartDisplay } from "react-icons/md";
 
 const Sidebar = () => {
   const user = getSession().user;
@@ -55,6 +55,11 @@ const Sidebar = () => {
       name: "Multi Room",
       icon: <HiUsers style={iconHome} />,
       link: "/multi-room",
+    },
+    {
+      name: "Multi IDN",
+      icon: <MdSmartDisplay style={iconHome} />,
+      link: "/multi-room-idn",
     },
     {
       name: "History Live",

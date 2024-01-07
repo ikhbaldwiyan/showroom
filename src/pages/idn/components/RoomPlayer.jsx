@@ -33,7 +33,7 @@ export const RoomPlayer = ({ data, number, layout }) => {
           <PlayerMulti
             number={number}
             url={data?.stream_url}
-            idnUrl={`https://www.idn.app/${data?.username}/live/${data.slug}`}
+            idnUrl={`https://www.idn.app/${data?.user?.username}/live/${data.slug}`}
           />
           <div
             className="d-flex mb-3 align-items-center"
