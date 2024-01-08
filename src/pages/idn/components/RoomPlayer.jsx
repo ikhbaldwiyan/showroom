@@ -39,12 +39,16 @@ export const RoomPlayer = ({
   const removeRoom = () => {
     if (number === "1") {
       setRoomOne("");
+      localStorage.removeItem("roomOne");
     } else if (number === "2") {
       setRoomTwo("");
+      localStorage.removeItem("roomTwo");
     } else if (number === "3") {
       setRoomThree("");
+      localStorage.removeItem("roomThree");
     } else if (number === "4") {
       setRoomFour("");
+      localStorage.removeItem("roomFour");
     }
   };
 

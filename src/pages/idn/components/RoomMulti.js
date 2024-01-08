@@ -28,14 +28,14 @@ const RoomMulti = ({
   layout,
   settingsLayout,
 }) => {
-  const [room, setRoom] = useState([]);
+  const [roomList, setRoomList] = useState([]);
   const [activeTab, setActiveTab] = useState("roomOne");
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     try {
       axios.get(ROOM_LIVES_IDN).then((res) => {
-        setRoom(res.data);
+        setRoomList(res.data);
       });
     } catch (error) {
       console.log(error);
@@ -48,10 +48,18 @@ const RoomMulti = ({
     }
   };
 
-  const RoomList = ({ setRoom }) => (
+  const changeRoom = (setRoom, data, number) => {
+    setRoom(data);
+    number === "1" && localStorage.setItem("roomOne", JSON.stringify(data));
+    number === "2" && localStorage.setItem("roomTwo", JSON.stringify(data));
+    number === "3" && localStorage.setItem("roomThree", JSON.stringify(data));
+    number === "4" && localStorage.setItem("roomFour", JSON.stringify(data));
+  };
+
+  const RoomList = ({ setRoom, number }) => (
     <div className="scroll-room rounded">
       <Table dark>
-        {room?.map((data, idx) => (
+        {roomList?.map((data, idx) => (
           <tbody key={idx}>
             <tr>
               <td>
@@ -77,7 +85,7 @@ const RoomMulti = ({
                 <div className="mt-4">
                   <Link>
                     <Button
-                      onClick={() => setRoom(data)}
+                      onClick={() => changeRoom(setRoom, data, number)}
                       color={
                         currentRoom === data.user.username ? "success" : "info"
                       }
@@ -177,16 +185,16 @@ const RoomMulti = ({
 
       <TabContent activeTab={activeTab}>
         <TabPane tabId="roomOne">
-          <RoomList setRoom={setRoomOne} />
+          <RoomList number="1" setRoom={setRoomOne} />
         </TabPane>
         <TabPane tabId="roomTwo">
-          <RoomList setRoom={setRoomTwo} />
+          <RoomList number="2" setRoom={setRoomTwo} />
         </TabPane>
         <TabPane tabId="roomThree">
-          <RoomList setRoom={setRoomThree} />
+          <RoomList number="3" setRoom={setRoomThree} />
         </TabPane>
         <TabPane tabId="roomFour">
-          <RoomList setRoom={setRoomFour} />
+          <RoomList number="4" setRoom={setRoomFour} />
         </TabPane>
       </TabContent>
     </div>

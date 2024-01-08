@@ -5,12 +5,13 @@ import MainLayout from "pages/layout/MainLayout";
 import RoomMulti from "./components/RoomMulti";
 import RoomPlayer from "./components/RoomPlayer";
 import useWindowDimensions from "utils/useWindowDimension";
+import { getLocalStorage } from "utils/helpers";
 
 const MultiRoomIDN = () => {
-  const [roomOne, setRoomOne] = useState("");
-  const [roomTwo, setRoomTwo] = useState("");
-  const [roomThree, setRoomThree] = useState("");
-  const [roomFour, setRoomFour] = useState("");
+  const [roomOne, setRoomOne] = useState(getLocalStorage("roomOne"));
+  const [roomTwo, setRoomTwo] = useState(getLocalStorage("roomTwo"));
+  const [roomThree, setRoomThree] = useState(getLocalStorage("roomThree"));
+  const [roomFour, setRoomFour] = useState(getLocalStorage("roomFour"));
   const [layout, setLayout] = useState(
     localStorage.getItem("multi_room_idn") ?? "twoRoom"
   );
