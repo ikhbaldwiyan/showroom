@@ -2,12 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "reactstrap";
 import { AiFillGift, AiFillTrophy } from "react-icons/ai";
-import { BsFillChatDotsFill } from "react-icons/bs";
+import { BsEyeFill, BsFillChatDotsFill } from "react-icons/bs";
 import { FaInfoCircle, FaMusic, FaUsers } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
 import { PROFILE_API } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
-import { GiFarmer } from "react-icons/gi";
 import { RiBroadcastFill } from "react-icons/ri";
 import useWindowDimensions from "utils/useWindowDimension";
 
@@ -69,21 +68,12 @@ function Menu({
             icon: <AiFillGift style={icon} />,
           },
         ]),
-    ...(isMultiRoom || isMobile
-      ? [
-          // {
-          //   name: !isMobile && !isMultiRoom && "Star",
-          //   menu: "star",
-          //   icon: <AiFillStar style={icon} />,
-          // },
-        ]
-      : []),
-    ...(isFarming && !isMultiRoom
+    ...(isMobile
       ? [
           {
             name: !isMobile && !isMultiRoom && "",
-            menu: "farming",
-            icon: <GiFarmer style={icon} />,
+            menu: "podium",
+            icon: <BsEyeFill style={icon} />,
           },
         ]
       : []),
