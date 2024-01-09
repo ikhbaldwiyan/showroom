@@ -71,7 +71,11 @@ export const RoomPlayer = ({
 
             <Button
               isPrimary
-              style={{ borderRadius: "6px", backgroundColor: "#007bff" }}
+              style={{
+                borderRadius: "6px",
+                backgroundColor: "#007bff",
+                borderColor: "#007bff",
+              }}
             >
               <FaUser size={14} className="mb-1" />{" "}
               {formatNumber(data?.view_count)}

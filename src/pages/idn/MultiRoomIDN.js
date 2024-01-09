@@ -135,6 +135,10 @@ const MultiRoomIDN = () => {
           <Col md={column}>
             <RoomMulti
               layout={layout}
+              roomOne={roomOne}
+              roomTwo={roomTwo}
+              roomThree={roomThree}
+              roomFour={roomFour}
               setRoomOne={setRoomOne}
               setRoomTwo={setRoomTwo}
               setRoomThree={setRoomThree}

@@ -20,7 +20,10 @@ import { FaUsers, FaUsersCog } from "react-icons/fa";
 import { IoReload } from "react-icons/io5";
 
 const RoomMulti = ({
-  currentRoom,
+  roomOne,
+  roomTwo,
+  roomThree,
+  roomFour,
   setRoomOne,
   setRoomTwo,
   setRoomThree,
@@ -56,7 +59,7 @@ const RoomMulti = ({
     number === "4" && localStorage.setItem("roomFour", JSON.stringify(data));
   };
 
-  const RoomList = ({ setRoom, number }) => (
+  const RoomList = ({ setRoom, number, currentRoom }) => (
     <div className="scroll-room rounded">
       <Table dark>
         {roomList?.map((data, idx) => (
@@ -185,16 +188,32 @@ const RoomMulti = ({
 
       <TabContent activeTab={activeTab}>
         <TabPane tabId="roomOne">
-          <RoomList number="1" setRoom={setRoomOne} />
+          <RoomList
+            number="1"
+            currentRoom={roomOne?.user?.username}
+            setRoom={setRoomOne}
+          />
         </TabPane>
         <TabPane tabId="roomTwo">
-          <RoomList number="2" setRoom={setRoomTwo} />
+          <RoomList
+            number="2"
+            currentRoom={roomTwo?.user?.username}
+            setRoom={setRoomTwo}
+          />
         </TabPane>
         <TabPane tabId="roomThree">
-          <RoomList number="3" setRoom={setRoomThree} />
+          <RoomList
+            number="3"
+            currentRoom={roomThree?.user?.username}
+            setRoom={setRoomThree}
+          />
         </TabPane>
         <TabPane tabId="roomFour">
-          <RoomList number="4" setRoom={setRoomFour} />
+          <RoomList
+            number="4"
+            currentRoom={roomFour?.user?.username}
+            setRoom={setRoomFour}
+          />
         </TabPane>
       </TabContent>
     </div>
