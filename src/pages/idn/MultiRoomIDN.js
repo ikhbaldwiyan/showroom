@@ -1,17 +1,19 @@
 import { Col, Row } from "reactstrap";
 import React, { useState, useMemo, useEffect } from "react";
+import axios from "axios";
 
 import MainLayout from "pages/layout/MainLayout";
 import RoomMulti from "./components/RoomMulti";
 import RoomPlayer from "./components/RoomPlayer";
 import useWindowDimensions from "utils/useWindowDimension";
 import { getLocalStorage } from "utils/helpers";
+import { ROOM_LIVE_IDN_DETAIL } from "utils/api/api";
 
 const MultiRoomIDN = () => {
-  const [roomOne, setRoomOne] = useState(getLocalStorage("roomOne"));
-  const [roomTwo, setRoomTwo] = useState(getLocalStorage("roomTwo"));
-  const [roomThree, setRoomThree] = useState(getLocalStorage("roomThree"));
-  const [roomFour, setRoomFour] = useState(getLocalStorage("roomFour"));
+  const [roomOne, setRoomOne] = useState({});
+  const [roomTwo, setRoomTwo] = useState({});
+  const [roomThree, setRoomThree] = useState({});
+  const [roomFour, setRoomFour] = useState({});
   const [layout, setLayout] = useState(
     localStorage.getItem("multi_room_idn") ?? "twoRoom"
   );
@@ -23,6 +25,39 @@ const MultiRoomIDN = () => {
   };
 
   const { width } = useWindowDimensions();
+
+  useEffect(() => {
+    if (layout === "twoRoom") {
+      setColumn("4");
+    } else if (layout === "threeRoom") {
+      setColumn(width > 1500 ? "3" : "12");
+    } else if (layout === "fourRoom") {
+      setColumn("12");
+    }
+  }, [column, layout, width]);
+
+  useEffect(() => {
+    const roomOne = getLocalStorage("roomOne");
+    const roomTwo = getLocalStorage("roomTwo");
+    const roomThree = getLocalStorage("roomThree");
+    const roomFour = getLocalStorage("roomFour");
+
+    axios.get(ROOM_LIVE_IDN_DETAIL(roomOne?.user?.username)).then((res) => {
+      res?.data && setRoomOne(roomOne);
+    });
+
+    axios.get(ROOM_LIVE_IDN_DETAIL(roomTwo?.user?.username)).then((res) => {
+       res?.data && setRoomTwo(roomTwo);
+    });
+
+    axios.get(ROOM_LIVE_IDN_DETAIL(roomThree?.user?.username)).then((res) => {
+       res?.data && setRoomThree(roomThree);
+    });
+
+    axios.get(ROOM_LIVE_IDN_DETAIL(roomFour?.user?.username)).then((res) => {
+       res?.data && setRoomFour(roomFour);
+    });
+  }, []);
 
   const layoutColumns = useMemo(() => {
     if (layout === "twoRoom") {
@@ -116,16 +151,6 @@ const MultiRoomIDN = () => {
     // Default layout if layout value is not recognized
     return null;
   }, [layout, roomOne, roomTwo, roomThree, roomFour]);
-
-  useEffect(() => {
-    if (layout === "twoRoom") {
-      setColumn("4");
-    } else if (layout === "threeRoom") {
-      setColumn(width > 1500 ? "3" : "12");
-    } else if (layout === "fourRoom") {
-      setColumn("12");
-    }
-  }, [column, layout, width]);
 
   return (
     <MainLayout title="Multi Room - IDN Live">
