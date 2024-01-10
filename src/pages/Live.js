@@ -188,15 +188,21 @@ function Live(props) {
 
   useEffect(() => {
     if (getSession().user && url?.length > 1 && profile) {
-      setTimeout(() => {
-        activityLog({
-          logName: "Watch",
-          userId: user?._id,
-          description: `Watch Live ${room_name}`,
-          liveId: profile.live_id
-        });
-      }, 2000);
+      activityLog({
+        logName: "Watch",
+        userId: user?._id,
+        description: `Watch Live ${room_name}`,
+        liveId: profile?.live_id
+      });
     }
+
+    gaTag({
+      action: "watch_showroom_live",
+      category: "Live Stream",
+      label: "Watch Showroom - Live Stream",
+      username: profile?.name ?? "Guest",
+      room: room_name,
+    })
   }, [user, room_name, roomId]);
 
   useEffect(() => {
