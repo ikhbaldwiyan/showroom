@@ -203,7 +203,8 @@ function Live(props) {
       username: profile?.name ?? "Guest",
       room: room_name,
     })
-  }, [user, room_name, roomId]);
+    
+  }, [user, room_name, roomId, profile, url]);
 
   useEffect(() => {
    const updateAvatarUser =  async () => {
