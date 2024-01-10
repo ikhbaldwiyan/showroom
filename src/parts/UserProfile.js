@@ -11,7 +11,11 @@ import {
   FaWindowClose,
 } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
-import { RiBroadcastFill, RiLogoutBoxFill, RiLogoutBoxRLine } from "react-icons/ri";
+import {
+  RiBroadcastFill,
+  RiLogoutBoxFill,
+  RiLogoutBoxRLine,
+} from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
@@ -32,6 +36,7 @@ import {
 import { Link } from "react-router-dom";
 import { activityLog } from "utils/activityLog";
 import { showToast } from "utils/showToast";
+import UnlockRoom from "components/UnlockRoom";
 
 export default function UserProfile({ data, session, theme }) {
   const [modal, setModal] = useState(false);
@@ -401,6 +406,9 @@ export default function UserProfile({ data, session, theme }) {
                                   </div>
                                 </div>
                               )}
+                            </div>
+                            <div className="col-12">
+                              <UnlockRoom isProfile />
                             </div>
                           </div>
                           {isEdit ? (

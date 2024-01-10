@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
 
-const UnlockRoom = () => {
+const UnlockRoom = ({ isProfile }) => {
   const user = useSelector((state) => state.user.user);
   const navigate = useHistory();
 
@@ -32,7 +32,9 @@ const UnlockRoom = () => {
       <UncontrolledAlert color="primary">
         <FaUsersCog size="23px" className="mb-1 mr-2" />
         <span className="discord-text">
-          Unlock fitur settings max 4 showroom member di multi room
+          {isProfile
+            ? "Unlock semua fitur"
+            : "Unlock fitur settings max 4 showroom member di multi room"}
         </span>
         <a style={{ cursor: "pointer" }} onClick={trackLinkClicked}>
           <b className="mx-1 discord-text">CEK DISINI</b>
