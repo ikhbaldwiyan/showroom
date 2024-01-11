@@ -380,7 +380,7 @@ function Live(props) {
                     isPremiumLive={isPremiumLive}
                   />
                 ) : menu === "podium" ? (
-                  <Podium /> 
+                  <Podium liveId={profile?.live_id} /> 
                 ) : (
                   ""
                 )}
