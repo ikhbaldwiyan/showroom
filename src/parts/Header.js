@@ -14,6 +14,7 @@ import { FaBars, FaDiscord, FaDonate } from "react-icons/fa";
 import UserProfile from "./UserProfile";
 import { isAdmin } from "utils/permissions/admin";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { MdSmartDisplay } from "react-icons/md";
 
 export default function Header({ theme, toggleTheme, isMultiRoom }) {
   const [user, setUser] = useState("");
@@ -90,6 +91,11 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                 <li className={`nav-item${getNavLinkClass("/multi-room")}`}>
                   <Button className="nav-link" type="link" href="/multi-room">
                     <HiUsers style={iconHome} /> Multi Room
+                  </Button>
+                </li>
+                <li className={`nav-item${getNavLinkClass("/multi-room-idn")}`}>
+                  <Button className="nav-link" type="link" href="/multi-room-idn">
+                    <MdSmartDisplay style={iconHome} /> Multi IDN
                   </Button>
                 </li>
                 <li className={`nav-item${getNavLinkClass("/live-history")}`}>
