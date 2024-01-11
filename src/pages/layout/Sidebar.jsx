@@ -115,7 +115,7 @@ const Sidebar = () => {
                       href={item.link}
                       isExternal={item.name === "Join Discord"}
                     >
-                      {item.icon} {width > 900 && item.name}
+                      {item.icon} {width > 1000 && item.name}
                     </Button>
                   </li>
                 </motion.div>
@@ -131,47 +131,33 @@ const Sidebar = () => {
                   onClick={trackLinkClicked}
                   style={buttonStyle}
                 >
-                  <FaDiscord style={iconHome} /> {width > 900 && "Join Discord"}
+                  <FaDiscord style={iconHome} />{" "}
+                  {width > 1000 && "Join Discord"}
                 </a>
               </li>
             </motion.div>
 
-            {isAdmin() ? (
-              <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.9 }}>
-                <li className="mt-2">
-                  <Button
-                    style={buttonStyle}
-                    className="nav-link"
-                    type="link"
-                    href="/admin"
-                  >
-                    <RiAdminFill style={iconHome} /> Admin
-                  </Button>
-                </li>
-              </motion.div>
-            ) : (
-              <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.9 }}>
-                <li className="mt-2">
-                  <Button
-                    className="nav-link"
-                    type="link"
-                    href="/about"
-                    style={{
-                      color: isActive("/about") ? "#24A2B7" : "white",
-                      fontSize: isActive("/about") ? "20px" : "18px",
-                      fontWeight: isActive("/about") ? "700" : "600",
-                    }}
-                  >
-                    <BsInfoCircleFill style={iconHome} />{" "}
-                    {width > 900 && "About"}
-                  </Button>
-                </li>
-              </motion.div>
-            )}
+            <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.9 }}>
+              <li className="mt-2">
+                <Button
+                  className="nav-link"
+                  type="link"
+                  href="/about"
+                  style={{
+                    color: isActive("/about") ? "#24A2B7" : "white",
+                    fontSize: isActive("/about") ? "20px" : "18px",
+                    fontWeight: isActive("/about") ? "700" : "600",
+                  }}
+                >
+                  <BsInfoCircleFill style={iconHome} />{" "}
+                  {width > 1000 && "About"}
+                </Button>
+              </li>
+            </motion.div>
           </ul>
         </div>
       </div>
-      {width > 900 && (
+      {width > 1000 && (
         <div
           style={{ position: "sticky", bottom: 10, backgroundColor: "#21252b" }}
         >
