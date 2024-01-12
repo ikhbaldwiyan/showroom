@@ -1,5 +1,5 @@
 import Button from "elements/Button";
-import { isDesktop } from "react-device-detect";
+import { isDesktop, isMobile } from "react-device-detect";
 import { FaUser } from "react-icons/fa";
 import { IoCloseCircle } from "react-icons/io5";
 import { Badge } from "reactstrap";
@@ -21,6 +21,7 @@ export const RoomPlayer = ({
   const responsive = () => {
     if (width > 1500) {
       if (isDesktop) {
+        //for monitor size
         if (layout === "threeRoom" || layout === "fourRoom") {
           return "230px";
         }
@@ -28,11 +29,12 @@ export const RoomPlayer = ({
       return "310px";
     } else {
       if (isDesktop) {
+        //for laptop size
         if (layout === "threeRoom" || layout === "fourRoom") {
-          return "160px";
+          return "190px";
         }
       }
-      return "215px";
+      return isMobile ? "215px" : "260px";
     }
   };
 
