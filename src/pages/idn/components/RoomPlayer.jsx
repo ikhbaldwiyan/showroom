@@ -28,13 +28,22 @@ export const RoomPlayer = ({
       }
       return "310px";
     } else {
-      if (isDesktop) {
-        //for laptop size
-        if (layout === "threeRoom" || layout === "fourRoom") {
-          return "190px";
-        }
+      const isMobileDesktop = width < 1000;
+
+      // for mobile desktop view
+      if (
+        isMobileDesktop &&
+        (layout === "threeRoom" || layout === "fourRoom")
+      ) {
+        return "160px";
       }
-      return isMobile ? "215px" : "260px";
+
+      //for laptop size
+      if (isDesktop && (layout === "threeRoom" || layout === "fourRoom")) {
+        return "190px";
+      }
+
+      return isMobileDesktop ? "215px" : "260px";
     }
   };
 
@@ -88,7 +97,7 @@ export const RoomPlayer = ({
           </div>
         </>
       ) : (
-        <h4>Choose Room {number}</h4>
+        <h4>Choose Room {responsive()}</h4>
       )}
     </div>
   );
