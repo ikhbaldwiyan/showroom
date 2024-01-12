@@ -85,7 +85,7 @@ const MultiRoomIDN = () => {
         action: "watch_multi_room_idn",
         category: "Multi Room - IDN",
         label: "IDN",
-        username: userProfile?.name ?? profile.name
+        username: userProfile?.name ?? profile?.name
       })
     }
   }, [roomOne, roomTwo, roomThree, roomFour]);
