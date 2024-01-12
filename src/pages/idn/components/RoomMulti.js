@@ -62,6 +62,13 @@ const RoomMulti = ({
   const RoomList = ({ setRoom, number, currentRoom }) => (
     <div className="scroll-room rounded">
       <Table dark>
+        {roomList?.length === 0 && (
+          <tbody>
+            <tr className="text-center">
+              <td colSpan={3}>No member Live IDN</td>
+            </tr>
+          </tbody>
+        )}
         {roomList?.map((data, idx) => (
           <tbody key={idx}>
             <tr>
