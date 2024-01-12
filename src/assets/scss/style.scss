@@ -1328,3 +1328,48 @@ main {
 .inactive-nav {
   font-size: 16px;
 }
+
+.podium {
+  border-radius: 8px;
+  background: linear-gradient(180deg, #1F8D9D 0%, #24A2B7 100%);
+  display: flex;
+  justify-content: center;
+}
+
+.stage-name {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.podium-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.podium-name {
+  border-radius: 4px;
+  background: #ECFAFC;
+  padding: 0 4px 1px 6px;
+  color: #008080;
+  font-weight: 600;
+}
+
+.podium-views {
+  display: flex;
+  top: 1;
+  left: 0;
+  width: 30px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background: #ECFAFC;
+  color: #008080;
+  border-radius: 100%;
+  padding: 2px;
+}
