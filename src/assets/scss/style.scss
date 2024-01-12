@@ -219,6 +219,25 @@ section {
     }
   }
 
+  .logo-multi {
+    z-index: 99;
+    cursor: pointer;
+    font-size: 0.875rem;
+    padding: 0.25rem 1rem;
+    position: absolute;
+    top: 0; right:0;
+    color: $white;
+    min-height: 30px;
+    border-radius: 0 8px 0 15px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    span {
+      font-weight: 300;
+    }
+  }
+
   .views {
     z-index: 3;
     font-size: 0.875rem;
@@ -1290,6 +1309,23 @@ main {
 .donator-text {
   color: #24A2B7;
   font-weight: 700;
+  font-size: 16px;
+}
+
+.select-room {
+  background: linear-gradient(180deg, #3B82F6 0%, #24A2B7 100%);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.active-nav-idn {
+  font-size: 16px;
+  color: #ECFAFC;
+  background-color: #DC3545;
+  font-weight: 700;
+}
+
+.inactive-nav {
   font-size: 16px;
 }
 

@@ -11,6 +11,8 @@ import useWindowDimensions from "utils/useWindowDimension";
 
 function MainLayout(props) {
   const { width } = useWindowDimensions();
+  const sidebarResponsive = width < 1200 ? "1" : "2";
+  const containerResponsive = width < 1200 ? "11" : "10";
 
   return (
     <>
@@ -48,10 +50,10 @@ function MainLayout(props) {
             </>
           ) : (
             <Row className="px-3">
-              <Col md="2" className="p-0">
+              <Col md={sidebarResponsive} className="p-0">
                 <Sidebar />
               </Col>
-              <Col md="10">
+              <Col md={containerResponsive}>
                 <div className="mt-3">{props.children}</div>
               </Col>
               <ToastContainer position="top-right" autoClose={3000} />

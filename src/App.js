@@ -27,6 +27,7 @@ import ActivityLogList from "pages/admin/activity/ActivityLogList";
 import ShowroomWrapped from "pages/wrapper/ShowroomWrapped";
 import SupportProject from "pages/support/SupportProject";
 import IDNLiveDetail from "pages/idn/IDNLiveDetail";
+import MultiRoomIDN from "pages/idn/MultiRoomIDN";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -60,6 +61,7 @@ function App(props) {
         <Route path="/wrapped" component={() => <ShowroomWrapped {...props} />} />
         <Route path="/support-project" component={() => <SupportProject {...props} />} />
         <Route path="/idn/:id" component={() => <IDNLiveDetail {...props} />} />
+        <Route path="/multi-room-idn" component={() => <MultiRoomIDN {...props} />} />
       </div>
     </ThemeProvider>
   );

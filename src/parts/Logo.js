@@ -18,7 +18,7 @@ export default function Logo() {
           className="logo-icon mr-2"
         />
 
-        {!isMobile && width > 900 && (
+        {!isMobile && width > 1200 && (
           <>
             <span className="logo mr-2">JKT48</span>
             <span className="showroom"> SHOWROOM</span>
