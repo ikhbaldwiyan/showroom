@@ -11,8 +11,8 @@ import useWindowDimensions from "utils/useWindowDimension";
 
 function MainLayout(props) {
   const { width } = useWindowDimensions();
-  const sidebarResponsive = width < 1000 ? "1" : "2";
-  const containerResponsive = width < 1000 ? "11" : "10";
+  const sidebarResponsive = width < 1200 ? "1" : "2";
+  const containerResponsive = width < 1200 ? "11" : "10";
 
   return (
     <>

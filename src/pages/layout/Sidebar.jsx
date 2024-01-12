@@ -3,7 +3,6 @@ import React from "react";
 import { Button as LoginButton } from "reactstrap";
 import { AiFillHome } from "react-icons/ai";
 import {
-  RiAdminFill,
   RiBroadcastFill,
   RiChatHistoryFill,
 } from "react-icons/ri";
@@ -13,7 +12,6 @@ import { BsInfoCircleFill } from "react-icons/bs";
 import Button from "elements/Button";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import UserProfile from "parts/UserProfile";
-import { isAdmin } from "utils/permissions/admin";
 import { FaDiscord, FaDonate, FaTheaterMasks } from "react-icons/fa";
 import { motion } from "framer-motion";
 import useWindowDimensions from "utils/useWindowDimension";
@@ -86,6 +84,8 @@ const Sidebar = () => {
     });
   };
 
+  const isDesktopView = width > 1200;
+
   return (
     <div className="sticky-sidebar">
       <div className="main-sidebar">
@@ -115,7 +115,7 @@ const Sidebar = () => {
                       href={item.link}
                       isExternal={item.name === "Join Discord"}
                     >
-                      {item.icon} {width > 1000 && item.name}
+                      {item.icon} {isDesktopView && item.name}
                     </Button>
                   </li>
                 </motion.div>
@@ -132,7 +132,7 @@ const Sidebar = () => {
                   style={buttonStyle}
                 >
                   <FaDiscord style={iconHome} />{" "}
-                  {width > 1000 && "Join Discord"}
+                  {isDesktopView && "Join Discord"}
                 </a>
               </li>
             </motion.div>
@@ -150,14 +150,14 @@ const Sidebar = () => {
                   }}
                 >
                   <BsInfoCircleFill style={iconHome} />{" "}
-                  {width > 1000 && "About"}
+                  {isDesktopView && "About"}
                 </Button>
               </li>
             </motion.div>
           </ul>
         </div>
       </div>
-      {width > 1000 && (
+      {isDesktopView && (
         <div
           style={{ position: "sticky", bottom: 10, backgroundColor: "#21252b" }}
         >
