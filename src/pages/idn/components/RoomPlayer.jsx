@@ -97,7 +97,7 @@ export const RoomPlayer = ({
           </div>
         </>
       ) : (
-        <h4>Choose Room {responsive()}</h4>
+        <h4>Choose Room {number}</h4>
       )}
     </div>
   );
