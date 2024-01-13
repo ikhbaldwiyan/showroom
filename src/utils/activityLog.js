@@ -12,7 +12,8 @@ export const activityLog = ({ userId, logName, description, liveId }) => {
       axios
         .post(CREATE_USER, {
           user_id: user?.account_id,
-          name: profile?.name
+          name: profile?.name,
+          avatar: profile?.avatar_url,
         })
         .then((res) => {
           activityLog({
@@ -29,6 +30,8 @@ export const activityLog = ({ userId, logName, description, liveId }) => {
             description,
             device: isMobile ? "Mobile" : "Desktop"
           });
+        }).catch((err) => {
+          console.log(err)
         });
     } else {
       return axios.post(ACTIVITY_LOG, {

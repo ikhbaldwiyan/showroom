@@ -57,7 +57,7 @@ const IDNLiveDetail = () => {
   };
 
   useEffect(() => {
-    if (userProfile && live?.stream_url) {
+    if (live?.stream_url) {
       activityLog({
         logName: "Watch",
         userId: userProfile?._id,
@@ -77,7 +77,7 @@ const IDNLiveDetail = () => {
   }, [id, live]);
 
   return (
-    <MainLayout title={`${live?.user?.name} - IDN Live`}>
+    <MainLayout title={`${live?.user?.name ?? "Room Offline"} - IDN Live`}>
       <div className="layout">
         <Row>
           <Col md="8">
