@@ -61,7 +61,7 @@ const SupportProject = () => {
             <img
               className="rounded-large"
               width="100%"
-              src="https://media.discordapp.net/attachments/1108380195175551047/1190520868728746104/image.png?ex=65a219f5&is=658fa4f5&hm=1072fbaad5f9f0b4432d56aafeaf87618af74be445d01f34bb43c270e9b5f029&=&format=webp&quality=lossless&width=1440&height=381"
+              src="https://media.discordapp.net/attachments/1108380195175551047/1195786212510814378/image.png?ex=65b541b1&is=65a2ccb1&hm=a67ed95163e25813ae4ccab8c31accb3d97ccd0301c122c223b6dc63821ef261&=&format=webp&quality=lossless&width=1920&height=634"
               alt="donate"
             />
           </Col>
@@ -78,7 +78,7 @@ const SupportProject = () => {
               tampilkan di halaman thanks page ini.
             </p>
           </Col>
-          <Col md="8">
+          <Col md="12">
             <div className="list-donator mb-3">
               {isMobile ? (
                 <div className="list-donator">
@@ -102,15 +102,15 @@ const SupportProject = () => {
                 </div>
               ) : (
                 Array.from(
-                  { length: Math.ceil(Math.min(donators.length, 10) / 3) },
+                  { length: Math.ceil(Math.min(donators.length, 20) / 3) },
                   (_, rowIndex) => (
                     <div key={rowIndex} className="row">
                       {donators
-                        .slice(rowIndex * 3, rowIndex * 3 + 3)
+                        .slice(rowIndex * 4, rowIndex * 4 + 4)
                         .map((item, idx) => (
                           <div
                             key={idx}
-                            className={`col-4 ${rowIndex !== 0 ? "mt-3" : ""}`}
+                            className={`col-3 ${rowIndex !== 0 ? "mt-3" : ""}`}
                           >
                             <div className="user-donate">
                               <img
