@@ -6,6 +6,7 @@ import { FaDonate } from "react-icons/fa";
 import { Button, Col, Row } from "reactstrap";
 import { activityLog } from "utils/activityLog";
 import { LIST_DONATOR } from "utils/api/api";
+import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
 
 const SupportProject = () => {
@@ -28,6 +29,12 @@ const SupportProject = () => {
       description: "Donate saweria button click",
       userId: getSession()?.userProfile?._id ?? "64e2090061ec79ea209a0160",
     });
+
+    gaTag({
+      action: "donate_button_click",
+      category: "Donation",
+      label: "Saweria",
+    })
   };
 
   return (
