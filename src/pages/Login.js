@@ -2,7 +2,7 @@ import { Container } from "reactstrap";
 import MainLayout from "./layout/MainLayout";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { CREATE_USER, DETAIL_USER, LOGIN } from "utils/api/api";
+import { DETAIL_USER, LOGIN } from "utils/api/api";
 import { toast } from "react-toastify";
 import { Loading } from "components";
 import { RiLoginBoxFill } from "react-icons/ri";
@@ -35,35 +35,28 @@ function Login(props) {
   }, []);
 
   const getSessionUser = async (data) => {
-    const user = await axios.get(DETAIL_USER(accountId));
-
-    if (!user?.data) {
-      axios
-        .post(CREATE_USER, {
-          user_id: accountId,
-          name: data.profile.name,
-        })
-        .then((res) => {
-          activityLog({
-            userId: res.data.user._id,
-            logName: "Login and Register",
-            description: `Register user after login success`,
-          });
+    await axios
+      .get(DETAIL_USER(accountId))
+      .then((res) => {
+        setLocalStorage("userProfile", res.data);
+        activityLog({
+          userId: res?.data?._id,
+          logName: "Login",
+          description: "Login user to web",
         });
-    }
-
-    setLocalStorage("userProfile", user.data);
+      })
+      .catch((err) => {
+        activityLog({
+          userId: "",
+          logName: "Login",
+          description: `Register user after login success`,
+        });
+      });
 
     gaTag({
       action: "Login Success",
       category: "Login",
       label: "Login Page",
-    });
-
-    activityLog({
-      userId: user?.data?._id,
-      logName: "Login",
-      description: "Login user to web",
     });
   };
 
