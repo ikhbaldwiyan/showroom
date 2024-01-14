@@ -57,8 +57,16 @@ const RoomMulti = ({
     number === "2" && localStorage.setItem("roomTwo", JSON.stringify(data));
     number === "3" && localStorage.setItem("roomThree", JSON.stringify(data));
     number === "4" && localStorage.setItem("roomFour", JSON.stringify(data));
+    window.scrollTo(0, 0)
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    layout === "twoRoom" && setActiveTab("roomOne")
+    layout === "threeRoom" && setActiveTab("roomThree")
+    layout === "fourRoom" && setActiveTab("roomFour")
+  }, [layout])
+  
   const RoomList = ({ setRoom, number, currentRoom }) => (
     <div className="scroll-room rounded">
       <Table dark>
