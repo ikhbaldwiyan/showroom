@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { isMobile } from "react-device-detect";
+import { Fade } from "react-reveal";
 import { PODIUM_STAGE, PODIUM_STAGE_IDN } from "utils/api/api";
 
 const Podium = ({ liveId, isIDNLive }) => {
@@ -51,17 +52,19 @@ const Podium = ({ liveId, isIDNLive }) => {
           <div className="stage-name mt-2">
             {users?.map((item, idx) => (
               <div key={idx} className="podium-list">
-                <img
-                  width={50}
-                  src={
-                    item.user.avatar ??
-                    "https://static.showroom-live.com/image/avatar/1028686.png?v=100"
-                  }
-                  alt="avatar"
-                />
-                <p className="podium-name">
-                  {item.user.name.replace(" ", "").slice(0, 9)}
-                </p>
+                <Fade bottom>
+                  <img
+                    width={50}
+                    src={
+                      item.user.avatar ??
+                      "https://static.showroom-live.com/image/avatar/1028686.png?v=100"
+                    }
+                    alt="avatar"
+                  />
+                  <p className="podium-name">
+                    {item.user.name.replace(" ", "").slice(0, 9)}
+                  </p>
+                </Fade>
               </div>
             ))}
           </div>
