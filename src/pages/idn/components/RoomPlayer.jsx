@@ -25,6 +25,10 @@ export const RoomPlayer = ({
         if (layout === "threeRoom" || layout === "fourRoom") {
           return "230px";
         }
+
+        if (layout === "fiveRoom" || layout === "sixRoom") {
+          return "180px";
+        }
       }
       return "310px";
     } else {
@@ -41,6 +45,10 @@ export const RoomPlayer = ({
       //for laptop size
       if (isDesktop && (layout === "threeRoom" || layout === "fourRoom")) {
         return "190px";
+      }
+
+      if (layout === "fiveRoom" || layout === "sixRoom") {
+        return "150px";
       }
 
       return isMobileDesktop ? "215px" : "260px";

@@ -18,6 +18,8 @@ const MultiRoomIDN = () => {
   const [roomTwo, setRoomTwo] = useState({});
   const [roomThree, setRoomThree] = useState({});
   const [roomFour, setRoomFour] = useState({});
+  const [roomFive, setRoomFive] = useState({});
+  const [roomSix, setRoomSix] = useState({});
   const [layout, setLayout] = useState(
     localStorage.getItem("multi_room_idn") ?? "twoRoom"
   );
@@ -35,7 +37,7 @@ const MultiRoomIDN = () => {
       setColumn("4");
     } else if (layout === "threeRoom") {
       setColumn(width > 1500 ? "3" : "12");
-    } else if (layout === "fourRoom") {
+    } else if (layout === "fourRoom" || layout === "fiveRoom") {
       setColumn("12");
     }
   }, [column, layout, width]);
@@ -176,13 +178,111 @@ const MultiRoomIDN = () => {
           </Col>
         </>
       );
+    } else if (layout === "fiveRoom") {
+      return (
+        <>
+          <Col md="2">
+            <RoomPlayer
+              number="1"
+              data={roomOne}
+              layout={layout}
+              setRoomOne={setRoomOne}
+            />
+          </Col>
+          <Col md="2">
+            <RoomPlayer
+              number="2"
+              data={roomTwo}
+              layout={layout}
+              setRoomTwo={setRoomTwo}
+            />
+          </Col>
+          <Col md="2">
+            <RoomPlayer
+              number="3"
+              data={roomThree}
+              layout={layout}
+              setRoomThree={setRoomThree}
+            />
+          </Col>
+          <Col md="2">
+            <RoomPlayer
+              number="4"
+              data={roomFour}
+              layout={layout}
+              setRoomFour={setRoomFour}
+            />
+          </Col>
+          <Col md="2">
+            <RoomPlayer
+              number="5"
+              data={roomFive}
+              layout={layout}
+              setRoomFour={setRoomFive}
+            />
+          </Col>
+        </>
+      );
+    } else if (layout === "sixRoom") {
+      return (
+        <>
+          <Col md="2">
+            <RoomPlayer
+              number="1"
+              data={roomOne}
+              layout={layout}
+              setRoomOne={setRoomOne}
+            />
+          </Col>
+          <Col md="2">
+            <RoomPlayer
+              number="2"
+              data={roomTwo}
+              layout={layout}
+              setRoomTwo={setRoomTwo}
+            />
+          </Col>
+          <Col md="2">
+            <RoomPlayer
+              number="3"
+              data={roomThree}
+              layout={layout}
+              setRoomThree={setRoomThree}
+            />
+          </Col>
+          <Col md="2">
+            <RoomPlayer
+              number="4"
+              data={roomFour}
+              layout={layout}
+              setRoomFour={setRoomFour}
+            />
+          </Col>
+          <Col md="2">
+            <RoomPlayer
+              number="5"
+              data={roomFive}
+              layout={layout}
+              setRoomFour={setRoomFive}
+            />
+          </Col>
+          <Col md="2">
+            <RoomPlayer
+              number="6"
+              data={roomSix}
+              layout={layout}
+              setRoomFour={setRoomSix}
+            />
+          </Col>
+        </>
+      );
     }
     // Default layout if layout value is not recognized
     return null;
-  }, [layout, roomOne, roomTwo, roomThree, roomFour]);
+  }, [layout, roomOne, roomTwo, roomThree, roomFour, roomFive, roomSix]);
 
   return (
-    <MainLayout title="Multi Room - IDN Live">
+    // <MainLayout title="Multi Room - IDN Live">
       <div className="layout">
         <Row>
           {layoutColumns}
@@ -193,16 +293,20 @@ const MultiRoomIDN = () => {
               roomTwo={roomTwo}
               roomThree={roomThree}
               roomFour={roomFour}
+              roomFive={roomFive}
+              roomSix={roomSix}
               setRoomOne={setRoomOne}
               setRoomTwo={setRoomTwo}
               setRoomThree={setRoomThree}
               setRoomFour={setRoomFour}
+              setRoomFive={setRoomFive}
+              setRoomSix={setRoomSix}
               settingsLayout={settingsLayout}
             />
           </Col>
         </Row>
       </div>
-    </MainLayout>
+    // </MainLayout>
   );
 };
 

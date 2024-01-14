@@ -24,10 +24,14 @@ const RoomMulti = ({
   roomTwo,
   roomThree,
   roomFour,
+  roomFive,
+  roomSix,
   setRoomOne,
   setRoomTwo,
   setRoomThree,
   setRoomFour,
+  setRoomFive,
+  setRoomSix,
   layout,
   settingsLayout,
 }) => {
@@ -57,16 +61,16 @@ const RoomMulti = ({
     number === "2" && localStorage.setItem("roomTwo", JSON.stringify(data));
     number === "3" && localStorage.setItem("roomThree", JSON.stringify(data));
     number === "4" && localStorage.setItem("roomFour", JSON.stringify(data));
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-    layout === "twoRoom" && setActiveTab("roomOne")
-    layout === "threeRoom" && setActiveTab("roomThree")
-    layout === "fourRoom" && setActiveTab("roomFour")
-  }, [layout])
-  
+    window.scrollTo(0, 0);
+    layout === "twoRoom" && setActiveTab("roomOne");
+    layout === "threeRoom" && setActiveTab("roomThree");
+    layout === "fourRoom" && setActiveTab("roomFour");
+  }, [layout]);
+
   const RoomList = ({ setRoom, number, currentRoom }) => (
     <div className="scroll-room rounded">
       <Table dark>
@@ -151,6 +155,25 @@ const RoomMulti = ({
           >
             <FaUsersCog /> Set 4 Room
           </Badge>
+          {layout === "fourRoom" && (
+            <Badge
+              className="mr-1"
+              color="light"
+              onClick={() => settingsLayout("fiveRoom")}
+            >
+              <FaUsersCog /> Set 5 Room
+            </Badge>
+          )}
+
+          {(layout === "fourRoom" || layout === "fiveRoom") && (
+            <Badge
+              className="mr-1"
+              color="light"
+              onClick={() => settingsLayout("sixRoom")}
+            >
+              <FaUsersCog /> Set 6 Room
+            </Badge>
+          )}
         </Col>
       </Row>
 
@@ -172,7 +195,10 @@ const RoomMulti = ({
           </NavLink>
         </NavItem>
 
-        {(layout === "threeRoom" || layout === "fourRoom") && (
+        {(layout === "threeRoom" ||
+          layout === "fourRoom" ||
+          layout === "fiveRoom" ||
+          layout === "sixRoom") && (
           <NavItem>
             <NavLink
               className={buttonActive("roomThree")}
@@ -183,13 +209,41 @@ const RoomMulti = ({
           </NavItem>
         )}
 
-        {layout === "fourRoom" && (
+        {(layout === "fourRoom" ||
+          layout === "fiveRoom" ||
+          layout === "sixRoom") && (
           <NavItem>
             <NavLink
               className={buttonActive("roomFour")}
               onClick={() => toggleTab("roomFour")}
             >
               Room 4
+            </NavLink>
+          </NavItem>
+        )}
+
+        {(layout === "fourRoom" ||
+          layout === "fiveRoom" ||
+          layout === "sixRoom") && (
+          <NavItem>
+            <NavLink
+              className={buttonActive("roomFive")}
+              onClick={() => toggleTab("roomFive")}
+            >
+              Room 5
+            </NavLink>
+          </NavItem>
+        )}
+
+        {(layout === "fourRoom" ||
+          layout === "fiveRoom" ||
+          layout === "sixRoom") && (
+          <NavItem>
+            <NavLink
+              className={buttonActive("roomSix")}
+              onClick={() => toggleTab("roomSix")}
+            >
+              Room 6
             </NavLink>
           </NavItem>
         )}
@@ -228,6 +282,20 @@ const RoomMulti = ({
             number="4"
             currentRoom={roomFour?.user?.username}
             setRoom={setRoomFour}
+          />
+        </TabPane>
+        <TabPane tabId="roomFive">
+          <RoomList
+            number="5"
+            currentRoom={roomFive?.user?.username}
+            setRoom={setRoomFive}
+          />
+        </TabPane>
+        <TabPane tabId="roomSix">
+          <RoomList
+            number="6"
+            currentRoom={roomSix?.user?.username}
+            setRoom={setRoomSix}
           />
         </TabPane>
       </TabContent>
