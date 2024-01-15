@@ -200,7 +200,6 @@ section {
 .idn-live {
   background-color: #21252B;
   .logo {
-    z-index: 99;
     cursor: pointer;
     font-size: 0.875rem;
     background-color:white;
@@ -1364,6 +1363,7 @@ main {
   display: flex;
   top: 1;
   left: 0;
+  z-index: 99;
   width: 30px;
   justify-content: center;
   align-items: center;

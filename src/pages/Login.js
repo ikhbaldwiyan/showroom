@@ -141,7 +141,7 @@ function Login(props) {
               <IoMdLogIn className="mb-1" /> Login Showroom
             </h3>
             <p className="text-center mb-4">
-              Silakan login untuk menggunakan fitur JKT48 showroom wrapped.
+              Silakan login untuk menggunakan fitur komen dan podium.
             </p>
             <form onSubmit={handleLogin}>
               <div className="row">
