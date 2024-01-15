@@ -94,32 +94,43 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                   </Button>
                 </li>
                 <li className={`nav-item${getNavLinkClass("/multi-room-idn")}`}>
-                  <Button className="nav-link" type="link" href="/multi-room-idn">
+                  <Button
+                    className="nav-link"
+                    type="link"
+                    href="/multi-room-idn"
+                  >
                     <MdSmartDisplay style={iconHome} /> Multi IDN
                   </Button>
                 </li>
-                <li className={`nav-item${getNavLinkClass("/live-history")}`}>
-                  <Button className="nav-link" type="link" href="/live-history">
-                    <RiFileList3Fill style={iconHome} /> History
-                  </Button>
-                </li>
-                <li className={`nav-item${getNavLinkClass("/support-project")}`}>
-                  <Button className="nav-link" type="link" href="/support-project">
-                    <FaDonate style={iconHome} /> Support Us
-                  </Button>
-                </li>
-                {isAdmin() && (
-                  <li className={`nav-item${getNavLinkClass("/admin")}`}>
-                    <Button className="nav-link" type="link" href="/admin">
-                      <RiAdminFill style={iconHome} /> Admin
+                {!isMultiRoom && (
+                  <li className={`nav-item${getNavLinkClass("/live-history")}`}>
+                    <Button
+                      className="nav-link"
+                      type="link"
+                      href="/live-history"
+                    >
+                      <RiFileList3Fill style={iconHome} /> History
                     </Button>
                   </li>
                 )}
-                <li className={`nav-item${getNavLinkClass("/about")}`}>
-                  <Button className="nav-link" type="link" href="/about">
-                    <BsInfoCircleFill style={iconHome} /> About
+                <li
+                  className={`nav-item${getNavLinkClass("/support-project")}`}
+                >
+                  <Button
+                    className="nav-link"
+                    type="link"
+                    href="/support-project"
+                  >
+                    <FaDonate style={iconHome} /> Support Us
                   </Button>
                 </li>
+                {!isMultiRoom && (
+                  <li className={`nav-item${getNavLinkClass("/about")}`}>
+                    <Button className="nav-link" type="link" href="/about">
+                      <BsInfoCircleFill style={iconHome} /> About
+                    </Button>
+                  </li>
+                )}
                 <li className={`nav-item${getNavLinkClass("/about")}`}>
                   <Button
                     href="https://discord.com/invite/BX8BAs4kgu"

@@ -69,6 +69,8 @@ const RoomMulti = ({
     layout === "twoRoom" && setActiveTab("roomOne");
     layout === "threeRoom" && setActiveTab("roomThree");
     layout === "fourRoom" && setActiveTab("roomFour");
+    layout === "fiveRoom" && setActiveTab("roomFive");
+    layout === "sixRoom" && setActiveTab("roomSix");
   }, [layout]);
 
   const RoomList = ({ setRoom, number, currentRoom }) => (
@@ -155,7 +157,7 @@ const RoomMulti = ({
           >
             <FaUsersCog /> Set 4 Room
           </Badge>
-          {layout === "fourRoom" && (
+          {(layout === "fourRoom" || layout === "sixRoom") && (
             <Badge
               className="mr-1"
               color="light"
@@ -235,9 +237,7 @@ const RoomMulti = ({
           </NavItem>
         )}
 
-        {(layout === "fourRoom" ||
-          layout === "fiveRoom" ||
-          layout === "sixRoom") && (
+        {(layout === "fourRoom" || layout === "sixRoom") && (
           <NavItem>
             <NavLink
               className={buttonActive("roomSix")}

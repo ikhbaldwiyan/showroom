@@ -37,7 +37,7 @@ const MultiRoomIDN = () => {
       setColumn("4");
     } else if (layout === "threeRoom") {
       setColumn(width > 1500 ? "3" : "12");
-    } else if (layout === "fourRoom" || layout === "fiveRoom") {
+    } else if (layout === "fourRoom" || layout === "fiveRoom" || layout === "sixRoom") {
       setColumn("12");
     }
   }, [column, layout, width]);
@@ -85,8 +85,8 @@ const MultiRoomIDN = () => {
         action: "watch_multi_room_idn",
         category: "Multi Room - IDN",
         label: "IDN",
-        username: userProfile?.name ?? profile?.name
-      })
+        username: userProfile?.name ?? profile?.name,
+      });
     }
   }, [roomOne, roomTwo, roomThree, roomFour]);
 
@@ -263,7 +263,7 @@ const MultiRoomIDN = () => {
               number="5"
               data={roomFive}
               layout={layout}
-              setRoomFour={setRoomFive}
+              setRoomFive={setRoomFive}
             />
           </Col>
           <Col md="2">
@@ -271,7 +271,7 @@ const MultiRoomIDN = () => {
               number="6"
               data={roomSix}
               layout={layout}
-              setRoomFour={setRoomSix}
+              setRoomSix={setRoomSix}
             />
           </Col>
         </>
@@ -281,8 +281,10 @@ const MultiRoomIDN = () => {
     return null;
   }, [layout, roomOne, roomTwo, roomThree, roomFour, roomFive, roomSix]);
 
+  const isHeaderLayout = layout === "fiveRoom" || layout === "sixRoom"
+
   return (
-    // <MainLayout title="Multi Room - IDN Live">
+    <MainLayout title="Multi Room - IDN Live" isMultiRoom={isHeaderLayout}>
       <div className="layout">
         <Row>
           {layoutColumns}
@@ -306,7 +308,7 @@ const MultiRoomIDN = () => {
           </Col>
         </Row>
       </div>
-    // </MainLayout>
+    </MainLayout>
   );
 };
 

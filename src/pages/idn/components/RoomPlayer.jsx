@@ -15,6 +15,8 @@ export const RoomPlayer = ({
   setRoomTwo,
   setRoomThree,
   setRoomFour,
+  setRoomFive,
+  setRoomSix,
 }) => {
   const { width } = useWindowDimensions();
 
@@ -68,6 +70,12 @@ export const RoomPlayer = ({
     } else if (number === "4") {
       setRoomFour("");
       localStorage.removeItem("roomFour");
+    } else if (number === "5") {
+      setRoomFive("");
+      localStorage.removeItem("roomFive");
+    } else if (number === "6") {
+      setRoomSix("");
+      localStorage.removeItem("roomSix");
     }
   };
 
@@ -88,17 +96,19 @@ export const RoomPlayer = ({
               <b>{data?.user?.name.replace("JKT48", "")}</b>
             </h5>
 
-            <Button
-              isPrimary
-              style={{
-                borderRadius: "6px",
-                backgroundColor: "#007bff",
-                borderColor: "#007bff",
-              }}
-            >
-              <FaUser size={14} className="mb-1" />{" "}
-              {formatNumber(data?.view_count)}
-            </Button>
+            {layout !== "sixRoom" && (
+              <Button
+                isPrimary
+                style={{
+                  borderRadius: "6px",
+                  backgroundColor: "#007bff",
+                  borderColor: "#007bff",
+                }}
+              >
+                <FaUser size={14} className="mb-1" />{" "}
+                {formatNumber(data?.view_count)}
+              </Button>
+            )}
             <Badge onClick={removeRoom} className="ml-2" color="danger">
               <IoCloseCircle />
             </Badge>
