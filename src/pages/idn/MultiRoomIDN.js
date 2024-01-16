@@ -47,6 +47,8 @@ const MultiRoomIDN = () => {
     const roomTwo = getLocalStorage("roomTwo");
     const roomThree = getLocalStorage("roomThree");
     const roomFour = getLocalStorage("roomFour");
+    const roomFive = getLocalStorage("roomFive");
+    const roomSix = getLocalStorage("roomSix");
 
     axios.get(ROOM_LIVE_IDN_DETAIL(roomOne?.user?.username)).then((res) => {
       res?.data?.is_live && setRoomOne(res.data);
@@ -62,6 +64,14 @@ const MultiRoomIDN = () => {
 
     axios.get(ROOM_LIVE_IDN_DETAIL(roomFour?.user?.username)).then((res) => {
       res?.data?.is_live && setRoomFour(res.data);
+    });
+
+    axios.get(ROOM_LIVE_IDN_DETAIL(roomFive?.user?.username)).then((res) => {
+      res?.data?.is_live && setRoomFive(res.data);
+    });
+
+    axios.get(ROOM_LIVE_IDN_DETAIL(roomSix?.user?.username)).then((res) => {
+      res?.data?.is_live && setRoomSix(res.data);
     });
   }, []);
 

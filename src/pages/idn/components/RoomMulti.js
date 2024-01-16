@@ -61,6 +61,8 @@ const RoomMulti = ({
     number === "2" && localStorage.setItem("roomTwo", JSON.stringify(data));
     number === "3" && localStorage.setItem("roomThree", JSON.stringify(data));
     number === "4" && localStorage.setItem("roomFour", JSON.stringify(data));
+    number === "5" && localStorage.setItem("roomFive", JSON.stringify(data));
+    number === "6" && localStorage.setItem("roomSix", JSON.stringify(data));
     window.scrollTo(0, 0);
   };
 
