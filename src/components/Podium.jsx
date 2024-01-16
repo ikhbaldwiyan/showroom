@@ -44,7 +44,7 @@ const Podium = ({ liveId, isIDNLive }) => {
         </div>
         <div
           style={{
-            overflowX: users?.length >= userResponsive && "scroll",
+            overflowX: "scroll",
             paddingLeft: "10px",
             paddingRight: "10px",
           }}
