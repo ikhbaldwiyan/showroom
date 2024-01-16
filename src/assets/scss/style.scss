@@ -213,13 +213,14 @@ section {
     display: flex;
     align-items: center;
     gap: 2px;
+    z-index: 10;
     span {
       font-weight: 300;
     }
   }
 
   .logo-multi {
-    z-index: 99;
+    z-index: 10;
     cursor: pointer;
     font-size: 0.875rem;
     padding: 0.25rem 1rem;
