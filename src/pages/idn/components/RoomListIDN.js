@@ -7,9 +7,28 @@ import { ROOM_LIVES_IDN } from "utils/api/api";
 import axios from "axios";
 import { RiBroadcastFill, RiLiveFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { IoReload } from "react-icons/io5";
+import { gaTag } from "utils/gaTag";
+import { getSession } from "utils/getSession";
 
 const RoomListIDN = ({ currentRoom }) => {
   const [room, setRoom] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = () => {
+    setRefresh(true);
+    setTimeout(() => {
+      setRefresh(false);
+    }, 2000);
+
+    gaTag({
+      action: "refresh_room_list_idn",
+      category: "Refresh - Regular",
+      label: "Live Stream",
+      value: null,
+      username: getSession()?.profile?.name,
+    });
+  };
 
   useEffect(() => {
     try {
@@ -19,16 +38,20 @@ const RoomListIDN = ({ currentRoom }) => {
     } catch (error) {
       console.log(error);
     }
-  }, [currentRoom]);
+  }, [currentRoom, refresh]);
 
   return (
     <div className="scroll-room rounded">
       <Table dark>
         <thead className="room-list">
           <tr>
-            <th>Image</th>
-            <th className="text-center">Name</th>
-            <th>Room</th>
+            <th colSpan={2}>Room Live IDN</th>
+            <th onClick={handleRefresh}>
+              <IoReload
+                size={20}
+                className={`${refresh && "spin-animation"}`}
+              />
+            </th>
           </tr>
         </thead>
         {room?.map((data, idx) => (

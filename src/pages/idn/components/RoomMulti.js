@@ -18,6 +18,8 @@ import { RiBroadcastFill, RiLiveFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { FaUsers, FaUsersCog } from "react-icons/fa";
 import { IoReload } from "react-icons/io5";
+import { gaTag } from "utils/gaTag";
+import { getSession } from "utils/getSession";
 
 const RoomMulti = ({
   roomOne,
@@ -57,16 +59,16 @@ const RoomMulti = ({
     number === "2" && localStorage.setItem("roomTwo", JSON.stringify(data));
     number === "3" && localStorage.setItem("roomThree", JSON.stringify(data));
     number === "4" && localStorage.setItem("roomFour", JSON.stringify(data));
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-    layout === "twoRoom" && setActiveTab("roomOne")
-    layout === "threeRoom" && setActiveTab("roomThree")
-    layout === "fourRoom" && setActiveTab("roomFour")
-  }, [layout])
-  
+    window.scrollTo(0, 0);
+    layout === "twoRoom" && setActiveTab("roomOne");
+    layout === "threeRoom" && setActiveTab("roomThree");
+    layout === "fourRoom" && setActiveTab("roomFour");
+  }, [layout]);
+
   const RoomList = ({ setRoom, number, currentRoom }) => (
     <div className="scroll-room rounded">
       <Table dark>
@@ -122,6 +124,20 @@ const RoomMulti = ({
 
   const buttonActive = (isActive) => {
     return isActive === activeTab ? "active-nav-idn mr-1" : "inactive-nav mr-1";
+  };
+
+  const handleRefresh = () => {
+    setRefresh(true);
+    setTimeout(() => {
+      setRefresh(false);
+    }, 2000);
+
+    gaTag({
+      action: "refresh_multi_room_idn",
+      category: "Refresh - Multi IDN",
+      label: "Live Stream",
+      username: getSession()?.profile?.name,
+    });
   };
 
   return (
@@ -195,8 +211,8 @@ const RoomMulti = ({
         )}
 
         <NavItem>
-          <NavLink onClick={() => setRefresh(!refresh)}>
-            <IoReload />
+          <NavLink onClick={handleRefresh}>
+            <IoReload size={18} className={`${refresh && "spin-animation"}`} />
           </NavLink>
         </NavItem>
       </Nav>
