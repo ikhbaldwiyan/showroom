@@ -47,7 +47,7 @@ const SupportProject = () => {
               Halo guys terima kasih sudah support project ini sampai sekarang,
               Jika kalian ingin mendukung perkembangan project JKT48 SHOWROOM
               untuk biaya server, domain dan service lainnya. kita juga akan
-              kasih akses nonton max 4 multi room buat para donator, Yuk support
+              kasih early acces untuk fitur baru dan nonton max multi room buat para donator, Yuk support
               kita dengan cara donasi bisa klik tombol dibawah ini.
             </p>
             <Button
