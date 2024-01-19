@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import { IoReload, IoTimeSharp } from "react-icons/io5";
 import formatViews from "utils/formatViews";
-import { API, LIVE_INFO } from "utils/api/api";
+import { LIVE_INFO } from "utils/api/api";
 
 import Views from "elements/Button";
 import Settings from "./Settings";
@@ -11,6 +11,7 @@ import LastSeen from "./LastSeen";
 import getTimes from "utils/getTimes";
 import { getSession } from "utils/getSession";
 import { Button } from "reactstrap";
+import { isDesktop } from "react-device-detect";
 
 function Title({
   roomId,
@@ -33,7 +34,8 @@ function Title({
   setIsPremiumLive,
   isPremiumLive,
   showTitle,
-  refresh
+  refresh,
+  setLiveId
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -76,6 +78,7 @@ function Title({
           const profiles = res.data;
           setProfile(profiles);
           setTitle(profiles.title);
+          setLiveId(profiles.websocket.live_id)
           !isMultiRoom && setIsPremiumLive(profiles.isPremiumLive);
         },
         [profile]
@@ -118,7 +121,7 @@ function Title({
       {!hideName && (
         <h4 className="d-inline title">
           <b className="mr-1">
-            {isPremiumLive
+            {isPremiumLive && showTitle !== ""
               ? showTitle
               : profile &&
                 profile?.room_url_key !== 0 &&
@@ -130,8 +133,10 @@ function Title({
         </h4>
       )}
 
+      {profile?.title && isDesktop && <span> | {profile?.title}</span>}
+
       {!hideTime && (
-        <LastSeen theme={theme} times={profile.current_live_started_at} />
+         <LastSeen times={profile.current_live_started_at} />
       )}
 
       {!hideViews && (

@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Row, Col, Container, Input, FormFeedback } from "reactstrap";
+import { Row, Col, Input, FormFeedback } from "reactstrap";
 import { useParams } from "react-router-dom";
 import {
+  DETAIL_USER,
   LIVE_STREAM_URL,
   PROFILE_API,
   TODAY_SCHEDULE_API,
@@ -37,6 +38,7 @@ import { getRoomDetailSucces } from "redux/actions/roomDetail";
 import { activityLog } from "utils/activityLog";
 import { showToast } from "utils/showToast";
 import HistoryLive from "parts/HistoryLive";
+import Podium from "components/Podium";
 
 function Live(props) {
   let { id, name } = useParams();
@@ -63,7 +65,8 @@ function Live(props) {
   const [isPremiumLive, setIsPremiumLive] = useState(false);
   const [title, setTitle] = useState("");
   const [isRefresh, setIsRefresh] = useState(false);
-
+  const [liveId, setLiveId] = useState("")
+  
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
   const dispatch = useDispatch();
 
@@ -114,7 +117,7 @@ function Live(props) {
   }, [roomId, secretKey]);
 
   useEffect(() => {
-    menu === "room" && window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
 
     setLoading(true);
     setTimeout(() => {
@@ -135,6 +138,11 @@ function Live(props) {
   useEffect(() => {
     setSession(getSession().session);
     setSecretKey(secretKey);
+
+    if (roomId === "332503" && url?.length > 1) {
+      setIsPremiumLive(true)
+    }
+    
     if (isPremiumLive) {
       activityLog({
         logName: "Premium Live",
@@ -151,6 +159,7 @@ function Live(props) {
         description: `Watch Sharing Live ${title}`,
       });
     }
+
   }, [isPremiumLive]);
 
   const [refreshKey, setRefreshKey] = useState(0);
@@ -186,16 +195,45 @@ function Live(props) {
 
   useEffect(() => {
     if (getSession().user && url?.length > 1 && profile) {
-      setTimeout(() => {
-        activityLog({
-          logName: "Watch",
-          userId: user?._id,
-          description: `Watch Live ${room_name}`,
-          liveId: profile.live_id,
-        });
-      }, 120000);
+      activityLog({
+        logName: "Watch",
+        userId: user?._id,
+        description: `Watch Live ${room_name}`,
+        liveId: profile?.live_id
+      });
     }
-  }, [user, room_name, roomId]);
+
+    gaTag({
+      action: "watch_showroom_live",
+      category: "Live Stream",
+      label: "Watch Showroom - Live Stream",
+      username: profile?.name ?? "Guest",
+      room: room_name,
+    })
+    
+  }, [user, room_name, roomId, profile, url]);
+
+  useEffect(() => {
+   const updateAvatarUser =  async () => {
+    const API_USER = DETAIL_USER(getSession()?.userProfile?.user_id)
+    const user = await axios.get(API_USER);
+
+    if ((!user?.data?.avatar || user?.data?.avatar !== getSession()?.profile?.avatar_url)) {
+      axios
+        .put(API_USER, {
+          avatar: getSession()?.profile?.avatar_url
+        })
+        .then((res) => {
+          activityLog({
+            userId: user?.data?._id,
+            logName: "User",
+            description: `Update avatar image`,
+          });
+        });
+    }
+   }
+   updateAvatarUser()
+  }, [])
 
   return (
     <MainLayout
@@ -204,7 +242,7 @@ function Live(props) {
       keywords={`showroom ${room_name.replace("Room", "")}`}
       {...props}
     >
-      <Container>
+      <div className="layout">
         {!isMobile && (
           <Row>
             <Col>
@@ -234,7 +272,11 @@ function Live(props) {
                     setIsPremiumLive={setIsPremiumLive}
                     showTitle={title}
                     refresh={isRefresh}
+                    setLiveId={setLiveId}
                   />
+                 {!isMobile && (
+                   <Podium liveId={liveId} />
+                 )}
                   {session && !isMobile && !hideStars && !secretKey && (
                     <div className="d-none">
                       <StarButton
@@ -294,7 +336,7 @@ function Live(props) {
               ""
             )}
           </Col>
-          <Col lg="4">
+          <Col className="detail-layout" lg="4">
             {url.code === 404 && name === "officialJKT48" ? (
               <MemberLineUp members={member} isComingSoon={false} />
             ) : (
@@ -344,8 +386,8 @@ function Live(props) {
                     room_name={room_name}
                     isPremiumLive={isPremiumLive}
                   />
-                ) : menu === "farming" ? (
-                  <FarmStars isSingleLive />
+                ) : menu === "podium" ? (
+                  <Podium liveId={profile?.live_id} /> 
                 ) : (
                   ""
                 )}
@@ -353,7 +395,7 @@ function Live(props) {
             )}
           </Col>
         </Row>
-      </Container>
+      </div>
     </MainLayout>
   );
 }

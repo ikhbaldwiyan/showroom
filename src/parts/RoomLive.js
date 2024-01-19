@@ -51,7 +51,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
 
   return isLive ? (
     <div className="mb-4">
-      <h3 className="mb-3"> {isLoading && "Loading"} Room Live </h3>
+      <h3 className="mb-3"> {isLoading && "Loading"} Showroom Live </h3>
       {isLoading && !isMobile ? (
         <SkeletonLive theme={theme} liveLength={roomLive.length} />
       ) : filteredLive.length !== 0 ? (
@@ -78,7 +78,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
                         </div>
                         <figure className="img-wrapper">
                           <img
-                            src={isMobile ? item.image.replace("s.jpeg", "l.jpeg") : item.image_square.replace("s.jpeg", "l.jpeg")}
+                            src={isMobile ? item?.image?.replace("s.jpeg", "l.jpeg") : item?.image_square?.replace("s.jpeg", "l.jpeg")}
                             alt={item.room_name}
                             className="img-cover"
                           />

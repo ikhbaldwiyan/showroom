@@ -1,14 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "reactstrap";
-import { AiFillGift, AiFillStar, AiFillTrophy } from "react-icons/ai";
-import { BsFillChatDotsFill } from "react-icons/bs";
-import { FaInfoCircle, FaKey, FaListAlt, FaMusic } from "react-icons/fa";
+import { AiFillGift, AiFillTrophy } from "react-icons/ai";
+import { BsEyeFill, BsFillChatDotsFill } from "react-icons/bs";
+import { FaInfoCircle, FaMusic, FaUsers } from "react-icons/fa";
 import { isMobile } from "react-device-detect";
 import { PROFILE_API } from "utils/api/api";
 import { gaEvent } from "utils/gaEvent";
-import { GiFarmer } from "react-icons/gi";
 import { RiBroadcastFill } from "react-icons/ri";
+import useWindowDimensions from "utils/useWindowDimension";
 
 function Menu({
   menu,
@@ -21,6 +21,7 @@ function Menu({
   isPremiumLive,
 }) {
   const [roomName, setRoomName] = useState("");
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     axios.post(PROFILE_API, { room_id: roomId.toString() }).then((res) => {
@@ -45,7 +46,7 @@ function Menu({
       icon: <BsFillChatDotsFill style={icon} />,
     },
     {
-      name: !isMultiRoom && !isMobile && !isFarming ? "Rank" : "",
+      name: !isMultiRoom && !isMobile && !isFarming  && width > 1200 ? "Rank" : "",
       menu: "rank",
       icon: <AiFillTrophy style={icon} />,
     },
@@ -59,26 +60,20 @@ function Menu({
         ]
       : [
           {
-            name: !isMultiRoom && !isMobile && !isFarming ? "Gift" : "",
+            name:
+              !isMultiRoom && !isMobile && !isFarming && width > 1200
+                ? "Gift"
+                : "",
             menu: "gift",
             icon: <AiFillGift style={icon} />,
           },
         ]),
-    ...(isMultiRoom || isMobile
-      ? [
-          {
-            name: !isMobile && !isMultiRoom && "Star",
-            menu: "star",
-            icon: <AiFillStar style={icon} />,
-          },
-        ]
-      : []),
-    ...(isFarming && !isMultiRoom
+    ...(isMobile
       ? [
           {
             name: !isMobile && !isMultiRoom && "",
-            menu: "farming",
-            icon: <GiFarmer style={icon} />,
+            menu: "podium",
+            icon: <BsEyeFill style={icon} />,
           },
         ]
       : []),
@@ -116,7 +111,7 @@ function Menu({
             style={menu === "room" ? buttonActive : buttonStyle}
             onClick={() => handleChangeMenu("room")}
           >
-            <FaListAlt style={icon} /> Room
+            <FaUsers style={icon} /> Room
           </Button>
         ) : null}
         {!isLive.length && isLive.code !== 404 && (

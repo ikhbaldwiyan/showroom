@@ -36,7 +36,7 @@ const Schedule = ({ isSearch, isShowing, isHome, isSharing }) => {
   }, []);
 
   return (
-    !isSearch && (
+    !isSearch && schedule.length > 0 && (
       <Fade>
         <Row>
           {isHome && (

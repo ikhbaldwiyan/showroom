@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { ROOM_LIST_API, ROOM_GEN_10, ROOM_TRAINEE_API } from "utils/api/api";
-import { Container } from "reactstrap";
 import Fade from "react-reveal/Fade";
 
 import MainLayout from "pages/layout/MainLayout";
@@ -24,6 +23,9 @@ import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
 import RecentLive from "parts/RecentLive";
 import InfoFeature from "components/InfoFeature";
+import WrappedAlert from "components/WrappedAlert";
+import { isMobile } from "react-device-detect";
+import IDNLiveList from "pages/idn/IDNLiveList";
 
 function Home(props) {
   const [search, setSearch] = useState("");
@@ -95,7 +97,7 @@ function Home(props) {
 
   return (
     <MainLayout {...props}>
-      <Container className="mb-4">
+      <div className="layout my-0 mb-4">
         <ModalInfo />
         <InfoFeature />
         <SearchAndFilter
@@ -113,6 +115,7 @@ function Home(props) {
           {allMember ? (
             <>
               <RoomLive isOnLive={isLive} search={search} theme={props.theme} />
+              <IDNLiveList />
               <RoomUpcoming search={search} room={memberRegular} />
               <PremiumLive theme={props.theme} />
               <RecentLive isSearch={search} />
@@ -156,7 +159,7 @@ function Home(props) {
           isOpen={isServerError}
           toggle={() => setIsServerError(!isServerError)}
         />
-      </Container>
+      </div>
     </MainLayout>
   );
 }

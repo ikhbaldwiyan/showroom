@@ -173,7 +173,7 @@ export default function RoomList({
           setIsRegular={setIsRegular}
         />
 
-        <div className="scroll-room">
+        <div className="scroll-room rounded">
           {isMultiRoom && (
             <FormGroup>
               <Input

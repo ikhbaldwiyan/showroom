@@ -9,11 +9,12 @@ import { AiFillHome } from "react-icons/ai";
 import { RiAdminFill, RiBroadcastFill } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiFileList3Fill, RiLoginBoxFill } from "react-icons/ri";
-import { BsInfoCircleFill } from "react-icons/bs";
-import { FaBars } from "react-icons/fa";
+import { BsCollectionPlayFill, BsInfoCircleFill } from "react-icons/bs";
+import { FaBars, FaDiscord, FaDonate } from "react-icons/fa";
 import UserProfile from "./UserProfile";
 import { isAdmin } from "utils/permissions/admin";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { MdSmartDisplay } from "react-icons/md";
 
 export default function Header({ theme, toggleTheme, isMultiRoom }) {
   const [user, setUser] = useState("");
@@ -45,7 +46,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
   const iconHome = { marginBottom: 4 };
   const classMulti = isMultiRoom ? "container-fluid" : "container";
   const mobileMenu = {
-    backgroundColor: "#21252b"
+    backgroundColor: "#21252b",
   };
 
   const toggleMobileMenu = () => {
@@ -56,7 +57,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
     <Fade>
       <header className="spacing-sm sticky">
         <div className={classMulti}>
-          <nav className="navbar navbar-expand-lg navbar-light">
+          <nav className="navbar navbar-expand-lg navbar-light px-1">
             <Logo theme="dark" />
             <button
               className="navbar-toggler"
@@ -92,24 +93,43 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     <HiUsers style={iconHome} /> Multi Room
                   </Button>
                 </li>
+                <li className={`nav-item${getNavLinkClass("/multi-room-idn")}`}>
+                  <Button className="nav-link" type="link" href="/multi-room-idn">
+                    <MdSmartDisplay style={iconHome} /> Multi IDN
+                  </Button>
+                </li>
                 <li className={`nav-item${getNavLinkClass("/live-history")}`}>
                   <Button className="nav-link" type="link" href="/live-history">
                     <RiFileList3Fill style={iconHome} /> History
                   </Button>
                 </li>
-                {isAdmin() ? (
+                <li className={`nav-item${getNavLinkClass("/support-project")}`}>
+                  <Button className="nav-link" type="link" href="/support-project">
+                    <FaDonate style={iconHome} /> Support Us
+                  </Button>
+                </li>
+                {isAdmin() && (
                   <li className={`nav-item${getNavLinkClass("/admin")}`}>
                     <Button className="nav-link" type="link" href="/admin">
                       <RiAdminFill style={iconHome} /> Admin
                     </Button>
                   </li>
-                ) : (
-                  <li className={`nav-item${getNavLinkClass("/about")}`}>
-                    <Button className="nav-link" type="link" href="/about">
-                      <BsInfoCircleFill style={iconHome} /> About
-                    </Button>
-                  </li>
                 )}
+                <li className={`nav-item${getNavLinkClass("/about")}`}>
+                  <Button className="nav-link" type="link" href="/about">
+                    <BsInfoCircleFill style={iconHome} /> About
+                  </Button>
+                </li>
+                <li className={`nav-item${getNavLinkClass("/about")}`}>
+                  <Button
+                    href="https://discord.com/invite/BX8BAs4kgu"
+                    className="nav-link"
+                    type="link"
+                    isExternal
+                  >
+                    <FaDiscord style={iconHome} /> Join Discord
+                  </Button>
+                </li>
                 {profile ? (
                   <UserProfile
                     profile={profile}
@@ -117,6 +137,12 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                     session={session}
                     theme={theme}
                   />
+                ) : isMobile ? (
+                  <li className={`nav-item${getNavLinkClass("/login")}`}>
+                    <Button className="nav-link" type="link" href="/login">
+                      <RiLoginBoxFill style={iconHome} /> Login
+                    </Button>
+                  </li>
                 ) : (
                   <li className={`nav-item${getNavLinkClass("/login")}`}>
                     <LoginButton

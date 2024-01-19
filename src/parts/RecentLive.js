@@ -99,12 +99,10 @@ const RecentLive = ({ isSearch }) => {
                   >
                     <div className="card-recent-live">
                       <img
+                        width="110"
+                        height="auto"
                         className="recent-image"
-                        src={
-                          member?.url === "officialJKT48"
-                            ? "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/JKT48.svg/1200px-JKT48.svg.png"
-                            : member?.img_alt
-                        }
+                        src={member?.img_alt}
                         alt={member?.name}
                       />
                       <div className="recent-info-wrapper">

@@ -1,10 +1,11 @@
 import React from "react";
 import { FcSearch } from "react-icons/fc";
 import { Button } from "reactstrap";
-import { RiGlobalLine } from "react-icons/ri";
-import { AiFillAppstore, AiFillCalendar } from "react-icons/ai";
-import { IoSchoolSharp } from "react-icons/io5";
-import { isMobile } from "react-device-detect";
+import { RiDashboardFill, RiUserSearchFill } from "react-icons/ri";
+import { FaDiscord, FaTheaterMasks, FaTwitter, FaUserGraduate } from "react-icons/fa";
+import { activityLog } from "utils/activityLog";
+import { getSession } from "utils/getSession";
+import useWindowDimensions from "utils/useWindowDimension";
 
 function SearchAndFilter({
   handleSearch,
@@ -45,66 +46,94 @@ function SearchAndFilter({
     setIsAcademy(false);
   };
 
-  return !isMobile ? (
-    <div className="row mt-4">
-      <div className="col-md-5 col-sm-12 search-wrapper">
-        <FcSearch className="search-bar" color="#03665c" size="1.5em" />
+  const socmedClick = (type) => {
+    activityLog({
+      description: `${type} Button Click`,
+      logName: `${type} Link`,
+      userId: getSession()?.userProfile?._id,
+    });
+  };
+
+  const { width } = useWindowDimensions();
+
+  return width > 768 ? (
+    <div className="row">
+      <div className="col-md-4 col-sm-12 search-wrapper">
+        <RiUserSearchFill className="search-bar" color="#333333" size="1.5em" />
         <input
-          style={{ width: "100%", padding: "1rem 1rem 1rem 3rem" }}
+          style={{
+            width: "100%",
+            padding: "1rem 1rem 1rem 3rem",
+            borderRadius: "5px",
+          }}
           type="text"
-          placeholder={isLive ? "Search theater schedule" : "Search member name"}
+          placeholder={
+            isLive ? "Search theater schedule" : "Search member name"
+          }
           onChange={handleSearch}
           className="form-control"
         />
       </div>
-      <div className="col-md-7 col-sm-12 search-wrapper">
+      <div className="col-md-4 col-sm-12 search-wrapper">
         <Button
-          className="mx-2"
-          color="danger"
+          className="menu-button mx-2"
           onClick={filterAllMember}
           disabled={allMember ? "disabled" : ""}
         >
-          <AiFillAppstore className="mb-1" />{" "}
-          <span className="text-filter">ALL MEMBER</span>
+          <RiDashboardFill size={20} className="mb-1 mr-1" />{" "}
+          <span className="text-filter">All Members</span>
         </Button>
         <Button
-          className="mx-2"
-          style={{ backgroundColor: "teal", border: "none" }}
+          className="menu-button mx-2"
           onClick={filterRegular}
           disabled={isRegular ? "disabled" : ""}
         >
-          <IoSchoolSharp className="mb-1 mr-1" />
-          <span className="text-filter">TRAINEE</span>
+          <FaUserGraduate size={20} className="mb-1 mr-2" />
+          <span className="text-filter">Trainee</span>
         </Button>
-        <Button
-          className="mx-2"
-          color="info"
-          onClick={filterAcademy}
-          disabled={isAcademy ? "disabled" : ""}
-          style={{ font: "poppins" }}
+      </div>
+      <div
+        className="col-md-4 col-sm-12 search-wrapper"
+        style={{ display: "flex", justifyContent: "end" }}
+      >
+        <a
+          href={process.env.REACT_APP_DISCORD_LINK}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => socmedClick("Discord")}
         >
-          <RiGlobalLine className="mb-1" />{" "}
-          <span className="text-filter">GEN 10</span>
-        </Button>
-        <Button
-          className="mx-2 btn-onlive"
-          style={{ border: "none", backgroundColor: "#cd0c0e" }}
-          onClick={filterIsLive}
-          disabled={isLive ? "disabled" : ""}
+          <Button
+            className="mx-2"
+            color="info"
+            style={{ backgroundColor: "#5865F2", border: "none" }}
+          >
+            <FaDiscord size={20} className="mb-1 mr-2" />
+            <span className="text-filter">Discord</span>
+          </Button>
+        </a>
+        <a
+          href="https://twitter.com/JKT48_SHOWROOM"
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => socmedClick("Twitter")}
         >
-          <AiFillCalendar className="mb-1" />{" "}
-          <span className="text-filter">Theater Schedule</span>
-        </Button>
+          <Button className="mx-2" color="info">
+            <FaTwitter size={20} className="mb-1 mr-2" />
+            <span className="text-filter">Twitter</span>
+          </Button>
+        </a>
       </div>
     </div>
   ) : (
-    <div className="row mt-4">
+    <div className="row">
       <div className="col-12 search-wrapper">
         <FcSearch className="search-bar" color="#03665c" size="1.5em" />
         <input
           style={{ width: "100%", padding: "1rem 1rem 1rem 3rem" }}
           type="text"
-          placeholder={isLive ? "Search theater schedule" : "Search member name"}
+          placeholder={
+            isLive ? "Search theater schedule" : "Search member name"
+          }
           onChange={handleSearch}
           className="form-control"
         />
@@ -116,7 +145,7 @@ function SearchAndFilter({
           onClick={filterAllMember}
           disabled={allMember ? "disabled" : ""}
         >
-          <AiFillAppstore className="mb-1" />{" "}
+          <RiDashboardFill className="mb-1" />{" "}
           <span className="text-filter">ALL</span>
         </Button>
         <Button
@@ -125,7 +154,7 @@ function SearchAndFilter({
           onClick={filterRegular}
           disabled={isRegular ? "disabled" : ""}
         >
-          <IoSchoolSharp className="mb-1 mr-1" />{" "}
+          <FaUserGraduate className="mb-1 mr-1" />{" "}
           <span className="text-filter">TRAINEE</span>
         </Button>
         <Button
@@ -134,7 +163,7 @@ function SearchAndFilter({
           onClick={filterIsLive}
           disabled={isLive ? "disabled" : ""}
         >
-          <AiFillCalendar className="mb-1" />{" "}
+          <FaTheaterMasks className="mb-1" />{" "}
           <span className="text-filter">Schedule</span>
         </Button>
       </div>

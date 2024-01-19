@@ -3,6 +3,8 @@ import ReactPlayer from 'react-player';
 import './video.scss';
 
 export default function Streaming({ url, refreshKey, playerRef }) {
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+
   return (
     <>
       <div className="player-wrapper mb-3">
@@ -12,7 +14,7 @@ export default function Streaming({ url, refreshKey, playerRef }) {
           className="react-player"
           config={{
             file: {
-              forceHLS: true,
+              forceHLS: !isSafari,
             },
           }}
           controls

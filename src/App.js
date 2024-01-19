@@ -26,6 +26,10 @@ import PremiumLiveList from "pages/admin/premium-live/PremiumLiveList";
 import ActivityLogList from "pages/admin/activity/ActivityLogList";
 import SharingLive from "pages/sharing/SharingLive";
 import SharingLiveDetail from "pages/sharing/SharingLiveDetail";
+import ShowroomWrapped from "pages/wrapper/ShowroomWrapped";
+import SupportProject from "pages/support/SupportProject";
+import IDNLiveDetail from "pages/idn/IDNLiveDetail";
+import MultiRoomIDN from "pages/idn/MultiRoomIDN";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -58,6 +62,10 @@ function App(props) {
         <Route path="/activity" component={() => <ActivityLogList {...props} />} />
         <Route path="/sharing-live" component={() => <SharingLive {...props} />} />
         <Route path="/sharing/:name/:id" component={() => <SharingLiveDetail isSharingLive={true} {...props} />} />
+        <Route path="/wrapped" component={() => <ShowroomWrapped {...props} />} />
+        <Route path="/support-project" component={() => <SupportProject {...props} />} />
+        <Route path="/idn/:id" component={() => <IDNLiveDetail {...props} />} />
+        <Route path="/multi-room-idn" component={() => <MultiRoomIDN {...props} />} />
       </div>
     </ThemeProvider>
   );

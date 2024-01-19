@@ -21,7 +21,7 @@ const ModalInfo = () => {
         <p className="mt-2">
           <div className="d-flex align-items-center">
             <FaTwitter className="mr-1" color="#24a2b7" size={20} /> Twitter:{" "}
-            <a href="https://twitter.com/Jkt48_Showroom">
+            <a href="https://twitter.com/JKT48_SHOWROOM">
               <b className="mx-1">@Jkt48_Showroom</b>
             </a>{" "}
             <br />

@@ -10,8 +10,8 @@ function LastSeen({times, theme}) {
   const liveTime = getInfo.replace('.', ':');
 
   return (
-    <h5 className={theme === 'dark' ? 'text-gray-400' : 'text-gray-700'} style={{ display: 'inline' }}>
-      Live <TimeAgo date={liveTime} formatter={formatter} className="mr-2" />
+    <h5 className="text-gray-400" style={{ display: 'inline' }}>
+      | Live <TimeAgo date={liveTime} formatter={formatter} className="mr-2" />
     </h5>
   );
 }

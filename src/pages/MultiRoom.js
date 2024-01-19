@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row } from "reactstrap";
+import { Row } from "reactstrap";
 
 import MainLayout from "./layout/MainLayout";
 import Multi from "parts/Multi";
 import Loading from "components/Loading";
 import MultiMenu from "components/MultiMenu";
-import AlertInfo from "components/AlertInfo";
 import FarmStars from "components/FarmStars";
+import UnlockRoom from "components/UnlockRoom";
 
 export default function MultiRoom(props) {
   const [layout, setLayout] = useState("6");
@@ -98,7 +98,8 @@ export default function MultiRoom(props) {
 
   return (
     <MainLayout title="Multi Room" {...props} isMultiRoom={isMultiRoom}>
-      <Container fluid>
+      <div className="layout">
+        <UnlockRoom />
         <MultiMenu {...propsMultiRoom} />
         <Row className="d-flex">
           <Multi {...propsMultiRoom} number="1" selectedRoom={multiRoom[1]} />
@@ -127,7 +128,7 @@ export default function MultiRoom(props) {
               <Multi {...propsMultiRoom} number="4" selectedRoom={multiRoom[4]} />
             ))}
         </Row>
-      </Container>
+      </div>
     </MainLayout>
   );
 }

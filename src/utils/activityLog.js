@@ -11,12 +11,13 @@ export const activityLog = ({ userId, logName, description, liveId }) => {
     if (!userId) {
       axios
         .post(CREATE_USER, {
-          user_id: user.account_id,
-          name: profile.name
+          user_id: user?.account_id,
+          name: profile?.name,
+          avatar: profile?.avatar_url,
         })
         .then((res) => {
           activityLog({
-            userId: res.data.user._id,
+            userId: res?.data?.user?._id,
             logName: "Auto Register",
             description: `Auto Register user from activity log ${logName.toLowerCase()}`
           });
@@ -29,10 +30,12 @@ export const activityLog = ({ userId, logName, description, liveId }) => {
             description,
             device: isMobile ? "Mobile" : "Desktop"
           });
+        }).catch((err) => {
+          console.log(err)
         });
     } else {
       return axios.post(ACTIVITY_LOG, {
-        user_id: userId,
+        user_id: userId ?? "64e2090061ec79ea209a0160",
         live_id: liveId,
         log_name: logName,
         description,

@@ -1,9 +1,10 @@
 // BASE URL API
-const API = "https://jkt48-showroom-api.vercel.app/api";
-const ADMIN_API = "https://showroom-admin.ikhbaldwiyan.repl.co"
+const API = "https://api-two-delta-42.vercel.app/api";
+const ADMIN_API = "https://showroom-admin.vercel.app"
 const BOT_API = "https://jkt48-showroom-bot.ikhbaldwiyan.repl.co/discord"
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
+const SHOWROOM_WRAPPED = "https://jkt48-showroom-wrapped.vercel.app"
 
 // LARAVEL API
 const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
@@ -23,7 +24,7 @@ const BULK_GIFT = `${LARAVEL_API}/live/bulk_gift`;
 const SEND_GIFT = `${LARAVEL_API}/live/send_gift`;
 
 // SHOWROOM LOG API
-const SHOWROOM_LOG_API = "https://dc.crstlnz.site/api/showroom";
+const SHOWROOM_LOG_API = "https://api.crstlnz.my.id/api";
 const RECENT_LIVE_LOG_API = (
   sort = "date",
   page = "1",
@@ -33,7 +34,7 @@ const RECENT_LIVE_LOG_API = (
   search = "",
   roomId = ""
 ) => {
-  return `${SHOWROOM_LOG_API}/recent?sort=${sort}&page=${page}&filter=${filter}&order=${order}&perpage=${perpage}&search=${search}&room_id=${roomId}`;
+  return `${SHOWROOM_LOG_API}/recent?sort=${sort}&page=${page}&filter=${filter}&order=${order}&perpage=${perpage}&search=${search}&room_id=${roomId}&group=jkt48`;
 };
 
 const DETAIL_LIVE_HISTORY = (id) => {
@@ -149,6 +150,26 @@ const DISCORD_USERS = `${ADMIN_API}/notifications/discord/users`;
 const DISCORD_USERS_SEARCH = (name) => {
   return `${ADMIN_API}/notifications/discord/users?name=${name}`;
 };
+// SHOWROOM WRAPPED
+const MOST_WATCH = `${SHOWROOM_WRAPPED}/most-watch`;
+const PREMIUM_LIVES = `${SHOWROOM_WRAPPED}/premium-lives`;
+
+// SUPPORT PROJECT
+const LIST_DONATOR = `${ADMIN_API}/discord/role?type=donator`
+
+//IDN LIVES
+const ROOM_LIVES_IDN = `${SHOWROOM_LOG_API}/idn_lives`;
+const ROOM_LIVE_IDN_DETAIL = (slug) => {
+  return `${SHOWROOM_LOG_API}/watch/${slug}/idn`
+}
+
+const PODIUM_STAGE = (liveId) => {
+  return `${ADMIN_API}/history-live/${liveId}`
+}
+
+const PODIUM_STAGE_IDN = (liveId) => {
+  return `${ADMIN_API}/idn-live-history/${liveId}`
+}
 
 export {
   API,
@@ -198,15 +219,22 @@ export {
   DETAIL_SETLIST,
   PREMIUM_LIVE_LIST,
   PREMIUM_LIVE_DETAIL,
+  PREMIUM_LIVE_TODAY,
   ACTIVITY_LOG,
   ACTIVITY_LOG_DETAIL,
   TODAY_SCHEDULE_API,
   SHARING_LIVE,
-  PREMIUM_LIVE_TODAY,
   SHARING_LIVE_DETAIL,
   NOTIFICATION,
   USER_NOTIFICATION,
   DISCORD_NOTIFICATION,
   DISCORD_USERS,
-  DISCORD_USERS_SEARCH
+  DISCORD_USERS_SEARCH,
+  MOST_WATCH,
+  PREMIUM_LIVES,
+  LIST_DONATOR,
+  ROOM_LIVES_IDN,
+  ROOM_LIVE_IDN_DETAIL,
+  PODIUM_STAGE,
+  PODIUM_STAGE_IDN
 };

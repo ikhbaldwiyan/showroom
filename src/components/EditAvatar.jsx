@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Button } from "reactstrap";
-import { GET_AVATAR, UPDATE_AVATAR } from "utils/api/api";
+import { DETAIL_USER, GET_AVATAR, UPDATE_AVATAR } from "utils/api/api";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { RiUserSettingsFill } from "react-icons/ri";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
@@ -11,6 +11,8 @@ import { IoIosUnlock } from "react-icons/io";
 import Loading from "./Loading";
 import { AiOutlineHistory } from "react-icons/ai";
 import SkeletonBox from "parts/skeleton/SkeletonBox";
+import { getSession } from "utils/getSession";
+import { activityLog } from "utils/activityLog";
 
 const EditAvatar = ({
   session,
@@ -35,21 +37,19 @@ const EditAvatar = ({
 
   useEffect(() => {
     const fetchAvatar = async () => {
-      const offset = (page - 1) * limit
-      
       try {
         const response = await axios.post(GET_AVATAR, {
           csrf_token: session.csrf_token,
           cookies_id: session.cookie_login_id,
           limit,
-          offset,
+          page,
           type,
         });
         setAvatarLoading(false);
 
-        const { current_user_avatar, user_avatars, avatar_num } = response.data;
-        setAvatar(user_avatars);
-        setTotalAvatar(avatar_num);
+        const { current_user_avatar, avatars, total_entries } = response.data;
+        setAvatar(avatars);
+        setTotalAvatar(total_entries);
 
         if (page === 1) {
           setCurrentAvatar(current_user_avatar.image_url);
@@ -157,6 +157,26 @@ const EditAvatar = ({
       });
     }
     setLoadingPage(false);
+    updateAvatarUser();
+  };
+
+  const updateAvatarUser = async () => {
+    const API_USER = DETAIL_USER(getSession()?.userProfile?.user_id);
+    const user = await axios.get(API_USER);
+
+    if (user?.data?.avatar !== currentAvatar) {
+      axios
+        .put(API_USER, {
+          avatar: getSession()?.profile?.avatar_url,
+        })
+        .then((res) => {
+          activityLog({
+            userId: user?.data?._id,
+            logName: "User",
+            description: "Edit avatar image",
+          });
+        });
+    }
   };
 
   const handlePrevPage = () => {
@@ -192,7 +212,7 @@ const EditAvatar = ({
                 <img
                   className="mt-2"
                   src={
-                    avatar.find((item) => item.avatar_id === selectedAvatarId)
+                    avatar?.find((item) => item.avatar_id === selectedAvatarId)
                       ?.image_url ?? currentAvatar
                   }
                   width={100}

@@ -41,7 +41,7 @@ export const GlobalStyles = createGlobalStyle`
     border-bottom: 1px solid $gray-200;
     width: 100%;
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     background-color: ${({ theme }) => theme.header};
     border-bottom: ${({ theme }) => theme.borderBottom};
   

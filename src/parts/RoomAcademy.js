@@ -3,8 +3,12 @@ import Room from 'components/Room';
 import SkeletonList from './skeleton/SkeletonList';
 import { isMobile } from 'react-device-detect';
 import { MdOutlineSearchOff } from 'react-icons/md';
+import useWindowDimensions from "utils/useWindowDimension";
 
 function RoomAcademy({ room, theme, isSearch, isSearchRegular, title }) {
+  const { width } = useWindowDimensions();
+  const style = width > 1500 ? "column-3" : "column-4";
+
   return (
     <>
       <h3 className="py-4">{!isSearch && title}</h3>
@@ -12,7 +16,7 @@ function RoomAcademy({ room, theme, isSearch, isSearchRegular, title }) {
         <div className="container-grid">
           {room.map(
             (item, idx) =>
-              <Room idx={idx} item={item} style="column-4">
+              <Room idx={idx} item={item} style={style}>
                 {item.is_onlive && (
                   <div className="tag" style={{backgroundColor: '#CC2636'}}>
                     On Live
