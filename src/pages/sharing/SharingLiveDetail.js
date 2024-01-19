@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { Col, Container, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { DETAIL_SCHEDULE } from "utils/api/api";
 
 import MainLayout from "pages/layout/MainLayout";
@@ -42,7 +42,7 @@ const SharingLiveDetail = (props) => {
       keywords={`sharing showroom ${theater?.setlist?.name}, jadwal theater JKT48, jadwal theater ${theater?.setlist?.name}`}
       {...props}
     >
-      <Container>
+      <div className="layout">
         <Row>
           <Col md="4">
             <MenuInfo menu={menu} setMenu={setMenu} />
@@ -72,7 +72,7 @@ const SharingLiveDetail = (props) => {
             <SharingUsers sharingUsers={sharingUsers} />
           </Col>
         </Row>
-      </Container>
+      </div>
     </MainLayout>
   );
 };
