@@ -153,6 +153,7 @@ function Live(props) {
         logName: "Sharing Live",
         userId: user?._id,
         description: `Watch Sharing Live ${title}`,
+        liveId: liveId,
       });
     }
 
