@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import {
   DETAIL_USER,
   LIVE_STREAM_URL,
+  PREMIUM_LIVE_TODAY,
   PROFILE_API,
   TODAY_SCHEDULE_API,
 } from "utils/api/api";
@@ -66,6 +67,8 @@ function Live(props) {
   const [title, setTitle] = useState("");
   const [isRefresh, setIsRefresh] = useState(false);
   const [liveId, setLiveId] = useState("")
+  const [sharingUsers, setSharingUsers] = useState([]);
+  const [token, setToken] = useState("")
   
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
   const dispatch = useDispatch();
@@ -100,12 +103,6 @@ function Live(props) {
         setUrl(streamUrl);
         !streamUrl && messages();
 
-        if (secretKey && streamUrl.code !== 404) {
-          const secretCode = localStorage.getItem("secretKey");
-          !secretCode && showToast("success", "Congrats secret code is valid");
-          localStorage.setItem("secretKey", secretKey);
-        }
-
         if (secretKey && streamUrl.code === 404) {
           setIsFailed(true);
         }
@@ -137,7 +134,6 @@ function Live(props) {
 
   useEffect(() => {
     setSession(getSession().session);
-    setSecretKey(secretKey);
 
     if (roomId === "332503" && url?.length > 1) {
       setIsPremiumLive(true)
@@ -191,7 +187,21 @@ function Live(props) {
       setMember(res?.data?.memberList);
       setTitle(res?.data?.setlist?.name);
     });
-  }, [isPremiumLive]);
+
+    axios.get(PREMIUM_LIVE_TODAY).then((res) => {
+      setSharingUsers(res?.data?.sharingLiveUsers)
+      setToken(res?.data?.webSocketId);
+    });
+
+    setSecretKey(secretKey ?? token);
+
+    sharingUsers.map((item) => {
+      if (item?.user_id?.user_id === user?.user_id) {
+        setSecretKey(token)
+      }
+    })
+
+  }, [isPremiumLive, token]);
 
   useEffect(() => {
     if (getSession().user && url?.length > 1 && profile) {
