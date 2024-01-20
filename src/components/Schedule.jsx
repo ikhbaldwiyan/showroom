@@ -91,7 +91,7 @@ const Schedule = ({ isSearch, isShowing, isHome, isSharing }) => {
                           item?.birthdayMemberName}
                       </div>
                     )}
-                    
+
                     {isSharing && (
                       <div className="info">
                         <FaUsers size={18} className="mr-1 mb-1" />
@@ -99,12 +99,13 @@ const Schedule = ({ isSearch, isShowing, isHome, isSharing }) => {
                       </div>
                     )}
 
-                    {item?.isGraduationShow && !isSharing & (
+                    {item?.isGraduationShow && !isSharing && (
                       <div className="info">
                         <IoSchoolSharp size={18} className="mr-1 mb-1" />
                         {item?.graduateMember?.stage_name}
                       </div>
                     )}
+
                     <figure className="img-wrapper">
                       <img
                         className="img-cover"
