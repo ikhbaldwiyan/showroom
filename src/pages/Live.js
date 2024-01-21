@@ -198,7 +198,9 @@ function Live(props) {
 
     sharingUsers.map((item) => {
       if (item?.user_id?.user_id === user?.user_id) {
+       if (item.status === "paid") {
         setSecretKey(token)
+       }
       }
     })
 
