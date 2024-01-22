@@ -187,6 +187,8 @@ function Live(props) {
   }, [isPremiumLive]);
 
   useEffect(() => {
+    const username = user?.name ?? getSession().profile.name ?? "Guest";
+    
     if (getSession().user && url?.length > 1 && profile) {
       activityLog({
         logName: "Watch",
@@ -194,16 +196,24 @@ function Live(props) {
         description: `Watch Live ${room_name}`,
         liveId: profile?.live_id
       });
+
+      gaTag({
+        action: "watch_showroom_live",
+        category: "Live Stream",
+        label: "Watch Showroom - Live Stream",
+        username,
+        room: room_name,
+      })
     }
 
     gaTag({
-      action: "watch_showroom_live",
-      category: "Live Stream",
-      label: "Watch Showroom - Live Stream",
-      username: profile?.name ?? "Guest",
+      action: "visit_showroom_profile",
+      category: "Room",
+      label: "Visit Profile",
+      username,
       room: room_name,
     })
-    
+
   }, [user, room_name, roomId, profile, url]);
 
   useEffect(() => {
