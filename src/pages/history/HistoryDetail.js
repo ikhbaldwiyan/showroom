@@ -28,7 +28,7 @@ const DetailLiveHistory = (props) => {
         const response = await axios.get(DETAIL_LIVE_HISTORY(id));
         const data = response.data;
         setHistory(data);
-        setRank(data.fans);
+        setRank(data.users);
         setGift(data.live_info.gift.list);
         window.document.title = `${response.data?.room_info?.name}Live History`;
       } catch (error) {

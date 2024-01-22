@@ -77,7 +77,6 @@ const RightMenu = ({ gift, setSearch, filterName, id }) => {
                   <th>Rank</th>
                   <th>Ava</th>
                   <th>Username</th>
-                  <th>Points</th>
                 </tr>
               </thead>
               {filterName &&
@@ -93,7 +92,6 @@ const RightMenu = ({ gift, setSearch, filterName, id }) => {
                         />
                       </td>
                       <td style={{ wordBreak: "break-word" }}>{item.name}</td>
-                      <td>{formatViews(item.fans_point)}</td>
                     </tr>
                   </tbody>
                 ))}
