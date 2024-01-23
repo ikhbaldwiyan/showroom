@@ -90,7 +90,7 @@ export default function Footer({ theme }) {
                 isExternal
                 target="_blank"
               >
-                <FaTwitter size={18} /> @Jkt48_Showroom
+                <FaTwitter size={18} /> @JKT48_SHOWROOM
               </Button>
             </li>
           </ul>
