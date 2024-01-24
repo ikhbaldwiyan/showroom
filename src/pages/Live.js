@@ -187,7 +187,7 @@ function Live(props) {
   }, [isPremiumLive]);
 
   useEffect(() => {
-    const username = user?.name ?? getSession().profile.name ?? "Guest";
+    const username = user?.name ?? getSession()?.profile?.name ?? "Guest";
     
     if (getSession().user && url?.length > 1 && profile) {
       activityLog({
