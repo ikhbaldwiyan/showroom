@@ -67,8 +67,9 @@ function Live(props) {
   const [isRefresh, setIsRefresh] = useState(false);
   const [liveId, setLiveId] = useState("")
   
-  const cookies = getSession()?.session?.cookie_login_id ?? "stream";
   const dispatch = useDispatch();
+  const cookies = getSession()?.session?.cookie_login_id ?? "stream";
+  const username = user?.name ?? getSession()?.profile?.name ?? "Guest";
 
   useEffect(() => {
     const session = localStorage.getItem("session");
@@ -91,6 +92,16 @@ function Live(props) {
         const profile = res.data;
         dispatch(getRoomDetailSucces(profile, profile.is_follow ? 1 : 0));
       });
+
+      if (url.length === 0) {
+        gaTag({
+          action: "visit_showroom_profile",
+          category: "Room",
+          label: "Visit Profile",
+          username,
+          room: room_name,
+        })
+      }
   }, [roomId]);
 
   useEffect(() => {
@@ -186,9 +197,7 @@ function Live(props) {
     });
   }, [isPremiumLive]);
 
-  useEffect(() => {
-    const username = user?.name ?? getSession()?.profile?.name ?? "Guest";
-    
+  useEffect(() => {    
     if (getSession().user && url?.length > 1 && profile) {
       activityLog({
         logName: "Watch",
@@ -205,14 +214,6 @@ function Live(props) {
         room: room_name,
       })
     }
-
-    gaTag({
-      action: "visit_showroom_profile",
-      category: "Room",
-      label: "Visit Profile",
-      username,
-      room: room_name,
-    })
 
   }, [user, room_name, roomId, profile, url]);
 
