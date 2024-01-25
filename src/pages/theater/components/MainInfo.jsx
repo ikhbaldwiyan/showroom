@@ -9,6 +9,7 @@ import {
   FaTheaterMasks,
 } from "react-icons/fa";
 import { IoSchoolSharp } from "react-icons/io5";
+import { gaTag } from "utils/gaTag";
 
 const MainInfo = ({ theater }) => {
   return (
@@ -77,7 +78,10 @@ const MainInfo = ({ theater }) => {
                   textTransform: "uppercase",
                 }}
               >
-                <b>{theater?.birthdayMember?.stage_name ?? theater?.birthdayMemberName}</b>
+                <b>
+                  {theater?.birthdayMember?.stage_name ??
+                    theater?.birthdayMemberName}
+                </b>
               </p>
             </div>
             <img
@@ -137,7 +141,21 @@ const MainInfo = ({ theater }) => {
               <b>385 JPY</b>
             </p>
           </div>
-          <a href={theater?.ticketShowroom} target="_blank" rel="noreferrer">
+          <a
+            href={
+              theater?.ticketShowroom ??
+              "https://www.showroom-live.com/premium_live"
+            }
+            onClick={() => {
+              gaTag({
+                action: "buy_ticket_showroom",
+                category: "Theater Schedule",
+                label: "Button",
+              })
+            }}
+            target="_blank"
+            rel="noreferrer"
+          >
             <button className="buy d-flex text-align-center justify-content-center align-items-center">
               Buy Ticket
             </button>
@@ -153,7 +171,20 @@ const MainInfo = ({ theater }) => {
               <b>RP. 200.000</b>
             </p>
           </div>
-          <a href={theater?.ticketTheater} target="_blank" rel="noreferrer">
+          <a
+            href={
+              theater?.ticketTheater ?? "https://jkt48.com/theater/schedule"
+            }
+            onClick={() => {
+              gaTag({
+                action: "buy_ticket_theater_jkt48",
+                category: "Theater Schedule",
+                label: "Button",
+              })
+            }}
+            target="_blank"
+            rel="noreferrer"
+          >
             <button className="buy d-flex text-align-center justify-content-center align-items-center">
               Buy Ticket
             </button>
