@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getRoomListRegular,
   getRoomListAcademy,
-  getRoomListTrainee
+  getRoomListTrainee,
 } from "redux/actions/rooms";
 import {
   RoomList,
@@ -17,7 +17,7 @@ import {
   RoomAcademy,
   RoomUpcoming,
   PremiumLive,
-  SearchAndFilter
+  SearchAndFilter,
 } from "parts";
 import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
@@ -98,9 +98,7 @@ function Home(props) {
     <MainLayout {...props}>
       <div className="layout my-0 mb-4">
         <ModalInfo />
-        {isMobile && (
-          <AlertInfo />
-        )}
+        {isMobile && <AlertInfo />}
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
@@ -121,19 +119,23 @@ function Home(props) {
               <PremiumLive theme={props.theme} />
               <RecentLive isSearch={search} />
               <Schedule isShowing={true} isSearch={search} isHome />
-              <RoomList
-                isSearchRegular={filtered}
-                isSearch={search}
-                room={filtered}
-                theme={props.theme}
-              />
-              <RoomAcademy
-                title="Room Trainee"
-                isSearchRegular={filtered}
-                isSearch={search}
-                room={filteredTrainee}
-                theme={props.theme}
-              />
+              {filtered.length > 0 && (
+                <div>
+                  <RoomList
+                    isSearchRegular={filtered}
+                    isSearch={search}
+                    room={filtered}
+                    theme={props.theme}
+                  />
+                  <RoomAcademy
+                    title="Room Trainee"
+                    isSearchRegular={filtered}
+                    isSearch={search}
+                    room={filteredTrainee}
+                    theme={props.theme}
+                  />
+                </div>
+              )}
             </>
           ) : isAcademy ? (
             <RoomAcademy
