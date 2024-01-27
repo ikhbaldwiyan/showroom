@@ -105,9 +105,9 @@ function About(props) {
               <a
                 rel="noreferrer"
                 target="_blank"
-                href="https://dc.crstlnz.site/recent"
+                href="https://dc.crstlnz.my.id/recent"
               >
-                https://dc.crstlnz.site/recent
+                https://dc.crstlnz.my.id/recent
               </a>{" "}
               (History Live Showroom)
             </li>
