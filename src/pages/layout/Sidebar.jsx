@@ -12,7 +12,7 @@ import { BsInfoCircleFill } from "react-icons/bs";
 import Button from "elements/Button";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import UserProfile from "parts/UserProfile";
-import { FaDiscord, FaDonate, FaTheaterMasks } from "react-icons/fa";
+import { FaDiscord, FaDonate, FaSlideshare, FaTheaterMasks } from "react-icons/fa";
 import { motion } from "framer-motion";
 import useWindowDimensions from "utils/useWindowDimension";
 import { getSession } from "utils/getSession";
@@ -48,6 +48,11 @@ const Sidebar = () => {
       name: "Live Stream",
       icon: <RiBroadcastFill style={iconHome} />,
       link: "/room/officialJKT48/332503",
+    },
+    {
+      name: "Sharing Live",
+      icon: <FaSlideshare style={iconHome} />,
+      link: "/sharing-live",
     },
     {
       name: "Multi Room",
