@@ -5,6 +5,7 @@ import { AiFillHome } from "react-icons/ai";
 import {
   RiBroadcastFill,
   RiChatHistoryFill,
+  RiMedalFill,
 } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiLoginBoxFill } from "react-icons/ri";
@@ -43,6 +44,11 @@ const Sidebar = () => {
       name: "Home",
       icon: <AiFillHome style={iconHome} />,
       link: "/",
+    },
+    {
+      name: "Leaderboard",
+      icon: <RiMedalFill style={iconHome} />,
+      link: "/leaderboard",
     },
     {
       name: "Live Stream",

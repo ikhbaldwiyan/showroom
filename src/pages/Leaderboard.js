@@ -2,6 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import MainLayout from "./layout/MainLayout";
 import { LEADERBOARD_API } from "utils/api/api";
 import axios from "axios";
+import { Table } from "reactstrap";
+import { Loading } from "components";
+import { RiMedal2Fill, RiMedalFill } from "react-icons/ri";
 
 const Leaderboard = (props) => {
   const [loading, setLoading] = useState(false);
@@ -30,36 +33,105 @@ const Leaderboard = (props) => {
     getLeaderboard();
   }, [getLeaderboard]);
 
-  return (
-    <MainLayout {...props}>
-      <h4>Leaderboard</h4>
-      <table className="tw-table-auto tw-text-black">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Username</th>
-            <th>Showroom</th>
-            <th>IDN</th>
-            <th>Total Watch</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leaderboardData.map((lb, idx) => (
-            <tr key={lb._id}>
-              <td>{idx + 1}</td>
-              <td>
-                <div className="tw-flex">
-                  <img src={lb.avatar} alt={lb.name} className="tw-max-w-5" />
-                  {lb.user_id}
-                </div>
-              </td>
-              <td>{lb.watchShowroomMember}</td>
-              <td>{lb.watchLiveIDN}</td>
-              <td>{lb.totalWatchLive}</td>
-            </tr>
+  const Skeleton = () => (
+    <>
+      {[...Array(10)].map((_, index) => (
+        <tr key={index}>
+          {[...Array(5)].map((_, index) => (
+            <td
+              className="text-center align-middle"
+              style={{ width: "100px", height: "30px" }}
+            >
+              <Loading size="25" />
+            </td>
           ))}
-        </tbody>
-      </table>
+        </tr>
+      ))}
+    </>
+  );
+
+  return (
+    <MainLayout title="Leaderboard" {...props}>
+      <h2 className="ml-3 my-4">TOP LEADERBOARD ALL TIME</h2>
+      <div className="col-lg-6">
+        <div className="table-responsive">
+          <Table
+            style={{ color: "#ecfafc", borderTop: "none", fontWeight: "600" }}
+            className="member-wrapper"
+          >
+            <thead className="text-center">
+              <tr>
+                <th>
+                  <RiMedalFill size={24} />
+                </th>
+                <th>Username</th>
+                <th>Showroom</th>
+                <th>IDN</th>
+                <th>Total Watch</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <Skeleton />
+              ) : (
+                leaderboardData.map((lb, idx) => (
+                  <tr key={lb._id}>
+                    <td className="text-center align-middle">
+                      <div
+                        className={`rounded-circle d-flex justify-content-center align-items-center ${
+                          idx === 0
+                            ? "bg-warning"
+                            : idx === 1
+                            ? "bg-secondary bg-opacity-75"
+                            : idx === 2
+                            ? "bg-bronze"
+                            : "bg-dark"
+                        }`}
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          margin: "auto",
+                        }}
+                      >
+                        {idx + 1}
+                      </div>
+                    </td>
+                    <td style={{ maxWidth: "200px" }}>
+                      <div className="row align-items-center">
+                        <div className="col-auto">
+                          <img width={55} src={lb.avatar} alt={lb.name} />
+                        </div>
+                        <div className="col">
+                          <div
+                            className="text-truncate"
+                            style={{ maxWidth: "150px" }}
+                          >
+                            {lb.user_id}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="text-center align-middle">
+                      {lb.watchShowroomMember}x
+                    </td>
+                    <td className="text-center align-middle">
+                      {lb.watchLiveIDN}x
+                    </td>
+                    <td className="text-center align-middle">
+                      <div
+                        style={{ color: "#24A2B7", fontWeight: "bold" }}
+                        className="bg-light badge px-3 py-1 w-5"
+                      >
+                        {lb.totalWatchLive}x
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </Table>
+        </div>
+      </div>
     </MainLayout>
   );
 };
