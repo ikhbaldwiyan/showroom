@@ -34,7 +34,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
         (room) => room.premium_room_type !== 1
       );
 
-      if (roomLiveFilter.length >= 1) {
+      if (roomLiveFilter?.length >= 1) {
         dispatch(getRoomLiveSuccess(roomLiveFilter));
       } else {
         dispatch(getRoomLiveFailed());
@@ -45,7 +45,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
 
   const filteredLive = !search
     ? roomLive
-    : roomLive.filter((room) =>
+    : roomLive?.filter((room) =>
         room.main_name.toLowerCase().includes(search.toLowerCase())
       );
 
