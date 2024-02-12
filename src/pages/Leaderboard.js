@@ -3,13 +3,20 @@ import MainLayout from "./layout/MainLayout";
 import { LEADERBOARD_API } from "utils/api/api";
 import axios from "axios";
 import { Table } from "reactstrap";
-import { Loading } from "components";
+import { FilterDropdown, Loading } from "components";
 import { RiMedalFill } from "react-icons/ri";
 
 const Leaderboard = (props) => {
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({ currentPage: 1 });
   const [leaderboardData, setLeaderboardData] = useState([]);
+  const [isOpenPlatform, setIsOpenPlatform] = useState(false);
+  const [isOpenMonth, setIsOpenMonth] = useState(false);
+  const [platform, setPlatform] = useState("");
+  const [month, setMonth] = useState("");
+
+  const toggler = (setDropdownOpen) =>
+    setDropdownOpen((prevState) => !prevState);
 
   const getLeaderboard = useCallback(async () => {
     try {
@@ -17,17 +24,16 @@ const Leaderboard = (props) => {
       const {
         data: { data },
       } = await axios.get(LEADERBOARD_API, {
-        params: { page: pagination.currentPage },
+        params: { page: pagination.currentPage, month },
       });
       setLeaderboardData(data.data);
       setPagination(data.pagination);
-      return { data };
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
-  }, [pagination.currentPage]);
+  }, [month, pagination.currentPage]);
 
   useEffect(() => {
     getLeaderboard();
@@ -50,25 +56,83 @@ const Leaderboard = (props) => {
     </>
   );
 
+  const filterPlatformDropdownList = {
+    title: "Select Platform",
+    current: platform || "All Platform",
+    dropdown: [
+      {
+        name: "All Platform",
+        action: () => setPlatform(""),
+        disabled: platform === "",
+      },
+      {
+        name: "Showroom",
+        action: () => setPlatform("Showroom"),
+        disabled: platform === "Showroom",
+      },
+      {
+        name: "IDN",
+        action: () => setPlatform("IDN"),
+        disabled: platform === "IDN",
+      },
+    ],
+  };
+
+  const filterMonthDropdownList = {
+    title: "Select Month",
+    current: month || "All Time",
+    dropdown: [
+      {
+        name: "All Time",
+        action: () => setMonth(""),
+        disabled: month === "",
+      },
+      {
+        name: "Januari",
+        action: () => setMonth("01-2024"),
+        disabled: month === "01-2024",
+      },
+    ],
+  };
+
   return (
-    <MainLayout title="Leaderboard JKT48 SHOWROOm" {...props}>
-      <div className="layout">
-        <h3 className="my-4 font-weight-bold">TOP LEADERBOARD ALL TIME</h3>
+    <MainLayout title="Leaderboard | JKT48 SHOWROOM" {...props}>
+      <div className="container">
         <div className="row">
-          <div className="col-lg-8">
+          <div className="col-lg-12">
+            <h3 className="font-weight-bold my-3">
+              TOP LEADERBOARD {month || "ALL TIME"}
+            </h3>
+          </div>
+          <div className="col-lg-6 d-flex my-auto">
+            <p className="my-auto mr-3">Platform</p>
+            <FilterDropdown
+              dropdownList={filterPlatformDropdownList}
+              isOpen={isOpenPlatform}
+              toggler={() => toggler(setIsOpenPlatform)}
+            />
+          </div>
+          <div className="col-lg-6 d-flex my-auto">
+            <p className="my-auto mr-2">Month</p>
+            <FilterDropdown
+              dropdownList={filterMonthDropdownList}
+              isOpen={isOpenMonth}
+              toggler={() => toggler(setIsOpenMonth)}
+            />
+          </div>
+          <div className="col-lg-12 mt-3">
             <div className="table-responsive">
-              <Table
-                style={{ color: "#ecfafc", borderTop: "none", fontWeight: "600" }}
-                className="member-wrapper"
-              >
+              <Table className="member-wrapper text-white">
                 <thead className="text-center">
                   <tr>
                     <th>
                       <RiMedalFill size={30} />
                     </th>
                     <th>Username</th>
-                    <th>Showroom</th>
-                    <th>IDN</th>
+                    {(platform === "Showroom" || platform === "") && (
+                      <th>Showroom</th>
+                    )}
+                    {(platform === "IDN" || platform === "") && <th>IDN</th>}
                     <th>Total Watch</th>
                   </tr>
                 </thead>
@@ -113,15 +177,23 @@ const Leaderboard = (props) => {
                             </div>
                           </div>
                         </td>
-                        <td className="text-center align-middle">
-                          {lb.watchShowroomMember}x
-                        </td>
-                        <td className="text-center align-middle">
-                          {lb.watchLiveIDN}x
-                        </td>
+                        {(platform === "Showroom" || platform === "") && (
+                          <td className="text-center align-middle">
+                            {lb.watchShowroomMember}x
+                          </td>
+                        )}
+                        {(platform === "IDN" || platform === "") && (
+                          <td className="text-center align-middle">
+                            {lb.watchLiveIDN}x
+                          </td>
+                        )}
                         <td className="text-center align-middle">
                           <div
-                            style={{ color: "#24A2B7", fontWeight: "bold", fontSize: "16px" }}
+                            style={{
+                              color: "#24A2B7",
+                              fontWeight: "bold",
+                              fontSize: "16px",
+                            }}
                             className="bg-light badge px-3 py-1 w-5"
                           >
                             {lb.totalWatchLive}x
