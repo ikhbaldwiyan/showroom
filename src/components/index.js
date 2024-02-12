@@ -13,7 +13,7 @@ import StarMulti from "./StarMulti";
 import AlertInfo from "./AlertInfo";
 import Schedule from "./Schedule";
 import NoTicket from "./NoTicket";
-import { FilterDropdown } from "./Dropdown";
+import FilterDropdown from "./Dropdown";
 
 export {
   Profile,

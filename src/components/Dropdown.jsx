@@ -20,3 +20,5 @@ export const FilterDropdown = ({ dropdownList,isOpen,toggler }) => (
     </DropdownMenu>
   </Dropdown>
 );
+
+export default FilterDropdown;

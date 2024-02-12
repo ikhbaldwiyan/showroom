@@ -14,6 +14,7 @@ const Leaderboard = (props) => {
   const [isOpenMonth, setIsOpenMonth] = useState(false);
   const [platform, setPlatform] = useState("");
   const [month, setMonth] = useState("");
+  const [titleMonth, setTitleMonth] = useState("");
 
   const toggler = (setDropdownOpen) =>
     setDropdownOpen((prevState) => !prevState);
@@ -24,7 +25,12 @@ const Leaderboard = (props) => {
       const {
         data: { data },
       } = await axios.get(LEADERBOARD_API, {
-        params: { page: pagination.currentPage, month },
+        params: {
+          page: pagination.currentPage,
+          filterBy: month !== "" ? "month" : "",
+          month,
+          platform,
+        },
       });
       setLeaderboardData(data.data);
       setPagination(data.pagination);
@@ -33,7 +39,7 @@ const Leaderboard = (props) => {
     } finally {
       setLoading(false);
     }
-  }, [month, pagination.currentPage]);
+  }, [month, pagination.currentPage, platform]);
 
   useEffect(() => {
     getLeaderboard();
@@ -84,13 +90,27 @@ const Leaderboard = (props) => {
     dropdown: [
       {
         name: "All Time",
-        action: () => setMonth(""),
+        action: () => {
+          setMonth("")
+          setTitleMonth("All TIME")
+        },
         disabled: month === "",
       },
       {
-        name: "Januari",
-        action: () => setMonth("01-2024"),
+        name: "January",
+        action: () => {
+          setMonth("01-2024");
+          setTitleMonth("January");
+        },
         disabled: month === "01-2024",
+      },
+      {
+        name: "February",
+        action: () => {
+          setMonth("02-2024");
+          setTitleMonth("February");
+        },
+        disabled: month === "02-2024",
       },
     ],
   };
@@ -101,7 +121,8 @@ const Leaderboard = (props) => {
         <div className="row">
           <div className="col-lg-12">
             <h3 className="font-weight-bold my-3">
-              TOP LEADERBOARD {month || "ALL TIME"}
+              TOP LEADERBOARD {platform.toUpperCase()}{" "}
+              {titleMonth.toUpperCase() || "ALL TIME"}
             </h3>
           </div>
           <div className="col-lg-6 d-flex my-auto">
@@ -133,7 +154,7 @@ const Leaderboard = (props) => {
                       <th>Showroom</th>
                     )}
                     {(platform === "IDN" || platform === "") && <th>IDN</th>}
-                    <th>Total Watch</th>
+                    <th>All Platform</th>
                   </tr>
                 </thead>
                 <tbody>
