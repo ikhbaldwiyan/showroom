@@ -38,6 +38,7 @@ export default function Multi({
   const [menu, setMenu] = useState("room");
   const [loading, setLoading] = useState(false);
   const [hideMenu, setHideMenu] = useState(false);
+  const [liveId, setLiveId] = useState("")
 
   useEffect(() => {
     setRoomId(selectedRoom?.id);
@@ -112,6 +113,7 @@ export default function Multi({
               updateMenu={setMenu}
               setUrl={setUrl}
               handleRefresh={handleRefresh}
+              setLiveId={setLiveId}
             />
           </>
         ))

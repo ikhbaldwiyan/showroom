@@ -64,7 +64,7 @@ export default function RoomList({
   useEffect(() => {
     async function getRoomLive() {
       const room = await axios.get(ROOM_LIVES_API);
-      if (room.data.data.length >= 1) {
+      if (room?.data?.data?.length >= 1) {
         dispatch(getRoomLiveSuccess(room.data.data));
       } else {
         dispatch(getRoomLiveFailed());
