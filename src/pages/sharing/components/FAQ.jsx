@@ -35,7 +35,7 @@ const FAQ = () => {
     {
       question: "Cara nonton show premium live?",
       answer:
-        "Jika sudah membeli tiket sharing live kalian bisa langsung nonton premium live via web JKT48 SHOWROOM dengan cara klik dulu user profile dan klik button sharing live yang warna hijau, nanti akan redirect langsung ke show premium live sharing ",
+        "Jika sudah membeli tiket sharing live kalian bisa langsung nonton premium live via web JKT48 SHOWROOM dengan cara masuk ke menu Live Stream atau bisa liat live notif di discord group",
     },
   ];
 
