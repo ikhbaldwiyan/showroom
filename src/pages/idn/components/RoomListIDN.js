@@ -67,7 +67,9 @@ const RoomListIDN = ({ currentRoom }) => {
               </td>
               <td className="d-flex flex-column align-items-center">
                 <span className="mt-1">
-                  {data?.user?.name.replace("JKT48", "")}
+                  {data?.user?.name !== "JKT48"
+                    ? data?.user?.name.replace("JKT48", "")
+                    : data?.user?.name}
                 </span>
                 <LiveButton
                   style={{ borderRadius: "6px" }}
