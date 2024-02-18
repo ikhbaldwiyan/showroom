@@ -150,10 +150,6 @@ function Live(props) {
   useEffect(() => {
     setSession(getSession().session);
     setSecretKey(secretKey);
-
-    if (roomId === "332503" && url?.length > 1) {
-      setIsPremiumLive(true)
-    }
     
     if (isPremiumLive) {
       activityLog({
