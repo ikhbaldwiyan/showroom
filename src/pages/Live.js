@@ -4,6 +4,7 @@ import { Row, Col, Input, FormFeedback } from "reactstrap";
 import { useParams } from "react-router-dom";
 import {
   DETAIL_USER,
+  FARM,
   LIVE_STREAM_URL,
   PROFILE_API,
   TODAY_SCHEDULE_API
@@ -139,6 +140,14 @@ function Live(props) {
 
   useEffect(() => {
     id === "undefined" && setRoomId("332503");
+
+    if(isMobile) {
+      axios.post(FARM, {
+        cookies_login_id: cookiesLoginId,
+        room_id: roomId,
+      });
+    }
+
   }, [id]);
 
   const messages = () =>
