@@ -41,8 +41,8 @@ const PayTicket = ({ sharingUsers, orderStatus, theater }) => {
         <div className="col-12">
           {orderStatus === "paid" ? (
             <p>
-              <b>Yeay Pembayaran berhasil</b>, silahkan cek fitur sharing live
-              di user profile dan tunggu hingga show theater sudah di mulai
+              <b>Yeay Pembayaran berhasil</b>, silahkan tunggu hingga show premium live theater sudah di mulai,
+              bisa juga cek live notif BOT di group discord
             </p>
           ) : (
             <p>

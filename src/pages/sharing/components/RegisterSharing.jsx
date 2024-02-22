@@ -41,6 +41,12 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
 
   const toggle = () => setModal(!modal);
 
+  useEffect(() => {
+    if ((orderStatus === "registered") || (orderStatus === "paid")) {
+      setModal(true)
+    } 
+  }, [orderStatus])
+
   const handleRegisterSharingLive = () => {
     axios
       .post(SHARING_LIVE, {

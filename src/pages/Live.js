@@ -139,7 +139,7 @@ function Live(props) {
       setIsPremiumLive(true)
     }
     
-    if (isPremiumLive) {
+    if (isPremiumLive && !secretKey) {
       activityLog({
         logName: "Premium Live",
         userId: user?._id,
