@@ -38,6 +38,7 @@ const SharingLiveDetail = (props) => {
 
   return (
     <MainLayout
+      description={`${theater?.setlist?.name} - Sharing Live Showroom JKT48`}
       title={`${theater?.setlist?.name} - Sharing Live Theater JKT48`}
       keywords={`sharing showroom ${theater?.setlist?.name}, jadwal theater JKT48, jadwal theater ${theater?.setlist?.name}`}
       {...props}
