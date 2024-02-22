@@ -28,7 +28,6 @@ import {
 } from "components";
 import { isMobile } from "react-device-detect";
 import { useDispatch, useSelector } from "react-redux";
-import FarmStars from "components/FarmStars";
 import { getSession } from "utils/getSession";
 import { MdError } from "react-icons/md";
 import { useRef } from "react";
@@ -159,6 +158,10 @@ function Live(props) {
   useEffect(() => {
     setSession(getSession().session);
     setSecretKey(secretKey);
+
+    if (roomId === "332503" && url?.length > 1) {
+      setIsPremiumLive(true)
+    }
     
     if (isPremiumLive) {
       activityLog({
