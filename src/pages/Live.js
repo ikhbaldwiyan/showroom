@@ -183,6 +183,7 @@ function Live(props) {
   };
 
   useEffect(() => {
+   if (isPremiumLive) {
     axios.get(TODAY_SCHEDULE_API).then((res) => {
       setSetlist(res?.data?.setlist?.songs);
       setMember(res?.data?.memberList);
@@ -196,14 +197,14 @@ function Live(props) {
 
     setSecretKey(secretKey ?? token);
 
-    sharingUsers.map((item) => {
+    sharingUsers?.map((item) => {
       if (item?.user_id?.user_id === user?.user_id) {
-       if (item.status === "paid") {
+      if (item.status === "paid") {
         setSecretKey(token)
-       }
+      }
       }
     })
-
+   }
   }, [isPremiumLive, token]);
 
   useEffect(() => {
