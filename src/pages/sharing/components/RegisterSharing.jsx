@@ -56,6 +56,9 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
         discord_image: selectedOption?.avatar,
         status: "registered",
         image: getSession()?.profile?.avatar_url,
+        setlist_name: theater?.setlist?.name,
+        user_name: profile?.name,
+        date_schedule: theater?.showDate,
       })
       .then((res) => {
         toggle();
