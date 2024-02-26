@@ -1,13 +1,13 @@
 // BASE URL API
-const API = "https://api-wine-nine.vercel.app/api";
-const ADMIN_API = "https://showroom-admin.vercel.app"
-const BOT_API = "https://jkt48-showroom-bot.ikhbaldwiyan.repl.co/discord"
+const API = process.env.REACT_APP_SHOWROOM_API;
+const ADMIN_API = process.env.REACT_APP_ADMIN_API;
+const BOT_API = process.env.REACT_APP_BOT_API;
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
 const SHOWROOM_WRAPPED = "https://jkt48-showroom-wrapped.vercel.app"
 
 // LARAVEL API
-const LARAVEL_API = "https://laravel-showroom-api.vercel.app/api";
+const LARAVEL_API = process.env.REACT_APP_LARAVEL_API;
 const LOGIN = `${LARAVEL_API}/login`;
 const SEND_COMMENT = `${LARAVEL_API}/live/comment`;
 const UPDATE_PROFILE = `${LARAVEL_API}/profile/update`;
@@ -24,7 +24,7 @@ const BULK_GIFT = `${LARAVEL_API}/live/bulk_gift`;
 const SEND_GIFT = `${LARAVEL_API}/live/send_gift`;
 
 // SHOWROOM LOG API
-const SHOWROOM_LOG_API = "https://api.crstlnz.my.id/api";
+const SHOWROOM_LOG_API = process.env.REACT_APP_HISTORY_API;
 const RECENT_LIVE_LOG_API = (
   sort = "date",
   page = "1",
