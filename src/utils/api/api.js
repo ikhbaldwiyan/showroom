@@ -1,5 +1,5 @@
 // BASE URL API
-const API = process.env.REACT_APP_BASE_API;
+const API = process.env.REACT_APP_SHOWROOM_API;
 const ADMIN_API = process.env.REACT_APP_ADMIN_API;
 const BOT_API = process.env.REACT_APP_BOT_API;
 const LIVE = `${API}/lives`;
@@ -24,7 +24,7 @@ const BULK_GIFT = `${LARAVEL_API}/live/bulk_gift`;
 const SEND_GIFT = `${LARAVEL_API}/live/send_gift`;
 
 // SHOWROOM LOG API
-const SHOWROOM_LOG_API = "https://api.crstlnz.my.id/api";
+const SHOWROOM_LOG_API = process.env.REACT_APP_HISTORY_API;
 const RECENT_LIVE_LOG_API = (
   sort = "date",
   page = "1",
