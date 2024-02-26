@@ -62,7 +62,7 @@ const DetailLiveHistory = (props) => {
                 />
                 <div className="mt-1">
                   <span className="main-title-text">
-                    {history?.room_info?.url.replace("JKT48_", " ")} History Log
+                    {history?.room_info?.nickname} History Log
                   </span>
                   <p className="text-lg mt-1">
                     {moment(history?.live_info.date.start).format(
