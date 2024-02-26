@@ -1,5 +1,5 @@
 // BASE URL API
-const API = process.env.REACT_APP_MAIN_API;
+const API = process.env.REACT_APP_BASE_API;
 const ADMIN_API = process.env.REACT_APP_ADMIN_API;
 const BOT_API = process.env.REACT_APP_BOT_API;
 const LIVE = `${API}/lives`;
