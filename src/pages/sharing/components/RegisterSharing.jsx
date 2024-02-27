@@ -78,17 +78,6 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
             // show payment instruction
             setModal(true);
           });
-
-        // SEND NOTIF ADMIN WEB
-        sendNotif({
-          userId: getSession()?.userProfile?._id,
-          message: `Register sharing live ${
-            theater?.setlist?.name
-          } tanggal ${moment(theater?.showDate).format(
-            "DD MMM YYYY"
-          )} dengan order id ${res.data.order_id}`,
-          type: "Sharing Live",
-        });
       })
       .catch((err) => {
         showToast("error", err?.response?.data?.error);
