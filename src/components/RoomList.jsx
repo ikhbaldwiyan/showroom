@@ -64,7 +64,7 @@ export default function RoomList({
   useEffect(() => {
     async function getRoomLive() {
       const room = await axios.get(ROOM_LIVES_API);
-      if (room.data.data.length >= 1) {
+      if (room?.data?.data?.length >= 1) {
         dispatch(getRoomLiveSuccess(room.data.data));
       } else {
         dispatch(getRoomLiveFailed());
@@ -255,7 +255,7 @@ export default function RoomList({
                       )
                   )}
                 {/* Room Regular */}
-                {filtered && filtered.length !== 0 ? (
+                {filtered && filtered?.length !== 0 ? (
                   filtered.map(
                     (item, idx) =>
                       !item.is_live &&
@@ -285,8 +285,8 @@ export default function RoomList({
                   </tbody>
                 )}
                 {/* Room Academy */}
-                {filteredAcademy && filteredAcademy.length !== 0 ? (
-                  filteredAcademy.map(
+                {filteredAcademy && filteredAcademy?.length !== 0 ? (
+                  filteredAcademy?.map(
                     (item, idx) =>
                       !item.is_onlive && (
                         <RoomListTable
@@ -299,7 +299,7 @@ export default function RoomList({
                         />
                       )
                   )
-                ) : roomAcademy.length === 0 ? (
+                ) : roomAcademy?.length === 0 ? (
                   <SkeletonLoading />
                 ) : (
                   <tbody>
@@ -314,8 +314,8 @@ export default function RoomList({
                   </tbody>
                 )}
                 {/* Room Trainee */}
-                {filteredTrainee && filteredTrainee.length !== 0 ? (
-                  filteredTrainee.map(
+                {filteredTrainee && filteredTrainee?.length !== 0 ? (
+                  filteredTrainee?.map(
                     (item, idx) =>
                       !item.is_onlive && (
                         <RoomListTable
@@ -328,7 +328,7 @@ export default function RoomList({
                         />
                       )
                   )
-                ) : roomTrainee.length === 0 ? (
+                ) : roomTrainee?.length === 0 ? (
                   <SkeletonLoading />
                 ) : (
                   <tbody>
@@ -344,8 +344,8 @@ export default function RoomList({
                 )}
               </>
             ) : isAcademy ? (
-              filteredAcademy && filteredAcademy.length !== 0 ? (
-                filteredAcademy.map(
+              filteredAcademy && filteredAcademy?.length !== 0 ? (
+                filteredAcademy?.map(
                   (item, idx) =>
                     !item.is_onlive && (
                       <RoomListTable
@@ -358,7 +358,7 @@ export default function RoomList({
                       />
                     )
                 )
-              ) : roomAcademy.length === 0 ? (
+              ) : roomAcademy?.length === 0 ? (
                 <SkeletonLoading />
               ) : (
                 <tbody>
@@ -373,7 +373,7 @@ export default function RoomList({
                 </tbody>
               )
             ) : isRegular ? (
-              filteredTrainee && filteredTrainee.length !== 0 ? (
+              filteredTrainee && filteredTrainee?.length !== 0 ? (
                 filteredTrainee.map((item, idx) => (
                   <RoomListTable
                     idx={idx}
@@ -384,7 +384,7 @@ export default function RoomList({
                     number={number}
                   />
                 ))
-              ) : roomRegular.length === 0 ? (
+              ) : roomRegular?.length === 0 ? (
                 <SkeletonLoading />
               ) : (
                 <tbody>
@@ -400,8 +400,8 @@ export default function RoomList({
               )
             ) : isOnLive ? (
               filteredFollow &&
-              filteredFollow.length !== 0 &&
-              filteredFollow.map((item, idx) => (
+              filteredFollow?.length !== 0 &&
+              filteredFollow?.map((item, idx) => (
                 <RoomListTable
                   idx={idx}
                   data={item}

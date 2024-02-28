@@ -34,7 +34,7 @@ const PremiumLive = ({ theme }) => {
         (room) => room.premium_room_type === 1
       );
 
-      if (premiumLiveFilter.length > 0) {
+      if (premiumLiveFilter?.length > 0) {
         dispatch(getRoomPremiumLiveSuccess(premiumLiveFilter));
       } else {
         dispatch(getRoomPremiumLiveFailed());

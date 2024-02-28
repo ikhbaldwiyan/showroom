@@ -78,7 +78,7 @@ function Title({
           const profiles = res.data;
           setProfile(profiles);
           setTitle(profiles.title);
-          setLiveId(profiles.websocket.live_id)
+          setLiveId(profiles?.websocket?.live_id)
           !isMultiRoom && setIsPremiumLive(profiles.isPremiumLive);
         },
         [profile]

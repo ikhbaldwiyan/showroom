@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { IoSchoolSharp } from "react-icons/io5";
 import SharingLive from "./SharingLive";
+import { gaTag } from "utils/gaTag";
 
 const MainInfo = ({ theater, sharingUsers, setIsRegister, isSharingLive }) => {
   return (

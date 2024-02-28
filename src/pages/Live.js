@@ -4,6 +4,7 @@ import { Row, Col, Input, FormFeedback } from "reactstrap";
 import { useParams } from "react-router-dom";
 import {
   DETAIL_USER,
+  FARM,
   LIVE_STREAM_URL,
   PREMIUM_LIVE_TODAY,
   PROFILE_API,
@@ -28,7 +29,6 @@ import {
 } from "components";
 import { isMobile } from "react-device-detect";
 import { useDispatch, useSelector } from "react-redux";
-import FarmStars from "components/FarmStars";
 import { getSession } from "utils/getSession";
 import { MdError } from "react-icons/md";
 import { useRef } from "react";
@@ -70,8 +70,9 @@ function Live(props) {
   const [sharingUsers, setSharingUsers] = useState([]);
   const [token, setToken] = useState("")
   
-  const cookies = getSession()?.session?.cookie_login_id ?? "stream";
   const dispatch = useDispatch();
+  const cookies = getSession()?.session?.cookie_login_id ?? "stream";
+  const username = user?.name ?? getSession()?.profile?.name ?? "Guest";
 
   useEffect(() => {
     const session = localStorage.getItem("session");
@@ -94,6 +95,16 @@ function Live(props) {
         const profile = res.data;
         dispatch(getRoomDetailSucces(profile, profile.is_follow ? 1 : 0));
       });
+
+      if (url.length === 0) {
+        gaTag({
+          action: "visit_showroom_profile",
+          category: "Room",
+          label: "Visit Profile",
+          username,
+          room: room_name,
+        })
+      }
   }, [roomId]);
 
   useEffect(() => {
@@ -124,6 +135,14 @@ function Live(props) {
 
   useEffect(() => {
     id === "undefined" && setRoomId("332503");
+
+    if(isMobile) {
+      axios.post(FARM, {
+        cookies_login_id: cookiesLoginId,
+        room_id: roomId,
+      });
+    }
+
   }, [id]);
 
   const messages = () =>
@@ -207,7 +226,7 @@ function Live(props) {
    }
   }, [isPremiumLive, token]);
 
-  useEffect(() => {
+  useEffect(() => {    
     if (getSession().user && url?.length > 1 && profile) {
       activityLog({
         logName: "Watch",
@@ -215,16 +234,16 @@ function Live(props) {
         description: `Watch Live ${room_name}`,
         liveId: profile?.live_id
       });
+
+      gaTag({
+        action: "watch_showroom_live",
+        category: "Live Stream",
+        label: "Watch Showroom - Live Stream",
+        username,
+        room: room_name,
+      })
     }
 
-    gaTag({
-      action: "watch_showroom_live",
-      category: "Live Stream",
-      label: "Watch Showroom - Live Stream",
-      username: profile?.name ?? "Guest",
-      room: room_name,
-    })
-    
   }, [user, room_name, roomId, profile, url]);
 
   useEffect(() => {

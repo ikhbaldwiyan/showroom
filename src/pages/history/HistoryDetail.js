@@ -28,7 +28,7 @@ const DetailLiveHistory = (props) => {
         const response = await axios.get(DETAIL_LIVE_HISTORY(id));
         const data = response.data;
         setHistory(data);
-        setRank(data.fans);
+        setRank(data.users);
         setGift(data.live_info.gift.list);
         window.document.title = `${response.data?.room_info?.name}Live History`;
       } catch (error) {
@@ -62,7 +62,7 @@ const DetailLiveHistory = (props) => {
                 />
                 <div className="mt-1">
                   <span className="main-title-text">
-                    {history?.room_info?.url.replace("JKT48_", " ")} History Log
+                    {history?.room_info?.nickname} History Log
                   </span>
                   <p className="text-lg mt-1">
                     {moment(history?.live_info.date.start).format(
@@ -99,7 +99,7 @@ const DetailLiveHistory = (props) => {
                     <div className="mt-1">
                       <span className="live-text">Gift</span>
                       <p className="theater-time mt-1">
-                        {formatNumber(history?.total_point)} G
+                        {formatNumber(history?.total_point ?? history?.total_gifts)} G
                       </p>
                     </div>
                   </div>

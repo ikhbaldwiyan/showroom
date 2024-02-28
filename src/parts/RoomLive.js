@@ -34,7 +34,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
         (room) => room.premium_room_type !== 1
       );
 
-      if (roomLiveFilter.length >= 1) {
+      if (roomLiveFilter?.length >= 1) {
         dispatch(getRoomLiveSuccess(roomLiveFilter));
       } else {
         dispatch(getRoomLiveFailed());
@@ -45,7 +45,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
 
   const filteredLive = !search
     ? roomLive
-    : roomLive.filter((room) =>
+    : roomLive?.filter((room) =>
         room.main_name.toLowerCase().includes(search.toLowerCase())
       );
 
@@ -78,7 +78,7 @@ export default function RoomLive({ theme, search, isOnLive }) {
                         </div>
                         <figure className="img-wrapper">
                           <img
-                            src={isMobile ? item?.image?.replace("s.jpeg", "l.jpeg") : item?.image_square?.replace("s.jpeg", "l.jpeg")}
+                            src={(isMobile || item?.room_url_key === "officialJKT48") ? item?.image?.replace("s.jpeg", "l.jpeg") : item?.image_square?.replace("s.jpeg", "l.jpeg")}
                             alt={item.room_name}
                             className="img-cover"
                           />

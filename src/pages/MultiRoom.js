@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Row } from "reactstrap";
 
 import MainLayout from "./layout/MainLayout";
 import Multi from "parts/Multi";
 import Loading from "components/Loading";
 import MultiMenu from "components/MultiMenu";
-import FarmStars from "components/FarmStars";
 import UnlockRoom from "components/UnlockRoom";
 
 export default function MultiRoom(props) {
@@ -31,7 +30,7 @@ export default function MultiRoom(props) {
       id: "",
       name: "",
     },
-  }
+  };
   const [multiRoom, setMultiRoom] = useState(multiRoomState);
 
   useEffect(() => {
@@ -55,20 +54,20 @@ export default function MultiRoom(props) {
 
   useEffect(() => {
     // Retrieve multiRoom data from local storage
-    const storedMultiRoom = localStorage.getItem('multiRoom');
+    const storedMultiRoom = localStorage.getItem("multiRoom");
     if (storedMultiRoom) {
       setMultiRoom(JSON.parse(storedMultiRoom));
     }
   }, []);
-  
+
   useEffect(() => {
     // Save multiRoom data to local storage
-    localStorage.setItem('multiRoom', JSON.stringify(multiRoom));
+    localStorage.setItem("multiRoom", JSON.stringify(multiRoom));
   }, [multiRoom]);
 
   const handleClearRoom = () => {
     setMultiRoom(multiRoomState);
-    localStorage.removeItem('multiRoom');
+    localStorage.removeItem("multiRoom");
   };
 
   const removeSelectedRoom = (number) => {
@@ -80,7 +79,7 @@ export default function MultiRoom(props) {
       },
     };
     setMultiRoom(updatedMultiRoom);
-    localStorage.setItem('multiRoom', JSON.stringify(updatedMultiRoom));
+    localStorage.setItem("multiRoom", JSON.stringify(updatedMultiRoom));
   };
 
   const propsMultiRoom = {
@@ -93,8 +92,32 @@ export default function MultiRoom(props) {
     setIsFarming,
     updateMultiRoom,
     handleClearRoom,
-    removeSelectedRoom
+    removeSelectedRoom,
   };
+
+  const memoizedLayoutElements = useMemo(() => {
+    return (
+      <>
+        <Multi {...propsMultiRoom} number="1" selectedRoom={multiRoom[1]} />
+        <Multi {...propsMultiRoom} number="2" selectedRoom={multiRoom[2]} />
+        {layout === "4" || layout === "3" ? (
+          loading && layout !== "3" ? (
+            <Loading />
+          ) : (
+            <Multi {...propsMultiRoom} number="3" selectedRoom={multiRoom[3]} />
+          )
+        ) : (
+          ""
+        )}
+        {layout === "3" &&
+          (loading && layout !== "4" ? (
+            <Loading />
+          ) : (
+            <Multi {...propsMultiRoom} number="4" selectedRoom={multiRoom[4]} />
+          ))}
+      </>
+    );
+  }, [layout, loading, multiRoom, propsMultiRoom]);
 
   return (
     <MainLayout title="Multi Room" {...props} isMultiRoom={isMultiRoom}>
@@ -102,31 +125,7 @@ export default function MultiRoom(props) {
         <UnlockRoom />
         <MultiMenu {...propsMultiRoom} />
         <Row className="d-flex">
-          <Multi {...propsMultiRoom} number="1" selectedRoom={multiRoom[1]} />
-          {isFarming && layout !== "4" && layout !== "3" ? (
-            <FarmStars {...propsMultiRoom} />
-          ) : (
-            <Multi {...propsMultiRoom} number="2" selectedRoom={multiRoom[2]} />
-          )}
-          {layout === "4" || layout === "3" ? (
-            loading && layout !== "3" ? (
-              <Loading />
-            ) : isFarming && layout === "4" ? (
-              <FarmStars {...propsMultiRoom} />
-            ) : (
-              <Multi {...propsMultiRoom} number="3" selectedRoom={multiRoom[3]} />
-            )
-          ) : (
-            ""
-          )}
-          {layout === "3" &&
-            (loading && layout !== "4" ? (
-              <Loading />
-            ) : isFarming && layout === "3" ? (
-              <FarmStars {...propsMultiRoom} />
-            ) : (
-              <Multi {...propsMultiRoom} number="4" selectedRoom={multiRoom[4]} />
-            ))}
+          {memoizedLayoutElements}
         </Row>
       </div>
     </MainLayout>

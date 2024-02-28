@@ -4,12 +4,12 @@ import { ROOM_LIST_API, ROOM_GEN_10, ROOM_TRAINEE_API } from "utils/api/api";
 import Fade from "react-reveal/Fade";
 
 import MainLayout from "pages/layout/MainLayout";
-import { AlertInfo, Schedule } from "components";
+import { Schedule } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getRoomListRegular,
   getRoomListAcademy,
-  getRoomListTrainee
+  getRoomListTrainee,
 } from "redux/actions/rooms";
 import {
   RoomList,
@@ -17,7 +17,7 @@ import {
   RoomAcademy,
   RoomUpcoming,
   PremiumLive,
-  SearchAndFilter
+  SearchAndFilter,
 } from "parts";
 import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
@@ -48,7 +48,7 @@ function Home(props) {
         const room = await axios.get(ROOM_LIST_API);
         dispatch(getRoomListRegular(room.data));
       } catch (error) {
-        setIsServerError(true);
+        // setIsServerError(true);
       }
     }
     getRoomList();
@@ -120,19 +120,23 @@ function Home(props) {
               <PremiumLive theme={props.theme} />
               <RecentLive isSearch={search} />
               <Schedule isShowing={true} isSearch={search} isHome />
-              <RoomList
-                isSearchRegular={filtered}
-                isSearch={search}
-                room={filtered}
-                theme={props.theme}
-              />
-              <RoomAcademy
-                title="Room Trainee"
-                isSearchRegular={filtered}
-                isSearch={search}
-                room={filteredTrainee}
-                theme={props.theme}
-              />
+              {filtered.length > 0 && (
+                <div>
+                  <RoomList
+                    isSearchRegular={filtered}
+                    isSearch={search}
+                    room={filtered}
+                    theme={props.theme}
+                  />
+                  <RoomAcademy
+                    title="Room Trainee"
+                    isSearchRegular={filtered}
+                    isSearch={search}
+                    room={filteredTrainee}
+                    theme={props.theme}
+                  />
+                </div>
+              )}
             </>
           ) : isAcademy ? (
             <RoomAcademy
