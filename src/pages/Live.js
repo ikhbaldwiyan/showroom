@@ -122,7 +122,7 @@ function Live(props) {
     } catch (error) {
       console.log(error);
     }
-  }, [roomId, secretKey]);
+  }, [roomId, secretKey, isPremiumLive]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -202,13 +202,14 @@ function Live(props) {
   };
 
   useEffect(() => {
-   if (isPremiumLive) {
     axios.get(TODAY_SCHEDULE_API).then((res) => {
       setSetlist(res?.data?.setlist?.songs);
       setMember(res?.data?.memberList);
       setTitle(res?.data?.setlist?.name);
     });
+  }, []);
 
+  useEffect(() => {
     axios.get(PREMIUM_LIVE_TODAY).then((res) => {
       setSharingUsers(res?.data?.sharingLiveUsers)
       setToken(res?.data?.webSocketId);
@@ -218,13 +219,13 @@ function Live(props) {
 
     sharingUsers?.map((item) => {
       if (item?.user_id?.user_id === user?.user_id) {
-      if (item.status === "paid") {
-        setSecretKey(token)
-      }
+        if (item.status === "paid") {
+          setSecretKey(token)
+          setIsPremiumLive(true)
+        }
       }
     })
-   }
-  }, [isPremiumLive, token]);
+  }, [token]);
 
   useEffect(() => {    
     if (getSession().user && url?.length > 1 && profile) {
