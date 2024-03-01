@@ -34,7 +34,8 @@ const Leaderboard = (props) => {
           platform,
         },
       });
-      setLeaderboardData(data.data);
+      const filter = data.data.filter((item) => item.user_id !== "inzoid");
+      setLeaderboardData(filter);
       setTotalData(data.pagination.totalData);
       setPage(data.pagination.currentPage);
     } catch (error) {
