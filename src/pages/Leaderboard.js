@@ -5,16 +5,18 @@ import axios from "axios";
 import { Table } from "reactstrap";
 import { FilterDropdown, Loading } from "components";
 import { RiMedalFill } from "react-icons/ri";
+import PaginationComponent from "parts/Pagination";
 
 const Leaderboard = (props) => {
   const [loading, setLoading] = useState(false);
-  const [pagination, setPagination] = useState({ currentPage: 1 });
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [isOpenPlatform, setIsOpenPlatform] = useState(false);
   const [isOpenMonth, setIsOpenMonth] = useState(false);
   const [platform, setPlatform] = useState("");
   const [month, setMonth] = useState("");
   const [titleMonth, setTitleMonth] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalData, setTotalData] = useState("");
 
   const toggler = (setDropdownOpen) =>
     setDropdownOpen((prevState) => !prevState);
@@ -26,20 +28,21 @@ const Leaderboard = (props) => {
         data: { data },
       } = await axios.get(LEADERBOARD_API, {
         params: {
-          page: pagination.currentPage,
+          page,
           filterBy: month !== "" ? "month" : "",
           month,
           platform,
         },
       });
       setLeaderboardData(data.data);
-      setPagination(data.pagination);
+      setTotalData(data.pagination.totalData);
+      setPage(data.pagination.currentPage);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
-  }, [month, pagination.currentPage, platform]);
+  }, [month, platform, page]);
 
   useEffect(() => {
     getLeaderboard();
@@ -91,8 +94,8 @@ const Leaderboard = (props) => {
       {
         name: "All Time",
         action: () => {
-          setMonth("")
-          setTitleMonth("All TIME")
+          setMonth("");
+          setTitleMonth("All TIME");
         },
         disabled: month === "",
       },
@@ -112,6 +115,14 @@ const Leaderboard = (props) => {
         },
         disabled: month === "02-2024",
       },
+      {
+        name: "Maret",
+        action: () => {
+          setMonth("03-2024");
+          setTitleMonth("Maret");
+        },
+        disabled: month === "03-2024",
+      },
     ],
   };
 
@@ -125,7 +136,7 @@ const Leaderboard = (props) => {
               {titleMonth.toUpperCase() || "ALL TIME"}
             </h3>
           </div>
-          <div className="col-lg-6 d-flex my-auto">
+          <div className="col-lg-6 d-flex my-1">
             <p className="my-auto mr-3">Platform</p>
             <FilterDropdown
               dropdownList={filterPlatformDropdownList}
@@ -133,7 +144,7 @@ const Leaderboard = (props) => {
               toggler={() => toggler(setIsOpenPlatform)}
             />
           </div>
-          <div className="col-lg-6 d-flex my-auto">
+          <div className="col-lg-6 d-flex my-1">
             <p className="my-auto mr-2">Month</p>
             <FilterDropdown
               dropdownList={filterMonthDropdownList}
@@ -166,11 +177,11 @@ const Leaderboard = (props) => {
                         <td className="text-center align-middle">
                           <div
                             className={`rounded-circle d-flex justify-content-center align-items-center ${
-                              idx === 0
+                              idx === 0 && page === 1
                                 ? "bg-warning"
-                                : idx === 1
+                                : idx === 1 && page === 1
                                 ? "bg-secondary bg-opacity-75"
-                                : idx === 2
+                                : idx === 2 && page === 1
                                 ? "bg-bronze"
                                 : "bg-dark"
                             }`}
@@ -180,13 +191,20 @@ const Leaderboard = (props) => {
                               margin: "auto",
                             }}
                           >
-                            {idx + 1}
+                            {page === 1 ? idx + 1 : `${page}${idx}`}
                           </div>
                         </td>
                         <td style={{ maxWidth: "200px" }}>
                           <div className="row align-items-center">
                             <div className="col-auto">
-                              <img width={55} src={lb.avatar} alt={lb.name} />
+                              <img
+                                width={55}
+                                src={
+                                  lb.avatar ??
+                                  "https://static.showroom-live.com/image/avatar/1.png?v=99"
+                                }
+                                alt={lb.name}
+                              />
                             </div>
                             <div className="col">
                               <div
@@ -226,6 +244,12 @@ const Leaderboard = (props) => {
                 </tbody>
               </Table>
             </div>
+            <PaginationComponent
+              page={page}
+              setPage={setPage}
+              perPage={10}
+              totalCount={totalData}
+            />
           </div>
         </div>
       </div>
