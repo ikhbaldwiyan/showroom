@@ -236,7 +236,7 @@ const Leaderboard = (props) => {
                             }}
                             className="bg-light badge px-3 py-1 w-5"
                           >
-                            {lb.totalWatchLive}x
+                            {lb.watchShowroomMember + lb.watchLiveIDN}x
                           </div>
                         </td>
                       </tr>
