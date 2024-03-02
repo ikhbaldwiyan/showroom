@@ -24,6 +24,8 @@ import TheaterList from "pages/admin/theater/TheaterList";
 import MemberList from "pages/admin/members/MemberList";
 import PremiumLiveList from "pages/admin/premium-live/PremiumLiveList";
 import ActivityLogList from "pages/admin/activity/ActivityLogList";
+import SharingLive from "pages/sharing/SharingLive";
+import SharingLiveDetail from "pages/sharing/SharingLiveDetail";
 import ShowroomWrapped from "pages/wrapper/ShowroomWrapped";
 import SupportProject from "pages/support/SupportProject";
 import IDNLiveDetail from "pages/idn/IDNLiveDetail";
@@ -58,6 +60,8 @@ function App(props) {
         <Route path="/members" component={() => <MemberList {...props} />} />
         <Route path="/premium-live" component={() => <PremiumLiveList {...props} />} />
         <Route path="/activity" component={() => <ActivityLogList {...props} />} />
+        <Route path="/sharing-live" component={() => <SharingLive {...props} />} />
+        <Route path="/sharing/:name/:id" component={() => <SharingLiveDetail isSharingLive={true} {...props} />} />
         <Route path="/wrapped" component={() => <ShowroomWrapped {...props} />} />
         <Route path="/support-project" component={() => <SupportProject {...props} />} />
         <Route path="/idn/:id" component={() => <IDNLiveDetail {...props} />} />

@@ -2,7 +2,15 @@ import axios from "axios";
 import moment from "moment";
 // import SkeletonLive from "parts/skeleton/SkeletonLive";
 import React, { useEffect, useState } from "react";
-import { FaArrowRight, FaBirthdayCake, FaCalendarAlt, FaRegClock, FaTheaterMasks } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaBirthdayCake,
+  FaCalendarAlt,
+  FaRegClock,
+  FaTheaterMasks,
+  FaTicketAlt,
+  FaUsers,
+} from "react-icons/fa";
 import { Fade } from "react-reveal";
 import { Col, Row } from "reactstrap";
 import { SCHEDULES_API } from "utils/api/api";
@@ -12,7 +20,7 @@ import { Link } from "react-router-dom";
 import { BiLogInCircle } from "react-icons/bi";
 import { IoSchoolSharp } from "react-icons/io5";
 
-const Schedule = ({ isSearch, isShowing, isHome }) => {
+const Schedule = ({ isSearch, isShowing, isHome, isSharing }) => {
   const [schedule, setSchedule] = useState([]);
 
   useEffect(() => {
@@ -20,7 +28,7 @@ const Schedule = ({ isSearch, isShowing, isHome }) => {
       axios
         .get(`${SCHEDULES_API}?isOnWeekSchedule=${isShowing}`)
         .then((res) => {
-          setSchedule(isHome ? res.data : res.data.reverse());
+          setSchedule(isHome ? res.data : res.data);
         });
     } catch (error) {
       console.log(error);
@@ -63,29 +71,41 @@ const Schedule = ({ isSearch, isShowing, isHome }) => {
                         <FaCalendarAlt size={18} className="mr-2" />
                         {moment(item.showDate)
                           .locale("id")
-                          .format("dddd, DD MMMM YYYY")} - {" "}
-                        <FaRegClock size={17} className="ml-2 mr-1" />
+                          .format("dddd, DD MMMM YYYY")}{" "}
+                        - <FaRegClock size={17} className="ml-2 mr-1" />
                         {item?.showTime}
                       </div>
                     </div>
                   </Col>
                 </Row>
                 <Link
-                  to={`/theater/${slugify(item?.setlist?.name)}/${item?._id}`}
+                  to={`/${isSharing ? "sharing" : "theater"}/${slugify(
+                    item?.setlist?.name
+                  )}/${item?._id}`}
                 >
                   <div className="card card-setlist mt-2">
                     {item?.isBirthdayShow && (
                       <div className="info">
                         <FaBirthdayCake size={18} className="mr-1 mb-1" />
-                        {item?.birthdayMember?.stage_name ?? item?.birthdayMemberName}
+                        {item?.birthdayMember?.stage_name ??
+                          item?.birthdayMemberName}
                       </div>
                     )}
-                    {item?.isGraduationShow && (
+
+                    {isSharing && (
+                      <div className="info">
+                        <FaUsers size={18} className="mr-1 mb-1" />
+                        {item?.sharingUsers?.length} Users
+                      </div>
+                    )}
+
+                    {item?.isGraduationShow && !isSharing && (
                       <div className="info">
                         <IoSchoolSharp size={18} className="mr-1 mb-1" />
                         {item?.graduateMember?.stage_name}
                       </div>
                     )}
+
                     <figure className="img-wrapper">
                       <img
                         className="img-cover"
@@ -104,19 +124,31 @@ const Schedule = ({ isSearch, isShowing, isHome }) => {
                 <div className="card-schedule">
                   <div className="card-desc">
                     {item?.setlist?.description &&
-                      item.setlist.description.length > 160
+                    item.setlist.description.length > 160
                       ? item.setlist.description.slice(0, 160) + "..."
                       : item.setlist.description}
                   </div>
                 </div>
-                <Link
-                  to={`/theater/${slugify(item?.setlist?.name)}/${item?._id}`}
-                >
-                  <button className="theater-button">
-                    <BiLogInCircle className="mr-1 mb-1" size={20} />
-                    Detail Show
-                  </button>
-                </Link>
+
+                {isSharing ? (
+                  <Link
+                    to={`/sharing/${slugify(item?.setlist?.name)}/${item?._id}`}
+                  >
+                    <button className="theater-button">
+                      <FaTicketAlt className="mr-1 mb-1" size={20} />
+                      Buy Ticket
+                    </button>
+                  </Link>
+                ) : (
+                  <Link
+                    to={`/theater/${slugify(item?.setlist?.name)}/${item?._id}`}
+                  >
+                    <button className="theater-button">
+                      <BiLogInCircle className="mr-1 mb-1" size={20} />
+                      Detail Show
+                    </button>
+                  </Link>
+                )}
               </Col>
             ))}
         </Row>

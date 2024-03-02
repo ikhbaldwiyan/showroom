@@ -21,7 +21,7 @@ function MainLayout(props) {
         <meta name="robots" content="index,follow" />
         <meta
           name="description"
-          content={props.description ?? "Nonton Showroom JKT48"}
+          content={props.description ?? "JKT48 SHOWROOM adalah website fanmade yang bertujuan untuk memfilter room member JKT48. disini kalian bisa mencoba ngidol dengan pengalaman baru dan User Interface yang berbeda"}
         />
         <meta
           name="keywords"

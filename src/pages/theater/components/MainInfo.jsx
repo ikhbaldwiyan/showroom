@@ -9,9 +9,10 @@ import {
   FaTheaterMasks,
 } from "react-icons/fa";
 import { IoSchoolSharp } from "react-icons/io5";
+import SharingLive from "./SharingLive";
 import { gaTag } from "utils/gaTag";
 
-const MainInfo = ({ theater }) => {
+const MainInfo = ({ theater, sharingUsers, setIsRegister, isSharingLive }) => {
   return (
     <div className="theater-container">
       <div className="setlist-container">
@@ -132,65 +133,31 @@ const MainInfo = ({ theater }) => {
           </div>
         </div>
       )}
-      <div className="ticket-info">
-        <div className="menu-ticket">
-          <FaMoneyCheckAlt className="mb-2" color="#ECFAFC" size={80} />
-          <div className="d-flex flex-column justify-content-center text-center">
-            <div className="ticket-name">SHOWROOM</div>
-            <p className="setlist-subname mt-2">
-              <b>385 JPY</b>
-            </p>
+      {!isSharingLive && (
+        <div className="ticket-info">
+          <div className="menu-ticket">
+            <FaMoneyCheckAlt className="mb-2" color="#ECFAFC" size={80} />
+            <div className="d-flex flex-column justify-content-center text-center">
+              <div className="ticket-name">SHOWROOM</div>
+              <p className="setlist-subname mt-2">
+                <b>385 JPY</b>
+              </p>
+            </div>
+            <a href={theater?.ticketShowroom} target="_blank" rel="noreferrer">
+              <button className="buy d-flex text-align-center justify-content-center align-items-center">
+                Buy Ticket
+              </button>
+            </a>
           </div>
-          <a
-            href={
-              theater?.ticketShowroom ??
-              "https://www.showroom-live.com/premium_live"
-            }
-            onClick={() => {
-              gaTag({
-                action: "buy_ticket_showroom",
-                category: "Theater Schedule",
-                label: "Button",
-              })
-            }}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <button className="buy d-flex text-align-center justify-content-center align-items-center">
-              Buy Ticket
-            </button>
-          </a>
         </div>
-      </div>
-      <div className="ticket-info">
-        <div className="menu-ticket">
-          <FaMoneyCheckAlt className="mb-2" color="#ECFAFC" size={80} />
-          <div className="d-flex flex-column justify-content-center text-center">
-            <div className="ticket-name">THEATER</div>
-            <p className="setlist-subname mt-2">
-              <b>RP. 200.000</b>
-            </p>
-          </div>
-          <a
-            href={
-              theater?.ticketTheater ?? "https://jkt48.com/theater/schedule"
-            }
-            onClick={() => {
-              gaTag({
-                action: "buy_ticket_theater_jkt48",
-                category: "Theater Schedule",
-                label: "Button",
-              })
-            }}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <button className="buy d-flex text-align-center justify-content-center align-items-center">
-              Buy Ticket
-            </button>
-          </a>
-        </div>
-      </div>
+      )}
+
+      <SharingLive
+        sharingUsers={sharingUsers}
+        theater={theater}
+        setIsRegister={setIsRegister}
+        isSharingLive={isSharingLive}
+      />
     </div>
   );
 };

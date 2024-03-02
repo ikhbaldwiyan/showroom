@@ -133,6 +133,23 @@ const ACTIVITY_LOG_DETAIL = (id) => {
   return `${ADMIN_API}/activity/${id}`
 }
 
+const SHARING_LIVE = `${ADMIN_API}/sharing-live`
+const SHARING_LIVE_DETAIL = (id) => {
+  return `${ADMIN_API}/sharing-live/${id}`
+}
+
+// NOTIF
+const NOTIFICATION = `${ADMIN_API}/notifications`;
+const USER_NOTIFICATION = (userId) => {
+  return `${ADMIN_API}/notifications/${userId}`;
+};
+
+// DISCORD USERS AND NOTIF
+const DISCORD_NOTIFICATION = `${ADMIN_API}/notifications/discord`;
+const DISCORD_USERS = `${ADMIN_API}/notifications/discord/users`;
+const DISCORD_USERS_SEARCH = (name) => {
+  return `${ADMIN_API}/notifications/discord/users?name=${name}`;
+};
 // SHOWROOM WRAPPED
 const MOST_WATCH = `${SHOWROOM_WRAPPED}/most-watch`;
 const PREMIUM_LIVES = `${SHOWROOM_WRAPPED}/premium-lives`;
@@ -206,6 +223,13 @@ export {
   ACTIVITY_LOG,
   ACTIVITY_LOG_DETAIL,
   TODAY_SCHEDULE_API,
+  SHARING_LIVE,
+  SHARING_LIVE_DETAIL,
+  NOTIFICATION,
+  USER_NOTIFICATION,
+  DISCORD_NOTIFICATION,
+  DISCORD_USERS,
+  DISCORD_USERS_SEARCH,
   MOST_WATCH,
   PREMIUM_LIVES,
   LIST_DONATOR,

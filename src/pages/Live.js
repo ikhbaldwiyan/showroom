@@ -6,8 +6,9 @@ import {
   DETAIL_USER,
   FARM,
   LIVE_STREAM_URL,
+  PREMIUM_LIVE_TODAY,
   PROFILE_API,
-  TODAY_SCHEDULE_API
+  TODAY_SCHEDULE_API,
 } from "utils/api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +25,7 @@ import {
   TotalRank,
   Gift,
   StarButton,
-  NoTicket
+  NoTicket,
 } from "components";
 import { isMobile } from "react-device-detect";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,6 +67,8 @@ function Live(props) {
   const [title, setTitle] = useState("");
   const [isRefresh, setIsRefresh] = useState(false);
   const [liveId, setLiveId] = useState("")
+  const [sharingUsers, setSharingUsers] = useState([]);
+  const [token, setToken] = useState("")
   
   const dispatch = useDispatch();
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
@@ -86,7 +89,7 @@ function Live(props) {
     axios
       .post(PROFILE_API, {
         room_id: roomId.toString(),
-        cookie: session?.cookie_login_id
+        cookie: session?.cookie_login_id,
       })
       .then((res) => {
         const profile = res.data;
@@ -111,13 +114,6 @@ function Live(props) {
         setUrl(streamUrl);
         !streamUrl && messages();
 
-        if (secretKey && streamUrl.code !== 404) {
-          const secretCode = localStorage.getItem("secretKey");
-          !secretCode &&
-          showToast("success", "Congrats secret code is valid")
-          localStorage.setItem("secretKey", secretKey);
-        }
-
         if (secretKey && streamUrl.code === 404) {
           setIsFailed(true);
         }
@@ -126,7 +122,7 @@ function Live(props) {
     } catch (error) {
       console.log(error);
     }
-  }, [roomId, secretKey]);
+  }, [roomId, secretKey, isPremiumLive]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -152,23 +148,27 @@ function Live(props) {
   const messages = () =>
     toast.error("Room Offline", {
       theme: "colored",
-      autoClose: 1200
+      autoClose: 1200,
     });
 
   useEffect(() => {
     setSession(getSession().session);
-    setSecretKey(secretKey);
 
-    if (roomId === "332503" && url?.length > 1) {
-      setIsPremiumLive(true)
-    }
-    
-    if (isPremiumLive) {
+    if (isPremiumLive && !secretKey) {
       activityLog({
         logName: "Premium Live",
         userId: user?._id,
         description: `Watch Premium Live ${title}`,
-        liveId: cookiesLoginId
+        liveId: cookiesLoginId,
+      });
+    }
+
+    if (secretKey) {
+      activityLog({
+        logName: "Sharing Live",
+        userId: user?._id,
+        description: `Watch Sharing Live ${title}`,
+        liveId: liveId,
       });
     }
 
@@ -193,7 +193,7 @@ function Live(props) {
       category: "Refresh - Regular",
       label: "Live Stream",
       value: null,
-      username: getSession()?.profile?.name
+      username: getSession()?.profile?.name,
     });
   };
 
@@ -201,9 +201,27 @@ function Live(props) {
     axios.get(TODAY_SCHEDULE_API).then((res) => {
       setSetlist(res?.data?.setlist?.songs);
       setMember(res?.data?.memberList);
-      setTitle(res?.data?.setlist?.name)
+      setTitle(res?.data?.setlist?.name);
     });
-  }, [isPremiumLive]);
+  }, []);
+
+  useEffect(() => {
+    axios.get(PREMIUM_LIVE_TODAY).then((res) => {
+      setSharingUsers(res?.data?.sharingLiveUsers)
+      setToken(res?.data?.webSocketId);
+    });
+
+    setSecretKey(secretKey ?? token);
+
+    sharingUsers?.map((item) => {
+      if (item?.user_id?.user_id === user?.user_id) {
+        if (item.status === "paid") {
+          setSecretKey(token)
+          setIsPremiumLive(true)
+        }
+      }
+    })
+  }, [token]);
 
   useEffect(() => {    
     if (getSession().user && url?.length > 1 && profile) {
@@ -379,7 +397,7 @@ function Live(props) {
                 ) : menu === "rank" ? (
                   <StageUser roomId={roomId} secretKey={secretKey} />
                 ) : menu === "history" ? (
-                  <HistoryLive id={roomId}  />
+                  <HistoryLive id={roomId} />
                 ) : menu === "gift" ? (
                   <Gift roomId={roomId} secretKey={secretKey} />
                 ) : menu === "setlist" ? (

@@ -4,7 +4,7 @@ import { ROOM_LIST_API, ROOM_GEN_10, ROOM_TRAINEE_API } from "utils/api/api";
 import Fade from "react-reveal/Fade";
 
 import MainLayout from "pages/layout/MainLayout";
-import { AlertInfo, Schedule } from "components";
+import { Schedule } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getRoomListRegular,
@@ -22,6 +22,8 @@ import {
 import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
 import RecentLive from "parts/RecentLive";
+import InfoFeature from "components/InfoFeature";
+import WrappedAlert from "components/WrappedAlert";
 import { isMobile } from "react-device-detect";
 import IDNLiveList from "pages/idn/IDNLiveList";
 
@@ -97,7 +99,7 @@ function Home(props) {
     <MainLayout {...props}>
       <div className="layout my-0 mb-4">
         <ModalInfo />
-        {isMobile && <AlertInfo />}
+        <InfoFeature />
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}

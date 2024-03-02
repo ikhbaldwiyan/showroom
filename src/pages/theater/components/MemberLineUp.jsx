@@ -20,7 +20,7 @@ const MemberLineUp = ({ members, isComingSoon }) => {
             <FaUsers size={28} className="mr-2" />
             <b>Lineup Members Theater</b>
           </button>
-          {members.length ? (
+          {members?.length ? (
             Array.from(
               { length: Math.ceil(members.length / 4) },
               (_, rowIndex) => (
