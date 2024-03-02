@@ -6,13 +6,12 @@ import Logo from "parts/Logo";
 import { isMobile } from "react-device-detect";
 import { Button as LoginButton } from "reactstrap";
 import { AiFillHome } from "react-icons/ai";
-import { RiAdminFill, RiBroadcastFill } from "react-icons/ri";
+import { RiBroadcastFill, RiMedalFill } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiFileList3Fill, RiLoginBoxFill } from "react-icons/ri";
-import { BsCollectionPlayFill, BsInfoCircleFill } from "react-icons/bs";
+import { BsInfoCircleFill } from "react-icons/bs";
 import { FaBars, FaDiscord, FaDonate } from "react-icons/fa";
 import UserProfile from "./UserProfile";
-import { isAdmin } from "utils/permissions/admin";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { MdSmartDisplay } from "react-icons/md";
 
@@ -120,6 +119,19 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                         href="/support-project"
                       >
                         <FaDonate style={iconHome} /> Support Us
+                      </Button>
+                    </li>
+                    <li
+                      className={`nav-item${getNavLinkClass(
+                        "/leaderboard"
+                      )}`}
+                    >
+                      <Button
+                        className="nav-link"
+                        type="link"
+                        href="/leaderboard"
+                      >
+                        <RiMedalFill size={23} style={iconHome} /> Leaderboard
                       </Button>
                     </li>
                     <li className={`nav-item${getNavLinkClass("/about")}`}>
