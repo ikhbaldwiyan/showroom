@@ -141,7 +141,7 @@ const RecentLive = ({ isSearch }) => {
                               </span>
                             ) : (
                               <span className="recent-name">
-                                {member?.url?.replace("JKT48_", "") + " JKT48"}
+                                {member?.nickname}
                                 <BiLogInCircle size={20} />
                               </span>
                             )}

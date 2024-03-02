@@ -22,7 +22,6 @@ import {
 import ServerErrorModal from "components/ServerErrorModal";
 import ModalInfo from "parts/ModalInfo";
 import RecentLive from "parts/RecentLive";
-import WrappedAlert from "components/WrappedAlert";
 import { isMobile } from "react-device-detect";
 import IDNLiveList from "pages/idn/IDNLiveList";
 
@@ -47,7 +46,7 @@ function Home(props) {
         const room = await axios.get(ROOM_LIST_API);
         dispatch(getRoomListRegular(room.data));
       } catch (error) {
-        setIsServerError(true);
+        // setIsServerError(true);
       }
     }
     getRoomList();
