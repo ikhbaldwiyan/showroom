@@ -3,9 +3,11 @@ import Button from "elements/Button";
 import LogoDark from "../../src/assets/images/logo-dark.svg";
 import useWindowDimensions from "utils/useWindowDimension";
 import { isMobile } from "react-device-detect";
+import { useHideSidebar } from "utils/hideSidebar";
 
 export default function Logo() {
   const { width } = useWindowDimensions();
+  const [isHide] = useHideSidebar();
 
   return (
     <Button className="brand-text-icon" href="" type="link">
@@ -18,7 +20,7 @@ export default function Logo() {
           className="logo-icon mr-2"
         />
 
-        {!isMobile && width > 1200 && (
+        {!isMobile && !isHide && (
           <>
             <span className="logo mr-2">JKT48</span>
             <span className="showroom"> SHOWROOM</span>

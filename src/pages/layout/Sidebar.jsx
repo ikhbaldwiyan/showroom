@@ -14,17 +14,17 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import UserProfile from "parts/UserProfile";
 import { FaDiscord, FaDonate, FaTheaterMasks } from "react-icons/fa";
 import { motion } from "framer-motion";
-import useWindowDimensions from "utils/useWindowDimension";
 import { getSession } from "utils/getSession";
 import { activityLog } from "utils/activityLog";
 import { MdSmartDisplay } from "react-icons/md";
+import { useHideSidebar } from "utils/hideSidebar";
 
 const Sidebar = () => {
   const user = getSession().user;
   const profile = getSession().profile;
   const session = getSession().session;
   const navigate = useHistory();
-  const { width } = useWindowDimensions();
+  const [isHide, toggleHide] = useHideSidebar();
 
   const iconHome = {
     marginBottom: 4,
@@ -84,8 +84,6 @@ const Sidebar = () => {
     });
   };
 
-  const isDesktopView = width > 1200;
-
   return (
     <div className="sticky-sidebar">
       <div className="main-sidebar">
@@ -115,7 +113,7 @@ const Sidebar = () => {
                       href={item.link}
                       isExternal={item.name === "Join Discord"}
                     >
-                      {item.icon} {isDesktopView && item.name}
+                      {item.icon} {!isHide && item.name}
                     </Button>
                   </li>
                 </motion.div>
@@ -132,8 +130,15 @@ const Sidebar = () => {
                   style={buttonStyle}
                 >
                   <FaDiscord style={iconHome} />{" "}
-                  {isDesktopView && "Join Discord"}
+                  {!isHide && "Join Discord"}
                 </a>
+              </li>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.9 }}>
+              <li className="mt-2" onClick={toggleHide} style={buttonStyle}>
+                <FaDiscord style={iconHome} />{" "}
+                {!isHide && "Hide Sidebar"}
               </li>
             </motion.div>
 
@@ -150,14 +155,14 @@ const Sidebar = () => {
                   }}
                 >
                   <BsInfoCircleFill style={iconHome} />{" "}
-                  {isDesktopView && "About"}
+                  {!isHide && "About"}
                 </Button>
               </li>
             </motion.div>
           </ul>
         </div>
       </div>
-      {isDesktopView && (
+      {!isHide && (
         <div
           style={{ position: "sticky", bottom: 10, backgroundColor: "#21252b" }}
         >

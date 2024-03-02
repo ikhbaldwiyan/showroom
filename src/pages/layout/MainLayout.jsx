@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { isMobile } from "react-device-detect";
 import { ToastContainer } from "react-toastify";
@@ -8,12 +8,21 @@ import Header from "parts/Header";
 import Footer from "parts/Footer";
 import Sidebar from "./Sidebar";
 import useWindowDimensions from "utils/useWindowDimension";
+import { useHideSidebar } from "utils/hideSidebar";
 
 function MainLayout(props) {
   const { width } = useWindowDimensions();
-  const sidebarResponsive = width < 1200 ? "1" : "2";
-  const containerResponsive = width < 1200 ? "11" : "10";
+  const [isHide] = useHideSidebar()
+  const [sidebarCol, setSidebarCol] = useState("")
+  const [containerCol, setContainerCol] = useState("")
 
+  useEffect(() => {
+   setSidebarCol(isHide ? "1" : "2") ;
+   setContainerCol(isHide ? "11" : "10");
+
+   console.log(sidebarCol)
+  }, [isHide, sidebarCol, containerCol])
+  
   return (
     <>
       <Helmet>
@@ -50,10 +59,10 @@ function MainLayout(props) {
             </>
           ) : (
             <Row className="px-3">
-              <Col md={sidebarResponsive} className="p-0">
+              <Col md={sidebarCol} className="p-0">
                 <Sidebar />
               </Col>
-              <Col md={containerResponsive}>
+              <Col md={containerCol}>
                 <div className="mt-3">{props.children}</div>
               </Col>
               <ToastContainer position="top-right" autoClose={3000} />
