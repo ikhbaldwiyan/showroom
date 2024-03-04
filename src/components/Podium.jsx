@@ -1,13 +1,15 @@
 import axios from "axios";
+import LeaderboardTable from "parts/LeaderboardTable";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { isMobile } from "react-device-detect";
+import { AiFillTrophy } from "react-icons/ai";
 import { Fade } from "react-reveal";
 import { PODIUM_STAGE, PODIUM_STAGE_IDN } from "utils/api/api";
 
 const Podium = ({ liveId, isIDNLive }) => {
   const [users, setUsers] = useState([]);
   const [views, setViews] = useState();
+  const [showLeaderboard, setShowLeaderboard] = useState(false)
 
   const API = isIDNLive ? PODIUM_STAGE_IDN(liveId) : PODIUM_STAGE(liveId);
 
@@ -34,13 +36,18 @@ const Podium = ({ liveId, isIDNLive }) => {
     return () => clearInterval(interval);
   }, [liveId, views]);
 
-  const userResponsive = isMobile ? 4 : 9;
+  const handleOpenLeaderboard = () => {
+    setShowLeaderboard(!showLeaderboard)
+  }
 
   return (
     users?.length > 0 && (
       <div className="podium my-2">
         <div className="podium-views">
           <b>{views ?? 0}</b>
+        </div>
+        <div className="podium-leaderboard mr-1" onClick={handleOpenLeaderboard} >
+          <AiFillTrophy size={22} />
         </div>
         <div
           style={{
@@ -68,6 +75,9 @@ const Podium = ({ liveId, isIDNLive }) => {
               </div>
             ))}
           </div>
+          {showLeaderboard && (
+            <LeaderboardTable />
+          )}
         </div>
       </div>
     )

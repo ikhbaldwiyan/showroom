@@ -7,7 +7,8 @@ const CustomModal = ({
   children,
   isShowButton = true,
   autoShowModal = false,
-  color = "primary"
+  color = "primary",
+  size = "md"
 }) => {
   const [isOpen, setIsOpen] = useState(autoShowModal);
 
@@ -22,7 +23,7 @@ const CustomModal = ({
           {buttonText}
         </Button>
       )}
-      <Modal isOpen={isOpen} toggle={toggleModal}>
+      <Modal size={size} isOpen={isOpen} toggle={toggleModal}>
         <ModalHeader
           style={{
             backgroundColor: "#24a2b7",
