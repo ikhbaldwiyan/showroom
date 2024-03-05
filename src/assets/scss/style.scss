@@ -1374,3 +1374,20 @@ main {
   border-radius: 100%;
   padding: 2px;
 }
+
+.podium-leaderboard {
+  display: flex;
+  top: 1;
+  right: 0;
+  z-index: 99;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background: #ECFAFC;
+  color: #008080;
+  border-radius: 100%;
+  padding: 2px;
+  cursor: pointer;
+}

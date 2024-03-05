@@ -19,7 +19,7 @@ const Setlist = ({ songs, isEncore }) => {
         <tbody>
           <tr>
             <th scope="row">{isEncore ? idx + 13 + 1 : idx + 1}</th>
-            <td>{item.translatedTitle ?? item.title}</td>
+          <td>{item.translatedTitle ?? item.title}</td>
           </tr>
         </tbody>
       ))}

@@ -4,7 +4,8 @@ const ADMIN_API = process.env.REACT_APP_ADMIN_API;
 const BOT_API = process.env.REACT_APP_BOT_API;
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
-const SHOWROOM_WRAPPED = "https://jkt48-showroom-wrapped.vercel.app"
+const SHOWROOM_WRAPPED = "https://jkt48-showroom-wrapped.vercel.app";
+const LEADERBOARD_API = `${ADMIN_API}/leaderboard`;
 
 // LARAVEL API
 const LARAVEL_API = process.env.REACT_APP_LARAVEL_API;
@@ -38,51 +39,51 @@ const RECENT_LIVE_LOG_API = (
 };
 
 const DETAIL_LIVE_HISTORY = (id) => {
-  return `${SHOWROOM_LOG_API}/recent/${id}`
-}
+  return `${SHOWROOM_LOG_API}/recent/${id}`;
+};
 
 // USER PERMISSION CRUD
 const LIST_USERS = (page, search) => {
-  return `${ADMIN_API}/users?page=${page}&search=${search}`
-}
-const CREATE_USER = `${ADMIN_API}/users`
+  return `${ADMIN_API}/users?page=${page}&search=${search}`;
+};
+const CREATE_USER = `${ADMIN_API}/users`;
 
 const DETAIL_USER = (userId) => {
-  return `${ADMIN_API}/users/${userId}`
+  return `${ADMIN_API}/users/${userId}`;
 };
 
 const DELETE_USER = (userId) => {
-  return `${ADMIN_API}/users/${userId}`
+  return `${ADMIN_API}/users/${userId}`;
 };
 
 // THEATER SCHEDULES CRUD
-const SCHEDULES_API = `${ADMIN_API}/schedules`
-const TODAY_SCHEDULE_API = `${ADMIN_API}/schedules/today`
+const SCHEDULES_API = `${ADMIN_API}/schedules`;
+const TODAY_SCHEDULE_API = `${ADMIN_API}/schedules/today`;
 const DETAIL_SCHEDULE = (scheduleId) => {
-  return `${ADMIN_API}/schedules/${scheduleId}`
-}
+  return `${ADMIN_API}/schedules/${scheduleId}`;
+};
 
 // THEATER SETLIST CRUD
-const SETLIST_API = `${ADMIN_API}/setlists`
+const SETLIST_API = `${ADMIN_API}/setlists`;
 const DETAIL_SETLIST = (setlistId) => {
-  return `${ADMIN_API}/setlists/${setlistId}`
-}
+  return `${ADMIN_API}/setlists/${setlistId}`;
+};
 
 // MEMBERS CRUD
-const MEMBERS_API = `${ADMIN_API}/member`
+const MEMBERS_API = `${ADMIN_API}/member`;
 const DETAIL_MEMBER = (memberId) => {
-  return `${ADMIN_API}/member/${memberId}`
-}
+  return `${ADMIN_API}/member/${memberId}`;
+};
 
 //PREMIUM LIVE
 const PREMIUM_LIVE_TODAY = `${ADMIN_API}/premium-lives/today`;
 const PREMIUM_LIVE_LIST = `${ADMIN_API}/premium-lives`;
 const PREMIUM_LIVE_DETAIL = (liveId) => {
-  return `${ADMIN_API}/premium-lives/${liveId}`
-}
+  return `${ADMIN_API}/premium-lives/${liveId}`;
+};
 
 // BOT API
-const THEATER_SCHEDULE_BOT= `${BOT_API}/theater-notif`;
+const THEATER_SCHEDULE_BOT = `${BOT_API}/theater-notif`;
 const THEATER_SCHEDULE_SHOWROOM_BOT = `${BOT_API}/theater-showroom`;
 const LIVE_NOTIF_BOT = `${BOT_API}/notification`;
 const MESSAGES_BOT = `${BOT_API}/message-bot`;
@@ -128,31 +129,31 @@ const NEXT_LIVE = (roomId) => {
 };
 
 // ACTIVITY LOG API
-const ACTIVITY_LOG = `${ADMIN_API}/activity`
+const ACTIVITY_LOG = `${ADMIN_API}/activity`;
 const ACTIVITY_LOG_DETAIL = (id) => {
-  return `${ADMIN_API}/activity/${id}`
-}
+  return `${ADMIN_API}/activity/${id}`;
+};
 
 // SHOWROOM WRAPPED
 const MOST_WATCH = `${SHOWROOM_WRAPPED}/most-watch`;
 const PREMIUM_LIVES = `${SHOWROOM_WRAPPED}/premium-lives`;
 
 // SUPPORT PROJECT
-const LIST_DONATOR = `${ADMIN_API}/discord/role?type=donator`
+const LIST_DONATOR = `${ADMIN_API}/discord/role?type=donator`;
 
 //IDN LIVES
 const ROOM_LIVES_IDN = `${SHOWROOM_LOG_API}/idn_lives`;
 const ROOM_LIVE_IDN_DETAIL = (slug) => {
-  return `${SHOWROOM_LOG_API}/watch/${slug}/idn`
-}
+  return `${SHOWROOM_LOG_API}/watch/${slug}/idn`;
+};
 
 const PODIUM_STAGE = (liveId) => {
-  return `${ADMIN_API}/history-live/${liveId}`
-}
+  return `${ADMIN_API}/history-live/${liveId}`;
+};
 
 const PODIUM_STAGE_IDN = (liveId) => {
-  return `${ADMIN_API}/idn-live-history/${liveId}`
-}
+  return `${ADMIN_API}/idn-live-history/${liveId}`;
+};
 
 export {
   API,
@@ -212,5 +213,6 @@ export {
   ROOM_LIVES_IDN,
   ROOM_LIVE_IDN_DETAIL,
   PODIUM_STAGE,
-  PODIUM_STAGE_IDN
+  PODIUM_STAGE_IDN,
+  LEADERBOARD_API,
 };
