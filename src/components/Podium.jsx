@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { AiFillTrophy } from "react-icons/ai";
 import { Fade } from "react-reveal";
 import { PODIUM_STAGE, PODIUM_STAGE_IDN } from "utils/api/api";
+import { gaTag } from "utils/gaTag";
+import { getSession } from "utils/getSession";
 
 const Podium = ({ liveId, isIDNLive }) => {
   const [users, setUsers] = useState([]);
@@ -38,6 +40,12 @@ const Podium = ({ liveId, isIDNLive }) => {
 
   const handleOpenLeaderboard = () => {
     setShowLeaderboard(!showLeaderboard)
+    gaTag({
+      action: "leaderboard_podium_click",
+      category: "Leaderboard",
+      label: "Ledearboard Modal",
+      username: getSession().profile.name
+    })
   }
 
   return (
