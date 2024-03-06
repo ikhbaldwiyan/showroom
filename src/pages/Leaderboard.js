@@ -6,6 +6,7 @@ import { Table } from "reactstrap";
 import { FilterDropdown, Loading } from "components";
 import { RiMedalFill } from "react-icons/ri";
 import PaginationComponent from "parts/Pagination";
+import moment from "moment";
 
 const Leaderboard = (props) => {
   const [loading, setLoading] = useState(false);
@@ -13,7 +14,7 @@ const Leaderboard = (props) => {
   const [isOpenPlatform, setIsOpenPlatform] = useState(false);
   const [isOpenMonth, setIsOpenMonth] = useState(false);
   const [platform, setPlatform] = useState("");
-  const [month, setMonth] = useState("");
+  const [month, setMonth] = useState(moment().format("MM-YYYY"));
   const [titleMonth, setTitleMonth] = useState("");
   const [page, setPage] = useState(1);
   const [totalData, setTotalData] = useState("");
@@ -133,7 +134,9 @@ const Leaderboard = (props) => {
           <div className="col-lg-12">
             <h3 className="font-weight-bold my-3">
               TOP LEADERBOARD {platform.toUpperCase()}{" "}
-              {titleMonth.toUpperCase() || "ALL TIME"}
+              {titleMonth.toUpperCase() || titleMonth === "All TIME"
+                ? "ALL TIME"
+                : moment().format("MMMM").toUpperCase()}
             </h3>
           </div>
           <div className="col-lg-6 d-flex my-1">
@@ -172,8 +175,8 @@ const Leaderboard = (props) => {
                   {loading ? (
                     <Skeleton />
                   ) : (
-                    leaderboardData.map((lb, idx) => (
-                      <tr key={lb._id}>
+                    leaderboardData.map((item, idx) => (
+                      <tr key={item._id}>
                         <td className="text-center align-middle">
                           <div
                             className={`rounded-circle d-flex justify-content-center align-items-center ${
@@ -191,7 +194,7 @@ const Leaderboard = (props) => {
                               margin: "auto",
                             }}
                           >
-                            {page === 1 ? idx + 1 : `${page}${idx}`}
+                            {item?.rank}
                           </div>
                         </td>
                         <td style={{ maxWidth: "200px" }}>
@@ -200,10 +203,10 @@ const Leaderboard = (props) => {
                               <img
                                 width={55}
                                 src={
-                                  lb.avatar ??
+                                  item.avatar ??
                                   "https://static.showroom-live.com/image/avatar/1.png?v=99"
                                 }
-                                alt={lb.name}
+                                alt={item.name}
                               />
                             </div>
                             <div className="col">
@@ -211,19 +214,19 @@ const Leaderboard = (props) => {
                                 className="text-truncate"
                                 style={{ maxWidth: "150px" }}
                               >
-                                {lb.user_id}
+                                {item.user_id}
                               </div>
                             </div>
                           </div>
                         </td>
                         {(platform === "Showroom" || platform === "") && (
                           <td className="text-center align-middle">
-                            {lb.watchShowroomMember}x
+                            {item.watchShowroomMember}x
                           </td>
                         )}
                         {(platform === "IDN" || platform === "") && (
                           <td className="text-center align-middle">
-                            {lb.watchLiveIDN}x
+                            {item.watchLiveIDN}x
                           </td>
                         )}
                         <td className="text-center align-middle">
@@ -235,7 +238,7 @@ const Leaderboard = (props) => {
                             }}
                             className="bg-light badge px-3 py-1 w-5"
                           >
-                            {lb.watchShowroomMember + lb.watchLiveIDN}x
+                            {item.watchShowroomMember + item.watchLiveIDN}x
                           </div>
                         </td>
                       </tr>
