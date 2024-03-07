@@ -72,13 +72,6 @@ const MultiRoomIDN = () => {
       roomThree?.user?.username ||
       roomFour?.user?.username
     ) {
-      activityLog({
-        logName: "Watch",
-        description: "Watch Multi Room IDN",
-        liveId: moment().format("YYYY-MM-DD"),
-        userId: userProfile?._id,
-      });
-
       gaTag({
         action: "watch_multi_room_idn",
         category: "Multi Room - IDN",
