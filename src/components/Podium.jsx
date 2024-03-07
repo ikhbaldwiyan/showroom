@@ -2,7 +2,7 @@ import axios from "axios";
 import LeaderboardTable from "parts/LeaderboardTable";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { AiFillTrophy } from "react-icons/ai";
+import { FaInfo } from "react-icons/fa";
 import { Fade } from "react-reveal";
 import { PODIUM_STAGE, PODIUM_STAGE_IDN } from "utils/api/api";
 import { gaTag } from "utils/gaTag";
@@ -44,7 +44,7 @@ const Podium = ({ liveId, isIDNLive }) => {
       action: "leaderboard_podium_click",
       category: "Leaderboard",
       label: "Ledearboard Modal",
-      username: getSession().profile.name
+      username: getSession()?.profile?.name ?? "Guest"
     })
   }
 
@@ -55,7 +55,7 @@ const Podium = ({ liveId, isIDNLive }) => {
           <b>{views ?? 0}</b>
         </div>
         <div className="podium-leaderboard mr-1" onClick={handleOpenLeaderboard} >
-          <AiFillTrophy size={22} />
+          <FaInfo />
         </div>
         <div
           style={{
