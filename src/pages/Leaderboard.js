@@ -15,7 +15,7 @@ const Leaderboard = (props) => {
   const [isOpenMonth, setIsOpenMonth] = useState(false);
   const [platform, setPlatform] = useState("");
   const [month, setMonth] = useState(moment().format("MM-YYYY"));
-  const [titleMonth, setTitleMonth] = useState("");
+  const [titleMonth, setTitleMonth] = useState(moment().format("MMMM").toUpperCase());
   const [page, setPage] = useState(1);
   const [totalData, setTotalData] = useState("");
 
@@ -134,9 +134,7 @@ const Leaderboard = (props) => {
           <div className="col-lg-12">
             <h3 className="font-weight-bold my-3">
               TOP LEADERBOARD {platform.toUpperCase()}{" "}
-              {titleMonth.toUpperCase() || titleMonth === "All TIME"
-                ? "ALL TIME"
-                : moment().format("MMMM").toUpperCase()}
+              {titleMonth.toUpperCase() || "ALL TIME"}
             </h3>
           </div>
           <div className="col-lg-6 d-flex my-1">

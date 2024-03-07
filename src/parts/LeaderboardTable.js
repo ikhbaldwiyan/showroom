@@ -65,7 +65,7 @@ const LeaderboardTable = () => {
       color="success"
       autoShowModal={modal}
       toggle={handleModalClose}
-      modalTitle={`TOP LEADERBOARD BULAN ${moment()
+      modalTitle={`TOP LEADERBOARD ${moment()
         .format("MMMM")
         .toUpperCase()}`}
       isShowButton={false}
