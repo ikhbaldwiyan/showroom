@@ -38,10 +38,7 @@ const IDNLiveList = () => {
                 to={{
                   pathname: `idn/${item.user.username}`,
                   state: {
-                    streamUrl: item.stream_url,
-                    username: item.user.name,
-                    views: formatViews(item.view_count),
-                    title: item.title,
+                   liveData: item,
                   },
                 }}
               >

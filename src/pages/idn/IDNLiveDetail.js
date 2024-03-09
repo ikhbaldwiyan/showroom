@@ -1,7 +1,10 @@
 import axios from "axios";
 import MainLayout from "pages/layout/MainLayout";
 import { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useLocation,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
 import { Button, Col, Row } from "reactstrap";
 import { ROOM_LIVE_IDN_DETAIL } from "utils/api/api";
 import formatNumber from "utils/formatNumber";
@@ -18,12 +21,15 @@ const IDNLiveDetail = () => {
   let { id } = useParams();
   const [live, setLive] = useState("");
   const { profile, userProfile } = getSession();
-
-  const location = useLocation()
-  const { username, title, views, streamUrl } = location.state
+  const location = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    if (location.state) {
+      const { liveData } = location?.state;
+      setLive(liveData);
+    }
 
     try {
       axios.get(ROOM_LIVE_IDN_DETAIL(id)).then((res) => {
@@ -83,17 +89,17 @@ const IDNLiveDetail = () => {
       <div className="layout">
         <Row>
           <Col md="8">
-            {(live?.stream_url || streamUrl) ? (
+            {live?.stream_url ? (
               <>
                 <Player
                   refreshKey={refreshKey}
-                  url={`${process.env.REACT_APP_SERVICE_WORKER}/${streamUrl ?? live?.stream_url}`}
-                  views={formatNumber(views ?? live?.view_count ?? 0)}
+                  url={`${process.env.REACT_APP_SERVICE_WORKER}/${live?.stream_url}`}
+                  views={formatNumber(live?.view_count ?? 0)}
                   idnUrl={`https://www.idn.app/${id}/live/${live.slug}`}
                 />
                 <div className="d-flex mb-3">
                   <h4 className="mr-2">
-                    <b>{username ?? live?.user?.name}</b> | {title ?? live?.title}
+                    <b>{live?.user?.name}</b> | {live?.title}
                     <Button
                       onClick={handleRefresh}
                       color="secondary"
