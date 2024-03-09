@@ -25,7 +25,7 @@ const IDNLiveList = () => {
   return (
     roomLives.length > 0 && (
       <div className="mb-4">
-        <h3 className="mb-3">IDN Live </h3>
+        <h3 className="mb-3">IDN Live</h3>
         <div className="container-grid">
           {roomLives?.map((item, idx) => (
             <div
@@ -34,7 +34,17 @@ const IDNLiveList = () => {
                 isMobile ? "column-12 row-1" : `column-3 row-1`
               }`}
             >
-              <Link to={`idn/${item.user.username}`}>
+              <Link
+                to={{
+                  pathname: `idn/${item.user.username}`,
+                  state: {
+                    streamUrl: item.stream_url,
+                    username: item.user.name,
+                    views: formatViews(item.view_count),
+                    title: item.title,
+                  },
+                }}
+              >
                 <div className="card card-featured">
                   <Fade right>
                     <div className="tag">
