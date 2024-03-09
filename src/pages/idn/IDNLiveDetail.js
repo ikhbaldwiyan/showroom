@@ -17,7 +17,7 @@ import Podium from "components/Podium";
 const IDNLiveDetail = () => {
   let { id } = useParams();
   const [live, setLive] = useState("");
-  const { profile , userProfile } = getSession();
+  const { profile, userProfile } = getSession();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -73,7 +73,6 @@ const IDNLiveDetail = () => {
       username: profile?.name,
       room: live?.user?.username,
     });
-
   }, [id, live]);
 
   return (
@@ -85,7 +84,7 @@ const IDNLiveDetail = () => {
               <>
                 <Player
                   refreshKey={refreshKey}
-                  url={live?.stream_url}
+                  url={`${process.env.REACT_APP_SERVICE_WORKER}/${live?.stream_url}`}
                   views={formatNumber(live?.view_count ?? 0)}
                   idnUrl={`https://www.idn.app/${id}/live/${live.slug}`}
                 />
