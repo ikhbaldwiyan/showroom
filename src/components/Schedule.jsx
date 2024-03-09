@@ -19,6 +19,7 @@ import { slugify } from "utils/slugify";
 import { Link } from "react-router-dom";
 import { BiLogInCircle } from "react-icons/bi";
 import { IoSchoolSharp } from "react-icons/io5";
+import { gaTag } from "utils/gaTag";
 
 const Schedule = ({ isSearch, isShowing, isHome, isSharing }) => {
   const [schedule, setSchedule] = useState([]);
@@ -124,7 +125,7 @@ const Schedule = ({ isSearch, isShowing, isHome, isSharing }) => {
                 <div className="card-schedule">
                   <div className="card-desc">
                     {item?.setlist?.description &&
-                    item.setlist.description.length > 160
+                      item.setlist.description.length > 160
                       ? item.setlist.description.slice(0, 160) + "..."
                       : item.setlist.description}
                   </div>
@@ -134,7 +135,7 @@ const Schedule = ({ isSearch, isShowing, isHome, isSharing }) => {
                   <Link
                     to={`/sharing/${slugify(item?.setlist?.name)}/${item?._id}`}
                   >
-                    <button className="theater-button">
+                    <button onClick={() => gaTag({ action: "buy_sharing_live_list", category: "Sharing Live", label: "Sharing Live List" })} className="theater-button">
                       <FaTicketAlt className="mr-1 mb-1" size={20} />
                       Buy Ticket
                     </button>

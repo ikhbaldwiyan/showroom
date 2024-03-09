@@ -31,12 +31,14 @@ import {
   FaTheaterMasks,
   FaUser,
 } from "react-icons/fa";
+import { gaTag } from "utils/gaTag";
 
 const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
   const [modal, setModal] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [orderStatus, setOrderStatus] = useState("");
+  const [showEnded, setShowEnded] = useState(false);
   const profile = getSession()?.profile;
 
   const toggle = () => setModal(!modal);
@@ -44,8 +46,14 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
   useEffect(() => {
     if ((orderStatus === "registered") || (orderStatus === "paid")) {
       setModal(true)
-    } 
+    }
   }, [orderStatus])
+
+  useEffect(() => {
+    const now = moment();
+    const end = moment(theater?.showDate);
+    setShowEnded(now.isAfter(end));
+  }, [theater?.showDate]);
 
   const handleRegisterSharingLive = () => {
     axios
@@ -139,26 +147,35 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
             <b>RP. 20.000</b>
           </p>
         </div>
-        <motion.div whileTap={{ scale: 0.9 }}>
+        {showEnded ? (
           <button
-            onClick={toggle}
-            className="buy d-flex text-align-center justify-content-center align-items-center text-info"
+            className="buy d-flex text-align-center justify-content-center align-items-center"
           >
-            {isRegistered && orderStatus === "registered"
-              ? "Pay Ticket"
-              : orderStatus === "paid"
-              ? "Purchased"
-              : "Buy Ticket"}
+            Live Ended
           </button>
-        </motion.div>
+        ) : (
+          <motion.div onClick={() => gaTag({ action: "buy_sharing_live_detail", category: "Sharing Live", label: "Sharing Live Detail", username: profile?.name })} whileTap={{ scale: 0.9 }}>
+            <button
+              onClick={toggle}
+              className="buy d-flex text-align-center justify-content-center align-items-center text-info"
+            >
+              {isRegistered && orderStatus === "registered"
+                ? "Pay Ticket"
+                : orderStatus === "paid"
+                  ? "Purchased"
+                  : "Buy Ticket"}
+            </button>
+          </motion.div>
+
+        )}
       </div>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader className="modal-title" toggle={toggle}>
           {isRegistered && orderStatus === "registered"
             ? "Bayar"
             : orderStatus === "paid"
-            ? "Info"
-            : "Buy"}{" "}
+              ? "Info"
+              : "Buy"}{" "}
           Ticket
         </ModalHeader>
         <ModalBody className="text-dark">
@@ -276,7 +293,7 @@ const RegisterSharing = ({ theater, setIsRegister, sharingUsers }) => {
           </Button>
         </ModalFooter>
       </Modal>
-    </div>
+    </div >
   );
 };
 
