@@ -16,6 +16,7 @@ import Songs from "pages/theater/components/Setlist";
 import Loading from "./Loading";
 import moment from "moment";
 import { getSession } from "utils/getSession";
+import { RiBroadcastFill } from "react-icons/ri";
 
 const NoTicket = ({
   isCustomLive,
@@ -168,6 +169,22 @@ const NoTicket = ({
                 Buy Ticket
               </button>
             </a>
+          </div>
+        </div>
+        <div className="ticket-sharing mt-2">
+          <div className="menu-ticket">
+            <RiBroadcastFill className="mb-2" color="#ECFAFC" size={70} />
+            <div className="d-flex flex-column justify-content-center text-center">
+              <div className="ticket-name">SHARING</div>
+              <p className="setlist-subname mt-2">
+                <b>RP. 20.000</b>
+              </p>
+            </div>
+            <Link to="/sharing-live">
+              <button className="buy d-flex text-align-center justify-content-center align-items-center text-info">
+                Buy Ticket
+              </button>
+            </Link>
           </div>
         </div>
       </Col>
