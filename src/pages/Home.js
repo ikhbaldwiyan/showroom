@@ -126,13 +126,13 @@ function Home(props) {
                     room={filtered}
                     theme={props.theme}
                   />
-                  <RoomAcademy
+                  {/* <RoomAcademy
                     title="Room Trainee"
                     isSearchRegular={filtered}
                     isSearch={search}
                     room={filteredTrainee}
                     theme={props.theme}
-                  />
+                  /> */}
                 </div>
               )}
             </>
