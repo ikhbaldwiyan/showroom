@@ -34,9 +34,6 @@ function Settings(props) {
     hideMultiMenu,
     setHideMultiMenu,
     hideStars,
-    setHideStars,
-    isFarming,
-    setIsFarming,
     number,
     removeSelectedRoom,
     updateMenu,
@@ -65,14 +62,6 @@ function Settings(props) {
         name: hideOrShow(hideTime) + " Live Time",
         update: () => setHideTime(!hideTime),
       },
-      ...(getSession().session
-        ? [
-            {
-              name: hideOrShow(hideStars) + " Stars",
-              update: () => setHideStars(!hideStars),
-            },
-          ]
-        : []),
     ];
     setMenu(settingsMenu);
   }, [hideViews, hideMenu, hideTime, hideStars]);
@@ -100,16 +89,6 @@ function Settings(props) {
               {item.name}
             </DropdownItem>
           ))}
-          {user?.can_farming_detail &&
-            window.location.pathname !== "/multi-room" && (
-              <DropdownItem
-                color={isFarming ? "primary" : "success"}
-                onClick={() => setIsFarming(!isFarming)}
-              >
-                <GiFarmer className="mb-1" size={20} />{" "}
-                {!isFarming ? "Farming" : "Hide Farm"}
-              </DropdownItem>
-            )}
           <ProfileModal
             roomId={roomId}
             className="btn-sm mt-1 px-4 mb-1"

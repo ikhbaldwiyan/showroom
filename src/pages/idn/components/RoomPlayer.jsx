@@ -69,7 +69,7 @@ export const RoomPlayer = ({
         <>
           <PlayerMulti
             number={number}
-            url={data?.stream_url}
+            url={`${process.env.REACT_APP_SERVICE_WORKER}/${data?.stream_url}`}
             idnUrl={`https://www.idn.app/${data?.user?.username}/live/${data.slug}`}
           />
           <div

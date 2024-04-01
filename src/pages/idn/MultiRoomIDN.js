@@ -1,7 +1,6 @@
 import { Col, Row } from "reactstrap";
 import React, { useState, useMemo, useEffect } from "react";
 import axios from "axios";
-import moment from "moment";
 
 import MainLayout from "pages/layout/MainLayout";
 import RoomMulti from "./components/RoomMulti";
@@ -9,7 +8,6 @@ import RoomPlayer from "./components/RoomPlayer";
 import useWindowDimensions from "utils/useWindowDimension";
 import { getLocalStorage } from "utils/helpers";
 import { ROOM_LIVE_IDN_DETAIL } from "utils/api/api";
-import { activityLog } from "utils/activityLog";
 import { getSession } from "utils/getSession";
 import { gaTag } from "utils/gaTag";
 
