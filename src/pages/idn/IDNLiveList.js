@@ -15,7 +15,8 @@ const IDNLiveList = () => {
   useEffect(() => {
     try {
       axios.get(ROOM_LIVES_IDN).then((res) => {
-        setRoomLives(res.data);
+        const filterLive = res.data.filter((item) => item.user.name.includes("JKT48"));
+        setRoomLives(filterLive);
       });
     } catch (error) {
       console.log(error);
