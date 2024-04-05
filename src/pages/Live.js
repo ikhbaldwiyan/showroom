@@ -65,7 +65,8 @@ function Live(props) {
   const [isPremiumLive, setIsPremiumLive] = useState(false);
   const [title, setTitle] = useState("");
   const [isRefresh, setIsRefresh] = useState(false);
-  const [liveId, setLiveId] = useState("")
+  const [liveId, setLiveId] = useState("");
+  const [hidePodium, setHidePodium] = useState(false);
   
   const dispatch = useDispatch();
   const cookies = getSession()?.session?.cookie_login_id ?? "stream";
@@ -285,8 +286,10 @@ function Live(props) {
                     showTitle={title}
                     refresh={isRefresh}
                     setLiveId={setLiveId}
+                    hidePodium={hidePodium}
+                    setHidePodium={setHidePodium}
                   />
-                 {!isMobile && (
+                 {!isMobile && !hidePodium && (
                    <Podium liveId={liveId} />
                  )}
                   {session && !isMobile && !hideStars && !secretKey && (

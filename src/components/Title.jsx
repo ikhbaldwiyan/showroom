@@ -35,7 +35,9 @@ function Title({
   isPremiumLive,
   showTitle,
   refresh,
-  setLiveId
+  setLiveId,
+  hidePodium,
+  setHidePodium,
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -67,6 +69,8 @@ function Title({
     removeSelectedRoom,
     updateMenu,
     setUrl,
+    hidePodium,
+    setHidePodium,
   };
 
   const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };

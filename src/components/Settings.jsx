@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { GiFarmer } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
 import { useSelector } from "react-redux";
 
@@ -11,7 +10,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import { getSession } from "utils/getSession";
 import ProfileModal from "./ProfileModal";
 
 function Settings(props) {
@@ -37,7 +35,9 @@ function Settings(props) {
     number,
     removeSelectedRoom,
     updateMenu,
-    setUrl
+    setUrl,
+    hidePodium,
+    setHidePodium,
   } = props;
 
   useEffect(() => {
@@ -62,9 +62,13 @@ function Settings(props) {
         name: hideOrShow(hideTime) + " Live Time",
         update: () => setHideTime(!hideTime),
       },
+      {
+        name: hideOrShow(hidePodium) + " Podium",
+        update: () => setHidePodium(!hidePodium),
+      },
     ];
     setMenu(settingsMenu);
-  }, [hideViews, hideMenu, hideTime, hideStars]);
+  }, [hideViews, hideMenu, hideTime, hideStars, hidePodium]);
 
   const removeThisRoom = (number) => {
     removeSelectedRoom(number);
