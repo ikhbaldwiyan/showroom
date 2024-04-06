@@ -51,7 +51,7 @@ const RecentLive = ({ isSearch }) => {
     window.document.title = "Member Live History";
   }, []);
 
-  return (
+  return logs.length > 0 && (
     !isSearch && (
       <div className="mb-4">
         <div className="d-flex align-items-center justify-content-between py-3">
