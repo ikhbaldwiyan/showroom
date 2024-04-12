@@ -68,7 +68,7 @@ const SupportProject = () => {
             <img
               className="rounded-large"
               width="100%"
-              src="https://media.discordapp.net/attachments/1108380195175551047/1212798033566367744/image.png?ex=65f3252f&is=65e0b02f&hm=9caf567c67354376ce93dde10e37594d8d8ee43301e7c91c2bfba46effdcf21a&=&format=webp&quality=lossless&width=1440&height=353"
+              src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1712936855/top_donate.png"
               alt="donate"
             />
           </Col>
