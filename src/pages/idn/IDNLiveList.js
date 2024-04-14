@@ -35,41 +35,43 @@ const IDNLiveList = () => {
                 isMobile ? "column-12 row-1" : `column-3 row-1`
               }`}
             >
-              <Link
+              {/* <Link
                 to={{
                   pathname: `idn/${item.user.username}`,
                   state: {
                    liveData: item,
                   },
                 }}
-              >
-                <div className="card card-featured">
-                  <Fade right>
-                    <div className="tag">
-                      <FaUser size={15} /> {formatViews(item.view_count)}
-                    </div>
-                    <figure className="img-wrapper">
-                      <img
-                        src={item.user.avatar}
-                        alt={item.user.name}
-                        className="img-cover"
-                      />
-                    </figure>
-                    <div className="meta-wrapper">
-                      <Button
-                        type="link"
-                        style={{ textDecoration: "none" }}
-                        className="d-block text-white"
-                      >
-                        <h5 className="d-inline mr-2">{item.user.name}</h5>
-                        <h6 className="d-inline" style={{ color: "#ced4da" }}>
-                          {formatLongDate(item.live_at, true)}
-                        </h6>
-                      </Button>
-                    </div>
-                  </Fade>
-                </div>
-              </Link>
+              > */}
+                <a href={`https://www.idn.app/${item.user.username}/live/${item.slug}`} target="_blank">
+                  <div className="card card-featured">
+                    <Fade right>
+                      <div className="tag">
+                        <FaUser size={15} /> {formatViews(item.view_count)}
+                      </div>
+                      <figure className="img-wrapper">
+                        <img
+                          src={item.user.avatar}
+                          alt={item.user.name}
+                          className="img-cover"
+                        />
+                      </figure>
+                      <div className="meta-wrapper">
+                        <Button
+                          type="link"
+                          style={{ textDecoration: "none" }}
+                          className="d-block text-white"
+                        >
+                          <h5 className="d-inline mr-2">{item.user.name}</h5>
+                          <h6 className="d-inline" style={{ color: "#ced4da" }}>
+                            {formatLongDate(item.live_at, true)}
+                          </h6>
+                        </Button>
+                      </div>
+                    </Fade>
+                  </div>
+                </a>
+              {/* </Link> */}
             </div>
           ))}
         </div>
