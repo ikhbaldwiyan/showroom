@@ -1,6 +1,9 @@
 # About
 
-JKT48 SHOWROOM is a Fanmade streaming website for filtering JKT48 SHOWROOM Member, in this project we can see all room member JKT48 in real time this data get from offical Showroom API and also give info about theater schedule or upcoming member live.
+JKT48 SHOWROOM is a Fanmade streaming website for filtering JKT48 SHOWROOM Member, in this project we can see all room member JKT48 in real time, this API get from offical Showroom API and also give info about theater schedule or upcoming member live.
+
+### Join Discord Community
+[![Discord Banner](https://discordapp.com/api/guilds/1076511743909564506/widget.png?style=banner2)](https://discord.com/invite/BX8BAs4kgu)
 
 ### Usage
 1. Clone this repository
