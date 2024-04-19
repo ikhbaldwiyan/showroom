@@ -1,8 +1,16 @@
-import React from "react";
+import { activityLog } from "utils/activityLog";
+import { getSession } from "utils/getSession";
 import MainLayout from "./layout/MainLayout";
-import { gaEvent } from "utils/gaEvent";
 
 function About(props) {
+  const activityTrack = (logName, description) => {
+    activityLog({
+      logName,
+      description,
+      userId: getSession().userProfile._id ?? "64e2090061ec79ea209a0160"
+    });
+  };
+
   return (
     <MainLayout
       title="About"
@@ -28,7 +36,7 @@ function About(props) {
               rel="noreferrer"
               target="_blank"
               onClick={() =>
-                gaEvent("About Link", "Twitter Inzoid Click", "About")
+                activityTrack("About Link", "Twitter Inzoid Click")
               }
             >
               {" "}
@@ -42,9 +50,7 @@ function About(props) {
               href="https://saweria.co/Inzoid"
               rel="noreferrer"
               target="_blank"
-              onClick={() =>
-                gaEvent("About Link", "Donation Link Click", "About")
-              }
+              onClick={() => activityTrack("About Link", "Donation Link Click")}
             >
               https://saweria.co/Inzoid
             </a>
@@ -57,20 +63,24 @@ function About(props) {
                 rel="noreferrer"
                 target="_blank"
                 onClick={() =>
-                  gaEvent("About Link", "Discord Link Click", "About")
+                  activityTrack("About Link", "Discord Banner Click")
                 }
               >
-                Discord Grup
-              </a>{" "}
-              (Discord Community)
+                <img
+                  className="rounded"
+                  src="https://discordapp.com/api/guilds/1076511743909564506/widget.png?style=banner3"
+                  alt="discord banner"
+                  height="110"
+                />
+              </a>
             </li>
-            <li>
+            <li className="mt-2">
               <a
                 href="https://twitter.com/JKT48_SHOWROOM"
                 rel="noreferrer"
                 target="_blank"
                 onClick={() =>
-                  gaEvent("About Link", "Twitter Link Click", "About")
+                  activityTrack("About Link", "Twitter Link Click")
                 }
               >
                 Twitter
@@ -119,9 +129,7 @@ function About(props) {
                 href="https://github.com/jkt48-showroom"
                 rel="noreferrer"
                 target="_blank"
-                onClick={() =>
-                  gaEvent("About Link", "Github Web Click", "About")
-                }
+                onClick={() => activityTrack("About Link", "Github Organization Click")}
               >
                 https://github.com/jkt48-showroom
               </a>{" "}
@@ -132,9 +140,7 @@ function About(props) {
                 href="https://github.com/ikhbaldwiyan/showroom"
                 rel="noreferrer"
                 target="_blank"
-                onClick={() =>
-                  gaEvent("About Link", "Github Web Click", "About")
-                }
+                onClick={() => activityTrack("About Link", "Github FE Web Click")}
               >
                 https://github.com/ikhbaldwiyan/showroom
               </a>{" "}
@@ -147,7 +153,7 @@ function About(props) {
                 href="https://github.com/ikhbaldwiyan/jkt48-showroom-api"
                 target="_blank"
                 onClick={() =>
-                  gaEvent("About Link", "Github API JS Click", "About")
+                  activityTrack("About Link", "Github API JS Click")
                 }
               >
                 https://github.com/ikhbaldwiyan/jkt48-showroom-api
@@ -161,7 +167,7 @@ function About(props) {
                 href="https://github.com/AldyRevigustian/Showroom-Api"
                 target="_blank"
                 onClick={() =>
-                  gaEvent("About Link", "Github API Laravel Click", "About")
+                  activityTrack("About Link", "Github API Laravel Click")
                 }
               >
                 https://github.com/AldyRevigustian/Showroom-Api
@@ -177,16 +183,16 @@ function About(props) {
                 rel="noreferrer"
                 target="_blank"
                 onClick={() =>
-                  gaEvent("About Link", "Contributor Ikhbal Click", "About")
+                  activityTrack("About Link", "Contributor Ikhbal Click")
                 }
               >
                 <img
                   src="https://avatars.githubusercontent.com/u/56676582?v=4"
-                  alt=""
+                  alt="github"
                   style={{
                     borderRadius: "50%",
                     height: "30px",
-                    marginRight: "10px",
+                    marginRight: "10px"
                   }}
                 />
                 <span>Ikhbal Dwiyantoro</span>
@@ -198,19 +204,40 @@ function About(props) {
                 rel="noreferrer"
                 target="_blank"
                 onClick={() =>
-                  gaEvent("About Link", "Contributor Aldy Click", "About")
+                  activityTrack("About Link", "Contributor Aldy Click")
                 }
               >
                 <img
                   src="https://avatars.githubusercontent.com/u/72060143?v=4"
-                  alt=""
+                  alt="github"
                   style={{
                     borderRadius: "50%",
                     height: "30px",
-                    marginRight: "10px",
+                    marginRight: "10px"
                   }}
                 />
                 <span>Aldy Revigustian</span>
+              </a>{" "}
+            </li>
+            <li>
+              <a
+                href="https://github.com/Ahm28"
+                rel="noreferrer"
+                target="_blank"
+                onClick={() =>
+                  activityTrack("About Link", "Contributor Ahmad Click")
+                }
+              >
+                <img
+                  src="https://joshuapenalba.com/wp-content/uploads/2014/12/github-icon.png?w=640"
+                  alt="github"
+                  style={{
+                    borderRadius: "50%",
+                    height: "30px",
+                    marginRight: "10px"
+                  }}
+                />
+                <span>Ahmad Mughni</span>
               </a>{" "}
             </li>
           </ul>

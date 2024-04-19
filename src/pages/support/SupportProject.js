@@ -27,14 +27,14 @@ const SupportProject = () => {
     activityLog({
       logName: "Donate",
       description: "Donate saweria button click",
-      userId: getSession()?.userProfile?._id ?? "64e2090061ec79ea209a0160",
+      userId: getSession()?.userProfile?._id ?? "64e2090061ec79ea209a0160"
     });
 
     gaTag({
       action: "donate_button_click",
       category: "Donation",
-      label: "Saweria",
-    })
+      label: "Saweria"
+    });
   };
 
   return (
@@ -47,8 +47,9 @@ const SupportProject = () => {
               Halo guys terima kasih sudah support project ini sampai sekarang,
               Jika kalian ingin mendukung perkembangan project JKT48 SHOWROOM
               untuk biaya server, domain dan service lainnya. kita juga akan
-              kasih early acces untuk fitur baru dan nonton max multi room buat para donator, Yuk support
-              kita dengan cara donasi bisa klik tombol dibawah ini.
+              kasih early acces untuk fitur baru dan nonton max multi room buat
+              para donator, Yuk support kita dengan cara donasi bisa klik tombol
+              dibawah ini.
             </p>
             <Button
               className="mb-3"
@@ -77,7 +78,7 @@ const SupportProject = () => {
           </Col>
         </Row>
         <Row>
-          <Col md="8">
+          <Col md="6">
             <h3>Donator Discord</h3>
             <p className="mt-3">
               Jika kamu sudah donate akan mendapatkan role <b>Donator</b> di
@@ -85,8 +86,15 @@ const SupportProject = () => {
               tampilkan di halaman thanks page ini.
             </p>
           </Col>
+          <Col md="6">
+            <img
+              className="rounded"
+              src="https://discordapp.com/api/guilds/1076511743909564506/widget.png?style=banner3"
+              alt="discord banner"
+            />
+          </Col>
           <Col md="12">
-            <div className="list-donator mb-3">
+            <div className="list-donator my-3 mb-3">
               {isMobile ? (
                 <div className="list-donator">
                   <div className="donator-wrap">

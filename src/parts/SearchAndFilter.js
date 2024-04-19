@@ -2,7 +2,7 @@ import React from "react";
 import { FcSearch } from "react-icons/fc";
 import { Button } from "reactstrap";
 import { RiDashboardFill, RiUserSearchFill } from "react-icons/ri";
-import { FaDiscord, FaTheaterMasks, FaTwitter, FaUserGraduate } from "react-icons/fa";
+import { FaTheaterMasks, FaTwitter, FaUserGraduate } from "react-icons/fa";
 import { activityLog } from "utils/activityLog";
 import { getSession } from "utils/getSession";
 import useWindowDimensions from "utils/useWindowDimension";
@@ -16,7 +16,7 @@ function SearchAndFilter({
   setAllMember,
   setIsRegular,
   isLive,
-  setIsLive,
+  setIsLive
 }) {
   const filterAllMember = () => {
     setIsRegular(false);
@@ -48,9 +48,9 @@ function SearchAndFilter({
 
   const socmedClick = (type) => {
     activityLog({
-      description: `${type} Button Click`,
+      description: `${type} Banner Click`,
       logName: `${type} Link`,
-      userId: getSession()?.userProfile?._id,
+      userId: getSession()?.userProfile?._id
     });
   };
 
@@ -64,7 +64,7 @@ function SearchAndFilter({
           style={{
             width: "100%",
             padding: "1rem 1rem 1rem 3rem",
-            borderRadius: "5px",
+            borderRadius: "5px"
           }}
           type="text"
           placeholder={
@@ -102,14 +102,12 @@ function SearchAndFilter({
           rel="noreferrer"
           onClick={() => socmedClick("Discord")}
         >
-          <Button
-            className="mx-2"
-            color="info"
-            style={{ backgroundColor: "#5865F2", border: "none" }}
-          >
-            <FaDiscord size={20} className="mb-1 mr-2" />
-            <span className="text-filter">Discord</span>
-          </Button>
+          <img
+            height={45}
+            className="rounded"
+            src="https://discordapp.com/api/guilds/1076511743909564506/widget.png?style=banner2"
+            alt="discord banner"
+          />
         </a>
         <a
           href="https://twitter.com/JKT48_SHOWROOM"
