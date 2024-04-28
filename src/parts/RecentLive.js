@@ -134,7 +134,7 @@ const RecentLive = ({ isSearch }) => {
                       <div className="col-6">
                         <Link to={`/history/${member.url}/${log.data_id}`}>
                           <div className="recent-card-name">
-                            {member?.url === "officialJKT48" ? (
+                            {member?.url === "jkt48" ? (
                               <span className="recent-name">
                                 JKT48 Official
                                 <BiLogInCircle size={20} />
