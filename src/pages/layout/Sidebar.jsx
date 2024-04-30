@@ -60,11 +60,11 @@ const Sidebar = () => {
       icon: <HiUsers style={iconHome} />,
       link: "/multi-room",
     },
-    // {
-    //   name: "Multi IDN",
-    //   icon: <MdSmartDisplay style={iconHome} />,
-    //   link: "/multi-room-idn",
-    // },
+    {
+      name: "Multi IDN",
+      icon: <MdSmartDisplay style={iconHome} />,
+      link: "/multi-room-idn",
+    },
     {
       name: "History Live",
       icon: <RiChatHistoryFill style={iconHome} />,

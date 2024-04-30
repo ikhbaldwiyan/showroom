@@ -93,7 +93,7 @@ const IDNLiveDetail = () => {
               <>
                 <Player
                   refreshKey={refreshKey}
-                  url={`${process.env.REACT_APP_SERVICE_WORKER}/${live?.stream_url}`}
+                  url={`${live?.stream_url}`}
                   views={formatNumber(live?.view_count ?? 0)}
                   idnUrl={`https://www.idn.app/${id}/live/${live.slug}`}
                 />
