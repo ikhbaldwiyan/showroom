@@ -90,7 +90,7 @@ const Leaderboard = (props) => {
 
   const filterMonthDropdownList = {
     title: "Select Month",
-    current: month || "All Time",
+    current: titleMonth || "All Time",
     dropdown: [
       {
         name: "All Time",
@@ -123,6 +123,22 @@ const Leaderboard = (props) => {
           setTitleMonth("Maret");
         },
         disabled: month === "03-2024",
+      },
+      {
+        name: "April",
+        action: () => {
+          setMonth("04-2024");
+          setTitleMonth("April");
+        },
+        disabled: month === "04-2024",
+      },
+      {
+        name: "Mei",
+        action: () => {
+          setMonth("05-2024");
+          setTitleMonth("Mei");
+        },
+        disabled: month === "05-2024",
       },
     ],
   };
