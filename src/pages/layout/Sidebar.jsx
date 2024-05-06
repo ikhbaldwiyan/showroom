@@ -60,11 +60,11 @@ const Sidebar = () => {
       icon: <HiUsers style={iconHome} />,
       link: "/multi-room",
     },
-    {
-      name: "Multi IDN",
-      icon: <MdSmartDisplay style={iconHome} />,
-      link: "/multi-room-idn",
-    },
+    // {
+    //   name: "Multi IDN",
+    //   icon: <MdSmartDisplay style={iconHome} />,
+    //   link: "/multi-room-idn",
+    // },
     {
       name: "History Live",
       icon: <RiChatHistoryFill style={iconHome} />,
@@ -128,7 +128,7 @@ const Sidebar = () => {
               );
             })}
 
-            <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.9 }}>
+            {/* <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.9 }}>
               <li className="mt-2">
                 <a
                   href="https://discord.com/invite/BX8BAs4kgu"
@@ -141,7 +141,7 @@ const Sidebar = () => {
                   {isDesktopView && "Join Discord"}
                 </a>
               </li>
-            </motion.div>
+            </motion.div> */}
 
             <motion.div whileHover={{ scale: 0.9 }} whileTap={{ scale: 0.9 }}>
               <li className="mt-2">
