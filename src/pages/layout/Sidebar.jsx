@@ -5,7 +5,7 @@ import { AiFillHome } from "react-icons/ai";
 import {
   RiBroadcastFill,
   RiChatHistoryFill,
-  RiMedalFill,
+  RiMedalFill
 } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiLoginBoxFill } from "react-icons/ri";
@@ -28,12 +28,8 @@ const Sidebar = () => {
   const { width } = useWindowDimensions();
 
   const iconHome = {
-    marginBottom: 4,
-    fontSize: "26px",
-    marginRight: "8px",
+    fontSize: "24px"
   };
-
-  const buttonStyle = { color: "white", fontSize: "20px", fontWeight: "600" };
 
   const isActive = (page) => {
     return window.location.pathname === page;
@@ -43,22 +39,22 @@ const Sidebar = () => {
     {
       name: "Home",
       icon: <AiFillHome style={iconHome} />,
-      link: "/",
+      link: "/"
     },
     {
       name: "Leaderboard",
       icon: <RiMedalFill style={iconHome} />,
-      link: "/leaderboard",
+      link: "/leaderboard"
     },
     {
       name: "Live Stream",
       icon: <RiBroadcastFill style={iconHome} />,
-      link: "/room/officialJKT48/332503",
+      link: "/room/officialJKT48/332503"
     },
     {
       name: "Multi Room",
       icon: <HiUsers style={iconHome} />,
-      link: "/multi-room",
+      link: "/multi-room"
     },
     // {
     //   name: "Multi IDN",
@@ -68,25 +64,25 @@ const Sidebar = () => {
     {
       name: "History Live",
       icon: <RiChatHistoryFill style={iconHome} />,
-      link: "/live-history",
+      link: "/live-history"
     },
     {
       name: "Jadwal Theater",
       icon: <FaTheaterMasks style={iconHome} />,
-      link: "/theater-schedule",
+      link: "/theater-schedule"
     },
     {
       name: "Support Us",
       icon: <FaDonate style={iconHome} />,
-      link: "/support-project",
-    },
+      link: "/support-project"
+    }
   ];
 
   const trackLinkClicked = () => {
     activityLog({
       userId: user._id ?? "64e2090061ec79ea209a0160",
       logName: "Discord Link",
-      description: "Discord Link Click",
+      description: "Discord Link Click"
     });
   };
 
@@ -112,14 +108,16 @@ const Sidebar = () => {
                   <li className="mt-1">
                     <Button
                       style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 10,
                         color: isActive(page) ? "#24A2B7" : "white",
-                        fontSize: isActive(page) ? "20px" : "18px",
-                        fontWeight: isActive(page) ? "700" : "600",
+                        fontSize: isActive(page) ? "19px" : "18px",
+                        fontWeight: isActive(page) ? "700" : "400"
                       }}
                       className="nav-link"
                       type="link"
                       href={item.link}
-                      isExternal={item.name === "Join Discord"}
                     >
                       {item.icon} {isDesktopView && item.name}
                     </Button>
@@ -150,9 +148,12 @@ const Sidebar = () => {
                   type="link"
                   href="/about"
                   style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
                     color: isActive("/about") ? "#24A2B7" : "white",
-                    fontSize: isActive("/about") ? "20px" : "18px",
-                    fontWeight: isActive("/about") ? "700" : "600",
+                    fontSize: isActive("/about") ? "19px" : "18px",
+                    fontWeight: isActive("/about") ? "700" : "400"
                   }}
                 >
                   <BsInfoCircleFill style={iconHome} />{" "}
@@ -180,7 +181,7 @@ const Sidebar = () => {
                 style={{
                   fontWeight: 600,
                   fontSize: "18px",
-                  borderRadius: "6px",
+                  borderRadius: "6px"
                 }}
               >
                 <RiLoginBoxFill style={iconHome} /> Login
