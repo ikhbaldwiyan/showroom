@@ -87,6 +87,19 @@ export default function Comment({
       newSocket.send(`SUB\t${socketKey}`);
     });
 
+    const formatCommentWebsocket = (msg) => {
+      const comments = {
+        id: String(msg.u) + String(msg.created_at),
+        user_id: msg.u,
+        name: msg.ac,
+        avatar_id: msg.av,
+        comment: msg.cm,
+        created_at: msg.created_at
+      };
+  
+      return comments;
+    };
+
     newSocket.addEventListener("message", (event) => {
       const message = event.data;
       const msg = JSON.parse(message.split("\t")[2]);
@@ -94,15 +107,14 @@ export default function Comment({
 
       if (code === 1) {
         if (!Number.isNaN(msg.cm) && parseInt(msg.cm) <= 50) return;
-        const cm = {
-          id: String(msg.u) + String(msg.created_at),
-          user_id: msg.u,
-          name: msg.ac,
-          avatar_id: msg.av,
-          comment: msg.cm,
-          created_at: msg.created_at,
-        };
-        setComments((prevMessages) => [cm, ...prevMessages]);
+        const newComments = formatCommentWebsocket(msg);
+        setComments((prevMessages) => {
+          if (Array.isArray(prevMessages)) {
+            return [newComments, ...prevMessages];
+          } else {
+            return [newComments];
+          }
+        });
       } else if (code === 101) {
         !isMultiRoom ? window.location.reload() : setRoomId(roomId);
       }
