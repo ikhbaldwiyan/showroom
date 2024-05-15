@@ -148,7 +148,7 @@ function Live(props) {
       });
     }
 
-  }, [id]);
+  }, [id, cookiesLoginId]);
 
   const messages = () =>
     toast.error("Room Offline", {
