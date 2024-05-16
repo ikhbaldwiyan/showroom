@@ -15,7 +15,7 @@ const MobileBanner = () => {
   };
 
   return (
-    ((user?.can_3_room === true) || (user.totalWatchLive >= 50)) && (
+    ((user?.can_3_room === true) || (user.totalWatchLive >= 30)) && (
       <UncontrolledAlert className="mt-4" color="primary">
         <FaInfoCircle size="20px" className="mb-1 mr-2" />
         Selamat kamu terpilih untuk mencoba beta test Aplikasi JKT48 Showroom Mobile
