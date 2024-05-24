@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { FaStar } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import { IoReload, IoTimeSharp } from "react-icons/io5";
 import formatViews from "utils/formatViews";
 import { LIVE_INFO } from "utils/api/api";
@@ -124,7 +124,7 @@ function Title({
     <div className="mb-1">
       {!hideName && (
         <h4 className="d-inline title">
-          <b className="mr-1">
+          <span className="mr-1">
             {isPremiumLive && showTitle !== ""
               ? showTitle
               : profile &&
@@ -133,7 +133,7 @@ function Title({
                 profile?.room_url_key !== "officialJKT48"
               ? profile?.room_url_key?.slice(6) + " JKT48"
               : profile && profile?.room_name}
-          </b>
+          </span>
         </h4>
       )}
 
@@ -151,7 +151,7 @@ function Title({
         >
           {!isTime ? (
             <>
-              <FaStar size={15} style={icon} />{" "}
+              <FaUser size={15} style={icon} />{" "}
               {profile.views ? formatViews(profile.views) : "0"}
             </>
           ) : (
