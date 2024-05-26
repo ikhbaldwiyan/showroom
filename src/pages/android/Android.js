@@ -18,7 +18,7 @@ const Android = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title="Download APK">
       <div className="layout">
         <h4>DOWNLOAD JKT48 SHOWROOM APK</h4>
         <div className="py-1">
