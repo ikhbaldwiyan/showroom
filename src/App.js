@@ -29,6 +29,7 @@ import SupportProject from "pages/support/SupportProject";
 import IDNLiveDetail from "pages/idn/IDNLiveDetail";
 import MultiRoomIDN from "pages/idn/MultiRoomIDN";
 import Leaderboard from "pages/Leaderboard";
+import Android from "pages/android/Android";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -93,6 +94,10 @@ function App(props) {
         <Route
           path="/multi-room-idn"
           component={() => <MultiRoomIDN {...props} />}
+        />
+        <Route
+          path="/android"
+          component={() => <Android {...props} />}
         />
       </div>
     </ThemeProvider>

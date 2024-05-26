@@ -1,7 +1,7 @@
 import Logo from "parts/Logo";
 import React from "react";
 import { Button as LoginButton } from "reactstrap";
-import { AiFillHome } from "react-icons/ai";
+import { AiFillAndroid, AiFillHome } from "react-icons/ai";
 import {
   RiBroadcastFill,
   RiChatHistoryFill,
@@ -13,7 +13,7 @@ import { BsInfoCircleFill } from "react-icons/bs";
 import Button from "elements/Button";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import UserProfile from "parts/UserProfile";
-import { FaDiscord, FaDonate, FaTheaterMasks } from "react-icons/fa";
+import { FaDonate, FaTheaterMasks } from "react-icons/fa";
 import { motion } from "framer-motion";
 import useWindowDimensions from "utils/useWindowDimension";
 import { getSession } from "utils/getSession";
@@ -59,7 +59,7 @@ const Sidebar = () => {
     {
       name: "Multi IDN",
       icon: <MdSmartDisplay style={iconHome} />,
-      link: "/multi-room-idn",
+      link: "/multi-room-idn"
     },
     {
       name: "History Live",
@@ -70,6 +70,11 @@ const Sidebar = () => {
       name: "Jadwal Theater",
       icon: <FaTheaterMasks style={iconHome} />,
       link: "/theater-schedule"
+    },
+    {
+      name: "Mobile APK",
+      icon: <AiFillAndroid style={iconHome} />,
+      link: "/android"
     },
     {
       name: "Support Us",
