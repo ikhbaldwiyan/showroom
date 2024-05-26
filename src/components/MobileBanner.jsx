@@ -12,23 +12,20 @@ const MobileBanner = () => {
     activityLog({
       userId: user._id ?? "64e2090061ec79ea209a0160",
       logName: "APK Link",
-      description: "Download Android Link Click"
+      description: "Android Info Click"
     });
 
     navigate.push("/android");
   };
 
   return (
-    (user?.can_3_room === true || user.totalWatchLive >= 10) && (
-      <UncontrolledAlert className="mt-4" color="primary">
-        <FaInfoCircle size="20px" className="mb-1 mr-2" />
-        Selamat kamu terpilih untuk mencoba beta test Aplikasi JKT48 Showroom
-        Mobile
-        <a rel="noreferrer" onClick={trackLinkClicked}>
-          <b className="mx-1 cursor-pointer">Download Disini</b>
-        </a>
-      </UncontrolledAlert>
-    )
+    <UncontrolledAlert className="mt-4" color="primary">
+      <FaInfoCircle size="20px" className="mb-1 mr-2" />
+      Aplikasi JKT48 Showroom Beta telah tersedia
+      <a rel="noreferrer" onClick={trackLinkClicked}>
+        <b className="mx-1 cursor-pointer">Download Disini</b>
+      </a>
+    </UncontrolledAlert>
   );
 };
 
