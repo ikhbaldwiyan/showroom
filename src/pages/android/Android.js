@@ -1,20 +1,12 @@
 import MainLayout from "pages/layout/MainLayout";
 import React from "react";
 import { FaAndroid } from "react-icons/fa";
-import { useSelector } from "react-redux";
 import { Button, Col, Row } from "reactstrap";
-import { activityLog } from "utils/activityLog";
 
 const Android = () => {
-  const user = useSelector((state) => state.user.user);
   
   const handleDownload = () => {
     window.open(process.env.REACT_APP_ANDROID_LINK, "_blank");
-    activityLog({
-      userId: user?._id ?? "64e2090061ec79ea209a0160",
-      logName: "APK Link",
-      description: "Download Android Link"
-    });
   };
 
   return (
@@ -33,7 +25,7 @@ const Android = () => {
           </Row>
 
           <p className="mt-3">
-            <b>Release Notes JKT48 Showroom v1.0 APK</b>
+            <b>Release Notes JKT48 Showroom v1.0 APK (14 April 2024)</b> 
           </p>
           <ul>
             <li>Home</li>
@@ -51,7 +43,7 @@ const Android = () => {
           </ul>
 
           <p className="mt-3">
-            <b>Release Notes JKT48 Showroom v1.1 APK</b>
+            <b>Release Notes JKT48 Showroom v1.1 APK (27 Mei 2024)</b>
           </p>
           <ul>
             <li>Add new Member List Screen</li>
