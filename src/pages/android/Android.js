@@ -2,11 +2,19 @@ import MainLayout from "pages/layout/MainLayout";
 import React from "react";
 import { FaAndroid } from "react-icons/fa";
 import { Button, Col, Row } from "reactstrap";
+import { gaTag } from "utils/gaTag";
+import { getSession } from "utils/getSession";
 
 const Android = () => {
   
   const handleDownload = () => {
     window.open(process.env.REACT_APP_ANDROID_LINK, "_blank");
+    gaTag({
+      action: "download_apk_link",
+      category: "Download",
+      label: "Android",
+      username: getSession()?.profile?.name ?? "Guest"
+    })
   };
 
   return (

@@ -5,12 +5,12 @@ import Button from "elements/Button";
 import Logo from "parts/Logo";
 import { isMobile } from "react-device-detect";
 import { Button as LoginButton } from "reactstrap";
-import { AiFillHome } from "react-icons/ai";
+import { AiFillAndroid, AiFillHome } from "react-icons/ai";
 import { RiBroadcastFill, RiMedalFill } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiFileList3Fill, RiLoginBoxFill } from "react-icons/ri";
 import { BsInfoCircleFill } from "react-icons/bs";
-import { FaBars, FaDiscord, FaDonate } from "react-icons/fa";
+import { FaBars, FaDonate } from "react-icons/fa";
 import UserProfile from "./UserProfile";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { MdSmartDisplay } from "react-icons/md";
@@ -45,7 +45,7 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
   const iconHome = { marginBottom: 4 };
   const classMulti = isMultiRoom ? "container-fluid" : "container";
   const mobileMenu = {
-    backgroundColor: "#21252b",
+    backgroundColor: "#21252b"
   };
 
   const toggleMobileMenu = () => {
@@ -122,31 +122,25 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                       </Button>
                     </li>
                     <li
-                      className={`nav-item${getNavLinkClass(
-                        "/leaderboard"
-                      )}`}
+                      className={`nav-item${getNavLinkClass("/leaderboard")}`}
                     >
                       <Button
                         className="nav-link"
                         type="link"
                         href="/leaderboard"
                       >
-                        <RiMedalFill size={23} style={iconHome} /> Leaderboard
+                        <RiMedalFill size={20} style={iconHome} /> Leaderboard
+                      </Button>
+                    </li>
+                    <li className={`nav-item${getNavLinkClass("/android")}`}>
+                      <Button className="nav-link" type="link" href="/android">
+                        <AiFillAndroid size={20} style={iconHome} /> Download
+                        APK
                       </Button>
                     </li>
                     <li className={`nav-item${getNavLinkClass("/about")}`}>
                       <Button className="nav-link" type="link" href="/about">
                         <BsInfoCircleFill style={iconHome} /> About
-                      </Button>
-                    </li>
-                    <li className={`nav-item${getNavLinkClass("/about")}`}>
-                      <Button
-                        href="https://discord.com/invite/BX8BAs4kgu"
-                        className="nav-link"
-                        type="link"
-                        isExternal
-                      >
-                        <FaDiscord style={iconHome} /> Join Discord
                       </Button>
                     </li>
                   </>

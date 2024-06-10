@@ -72,7 +72,7 @@ const Sidebar = () => {
       link: "/theater-schedule"
     },
     {
-      name: "Mobile APK",
+      name: "Download APK",
       icon: <AiFillAndroid style={iconHome} />,
       link: "/android"
     },
