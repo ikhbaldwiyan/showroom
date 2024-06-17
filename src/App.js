@@ -30,6 +30,7 @@ import IDNLiveDetail from "pages/idn/IDNLiveDetail";
 import MultiRoomIDN from "pages/idn/MultiRoomIDN";
 import Leaderboard from "pages/Leaderboard";
 import Android from "pages/android/Android";
+import PrivacyPolicy from "pages/privacy-policy/PrivacyPolicy";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -98,6 +99,10 @@ function App(props) {
         <Route
           path="/android"
           component={() => <Android {...props} />}
+        />
+        <Route
+          path="/privacy-policy"
+          component={() => <PrivacyPolicy {...props} />}
         />
       </div>
     </ThemeProvider>

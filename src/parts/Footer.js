@@ -9,8 +9,11 @@ import { isMobile } from "react-device-detect";
 export default function Footer({ theme }) {
   return (
     <footer className="layout mt-1">
-      <div className="row" >
-        <div className={`col-md-5 ${!isMobile && "mx-3"}`} style={{ width: 380 }}>
+      <div className="row">
+        <div
+          className={`col-md-5 ${!isMobile && "mx-3"}`}
+          style={{ width: 380 }}
+        >
           <Logo theme={theme} />
           <p className="brand-tagline">
             JKT48 SHOWROOM hadir untuk memberikan pengalaman ngidol yang lebih
@@ -40,6 +43,11 @@ export default function Footer({ theme }) {
                 </Button>
               </li>
             )}
+            <li className="list-group-item">
+              <Button type="link" href="/theater-schedule">
+                Theater Schedule
+              </Button>
+            </li>
           </ul>
         </div>
         <div className="col-auto mr-5">
@@ -56,8 +64,8 @@ export default function Footer({ theme }) {
               </Button>
             </li>
             <li className="list-group-item">
-              <Button type="link" href="/theater-schedule">
-                Theater Schedule
+              <Button type="link" href="/privacy-policy">
+                Privacy Policy
               </Button>
             </li>
           </ul>
