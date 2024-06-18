@@ -6,7 +6,6 @@ import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
 
 const Android = () => {
-  
   const handleDownload = () => {
     window.open(process.env.REACT_APP_ANDROID_LINK, "_blank");
     gaTag({
@@ -14,7 +13,7 @@ const Android = () => {
       category: "Download",
       label: "Android",
       username: getSession()?.profile?.name ?? "Guest"
-    })
+    });
   };
 
   return (
@@ -33,7 +32,7 @@ const Android = () => {
           </Row>
 
           <p className="mt-3">
-            <b>Release Notes JKT48 Showroom v1.0 APK (14 April 2024)</b> 
+            <b>Release Notes JKT48 Showroom v1.0 APK (14 April 2024)</b>
           </p>
           <ul>
             <li>Home</li>
@@ -66,6 +65,20 @@ const Android = () => {
             <li>Show some new icon for login and theater schedule</li>
             <li>Update theater schedule by newest data</li>
             <li>Show pop up reminder alert update APK</li>
+          </ul>
+          <p className="mt-3">
+            <b>Release Notes JKT48 Showroom v1.2 APK (18 Juni 2024)</b>
+          </p>
+          <ul>
+            <li>Add New User Profile menu</li>
+            <li>Add About project tab menu</li>
+            <li>Add Switch Dark Mode background theme</li>
+            <li>Implement Full screen Showroom & IDN Live</li>
+            <li>Revamp UI header Showroom live</li>
+            <li>Change status bar color to dark theme</li>
+            <li>Add IDN Live List screen</li>
+            <li>Add Refresh button in IDN Live streaming</li>
+            <li>Fix duplicate podium name</li>
           </ul>
         </div>
         <div className="mb-3">
