@@ -13,7 +13,7 @@ const MobileBanner = () => {
   return (
     <UncontrolledAlert className="mt-4" color="primary">
       <FaInfoCircle size="20px" className="mb-1 mr-2" />
-      Aplikasi JKT48 Showroom Beta telah tersedia
+      Update APK JKT48 Showroom ke versi terbaru
       <a rel="noreferrer" onClick={trackLinkClicked}>
         <b className="mx-1 cursor-pointer">Download Disini</b>
       </a>
