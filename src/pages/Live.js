@@ -39,6 +39,7 @@ import { activityLog } from "utils/activityLog";
 import { showToast } from "utils/showToast";
 import HistoryLive from "parts/HistoryLive";
 import Podium from "components/Podium";
+import { BiError } from "react-icons/bi";
 
 function Live(props) {
   let { id, name } = useParams();
@@ -339,6 +340,14 @@ function Live(props) {
                 customUrl={customUrl}
                 setCustomUrl={setCustomUrl}
               />
+            ) : url.code === 404 && roomId !=="332503" ? (
+              <div
+                style={{ height: 500 }}
+                className="d-flex justify-content-center align-items-center flex-column"
+              >
+                <h3>Sorry server is overload, please try again later</h3>
+                <BiError size={100} />
+              </div>
             ) : url.code === 404 && !secretKey ? (
               <div
                 style={{ height: 500 }}
