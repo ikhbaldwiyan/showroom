@@ -345,8 +345,8 @@ function Live(props) {
                 style={{ height: 500 }}
                 className="d-flex justify-content-center align-items-center flex-column"
               >
-                <h3>Sorry server is overload, please try again later</h3>
                 <BiError size={100} />
+                <h3 className="text-center mt-3">Sorry server is overload, <br /> please refresh and try again later</h3>
               </div>
             ) : url.code === 404 && !secretKey ? (
               <div
