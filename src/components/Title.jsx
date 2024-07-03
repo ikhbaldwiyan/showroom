@@ -131,7 +131,7 @@ function Title({
                 profile?.room_url_key !== 0 &&
                 profile?.room_url_key?.includes("JKT48") &&
                 profile?.room_url_key !== "officialJKT48"
-              ? profile?.room_url_key?.slice(6) + " JKT48"
+              ? profile?.room_url_key?.slice(6) 
               : profile && profile?.room_name}
           </span>
         </h4>
