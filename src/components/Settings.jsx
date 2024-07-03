@@ -127,8 +127,6 @@ function Settings(props) {
 export default Settings;
 
 const css = {
-  backgroundColor: "#018b9b",
-  border: "none",
   borderRadius: "10px",
   marginBottom: 4,
 };

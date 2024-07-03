@@ -165,14 +165,14 @@ function Title({
         </Views>
       )}
       <Settings {...propSettings} />
-      <Button
+      <span
         onClick={handleRefresh}
         color="secondary"
         style={{ borderRadius: "10px" }}
-        className="ml-2 mb-1"
+        className="ml-3 mb-1"
       >
         <IoReload className={`${refresh && "spin-animation"}`} size={20} />
-      </Button>
+      </span>
     </div>
   );
 }
