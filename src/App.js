@@ -4,33 +4,8 @@ import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "utils/darkmode/theme";
 import { GlobalStyles } from "utils/darkmode/global";
 import { useDarkMode } from "utils/useDarkMode";
-
-import Home from "pages/Home";
-import Live from "pages/Live";
-import RoomList from "pages/RoomList";
-import MultiRoom from "pages/MultiRoom";
-import About from "pages/About";
 import GoogleAnalytics from "utils/GoogleAnalytics";
-import Login from "pages/Login";
-import Follow from "pages/Follow";
-import Register from "pages/Register";
-import TheaterScheduleList from "pages/theater/TheaterScheduleList";
-import TheaterScheduleDetail from "pages/theater/TheaterScheduleDetail";
-import Farming from "pages/Farming";
-import HistoryList from "pages/history/HistoryList";
-import HistoryDetail from "pages/history/HistoryDetail";
-import UserList from "pages/admin/user/UserList";
-import TheaterList from "pages/admin/theater/TheaterList";
-import MemberList from "pages/admin/members/MemberList";
-import PremiumLiveList from "pages/admin/premium-live/PremiumLiveList";
-import ActivityLogList from "pages/admin/activity/ActivityLogList";
-import ShowroomWrapped from "pages/wrapper/ShowroomWrapped";
-import SupportProject from "pages/support/SupportProject";
-import IDNLiveDetail from "pages/idn/IDNLiveDetail";
-import MultiRoomIDN from "pages/idn/MultiRoomIDN";
-import Leaderboard from "pages/Leaderboard";
-import Android from "pages/android/Android";
-import PrivacyPolicy from "pages/privacy-policy/PrivacyPolicy";
+import routes from "./routes";
 
 function App(props) {
   const [theme, toggleTheme] = useDarkMode();
@@ -42,68 +17,14 @@ function App(props) {
       <div className="App">
         <GlobalStyles />
         <GoogleAnalytics />
-        <Route path="/" component={() => <Home {...props} />} exact />
-        <Route path="/room/:name/:id/" component={() => <Live {...props} />} />
-        <Route path="/list-room" component={() => <RoomList {...props} />} />
-        <Route path="/follow" component={() => <Follow {...props} />} />
-        <Route path="/multi-room" component={() => <MultiRoom {...props} />} />
-        <Route path="/about" component={() => <About {...props} />} />
-        <Route path="/login" component={() => <Login {...props} />} />
-        <Route
-          path="/leaderboard"
-          component={() => <Leaderboard {...props} />}
-        />
-        <Route path="/register" component={() => <Register {...props} />} />
-        <Route
-          path="/theater-schedule"
-          component={() => <TheaterScheduleList {...props} />}
-        />
-        <Route
-          path="/theater/:name/:id"
-          component={() => <TheaterScheduleDetail {...props} />}
-        />
-        <Route path="/farming" component={() => <Farming {...props} />} />
-        <Route
-          path="/live-history"
-          component={() => <HistoryList {...props} />}
-        />
-        <Route
-          path="/history/:name/:id"
-          component={() => <HistoryDetail {...props} />}
-        />
-        <Route path="/admin" component={() => <ActivityLogList {...props} />} />
-        <Route path="/users" component={() => <UserList {...props} />} />
-        <Route path="/theaters" component={() => <TheaterList {...props} />} />
-        <Route path="/members" component={() => <MemberList {...props} />} />
-        <Route
-          path="/premium-live"
-          component={() => <PremiumLiveList {...props} />}
-        />
-        <Route
-          path="/activity"
-          component={() => <ActivityLogList {...props} />}
-        />
-        <Route
-          path="/wrapped"
-          component={() => <ShowroomWrapped {...props} />}
-        />
-        <Route
-          path="/support-project"
-          component={() => <SupportProject {...props} />}
-        />
-        <Route path="/idn/:id" component={() => <IDNLiveDetail {...props} />} />
-        <Route
-          path="/multi-room-idn"
-          component={() => <MultiRoomIDN {...props} />}
-        />
-        <Route
-          path="/android"
-          component={() => <Android {...props} />}
-        />
-        <Route
-          path="/privacy-policy"
-          component={() => <PrivacyPolicy {...props} />}
-        />
+        {routes.map((route, index) => (
+          <Route
+            key={index}
+            path={route.path}
+            component={() => <route.component {...props} />}
+            exact={route.exact}
+          />
+        ))}
       </div>
     </ThemeProvider>
   );
