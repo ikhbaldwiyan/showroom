@@ -46,9 +46,11 @@ export default function UserProfile({ data, session, theme }) {
   const [isEditAvatar, setIsEditAvatar] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const [userPermisions, setUserPermisions] = useState();
+  const [modalDelete, setModalDelete] = useState(false);
 
   const toggle = () => setModal(!modal);
   const toggleLogout = () => setModalLogout(!modalLogout);
+  const toggleDelete = () => setModalDelete(!modalDelete);
 
   const navigate = useHistory();
   const dispatch = useDispatch();
@@ -175,6 +177,24 @@ export default function UserProfile({ data, session, theme }) {
     }
   };
 
+  const handleDeleteAccount = () => {
+    localStorage.clear();
+    showToast("success", "Akun berhasil di hapus");
+
+    activityLog({
+      userId: userPermisions?._id,
+      logName: "Delete User",
+      description: `Request delete user and activity log`,
+    });
+
+    setTimeout(() => {
+      navigate.push("/login");
+    }, 2000);
+
+    dispatch(clearFollowedRoom());
+    dispatch(clearProfile());
+  };
+
   return (
     <>
       <div type="button" onClick={toggle}>
@@ -274,6 +294,14 @@ export default function UserProfile({ data, session, theme }) {
                         width={70}
                       />
                       <h6>Level {user.fan_level}</h6>
+                      <Button
+                        onClick={toggleDelete}
+                        size="sm"
+                        color="danger"
+                        className="my-3"
+                      >
+                        Delete Account
+                      </Button>
                     </div>
                     <div className="col-md-8">
                       {!isEditAvatar ? (
@@ -478,6 +506,27 @@ export default function UserProfile({ data, session, theme }) {
               Yes
             </Button>
             <Button color="secondary" onClick={toggleLogout}>
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
+        <Modal isOpen={modalDelete}>
+          <ModalHeader
+            toggle={toggleDelete}
+            className="text-light"
+            style={{ backgroundColor: "#DC3545" }}
+          >
+            Delete Account
+          </ModalHeader>
+          <ModalBody className="text-dark my-2">
+            Apakah Anda yakin ingin mengahapus semua aktivas log dan akun di
+            platform JKT48 SHOWROOM ?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="info" onClick={handleDeleteAccount}>
+              Yes
+            </Button>
+            <Button color="secondary" onClick={toggleDelete}>
               Close
             </Button>
           </ModalFooter>
