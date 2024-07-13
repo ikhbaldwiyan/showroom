@@ -4,9 +4,9 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const RemoveAccount = () => {
   return (
-    <MainLayout>
+    <MainLayout title="Remove Account">
       <div className="layout">
-        <h2>Cara Menghapus Akun Showroom</h2>
+        <h3>Cara Menghapus Akun Showroom</h3>
         <p>
           Menghapus akun Anda akan secara permanen menghapus akun pengguna dan
           semua data terkait. Tindakan ini tidak dapat dibatalkan, jadi pastikan
@@ -57,13 +57,13 @@ const RemoveAccount = () => {
             </li>
             <li>
               Klik avatar profile di bawah sidebar atau di menu header jika kamu
-              membuaka di handphone
+              membuka di handphone
             </li>
             <li>
               Tekan tombol <b>Delete Account</b> di bawah avatar profile{" "}
             </li>
             <li>
-              Ketika dialog konfirmasi muncul, pilih tombol <b>"Ok"</b> dan akun
+              Ketika dialog konfirmasi muncul, pilih tombol <b>Yes</b> dan akun
               Anda serta log aktivitas di platform kami akan dihapus.
             </li>
           </ul>
