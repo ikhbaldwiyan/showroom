@@ -43,19 +43,19 @@ function Menu({
     {
       name: "Chat",
       menu: "chat",
-      icon: <BsFillChatDotsFill style={icon} />,
+      icon: <BsFillChatDotsFill />,
     },
     {
       name: !isMultiRoom && !isMobile && !isFarming  && width > 1200 ? "Rank" : "",
       menu: "rank",
-      icon: <AiFillTrophy style={icon} />,
+      icon: <AiFillTrophy />,
     },
     ...(isPremiumLive
       ? [
           {
             name: "Song",
             menu: "setlist",
-            icon: <FaMusic style={icon} />,
+            icon: <FaMusic />,
           },
         ]
       : [
@@ -65,7 +65,7 @@ function Menu({
                 ? "Gift"
                 : "",
             menu: "gift",
-            icon: <AiFillGift style={icon} />,
+            icon: <AiFillGift />,
           },
         ]),
     ...(isMobile
@@ -73,7 +73,7 @@ function Menu({
           {
             name: !isMobile && !isMultiRoom && "",
             menu: "podium",
-            icon: <BsEyeFill style={icon} />,
+            icon: <BsEyeFill />,
           },
         ]
       : []),
@@ -96,14 +96,14 @@ function Menu({
 
   return (
     <Row>
-      <Col>
+      <Col className="d-flex">
         {isPremiumLive ? (
           <Button
             className="menu"
             style={menu === "info" ? buttonActive : buttonStyle}
             onClick={() => handleChangeMenu("info")}
           >
-            <FaInfoCircle style={icon} /> Info
+            <FaInfoCircle /> Info
           </Button>
         ) : !hideMenu ? (
           <Button
@@ -111,7 +111,7 @@ function Menu({
             style={menu === "room" ? buttonActive : buttonStyle}
             onClick={() => handleChangeMenu("room")}
           >
-            <FaUsers style={icon} /> Room
+            <FaUsers /> Room
           </Button>
         ) : null}
         {!isLive.length && isLive.code !== 404 && (
@@ -121,14 +121,14 @@ function Menu({
               style={menu === "history" ? buttonActive : buttonStyle}
               onClick={() => handleChangeMenu("history")}
             >
-              <RiBroadcastFill style={icon} /> History Live
+              <RiBroadcastFill /> History Live
             </Button>
             <Button
               className="menu"
               style={menu === "total" ? buttonActive : buttonStyle}
               onClick={() => handleChangeMenu("total")}
             >
-              <AiFillTrophy style={icon} /> Rank
+              <AiFillTrophy /> Rank
             </Button>
           </>
         )}
@@ -152,6 +152,3 @@ function Menu({
 
 export default Menu;
 
-const icon = {
-  marginBottom: 4,
-};

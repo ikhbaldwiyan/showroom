@@ -6,6 +6,7 @@ import Multi from "parts/Multi";
 import Loading from "components/Loading";
 import MultiMenu from "components/MultiMenu";
 import UnlockRoom from "components/UnlockRoom";
+import { getSession } from "utils/getSession";
 
 export default function MultiRoom(props) {
   const [layout, setLayout] = useState("6");
@@ -122,7 +123,9 @@ export default function MultiRoom(props) {
   return (
     <MainLayout title="Multi Room" {...props} isMultiRoom={isMultiRoom}>
       <div className="layout">
-        <UnlockRoom />
+        {getSession().session && (
+          <UnlockRoom />
+        )}
         <MultiMenu {...propsMultiRoom} />
         <Row className="d-flex">
           {memoizedLayoutElements}

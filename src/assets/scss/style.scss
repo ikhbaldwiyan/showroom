@@ -434,6 +434,9 @@ section {
 }
 
 .menu {
+  display: flex;
+  gap: 6px;
+  align-items: center;
   margin-bottom: .5rem;
   margin-right: .25rem;
 }
@@ -1394,4 +1397,15 @@ main {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+button {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.alert {
+  display: flex !important;
+  align-items: center !important;
 }

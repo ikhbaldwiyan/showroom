@@ -8,7 +8,7 @@ import { GiPodiumWinner } from "react-icons/gi";
 import { RiBroadcastFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import ReactTimeago from "react-timeago";
-import { Button, Table } from "reactstrap";
+import { Button, Col, Row, Table } from "reactstrap";
 import { RECENT_LIVE_LOG_API } from "utils/api/api";
 import formatNumber from "utils/formatNumber";
 import formatViews from "utils/formatViews";
@@ -39,27 +39,31 @@ const RightMenu = ({ gift, setSearch, filterName, id }) => {
 
   return (
     <>
-      <Button
-        className="menu"
-        style={menu === "podium" ? buttonActive : buttonStyle}
-        onClick={() => setMenu("podium")}
-      >
-        <GiPodiumWinner className="mb-1" /> Podium
-      </Button>
-      <Button
-        className="menu"
-        style={menu === "gift" ? buttonActive : buttonStyle}
-        onClick={() => setMenu("gift")}
-      >
-        <AiFillGift className="mb-1" /> Gift
-      </Button>
-      <Button
-        className="menu"
-        style={menu === "recent" ? buttonActive : buttonStyle}
-        onClick={() => setMenu("recent")}
-      >
-        <RiBroadcastFill className="mb-1" /> Recent Live
-      </Button>
+      <Row>
+        <Col className="d-flex">
+          <Button
+            className="menu"
+            style={menu === "podium" ? buttonActive : buttonStyle}
+            onClick={() => setMenu("podium")}
+          >
+            <GiPodiumWinner /> Podium
+          </Button>
+          <Button
+            className="menu"
+            style={menu === "gift" ? buttonActive : buttonStyle}
+            onClick={() => setMenu("gift")}
+          >
+            <AiFillGift /> Gift
+          </Button>
+          <Button
+            className="menu"
+            style={menu === "recent" ? buttonActive : buttonStyle}
+            onClick={() => setMenu("recent")}
+          >
+            <RiBroadcastFill /> Recent Live
+          </Button>
+        </Col>
+      </Row>
 
       {menu === "podium" ? (
         <>
@@ -70,7 +74,7 @@ const RightMenu = ({ gift, setSearch, filterName, id }) => {
                 style={{
                   backgroundColor: "#24a2b7",
                   color: "white",
-                  borderTop: "none",
+                  borderTop: "none"
                 }}
               >
                 <tr>
@@ -105,7 +109,7 @@ const RightMenu = ({ gift, setSearch, filterName, id }) => {
               style={{
                 backgroundColor: "#24a2b7",
                 color: "white",
-                borderTop: "none",
+                borderTop: "none"
               }}
             >
               <tr>
@@ -161,7 +165,7 @@ const RightMenu = ({ gift, setSearch, filterName, id }) => {
                           style={{
                             color: "#ECFAFC",
                             fontWeight: "600",
-                            marginBottom: "1px",
+                            marginBottom: "1px"
                           }}
                           date={live_info.date.end}
                         />
@@ -200,10 +204,10 @@ export default RightMenu;
 
 const buttonStyle = {
   backgroundColor: "teal",
-  border: "none",
+  border: "none"
 };
 
 const buttonActive = {
   backgroundColor: "#008b9b",
-  border: "none",
+  border: "none"
 };

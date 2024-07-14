@@ -113,7 +113,7 @@ const Schedule = ({ isSearch, isShowing, isHome }) => {
                   to={`/theater/${slugify(item?.setlist?.name)}/${item?._id}`}
                 >
                   <button className="theater-button">
-                    <BiLogInCircle className="mr-1 mb-1" size={20} />
+                    <BiLogInCircle className="mr-1" size={20} />
                     Detail Show
                   </button>
                 </Link>

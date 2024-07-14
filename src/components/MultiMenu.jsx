@@ -4,23 +4,18 @@ import { FaUsersCog, FaUsersSlash, FaUsers } from "react-icons/fa";
 import { MdResetTv } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { gaEvent } from "utils/gaEvent";
-import { GiFarmer } from "react-icons/gi";
 import { useSelector } from "react-redux";
-import SettingsRoom from "./SettingsRoom";
-import { getSession } from "utils/getSession";
 
 function MultiMenu({
   layout,
   setLayout,
   hideMultiMenu,
   setHideMultiMenu,
-  isFarming,
-  setIsFarming,
   handleClearRoom,
 }) {
   const iconCss = {
     fontSize: 20,
-    marginBottom: 2,
+    marginRight: 4,
   };
 
   const user = useSelector((state) => state.user.user);
@@ -50,18 +45,6 @@ function MultiMenu({
           },
         ]
       : []),
-    ...(user?.can_farming_multi
-      ? [
-          {
-            name: !isFarming ? "Set Farm" : "Hide Farm",
-            icon: <GiFarmer className="mb-1" />,
-            func: function () {
-              setIsFarming(!isFarming);
-            },
-            color: "success",
-          },
-        ]
-      : []),
     {
       name: "Reset All Room",
       icon: <FaUsersSlash style={iconCss} />,
@@ -70,14 +53,18 @@ function MultiMenu({
       },
       color: "secondary",
     },
-    {
-      name: "Reset Layout",
-      icon: <MdResetTv style={iconCss} />,
-      func: function () {
-        return resetLayout();
-      },
-      color: "danger",
-    },
+    ...(layout === "3" || layout === "4"
+      ? [
+        {
+          name: "Reset Layout",
+          icon: <MdResetTv style={iconCss} />,
+          func: function () {
+            return resetLayout();
+          },
+          color: "danger",
+        },
+        ]
+      : []),
   ];
 
   const changeLayout = () => {
@@ -109,7 +96,7 @@ function MultiMenu({
     <Row>
       {!hideMultiMenu && (
         <>
-          <Col lg="8">
+          <Col className="d-flex" lg="8">
             {button.map((menu, idx) => (
               <Button
                 key={idx}
@@ -133,15 +120,6 @@ function MultiMenu({
             >
               <AiFillCloseCircle style={iconCss} /> Hide Options
             </Button>
-            {/* <div className="float-right">
-              {getSession().session && (
-                <SettingsRoom
-                  set3Room={changeLayout}
-                  set4Room={fourLayout}
-                  iconCss={iconCss}
-                />
-              )}
-            </div> */}
           </Col>
         </>
       )}

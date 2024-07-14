@@ -15,19 +15,19 @@ const MenuSetlist = ({
     {
       name: "Theater",
       menu: "theater",
-      icon: <FaInfoCircle style={icon} />,
+      icon: <FaInfoCircle  />,
     },
     {
       name: "Setlist",
       menu: "setlist",
-      icon: <FaMusic style={icon} />,
+      icon: <FaMusic  />,
     },
     ...(!isCustomLive
       ? [
           {
             name: "Encore",
             menu: "encore",
-            icon: <RiFileList3Fill style={icon} />,
+            icon: <RiFileList3Fill  />,
           },
         ]
       : []),
@@ -40,7 +40,7 @@ const MenuSetlist = ({
 
   return (
     <Row>
-      <Col>
+      <Col className="d-flex">
         {menus.map((item, idx) => (
           <Button
             key={idx}
@@ -68,9 +68,6 @@ const MenuSetlist = ({
 
 export default MenuSetlist;
 
-const icon = {
-  marginBottom: 4,
-};
 
 const buttonStyle = {
   backgroundColor: "teal",
