@@ -85,7 +85,7 @@ function Settings(props) {
         direction={direction}
       >
         <DropdownToggle style={css}>
-          <IoMdSettings style={{ fontSize: 20, marginBottom: 2 }} />
+          <IoMdSettings style={{ fontSize: 18 }} />
         </DropdownToggle>
         <DropdownMenu>
           {menu.map((item, idx) => (
@@ -128,6 +128,6 @@ export default Settings;
 
 const css = {
   borderRadius: "10px",
-  marginBottom: 4,
 };
+
 const inline = { display: "inline" };

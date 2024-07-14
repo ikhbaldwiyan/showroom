@@ -73,7 +73,7 @@ function Title({
     setHidePodium,
   };
 
-  const icon = { fontSize: 20, marginBottom: 4, marginRight: 2 };
+  const icon = { fontSize: 20,marginRight: 4 };
 
   useEffect(() => {
     try {
@@ -121,7 +121,7 @@ function Title({
   }, [profile]);
 
   return (
-    <div className="mb-1">
+    <div className="d-flex align-items-center mb-1">
       {!hideName && (
         <h4 className="d-inline title">
           <span className="mr-1">
@@ -146,7 +146,7 @@ function Title({
       {!hideViews && (
         <Views
           onClick={() => setIsTime(!isTime)}
-          className="btn-sm btn-danger ml-2 mr-2 mb-2"
+          className="btn-sm btn-danger ml-2 mr-2"
           style={{ borderRadius: 5 }}
         >
           {!isTime ? (
@@ -169,7 +169,7 @@ function Title({
         onClick={handleRefresh}
         color="secondary"
         style={{ borderRadius: "10px" }}
-        className="ml-3 mb-1"
+        className="ml-3 "
       >
         <IoReload className={`${refresh && "spin-animation"}`} size={20} />
       </span>
