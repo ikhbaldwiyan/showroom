@@ -1,11 +1,13 @@
 import MainLayout from "pages/layout/MainLayout";
-import React from "react";
-import { FaAndroid } from "react-icons/fa";
-import { Button, Col, Row } from "reactstrap";
+import React, { useState } from "react";
+import { FaAndroid, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { Button, Col, Row, Collapse, Card, CardBody } from "reactstrap";
 import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
 
 const Android = () => {
+  const [open, setOpen] = useState("3"); 
+
   const handleDownload = () => {
     window.open(process.env.REACT_APP_ANDROID_LINK, "_blank");
     gaTag({
@@ -14,6 +16,14 @@ const Android = () => {
       label: "Android",
       username: getSession()?.profile?.name ?? "Guest"
     });
+  };
+
+  const toggle = (id) => {
+    setOpen(open === id ? "" : id);
+  };
+
+  const renderChevron = (id) => {
+    return open === id ? <FaChevronUp /> : <FaChevronDown />;
   };
 
   return (
@@ -31,59 +41,97 @@ const Android = () => {
             </Col>
           </Row>
 
-          <p className="mt-3">
-            <b>Release Notes JKT48 Showroom v1.0 APK (14 April 2024)</b>
-          </p>
-          <ul>
-            <li>Home</li>
-            <li>Login</li>
-            <li>Recent Lives</li>
-            <li>Showroom Live</li>
-            <li>IDN Live</li>
-            <li>Premium Live</li>
-            <li>Room Live Tabs</li>
-            <li>Live Chat Tabs</li>
-            <li>Theater Schedule List and Detail</li>
-            <li>Podium Showroom and IDN</li>
-            <li>Send comment showroom</li>
-            <li>Refresh button live streaming showroom</li>
-          </ul>
-
-          <p className="mt-3">
-            <b>Release Notes JKT48 Showroom v1.1 APK (27 Mei 2024)</b>
-          </p>
-          <ul>
-            <li>Add new Member List Screen</li>
-            <li>Add Live Notification Showroom and IDN Live</li>
-            <li>Improve and optimize switch room live stream</li>
-            <li>Add Profile and History Live tab in member room detail</li>
-            <li>Show follow member room button</li>
-            <li>Show songs tab for schedule theater detail and premium live</li>
-            <li>Handle auto refresh if streaming showroom lag</li>
-            <li>Implement modal logout and login header</li>
-            <li>Add register account link redirect to webpage</li>
-            <li>Show some new icon for login and theater schedule</li>
-            <li>Update theater schedule by newest data</li>
-            <li>Show pop up reminder alert update APK</li>
-          </ul>
-          <p className="mt-3">
-            <b>Release Notes JKT48 Showroom v1.2 APK (18 Juni 2024)</b>
-          </p>
-          <ul>
-            <li>Add New User Profile menu</li>
-            <li>Add About project tab menu</li>
-            <li>Add Switch Dark Mode background theme</li>
-            <li>Implement Full screen Showroom & IDN Live</li>
-            <li>Revamp UI header Showroom live</li>
-            <li>Change status bar color to dark theme</li>
-            <li>Add IDN Live List screen</li>
-            <li>Add Refresh button in IDN Live streaming</li>
-            <li>Fix duplicate podium name</li>
-          </ul>
+          <div className="accordion mt-3">
+            <Card className="p-2" color="dark">
+              <div
+                onClick={() => toggle("1")}
+                className="accordion-header d-flex justify-content-between align-items-center"
+              >
+                <h6>JKT48 Showroom v1.0 APK (14 April 2024)</h6>
+                {renderChevron("1")}
+              </div>
+              <Collapse isOpen={open === "1"}>
+                <CardBody className="p-2" color="dark">
+                  <ul>
+                    <li>Home</li>
+                    <li>Login</li>
+                    <li>Recent Lives</li>
+                    <li>Showroom Live</li>
+                    <li>IDN Live</li>
+                    <li>Premium Live</li>
+                    <li>Room Live Tabs</li>
+                    <li>Live Chat Tabs</li>
+                    <li>Theater Schedule List and Detail</li>
+                    <li>Podium Showroom and IDN</li>
+                    <li>Send comment showroom</li>
+                    <li>Refresh button live streaming showroom</li>
+                  </ul>
+                </CardBody>
+              </Collapse>
+            </Card>
+            <Card className="p-2" color="dark">
+              <div
+                onClick={() => toggle("2")}
+                className="accordion-header d-flex justify-content-between align-items-center"
+              >
+                <h6>JKT48 Showroom v1.1 APK (27 Mei 2024)</h6>
+                {renderChevron("2")}
+              </div>
+              <Collapse isOpen={open === "2"}>
+                <CardBody className="p-2" color="dark">
+                  <ul>
+                    <li>Add new Member List Screen</li>
+                    <li>Add Live Notification Showroom and IDN Live</li>
+                    <li>Improve and optimize switch room live stream</li>
+                    <li>
+                      Add Profile and History Live tab in member room detail
+                    </li>
+                    <li>Show follow member room button</li>
+                    <li>
+                      Show songs tab for schedule theater detail and premium
+                      live
+                    </li>
+                    <li>Handle auto refresh if streaming showroom lag</li>
+                    <li>Implement modal logout and login header</li>
+                    <li>Add register account link redirect to webpage</li>
+                    <li>Show some new icon for login and theater schedule</li>
+                    <li>Update theater schedule by newest data</li>
+                    <li>Show pop up reminder alert update APK</li>
+                  </ul>
+                </CardBody>
+              </Collapse>
+            </Card>
+            <Card className="p-2" color="info">
+              <div
+                onClick={() => toggle("3")}
+                className="accordion-header d-flex justify-content-between align-items-center"
+              >
+                <h6>JKT48 Showroom v1.2 APK (18 Juni 2024)</h6>
+                {renderChevron("3")}
+              </div>
+              <Collapse isOpen={open === "3"}>
+                <CardBody className="p-2" color="info">
+                  <ul>
+                    <li>Add New User Profile menu</li>
+                    <li>Add About project tab menu</li>
+                    <li>Add Switch Dark Mode background theme</li>
+                    <li>Implement Full screen Showroom & IDN Live</li>
+                    <li>Revamp UI header Showroom live</li>
+                    <li>Change status bar color to dark theme</li>
+                    <li>Add IDN Live List screen</li>
+                    <li>Add Refresh button in IDN Live streaming</li>
+                    <li>Fix duplicate podium name</li>
+                  </ul>
+                </CardBody>
+              </Collapse>
+            </Card>
+          </div>
         </div>
-        <div className="mb-3">
+        <div className="my-2">
           <Button onClick={handleDownload} size="md" color="success">
-            Download APK <FaAndroid className="ml-2" size={30} />
+            <div className="d-flex">
+              Download APK <FaAndroid className="ml-2" size={30} />
+            </div>
           </Button>
         </div>
       </div>
