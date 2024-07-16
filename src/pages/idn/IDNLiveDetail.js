@@ -98,19 +98,13 @@ const IDNLiveDetail = () => {
                   idnUrl={`https://www.idn.app/${id}/live/${live.slug}`}
                 />
                 <div className="d-flex mb-3">
-                  <h4 className="mr-2">
-                    <b>{live?.user?.name}</b> | {live?.title}
-                    <Button
+                  <h4 className="d-flex align-items-center mr-2">
+                    <b className="mr-2">{live?.user?.name}</b> | {live?.title}
+                    <IoReload
                       onClick={handleRefresh}
-                      color="secondary"
-                      style={{ borderRadius: "10px" }}
-                      className="ml-2 mb-1"
-                    >
-                      <IoReload
-                        className={`${isRefresh && "spin-animation"}`}
-                        size={20}
-                      />
-                    </Button>
+                      className={`${isRefresh && "spin-animation"} ml-3`}
+                      size={20}
+                    />
                   </h4>
                 </div>
                 <Podium liveId={live.slug} isIDNLive />
