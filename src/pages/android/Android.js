@@ -1,4 +1,5 @@
 import MainLayout from "pages/layout/MainLayout";
+import ModalInfo from "parts/ModalInfo";
 import React, { useState } from "react";
 import { FaAndroid, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { Button, Col, Row, Collapse, Card, CardBody } from "reactstrap";
@@ -6,7 +7,7 @@ import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
 
 const Android = () => {
-  const [open, setOpen] = useState("3"); 
+  const [open, setOpen] = useState("4");
 
   const handleDownload = () => {
     window.open(process.env.REACT_APP_ANDROID_LINK, "_blank");
@@ -28,13 +29,15 @@ const Android = () => {
 
   return (
     <MainLayout title="Download APK">
+      <ModalInfo />
       <div className="layout">
         <h4>DOWNLOAD JKT48 SHOWROOM APK</h4>
         <div className="py-1">
           <Row>
             <Col md="8" sm="12">
               <img
-                src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1716661437/jrqhln1sn8udthxvfach.png"
+              className="rounded"
+                src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1721376518/jqomhi5tiwgdcjrrthq5.png"
                 alt="Preview Beta Test APK"
                 width="100%"
               />
@@ -101,7 +104,7 @@ const Android = () => {
                 </CardBody>
               </Collapse>
             </Card>
-            <Card className="p-2" color="info">
+            <Card className="p-2" color="dark">
               <div
                 onClick={() => toggle("3")}
                 className="accordion-header d-flex justify-content-between align-items-center"
@@ -110,7 +113,7 @@ const Android = () => {
                 {renderChevron("3")}
               </div>
               <Collapse isOpen={open === "3"}>
-                <CardBody className="p-2" color="info">
+                <CardBody className="p-0 p-lg-2" color="dark">
                   <ul>
                     <li>Add New User Profile menu</li>
                     <li>Add About project tab menu</li>
@@ -121,6 +124,28 @@ const Android = () => {
                     <li>Add IDN Live List screen</li>
                     <li>Add Refresh button in IDN Live streaming</li>
                     <li>Fix duplicate podium name</li>
+                  </ul>
+                </CardBody>
+              </Collapse>
+            </Card>
+            <Card className="p-2" color="info">
+              <div
+                onClick={() => toggle("4")}
+                className="accordion-header d-flex justify-content-between align-items-center"
+              >
+                <h6>JKT48 Showroom v1.3 APK (20 July 2024)</h6>
+                {renderChevron("4")}
+              </div>
+              <Collapse isOpen={open === "4"}>
+                <CardBody className="p-0 p-lg-2" color="info">
+                  <ul>
+                    <li>Add Rank menu in live stream tabs</li>
+                    <li>Add Settings Tab in Profile</li>
+                    <li>Show social media info on About screen</li>
+                    <li>Set default to dark mode background theme</li>
+                    <li>Update some wording title to indonesia</li>
+                    <li>Show Delete Account button on settings</li>
+                    <li>Change Splash Screen and APK name to JKT48 Showroom Fanmade</li>
                   </ul>
                 </CardBody>
               </Collapse>

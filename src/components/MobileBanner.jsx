@@ -3,18 +3,16 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { UncontrolledAlert } from "reactstrap";
 
 const MobileBanner = () => {
-  const navigate = useHistory();
-
-  const trackLinkClicked = () => {
-    navigate.push("/android");
-  };
-
   return (
     <UncontrolledAlert className="mt-4" color="primary">
       <FaInfoCircle size="20px" className="mr-2" />
-      Download APK JKT48 Showroom  versi terbaru
-      <a rel="noreferrer" onClick={trackLinkClicked}>
-        <b className="mx-1 cursor-pointer">Download Disini</b>
+      Aplikasi JKT48 Showroom Fanmade sudah tersedia di Play Store
+      <a
+        rel="noreferrer"
+        href="https://play.google.com/store/apps/details?id=com.inzoid.jkt48showroom&pcampaignid=web_share"
+        target="_blank"
+      >
+        <b className="mx-1 cursor-pointer">Cek Disini</b>
       </a>
     </UncontrolledAlert>
   );

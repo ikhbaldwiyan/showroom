@@ -1,44 +1,44 @@
 import React from "react";
 import CustomModal from "components/CustomModal";
-import { FaDiscord, FaTwitter } from "react-icons/fa";
+import { Button } from "reactstrap";
+import { gaTag } from "utils/gaTag";
+import { getSession } from "utils/getSession";
 
 const ModalInfo = () => {
+  const handleDownload = () => {
+    window.open(process.env.REACT_APP_ANDROID_LINK, "_blank");
+    gaTag({
+      action: "playstore_link",
+      category: "Play Store",
+      label: "Android",
+      username: getSession()?.profile?.name ?? "Guest"
+    });
+  };
+
+
   return (
     <CustomModal
       buttonText="Open"
       modalTitle="Info Pengumuman"
-      autoShowModal={false}
+      autoShowModal={true}
       isShowButton={false}
+      action={() => <Button onClick={handleDownload} color="primary">Download APK</Button>}
     >
       <p>
-        Halo guys buat yang di kota Bandung dan Solo kita bakalan hadir nih buat
-        event Summer Tour, khusus yang dateng kita akan kasih beberapa fitur
-        kaya farming sama multi room, jangan sampe kelewatan ya.
+        Halo guys terima kasih atas dukungan dan feedback nya selama Beta
+        Testing apk android kemarin, setelah ada beberapa update dan saran dari
+        kalian akhirnya aplikasi <b>JKT48 Showroom Fanmade</b> akan segera
+        tersedia di Play Store.
         <br />
         <br />
-        Info lebih lanjut kalian bisa join discord dan follow twitter JKT48
-        SHOWROOM disini ya: <br />
-        <p className="mt-2">
-          <div className="d-flex align-items-center">
-            <FaTwitter className="mr-1" color="#24a2b7" size={20} /> Twitter:{" "}
-            <a href="https://twitter.com/JKT48_SHOWROOM">
-              <b className="mx-1">@Jkt48_Showroom</b>
-            </a>{" "}
-            <br />
-          </div>
-          <div className="d-flex align-items-center">
-            <FaDiscord color="#5869e9" className="mr-1" size={20} />
-            Discord:{" "}
-            <a href={process.env.REACT_APP_DISCORD_LINK}>
-              <b className="ml-1">Discord Group</b>
-            </a>
-          </div>
-        </p>
+        Jangan lupa untuk daftar pra register <span className="text-primary" onClick={handleDownload}><b>disini</b></span> karena di minggu ini
+        kita akan rilis update versi terbaru aplikasinya dan masuk ke tahap{" "}
+        <b>Open Testing</b> hanya untuk <b>5000 users</b> yang install pertama.
       </p>
       <img
         width="100%"
-        src="https://pbs.twimg.com/media/F0CxGg8acAATvnD?format=jpg&name=medium"
-        alt="JKT48 SHOWROOM SUMMER TOUR"
+        src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1721376669/crsoaopzmdm8jg7fc95c.png"
+        alt="JKT48 SHOWROOM APK"
       />
     </CustomModal>
   );
