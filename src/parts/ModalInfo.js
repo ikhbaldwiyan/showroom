@@ -15,29 +15,35 @@ const ModalInfo = () => {
     });
   };
 
-
   return (
     <CustomModal
       buttonText="Open"
       modalTitle="Info Pengumuman"
       autoShowModal={true}
       isShowButton={false}
-      action={() => <Button onClick={handleDownload} color="primary">Download APK</Button>}
+      action={() => (
+        <Button onClick={handleDownload} color="primary">
+          Download APK
+        </Button>
+      )}
     >
       <p>
         Halo guys terima kasih atas dukungan dan feedback nya selama Beta
-        Testing apk android kemarin, setelah ada beberapa update dan saran dari
-        kalian akhirnya aplikasi <b>JKT48 Showroom Fanmade</b> akan segera
+        Testing apk android kemarin, setelah ada beberapa update dan kritik saran dari
+        kalian akhirnya aplikasi <b>JKT48 Showroom Fanmade</b> sudah
         tersedia di Play Store.
         <br />
         <br />
-        Jangan lupa untuk daftar pra register <span className="text-primary" onClick={handleDownload}><b>disini</b></span> karena di minggu ini
-        kita akan rilis update versi terbaru aplikasinya dan masuk ke tahap{" "}
-        <b>Open Testing</b> hanya untuk <b>5000 users</b> yang install pertama.
+        Download sekarang update versi terbaru aplikasinya{" "}
+        <span className="text-primary" onClick={handleDownload}>
+          <b className="cursor-pointer"> disini</b>
+        </span>{" "}
+        hanya tersedia untuk <b>5000 users</b> yang install pertama di tahap <b>Open Testing</b> kali ini.
+        Jangan lupa kasih rating dan komen nya juga ya guys, Terima kasih.
       </p>
       <img
         width="100%"
-        src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1721376669/crsoaopzmdm8jg7fc95c.png"
+        src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1721552905/poxe8omxe3rzla8tkeds.png"
         alt="JKT48 SHOWROOM APK"
       />
     </CustomModal>

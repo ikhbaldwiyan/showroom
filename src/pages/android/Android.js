@@ -36,8 +36,8 @@ const Android = () => {
           <Row>
             <Col md="8" sm="12">
               <img
-              className="rounded"
-                src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1721376518/jqomhi5tiwgdcjrrthq5.png"
+                className="rounded"
+                src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1721552905/poxe8omxe3rzla8tkeds.png"
                 alt="Preview Beta Test APK"
                 width="100%"
               />
@@ -145,7 +145,10 @@ const Android = () => {
                     <li>Set default to dark mode background theme</li>
                     <li>Update some wording title to indonesia</li>
                     <li>Show Delete Account button on settings</li>
-                    <li>Change Splash Screen and APK name to JKT48 Showroom Fanmade</li>
+                    <li>
+                      Change Splash Screen and APK name to JKT48 Showroom
+                      Fanmade
+                    </li>
                   </ul>
                 </CardBody>
               </Collapse>
@@ -153,6 +156,10 @@ const Android = () => {
           </div>
         </div>
         <div className="my-2">
+          <p className="text-danger">
+            *Jika sudah pernah download via website silahkan uninstall versi lama
+            terlebih dahulu untuk update ke versi terbaru di Play Store
+          </p>
           <Button onClick={handleDownload} size="md" color="success">
             <div className="d-flex">
               Download APK <FaAndroid className="ml-2" size={30} />
