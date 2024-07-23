@@ -9,7 +9,7 @@ const MobileBanner = () => {
       Aplikasi JKT48 Showroom Fanmade sudah tersedia di Play Store
       <a
         rel="noreferrer"
-        href="https://res.cloudinary.com/dkkagbzl4/image/upload/v1721552905/poxe8omxe3rzla8tkeds.png"
+        href={process.env.REACT_APP_ANDROID_LINK}
         target="_blank"
       >
         <b className="mx-1 cursor-pointer">Download Disini</b>
