@@ -15,7 +15,9 @@ const Leaderboard = (props) => {
   const [isOpenMonth, setIsOpenMonth] = useState(false);
   const [platform, setPlatform] = useState("");
   const [month, setMonth] = useState(moment().format("MM-YYYY"));
-  const [titleMonth, setTitleMonth] = useState(moment().format("MMMM").toUpperCase());
+  const [titleMonth, setTitleMonth] = useState(
+    moment().format("MMMM").toUpperCase()
+  );
   const [page, setPage] = useState(1);
   const [totalData, setTotalData] = useState("");
 
@@ -26,14 +28,14 @@ const Leaderboard = (props) => {
     try {
       setLoading(true);
       const {
-        data: { data },
+        data: { data }
       } = await axios.get(LEADERBOARD_API, {
         params: {
           page,
           filterBy: month !== "" ? "month" : "",
           month,
-          platform,
-        },
+          platform
+        }
       });
       setLeaderboardData(data.data);
       setTotalData(data.pagination.totalData);
@@ -73,20 +75,35 @@ const Leaderboard = (props) => {
       {
         name: "All Platform",
         action: () => setPlatform(""),
-        disabled: platform === "",
+        disabled: platform === ""
       },
       {
         name: "Showroom",
         action: () => setPlatform("Showroom"),
-        disabled: platform === "Showroom",
+        disabled: platform === "Showroom"
       },
       {
         name: "IDN",
         action: () => setPlatform("IDN"),
-        disabled: platform === "IDN",
-      },
-    ],
+        disabled: platform === "IDN"
+      }
+    ]
   };
+
+  const monthNames = [
+    { name: "January", short: "01" },
+    { name: "February", short: "02" },
+    { name: "Maret", short: "03" },
+    { name: "April", short: "04" },
+    { name: "Mei", short: "05" },
+    { name: "June", short: "06" },
+    { name: "July", short: "07" },
+    { name: "August", short: "08" },
+    { name: "September", short: "09" },
+    { name: "October", short: "10" },
+    { name: "November", short: "11" },
+    { name: "December", short: "12" }
+  ];
 
   const filterMonthDropdownList = {
     title: "Select Month",
@@ -98,49 +115,17 @@ const Leaderboard = (props) => {
           setMonth("");
           setTitleMonth("All TIME");
         },
-        disabled: month === "",
+        disabled: month === ""
       },
-      {
-        name: "January",
+      ...monthNames.map(({ name, short }) => ({
+        name,
         action: () => {
-          setMonth("01-2024");
-          setTitleMonth("January");
+          setMonth(`${short}-2024`);
+          setTitleMonth(name);
         },
-        disabled: month === "01-2024",
-      },
-      {
-        name: "February",
-        action: () => {
-          setMonth("02-2024");
-          setTitleMonth("February");
-        },
-        disabled: month === "02-2024",
-      },
-      {
-        name: "Maret",
-        action: () => {
-          setMonth("03-2024");
-          setTitleMonth("Maret");
-        },
-        disabled: month === "03-2024",
-      },
-      {
-        name: "April",
-        action: () => {
-          setMonth("04-2024");
-          setTitleMonth("April");
-        },
-        disabled: month === "04-2024",
-      },
-      {
-        name: "Mei",
-        action: () => {
-          setMonth("05-2024");
-          setTitleMonth("Mei");
-        },
-        disabled: month === "05-2024",
-      },
-    ],
+        disabled: month === `${short}-2024`
+      }))
+    ]
   };
 
   return (
@@ -149,7 +134,7 @@ const Leaderboard = (props) => {
         <div className="row">
           <div className="col-lg-12">
             <h3 className="font-weight-bold my-3">
-              TOP LEADERBOARD {platform.toUpperCase()}{" "}
+              TOP USER LEADERBOARD {platform.toUpperCase()}{" "}
               {titleMonth.toUpperCase() || "ALL TIME"}
             </h3>
           </div>
@@ -177,7 +162,7 @@ const Leaderboard = (props) => {
                     <th>
                       <RiMedalFill size={30} />
                     </th>
-                    <th>Username</th>
+                    <th className="text-left">Username</th>
                     {(platform === "Showroom" || platform === "") && (
                       <th>Showroom</th>
                     )}
@@ -188,7 +173,7 @@ const Leaderboard = (props) => {
                 <tbody>
                   {loading ? (
                     <Skeleton />
-                  ) : (
+                  ) : leaderboardData.length > 0 ? (
                     leaderboardData.map((item, idx) => (
                       <tr key={item._id}>
                         <td className="text-center align-middle">
@@ -205,7 +190,7 @@ const Leaderboard = (props) => {
                             style={{
                               width: "30px",
                               height: "30px",
-                              margin: "auto",
+                              margin: "auto"
                             }}
                           >
                             {item?.rank}
@@ -248,7 +233,7 @@ const Leaderboard = (props) => {
                             style={{
                               color: "#24A2B7",
                               fontWeight: "bold",
-                              fontSize: "16px",
+                              fontSize: "16px"
                             }}
                             className="bg-light badge px-3 py-1 w-5"
                           >
@@ -257,6 +242,19 @@ const Leaderboard = (props) => {
                         </td>
                       </tr>
                     ))
+                  ) : (
+                    <td colSpan="5" className="text-center align-middle">
+                      <div
+                        style={{
+                          color: "#24A2B7",
+                          fontWeight: "bold",
+                          fontSize: "16px"
+                        }}
+                        className="bg-light badge px-3 py-1 w-5"
+                      >
+                        No data found on {titleMonth}
+                      </div>
+                    </td>
                   )}
                 </tbody>
               </Table>
