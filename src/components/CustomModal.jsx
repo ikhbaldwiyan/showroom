@@ -9,12 +9,14 @@ const CustomModal = ({
   autoShowModal = false,
   color = "primary",
   size = "md",
-  action
+  action,
+  isInfo
 }) => {
   const [isOpen, setIsOpen] = useState(autoShowModal);
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
+    isInfo && localStorage.setItem("infoShow", "true");
   };
 
   return (
@@ -36,7 +38,7 @@ const CustomModal = ({
         </ModalHeader>
         <ModalBody style={{ color: "black" }}>{children}</ModalBody>
         <ModalFooter>
-          {action()}
+          {action && action()}
           <Button color="secondary" onClick={toggleModal}>
             Close
           </Button>

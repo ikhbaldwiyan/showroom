@@ -1,5 +1,4 @@
 import { FaInfoCircle } from "react-icons/fa";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { UncontrolledAlert } from "reactstrap";
 
 const MobileBanner = () => {
