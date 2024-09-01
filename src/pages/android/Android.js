@@ -7,7 +7,7 @@ import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
 
 const Android = () => {
-  const [open, setOpen] = useState("4");
+  const [open, setOpen] = useState("5");
 
   const handleDownload = () => {
     window.open(process.env.REACT_APP_ANDROID_LINK, "_blank");
@@ -128,12 +128,12 @@ const Android = () => {
                 </CardBody>
               </Collapse>
             </Card>
-            <Card className="p-2" color="info">
+            <Card className="p-2" color="dark">
               <div
                 onClick={() => toggle("4")}
                 className="accordion-header d-flex justify-content-between align-items-center"
               >
-                <h6>JKT48 Showroom v1.3 APK (20 July 2024)</h6>
+                <h6>JKT48 Showroom v1.3.0 APK (20 July 2024)</h6>
                 {renderChevron("4")}
               </div>
               <Collapse isOpen={open === "4"}>
@@ -153,12 +153,36 @@ const Android = () => {
                 </CardBody>
               </Collapse>
             </Card>
+            <Card className="p-2" color="info">
+              <div
+                onClick={() => toggle("5")}
+                className="accordion-header d-flex justify-content-between align-items-center"
+              >
+                <h6>JKT48 Showroom v1.4.0 APK (1 September 2024)</h6>
+                {renderChevron("5")}
+              </div>
+              <Collapse isOpen={open === "5"}>
+                <CardBody className="p-0 p-lg-2" color="info">
+                  <ul>
+                    <li>Add History Live List and Detail screen</li>
+                    <li>Add Edit Avatar screen on profile</li>
+                    <li>Add Quality Live streaming showroom setting</li>
+                    <li>Optimize and revamp theater schedule</li>
+                    <li>Implement infinite load button schedules</li>
+                    <li>Show recent live card live stream type</li>
+                    <li>Revamp profile member detail</li>
+                    <li>Show total watching live on Account SR</li>
+                    <li>Add Filter History Live Showroom and IDN</li>
+                  </ul>
+                </CardBody>
+              </Collapse>
+            </Card>
           </div>
         </div>
         <div className="my-2">
           <p className="text-danger">
-            *Jika sudah pernah download via website silahkan uninstall versi lama
-            terlebih dahulu untuk update ke versi terbaru di Play Store
+            *Jika sudah pernah download via website silahkan uninstall versi
+            lama terlebih dahulu untuk update ke versi terbaru di Play Store
           </p>
           <Button onClick={handleDownload} size="md" color="success">
             <div className="d-flex">
