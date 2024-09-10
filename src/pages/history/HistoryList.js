@@ -1,11 +1,9 @@
 import axios from "axios";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { Col, Row } from "reactstrap";
+import React, { useEffect, useState, useCallback } from "react";
+import { Button, Col, Row } from "reactstrap";
 import { RECENT_LIVE_LOG_API } from "utils/api/api";
 import { FaClock } from "react-icons/fa";
 import { BsCalendarDateFill, BsPeopleFill } from "react-icons/bs";
-import { AiFillGift } from "react-icons/ai";
 import { BiLogInCircle } from "react-icons/bi";
 import { GiBackwardTime } from "react-icons/gi";
 import { FcSearch } from "react-icons/fc";
@@ -15,7 +13,7 @@ import {
   CardText,
   CardBody,
   CardTitle,
-  CardSubtitle,
+  CardSubtitle
 } from "reactstrap";
 import TimeAgo from "react-timeago";
 import formatViews from "utils/formatViews";
@@ -23,6 +21,8 @@ import formatLongDate from "utils/formatLongDate";
 import MainLayout from "../layout/MainLayout";
 import Pagination from "parts/Pagination";
 import { Link } from "react-router-dom";
+import { RiBroadcastFill } from "react-icons/ri";
+import debounce from "lodash.debounce";
 
 const LiveHistory = (props) => {
   const [logs, setLogs] = useState([]);
@@ -33,12 +33,22 @@ const LiveHistory = (props) => {
   const [perPage, setPerpage] = useState(12);
   const [totalCount, setTotalCount] = useState("");
   const [search, setSearch] = useState("");
+  const [type, setType] = useState("all");
 
   useEffect(() => {
     async function getRoomList() {
       try {
         const history = await axios.get(
-          RECENT_LIVE_LOG_API(sort, page, filter, order, perPage, search)
+          RECENT_LIVE_LOG_API(
+            sort,
+            page,
+            filter,
+            order,
+            perPage,
+            search,
+            "",
+            type
+          )
         );
         const { recents, perpage, total_count } = history.data;
         setLogs(recents);
@@ -50,7 +60,20 @@ const LiveHistory = (props) => {
     }
     getRoomList();
     window.document.title = "Member Live History";
-  }, [sort, page, filter, order, perPage, totalCount, search]);
+  }, [sort, page, filter, order, perPage, search, type]);
+
+  // Debounced search handler
+  const debouncedSearch = useCallback(
+    debounce((searchTerm) => {
+      setSearch(searchTerm);
+      setPage(1);
+    }, 500),
+    []
+  );
+
+  const handleSearch = (e) => {
+    debouncedSearch(e.target.value);
+  };
 
   const getLiveDuration = (duration) => {
     const minutes = Math.floor(duration / 60000);
@@ -62,11 +85,6 @@ const LiveHistory = (props) => {
     } else {
       return `${hours} hours ${remainingMinutes} minutes`;
     }
-  };
-
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-    setPage(1);
   };
 
   return (
@@ -86,7 +104,29 @@ const LiveHistory = (props) => {
               className="form-control"
             />
           </div>
-          <div className="col-md-8 col-sm-12 mt-3">
+          <div className="col-md-3 col-sm-12 mt-3">
+            <Button
+              color={type === "all" ? "info" : "secondary"}
+              onClick={() => setType("all")}
+            >
+              All
+            </Button>
+            <Button
+              color={type === "showroom" ? "info" : "secondary"}
+              className="ml-2"
+              onClick={() => setType("showroom")}
+            >
+              Showroom
+            </Button>
+            <Button
+              color={type === "idn" ? "info" : "secondary"}
+              className="ml-2"
+              onClick={() => setType("idn")}
+            >
+              IDN
+            </Button>
+          </div>
+          <div className="col-md-5 col-sm-12 mt-3">
             <Pagination
               page={page}
               perPage={perPage}
@@ -102,9 +142,9 @@ const LiveHistory = (props) => {
               <Col key={idx} sm="6" md="4" className="py-3">
                 <Card
                   style={{
-                    background: `linear-gradient(160deg,#4724B7  0%,  #24A2B7 100%)`,
+                    background: `linear-gradient(180deg,#004A66  0%,  #009FCB 100%)`,
                     borderColor: "white",
-                    color: "white",
+                    color: "white"
                   }}
                 >
                   <CardImg
@@ -115,7 +155,7 @@ const LiveHistory = (props) => {
                       borderTopRightRadius: "6px",
                       borderTopLeftRadius: "6px",
                       maxHeight: "180px",
-                      objectFit: "cover",
+                      objectFit: "cover"
                     }}
                   />
                   <CardBody>
@@ -133,17 +173,19 @@ const LiveHistory = (props) => {
                     </div>
                     <hr style={{ borderColor: "white" }} />
                     <CardSubtitle tag="h6" className="mb-2">
-                      <div className="d-flex align-items-center py-1">
+                      <div className="d-flex align-items-center py-1 mt-1">
                         <BsPeopleFill className="mr-2" />
                         <span> {formatViews(live_info?.viewers?.num)}</span>
                       </div>
-                      <div className="d-flex align-items-center py-1">
+                      <div className="d-flex align-items-center py-1 mt-1">
                         <FaClock className="mr-2" />
                         <span>{getLiveDuration(live_info.duration)}</span>
                       </div>
-                      <div className="d-flex align-items-center py-1">
-                        <AiFillGift className="mr-2" />
-                        <span>{formatViews(log.points)} G</span>
+                      <div className="d-flex align-items-center py-1 mt-1">
+                        <RiBroadcastFill size={20} />
+                        <b className="ml-1">
+                          {log.type === "showroom" ? "Showroom" : "IDN Live"}
+                        </b>
                       </div>
                     </CardSubtitle>
                     <hr style={{ borderColor: "silver" }} />

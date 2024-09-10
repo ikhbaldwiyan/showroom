@@ -6,7 +6,11 @@ import { AiFillGift } from "react-icons/ai";
 import { BiChevronLeft, BiChevronRight, BiLogInCircle } from "react-icons/bi";
 import { FaCalendarAlt, FaClock, FaUserFriends } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { RiChatHistoryFill, RiHistoryFill } from "react-icons/ri";
+import {
+  RiBroadcastFill,
+  RiChatHistoryFill,
+  RiHistoryFill
+} from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { RECENT_LIVE_LOG_API } from "utils/api/api";
@@ -51,7 +55,8 @@ const RecentLive = ({ isSearch }) => {
     window.document.title = "Member Live History";
   }, []);
 
-  return logs.length > 0 && (
+  return (
+    logs.length > 0 &&
     !isSearch && (
       <div className="mb-4">
         <div className="d-flex align-items-center justify-content-between py-3">
@@ -125,8 +130,10 @@ const RecentLive = ({ isSearch }) => {
                           </span>
                         </div>
                         <div className="recent-icon">
-                          <AiFillGift size={18} />
-                          {formatViews(log.points)} Gold
+                          <RiBroadcastFill size={20} />
+                          <b>
+                            {log.type === "showroom" ? "Showroom" : "IDN Live"}
+                          </b>
                         </div>
                       </div>
                     </div>
@@ -142,7 +149,7 @@ const RecentLive = ({ isSearch }) => {
                             ) : (
                               <span className="recent-name">
                                 {member?.nickname}
-                                <BiLogInCircle size={20} />
+                                <BiLogInCircle className="ml-1" size={20} />
                               </span>
                             )}
                           </div>
@@ -159,7 +166,7 @@ const RecentLive = ({ isSearch }) => {
                             style={{
                               color: "#ECFAFC",
                               fontWeight: "600",
-                              marginBottom: "1px",
+                              marginBottom: "1px"
                             }}
                             date={live_info.date.end}
                           />

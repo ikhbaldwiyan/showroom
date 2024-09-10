@@ -89,11 +89,20 @@ const RightMenu = ({ gift, setSearch, filterName, id }) => {
                     <tr>
                       <th className="text-center">{idx + 1}</th>
                       <td>
-                        <img
-                          width="40"
-                          alt="avatar"
-                          src={`https://static.showroom-live.com/image/avatar/${item.avatar_id}.png`}
-                        />
+                        {recentLive?.type === "showroom" ? (
+                          <img
+                            width="40"
+                            alt="avatar"
+                            src={`https://static.showroom-live.com/image/avatar/${item.avatar_id}.png`}
+                          />
+                        ) : (
+                          <img
+                            width="50"
+                            className="rounded"
+                            alt="avatar"
+                            src={item?.avatar_url}
+                          />
+                        )}
                       </td>
                       <td style={{ wordBreak: "break-word" }}>{item.name}</td>
                     </tr>

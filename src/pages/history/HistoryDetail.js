@@ -62,7 +62,9 @@ const DetailLiveHistory = (props) => {
                 />
                 <div className="mt-1">
                   <span className="main-title-text">
-                    {history?.room_info?.nickname} History Log
+                    {history?.type === "showroom"
+                      ? `${history?.room_info?.nickname} History Log`
+                      : history?.idn?.title}
                   </span>
                   <p className="text-lg mt-1">
                     {moment(history?.live_info.date.start).format(
@@ -99,7 +101,10 @@ const DetailLiveHistory = (props) => {
                     <div className="mt-1">
                       <span className="live-text">Gift</span>
                       <p className="theater-time mt-1">
-                        {formatNumber(history?.total_point ?? history?.total_gifts)} G
+                        {formatNumber(
+                          history?.total_point ?? history?.total_gifts
+                        )}{" "}
+                        G
                       </p>
                     </div>
                   </div>
@@ -140,14 +145,14 @@ const DetailLiveHistory = (props) => {
                                   <span
                                     style={{
                                       fontSize: "14px",
-                                      color: "#ECFAFC",
+                                      color: "#ECFAFC"
                                     }}
                                   >
                                     {item.name}
                                   </span>
                                   <span
                                     style={{
-                                      fontSize: "14px",
+                                      fontSize: "14px"
                                     }}
                                   >
                                     {item.num} x

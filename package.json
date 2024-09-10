@@ -12,6 +12,7 @@
     "html2canvas": "^1.4.1",
     "http-proxy-middleware": "^1.2.0",
     "jquery": "^3.6.0",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-bootstrap": "^1.5.2",
