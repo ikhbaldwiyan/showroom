@@ -13,7 +13,7 @@ const ModalInfo = () => {
       label: "Android",
       username: getSession()?.profile?.name ?? "Guest"
     });
-    localStorage.setItem("infoShow", "true");
+    localStorage.setItem("releaseInfo", "true");
   };
 
   return (
@@ -21,7 +21,7 @@ const ModalInfo = () => {
       isInfo
       buttonText="Open"
       modalTitle="Pengumuman"
-      autoShowModal={localStorage.getItem("infoShow") ? false : true}
+      autoShowModal={localStorage.getItem("releaseInfo") ? false : true}
       isShowButton={false}
       action={() => (
         <Button onClick={handleDownload} color="primary">
@@ -31,22 +31,21 @@ const ModalInfo = () => {
     >
       <p>
         Halo guys terima kasih atas dukungan dan feedback nya selama Beta
-        Testing apk android kemarin, setelah ada beberapa update dan kritik
-        saran dari kalian akhirnya aplikasi <b>JKT48 Showroom Fanmade</b> sudah
-        tersedia di Play Store.
+        Testing apk android kemarin, setelah ada banyak update dan kritik saran
+        dari kalian akhirnya aplikasi <b>JKT48 Showroom Fanmade</b> sudah
+        official launching dan sudah tersedia di Play Store.
         <br />
         <br />
         Download sekarang update versi terbaru aplikasinya{" "}
         <span className="text-primary" onClick={handleDownload}>
           <b className="cursor-pointer"> disini</b>
         </span>{" "}
-        hanya tersedia untuk <b>5000 users</b> yang install pertama di tahap{" "}
-        <b>Open Testing</b> kali ini. Jangan lupa kasih rating dan komen nya
-        juga ya guys, Terima kasih.
+        Jangan lupa kasih review rating dan komen nya juga ya guys biar mimin
+        makin semangat developnya hehe, Terima kasih.
       </p>
       <img
         width="100%"
-        src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1721552905/poxe8omxe3rzla8tkeds.png"
+        src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1725986998/tkaow9tf4v27d4dig07g.png"
         alt="JKT48 SHOWROOM APK"
       />
     </CustomModal>
