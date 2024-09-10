@@ -17,7 +17,6 @@ function Settings(props) {
   const [direction, setDirection] = useState("right");
   const [menu, setMenu] = useState([]);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
-  const user = useSelector((state) => state.user.user);
   const isMultiRoom = window.location.pathname === "/multi-room";
 
   const {
@@ -84,8 +83,8 @@ function Settings(props) {
         toggle={toggle}
         direction={direction}
       >
-        <DropdownToggle style={css}>
-          <IoMdSettings style={{ fontSize: 18 }} />
+        <DropdownToggle size="md" style={css}>
+          <IoMdSettings style={{ fontSize: 20, marginBottom: 2 }} />
         </DropdownToggle>
         <DropdownMenu>
           {menu.map((item, idx) => (

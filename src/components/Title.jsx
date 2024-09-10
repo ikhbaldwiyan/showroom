@@ -12,6 +12,7 @@ import getTimes from "utils/getTimes";
 import { getSession } from "utils/getSession";
 import { Button } from "reactstrap";
 import { isDesktop } from "react-device-detect";
+import formatName from "utils/formatName";
 
 function Title({
   roomId,
@@ -131,7 +132,7 @@ function Title({
                 profile?.room_url_key !== 0 &&
                 profile?.room_url_key?.includes("JKT48") &&
                 profile?.room_url_key !== "officialJKT48"
-              ? profile?.room_url_key?.slice(6) 
+              ? formatName(profile?.room_url_key)
               : profile && profile?.room_name}
           </span>
         </h4>
@@ -150,10 +151,10 @@ function Title({
           style={{ borderRadius: 5 }}
         >
           {!isTime ? (
-            <>
+            <div className="d-flex justify-content-center align-items-center">
               <FaUser size={15} style={icon} />{" "}
               {profile.views ? formatViews(profile.views) : "0"}
-            </>
+            </div>
           ) : (
             <>
               <IoTimeSharp style={icon} />{" "}
