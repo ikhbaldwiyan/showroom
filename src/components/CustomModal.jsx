@@ -16,7 +16,7 @@ const CustomModal = ({
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
-    isInfo && localStorage.setItem("infoShow", "true");
+    isInfo && localStorage.setItem("releaseInfo", "true");
   };
 
   return (

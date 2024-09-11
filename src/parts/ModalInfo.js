@@ -20,7 +20,7 @@ const ModalInfo = () => {
     <CustomModal
       isInfo
       buttonText="Open"
-      modalTitle="Pengumuman"
+      modalTitle="Pengumuman Aplikasi"
       autoShowModal={localStorage.getItem("releaseInfo") ? false : true}
       isShowButton={false}
       action={() => (
@@ -40,7 +40,7 @@ const ModalInfo = () => {
         <span className="text-primary" onClick={handleDownload}>
           <b className="cursor-pointer"> disini</b>
         </span>{" "}
-        Jangan lupa kasih review rating dan komen nya juga ya guys biar mimin
+        Jangan lupa kasih review rating dan komen nya juga ya guys biar kita
         makin semangat developnya hehe, Terima kasih.
       </p>
       <img
