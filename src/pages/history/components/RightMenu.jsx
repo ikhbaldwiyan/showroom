@@ -11,10 +11,9 @@ import ReactTimeago from "react-timeago";
 import { Button, Col, Row, Table } from "reactstrap";
 import { RECENT_LIVE_LOG_API } from "utils/api/api";
 import formatNumber from "utils/formatNumber";
-import formatViews from "utils/formatViews";
 import { gaTag } from "utils/gaTag";
 
-const RightMenu = ({ gift, setSearch, filterName, id }) => {
+const RightMenu = ({ gift, setSearch, filterName, id, type }) => {
   const [menu, setMenu] = useState("podium");
   const [recentLive, setRecentLive] = useState("");
 
@@ -89,7 +88,7 @@ const RightMenu = ({ gift, setSearch, filterName, id }) => {
                     <tr>
                       <th className="text-center">{idx + 1}</th>
                       <td>
-                        {recentLive?.type === "showroom" ? (
+                        {type === "showroom" ? (
                           <img
                             width="40"
                             alt="avatar"

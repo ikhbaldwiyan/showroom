@@ -175,6 +175,7 @@ const DetailLiveHistory = (props) => {
               gift={gift}
               setSearch={setSearch}
               filterName={filterName}
+              type={history?.type}
             />
           </Col>
         </Row>
