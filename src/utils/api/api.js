@@ -156,6 +156,9 @@ const PODIUM_STAGE_IDN = (liveId) => {
   return `${ADMIN_API}/idn-live-history/${liveId}`;
 };
 
+const LEADERBOARD_SHOWROOM =  `${ADMIN_API}/leaderboard-member/showroom`
+const LEADERBOARD_IDN =  `${ADMIN_API}/leaderboard-member/idn`
+
 export {
   API,
   ROOM_LIST_API,
@@ -216,4 +219,6 @@ export {
   PODIUM_STAGE,
   PODIUM_STAGE_IDN,
   LEADERBOARD_API,
+  LEADERBOARD_SHOWROOM,
+  LEADERBOARD_IDN
 };

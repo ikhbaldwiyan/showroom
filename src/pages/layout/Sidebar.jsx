@@ -1,7 +1,7 @@
 import Logo from "parts/Logo";
 import React from "react";
 import { Button as LoginButton } from "reactstrap";
-import { AiFillAndroid, AiFillHome } from "react-icons/ai";
+import { AiFillAndroid, AiFillHome, AiFillTrophy } from "react-icons/ai";
 import {
   RiBroadcastFill,
   RiChatHistoryFill,
@@ -17,7 +17,6 @@ import { FaDonate, FaTheaterMasks } from "react-icons/fa";
 import { motion } from "framer-motion";
 import useWindowDimensions from "utils/useWindowDimension";
 import { getSession } from "utils/getSession";
-import { activityLog } from "utils/activityLog";
 import { MdSmartDisplay } from "react-icons/md";
 
 const Sidebar = () => {
@@ -40,6 +39,11 @@ const Sidebar = () => {
       name: "Home",
       icon: <AiFillHome style={iconHome} />,
       link: "/"
+    },
+    {
+      name: "Top Member",
+      icon: <AiFillTrophy style={iconHome} />,
+      link: "/leaderboard-members"
     },
     {
       name: "Leaderboard",
@@ -82,14 +86,6 @@ const Sidebar = () => {
       link: "/support-project"
     }
   ];
-
-  const trackLinkClicked = () => {
-    activityLog({
-      userId: user._id ?? "64e2090061ec79ea209a0160",
-      logName: "Discord Link",
-      description: "Discord Link Click"
-    });
-  };
 
   const isDesktopView = width > 1200;
 

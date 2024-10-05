@@ -269,6 +269,11 @@ section {
       font-size: 14px;
     }
   }
+
+  .leaderboard-text {
+    font-size: 20px !important;
+    font-weight: bold;
+  }
 }
 
 .card {
@@ -1397,4 +1402,35 @@ main {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.dropdown-toggle::after {
+  margin-left: 8px !important;
+}
+
+.leaderboard-text {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.leaderboard-date {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background-color: teal;
+  padding: 8px;
+  border-radius: 12px;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.leaderboard-total {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: linear-gradient(120deg, #004A66 0%, #009FCB 100%);
+  padding: 8px;
+  border-radius: 12px;
+  margin-right: 10px;
+  font-size: 14px;
 }

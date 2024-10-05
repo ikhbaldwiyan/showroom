@@ -24,6 +24,7 @@ import Leaderboard from "pages/Leaderboard";
 import Android from "pages/android/Android";
 import PrivacyPolicy from "pages/privacy-policy/PrivacyPolicy";
 import RemoveAccount from "pages/remove-account/RemoveAccount";
+import LeaderboardMember from "pages/leaderboard/LeaderboardMember";
 
 const routes = [
   { path: "/", component: Home, exact: true },
@@ -53,6 +54,8 @@ const routes = [
   { path: "/android", component: Android },
   { path: "/privacy-policy", component: PrivacyPolicy },
   { path: "/remove-account", component: RemoveAccount },
+  { path: "/leaderboard-members", component: LeaderboardMember },
+
 ];
 
 export default routes;
