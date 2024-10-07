@@ -5,7 +5,7 @@ import Button from "elements/Button";
 import Logo from "parts/Logo";
 import { isMobile } from "react-device-detect";
 import { Button as LoginButton } from "reactstrap";
-import { AiFillAndroid, AiFillHome } from "react-icons/ai";
+import { AiFillAndroid, AiFillHome, AiFillTrophy } from "react-icons/ai";
 import { RiBroadcastFill, RiMedalFill } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiFileList3Fill, RiLoginBoxFill } from "react-icons/ri";
@@ -76,6 +76,11 @@ export default function Header({ theme, toggleTheme, isMultiRoom }) {
                 <li className={`nav-item${getNavLinkClass("/")}`}>
                   <Button className="nav-link" type="link" href="">
                     <AiFillHome style={iconHome} /> Home
+                  </Button>
+                </li>
+                <li className={`nav-item${getNavLinkClass("/leaderboard-members")}`}>
+                  <Button className="nav-link" type="link" href="/leaderboard-members">
+                    <AiFillTrophy size={20} style={iconHome} /> Top Member
                   </Button>
                 </li>
                 <li className={`nav-item${getNavLinkClass(roomUrl)}`}>
