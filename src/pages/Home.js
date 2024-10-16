@@ -98,7 +98,7 @@ function Home(props) {
     <MainLayout {...props}>
       <div className="layout my-0 mb-4">
         <ModalInfo />
-        <MobileBanner />
+        {/* <MobileBanner /> */}
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
