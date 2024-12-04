@@ -2,13 +2,7 @@ import axios from "axios";
 import { Loading } from "components";
 import Sidebar from "pages/layout/Sidebar";
 import React, { useEffect, useState } from "react";
-import { BsCollectionPlayFill } from "react-icons/bs";
-import {
-  FaDownload,
-  FaMoneyBillWave,
-  FaTheaterMasks,
-  FaTwitter,
-} from "react-icons/fa";
+import { FaDownload, FaTwitter } from "react-icons/fa";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Button, Col, Row } from "reactstrap";
 import { MOST_WATCH, PREMIUM_LIVES } from "utils/api/api";
@@ -23,6 +17,7 @@ import { RiBroadcastFill } from "react-icons/ri";
 import { activityLog } from "utils/activityLog";
 import { gaTag } from "utils/gaTag";
 import { ToastContainer } from "react-toastify";
+import "./style.scss";
 
 const ShowroomWrapped = () => {
   const [mostWatch, setMostWatch] = useState([]);
@@ -41,7 +36,7 @@ const ShowroomWrapped = () => {
         setMostWatch(res.data);
       });
     } catch (error) {
-      showToast("error", "Server Full Please try again later")
+      showToast("error", "Server Full Please try again later");
       console.log(error);
     }
 
@@ -52,7 +47,7 @@ const ShowroomWrapped = () => {
         setIsLoading(false);
       });
     } catch (error) {
-      showToast("error", "Server Full Please try again")
+      showToast("error", "Server Full Please try again");
       console.log(error);
     }
   }, []);
@@ -81,7 +76,7 @@ const ShowroomWrapped = () => {
         scrollX: 0,
         scrollY: 0,
         windowWidth: 370,
-        windowHeight: 900,
+        windowHeight: 900
       }).then((canvas) => {
         const screenshotImage = canvas.toDataURL("image/png");
 
@@ -89,14 +84,14 @@ const ShowroomWrapped = () => {
           logName: "Wrapped",
           description: "Download Showroom Wrapped",
           userId: getSession()?.userProfile?._id,
-          liveId: getSession()?.session.cookie_login_id,
+          liveId: getSession()?.session.cookie_login_id
         });
 
         gaTag({
           action: "download_showroom_wrapped",
           label: "Showroom Wrapped",
           category: "wrapped",
-          username: getSession().profile.name,
+          username: getSession().profile.name
         });
         // Restore the original background color
         targetElement.style.backgroundColor = originalBackgroundColor;
@@ -124,14 +119,14 @@ const ShowroomWrapped = () => {
       logName: "Wrapped",
       description: "Share twitter showroom wrapped ",
       userId: getSession()?.userProfile?._id,
-      liveId: getSession()?.session.cookie_login_id,
+      liveId: getSession()?.session.cookie_login_id
     });
 
     gaTag({
       action: "share_showroom_wrapped",
       label: "Showroom Wrapped",
       category: "wrapped",
-      username: getSession()?.profile.name,
+      username: getSession()?.profile.name
     });
 
     window.open(twitterShareUrl, "_blank");
@@ -171,6 +166,19 @@ const ShowroomWrapped = () => {
                       </div>
                     </div>
                   </div>
+                  <div className="total-watch ml-2">
+                    <div className="user-wrapper">
+                      <div>
+                        <RiBroadcastFill size={30} />
+                      </div>
+                      <div className="d-flex flex-column">
+                        <b className="watch">Total Watch Live</b>
+                        <span className="total-watch-live">
+                          <b>SR</b> : 200x | <b>IDN</b>: 480x
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </Col>
               </Row>
             )}
@@ -178,121 +186,56 @@ const ShowroomWrapped = () => {
               <Col sm="12" md="5">
                 <div className="wrapper-container">
                   <div className="d-flex mb-2">
-                    <BsCollectionPlayFill className="mr-2" size={23} />
-                    <h5 className="wrapper-title">Most Watch Showroom</h5>
+                    <h5 className="wrapper-title">Top Watch Showroom 2024</h5>
                   </div>
                   <div className="d-flex align-items-center">
-                    {mostWatch[0]?.image && mostWatch[0]?.visit !== 0 ? (
-                      <img
-                        className="img-top"
-                        src={mostWatch[0]?.image}
-                        alt="member"
-                      />
-                    ) : (
-                      <img src={Logo} alt="logo" width={50} />
-                    )}
-                    <ol className="top-member-wrap">
+                    <div className="top-member-wrap">
                       {mostWatch.length > 0 ? (
                         mostWatch?.slice(0, 3).map((item, idx) => (
                           <div key={idx}>
-                            {item.visit === 0 ? (
-                              <li>-</li>
-                            ) : (
-                              <li>
-                                {item.name} - <b>{item.visit}x</b>
-                              </li>
-                            )}
+                            <div className="d-flex">
+                              <div
+                                className={`rounded-circle d-flex justify-content-center align-items-center mr-3 ${
+                                  idx === 0
+                                    ? "bg-warning"
+                                    : idx === 1
+                                    ? "bg-dark bg-opacity-75"
+                                    : idx === 2
+                                    ? "bg-bronze"
+                                    : "bg-dark"
+                                }`}
+                                style={{
+                                  width: "30px",
+                                  height: "30px",
+                                  margin: "auto",
+                                  fontWeight: "bold"
+                                }}
+                              >
+                                {idx + 1}
+                              </div>
+                              <img
+                                className="rounded-lg mr-3"
+                                width="101"
+                                height="57"
+                                src={item?.image}
+                              />
+                              <p className="text-semibold">
+                                {item?.name}
+                                <br />
+                                <span style={{ fontSize: 13 }}>
+                                  {item?.visit_2024}x Watch
+                                </span>
+                              </p>
+                            </div>
                           </div>
                         ))
                       ) : (
-                        <Loading />
-                      )}
-                    </ol>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-            <Row className="mb-2">
-              <Col sm="12" md="5">
-                <div className="wrapper-container">
-                  <div className="d-flex mb-2">
-                    <FaTheaterMasks className="mr-2" size={23} />
-                    <h5 className="wrapper-title">Top Premium Live Setlist</h5>
-                  </div>
-                  <div className="setlist-wrapped">
-                    <ol
-                      style={{ paddingLeft: "20px" }}
-                      className="top-setlist-wrap"
-                    >
-                      {premiumLives?.show?.length > 0 ? (
-                        premiumLives?.show?.slice(0, 3)?.map((item, idx) => (
-                          <li key={idx}>
-                            {item?.total === 0 ? (
-                              <span>-</span>
-                            ) : (
-                              <div>
-                                {item?.name} - <b>{item?.total}x</b>
-                              </div>
-                            )}
-                          </li>
-                        ))
-                      ) : isLoading ? (
-                        <Loading />
-                      ) : (
-                        <div className="d-flex flex-column align-items-center justify-items-center">
-                          <RiBroadcastFill size={40} />
-                          <span className="text-sm">No data premium live</span>
+                        <div className="d-flex justify-content-center align-items-center">
+                          <Loading />
+                          <span className="ml-2">Counting data wrapped..</span>
                         </div>
                       )}
-                    </ol>
-                  </div>
-                  {premiumLives?.totalPaidLive !== 0 && !isLoading && (
-                    <div className="total-paid-live">
-                      <span>
-                        Total Pembelian: {premiumLives?.totalPaidLive}x
-                      </span>
                     </div>
-                  )}
-                </div>
-              </Col>
-            </Row>
-            <Row className="mb-2">
-              <Col sm="12" md="5">
-                <div className="money-container mb-2">
-                  <div className="d-flex mb-1">
-                    <FaMoneyBillWave className="mr-2" size={24} />
-                    <h5 className="wrapper-title">
-                      Money Spend (Premium Live)
-                    </h5>
-                  </div>
-                  <div className="setlist-wrapped">
-                    <ul className="top-setlist-wrap money-spend">
-                      {isLoading ? (
-                        <>
-                          <li>
-                            Total JPY: <Loading size={12} />
-                          </li>
-                          <li>
-                            Total IDR: <Loading size={12} />
-                          </li>
-                        </>
-                      ) : (
-                        <>
-                          <li>
-                            Total JPY:{" "}
-                            <b>{formatNumber(premiumLives?.totalJPY)} JPY</b>
-                          </li>
-                          <li>
-                            Total IDR:{" "}
-                            <b>
-                              {premiumLives?.totalIDR === "Rp 00"
-                                ? "Rp 0"
-                                : premiumLives?.totalIDR}
-                            </b>
-                          </li>
-                        </>
-                      )}
-                    </ul>
                   </div>
                 </div>
               </Col>
