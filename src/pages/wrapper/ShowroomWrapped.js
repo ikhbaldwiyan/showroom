@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { FaDownload, FaTwitter } from "react-icons/fa";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Button, Col, Row } from "reactstrap";
-import { MOST_WATCH, PREMIUM_LIVES } from "utils/api/api";
+import { DETAIL_USER, MOST_WATCH, MOST_WATCH_IDN, PREMIUM_LIVES } from "utils/api/api";
 import formatNumber from "utils/formatNumber";
 import { getSession } from "utils/getSession";
 import { showToast } from "utils/showToast";
@@ -18,21 +18,30 @@ import { activityLog } from "utils/activityLog";
 import { gaTag } from "utils/gaTag";
 import { ToastContainer } from "react-toastify";
 import "./style.scss";
+import { getUserLoad, getUserSuccess } from "redux/actions/userActions";
+import { useDispatch } from "react-redux";
 
 const ShowroomWrapped = () => {
   const [mostWatch, setMostWatch] = useState([]);
-  const [premiumLives, setPremiumLives] = useState([]);
+  const [mostWatchIdn, setMostWatchIdn] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { width } = useWindowDimensions();
+  const [totalWatchSR, setTotalWatchSr] = useState(0);
+  const [totalWatchIDN, setTotalWatchIDN] = useState(0);
 
   const token = getSession()?.session?.cookie_login_id;
   const profile = getSession()?.profile;
   const user = getSession()?.user;
   const router = useHistory();
+  const userId = getSession()?.userProfile?._id;
+  const dispatch = useDispatch()
 
   useEffect(() => {
     try {
       axios.post(MOST_WATCH, { token }).then((res) => {
+        const totalVisits = res.data.reduce((sum, item) => sum + (item.visit_2024 || 0), 0);
+
+        setTotalWatchSr(totalVisits);
         setMostWatch(res.data);
       });
     } catch (error) {
@@ -41,15 +50,29 @@ const ShowroomWrapped = () => {
     }
 
     try {
-      setIsLoading(true);
-      axios.post(PREMIUM_LIVES, { token }).then((res) => {
-        setPremiumLives(res.data);
-        setIsLoading(false);
-      });
+      axios
+        .get(MOST_WATCH_IDN(userId), {
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_USER_TOKEN}`
+          }
+        })
+        .then((res) => {
+          setMostWatchIdn(res.data.data);
+        });
     } catch (error) {
-      showToast("error", "Server Full Please try again");
+      showToast("error", "Server Full Please try again later");
       console.log(error);
     }
+  }, []);
+
+  useEffect(() => {
+    dispatch(getUserLoad());
+    async function getUserDetail() {
+      const detail = await axios.get(DETAIL_USER(user?.account_id));
+      setTotalWatchIDN(detail?.data?.watchLiveIDN)
+      dispatch(getUserSuccess(detail.data));
+    }
+    getUserDetail();
   }, []);
 
   useEffect(() => {
@@ -75,7 +98,7 @@ const ShowroomWrapped = () => {
         useCORS: true,
         scrollX: 0,
         scrollY: 0,
-        windowWidth: 370,
+        windowWidth: 400,
         windowHeight: 900
       }).then((canvas) => {
         const screenshotImage = canvas.toDataURL("image/png");
@@ -99,7 +122,7 @@ const ShowroomWrapped = () => {
         // Create a link for the user to download the screenshot
         const downloadLink = document.createElement("a");
         downloadLink.href = screenshotImage;
-        downloadLink.download = "jkt48-showroom-wrapped.png";
+        downloadLink.download = "jkt48-showroom-wrapped-2024.png";
         downloadLink.click();
       });
     }
@@ -152,16 +175,23 @@ const ShowroomWrapped = () => {
                         <img
                           className="user-image"
                           src={
-                            premiumLives?.user?.image ??
+                            profile?.image ??
                             "https://static.showroom-live.com/assets/img/no_profile.jpg"
                           }
                           alt="user profile"
                         />
                       </div>
                       <div className="d-flex flex-column">
-                        <b className="username">{profile?.name}</b>
+                        <b className="username">
+                          {profile?.name?.length > 10
+                            ? `${profile.name.slice(0, 10)}...`
+                            : profile?.name}
+                        </b>
+
                         <span style={{ fontSize: "14px" }}>
-                          ID: {user?.account_id}
+                          ID: {user?.account_id?.length > 10
+                            ? `${user?.account_id.slice(0, 12)}...`
+                            : user?.account_id}
                         </span>
                       </div>
                     </div>
@@ -169,12 +199,12 @@ const ShowroomWrapped = () => {
                   <div className="total-watch ml-2">
                     <div className="user-wrapper">
                       <div>
-                        <RiBroadcastFill size={30} />
+                        <RiBroadcastFill size={26} />
                       </div>
                       <div className="d-flex flex-column">
                         <b className="watch">Total Watch Live</b>
                         <span className="total-watch-live">
-                          <b>SR</b> : 200x | <b>IDN</b>: 480x
+                          <b>SR</b> : {totalWatchSR}x | <b>IDN</b>: {formatNumber(totalWatchIDN)}x
                         </span>
                       </div>
                     </div>
@@ -193,17 +223,9 @@ const ShowroomWrapped = () => {
                       {mostWatch.length > 0 ? (
                         mostWatch?.slice(0, 3).map((item, idx) => (
                           <div key={idx}>
-                            <div className="d-flex">
+                            <div className="d-flex align-items-center">
                               <div
-                                className={`rounded-circle d-flex justify-content-center align-items-center mr-3 ${
-                                  idx === 0
-                                    ? "bg-warning"
-                                    : idx === 1
-                                    ? "bg-dark bg-opacity-75"
-                                    : idx === 2
-                                    ? "bg-bronze"
-                                    : "bg-dark"
-                                }`}
+                                className={`rounded-circle d-flex justify-content-center align-items-center mr-3 bg-dark`}
                                 style={{
                                   width: "30px",
                                   height: "30px",
@@ -219,16 +241,83 @@ const ShowroomWrapped = () => {
                                 height="57"
                                 src={item?.image}
                               />
-                              <p className="text-semibold">
-                                {item?.name}
+                              <div>
+                                <span className="member-name-wrapped">
+                                  {item?.name}
+                                </span>
                                 <br />
                                 <span style={{ fontSize: 13 }}>
                                   {item?.visit_2024}x Watch
                                 </span>
-                              </p>
+                              </div>
                             </div>
                           </div>
                         ))
+                      ) : (
+                        <div className="d-flex justify-content-center align-items-center">
+                          <Loading />
+                          <span className="ml-2">Counting data wrapped..</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+            <Row className="pb-3">
+              <Col sm="12" md="5">
+                <div className="idn-card">
+                  <div className="d-flex mb-2">
+                    <h5 className="wrapper-title">Top Watch IDN Live 2024</h5>
+                  </div>
+                  <div className="d-flex align-items-center">
+                    <div className="top-member-wrap">
+                      {mostWatchIdn.length > 0 ? (
+                        mostWatchIdn
+                          .filter(
+                            (item, index, self) =>
+                              item?.member?.name &&
+                              index ===
+                                self.findIndex(
+                                  (t) =>
+                                    t?.member?.name === item?.member?.name &&
+                                    item?.member?.name !== "JKT48"
+                                )
+                          )
+                          ?.slice(0, 3)
+                          .map((item, idx) => (
+                            <div key={idx}>
+                              <div className="d-flex align-items-center">
+                                <div
+                                  className={`rounded-circle d-flex justify-content-center align-items-center mr-3 bg-dark`}
+                                  style={{
+                                    width: "30px",
+                                    height: "30px",
+                                    margin: "auto",
+                                    fontWeight: "bold"
+                                  }}
+                                >
+                                  {idx + 1}
+                                </div>
+                                <img
+                                  className="rounded-lg mr-3"
+                                  width="70"
+                                  src={item?.member?.image}
+                                />
+                                <div>
+                                  <span className="member-name-wrapped">
+                                    {item?.member?.name}
+                                  </span>
+                                  <br />
+                                  <span style={{ fontSize: 13 }}>
+                                    {item?.watch}x Watch
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                      ) : mostWatchIdn?.length === 0 ? (
+                        <p>No data watch found</p>
                       ) : (
                         <div className="d-flex justify-content-center align-items-center">
                           <Loading />

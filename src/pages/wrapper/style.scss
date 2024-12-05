@@ -3,6 +3,7 @@
   background: #865CD6;
   width: fit-content;
   padding: 6px;
+  max-width: 200px !important;
 }
 
 .total-watch {
@@ -55,8 +56,8 @@
 
 .user-image {
   object-fit: cover;
-  width: 50px;
-  height: 48.571px;
+  width: 40px;
+  height: 38.571px;
   border-radius: 100%;
 }
 
@@ -64,6 +65,17 @@
   padding: 16px;
   border-radius: 8px;
   background: linear-gradient(180deg, #055D7E 0%, #009FCB 100%);
+}
+
+.idn-card {
+  padding: 16px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #DC3545 0%, #A02323 100%);
+}
+
+.member-name-wrapped {
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .img-top {
