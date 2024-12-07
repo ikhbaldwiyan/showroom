@@ -4,17 +4,23 @@
   width: fit-content;
   padding: 6px;
   max-width: 200px !important;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .total-watch {
   border-radius: 8px;
-  background: #008080;
+  background: #00838F;
   width: fit-content;
   display: flex;
   justify-content: center;
   padding: 6px;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.info-title {
+  font-weight: 600;
 }
 
 .avatar {

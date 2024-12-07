@@ -3,9 +3,16 @@ import { Loading } from "components";
 import Sidebar from "pages/layout/Sidebar";
 import React, { useEffect, useState } from "react";
 import { FaDownload, FaTwitter } from "react-icons/fa";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useLocation
+} from "react-router-dom/cjs/react-router-dom.min";
 import { Button, Col, Row } from "reactstrap";
-import { DETAIL_USER, MOST_WATCH, MOST_WATCH_IDN, PREMIUM_LIVES } from "utils/api/api";
+import {
+  DETAIL_USER,
+  MOST_WATCH,
+  MOST_WATCH_IDN,
+} from "utils/api/api";
 import formatNumber from "utils/formatNumber";
 import { getSession } from "utils/getSession";
 import { showToast } from "utils/showToast";
@@ -29,17 +36,38 @@ const ShowroomWrapped = () => {
   const [totalWatchSR, setTotalWatchSr] = useState(0);
   const [totalWatchIDN, setTotalWatchIDN] = useState(0);
 
-  const token = getSession()?.session?.cookie_login_id;
-  const profile = getSession()?.profile;
-  const user = getSession()?.user;
+  const location = useLocation();
   const router = useHistory();
-  const userId = getSession()?.userProfile?._id;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const getParams = (parameter) => {
+    const params = new URLSearchParams(location?.search);
+    return params.get(parameter) || null; 
+  };
+
+  const session = getSession() || {};
+  const {
+    session: sessionData = {},
+    profile = {},
+    user = {},
+    userProfile = {}
+  } = session;
+
+  // Safely retrieve values with fallback
+  const token = getParams("token") || sessionData?.cookie_login_id || "";
+  const userId = getParams("userId") || userProfile?._id || "";
+  const username = getParams("username") || profile?.name || "Guest"; 
+  const account_id = getParams("account_id") || user?.account_id || "";
+  const avatar = getParams("avatar") || profile?.image || "/default-avatar.png"; 
+  const displayName = username ?? profile?.name;
 
   useEffect(() => {
     try {
       axios.post(MOST_WATCH, { token }).then((res) => {
-        const totalVisits = res.data.reduce((sum, item) => sum + (item.visit_2024 || 0), 0);
+        const totalVisits = res.data.reduce(
+          (sum, item) => sum + (item.visit_2024 || 0),
+          0
+        );
 
         setTotalWatchSr(totalVisits);
         setMostWatch(res.data);
@@ -51,11 +79,7 @@ const ShowroomWrapped = () => {
 
     try {
       axios
-        .get(MOST_WATCH_IDN(userId), {
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_USER_TOKEN}`
-          }
-        })
+        .get(MOST_WATCH_IDN(userId))
         .then((res) => {
           setMostWatchIdn(res.data.data);
         });
@@ -69,7 +93,7 @@ const ShowroomWrapped = () => {
     dispatch(getUserLoad());
     async function getUserDetail() {
       const detail = await axios.get(DETAIL_USER(user?.account_id));
-      setTotalWatchIDN(detail?.data?.watchLiveIDN)
+      setTotalWatchIDN(detail?.data?.watchLiveIDN);
       dispatch(getUserSuccess(detail.data));
     }
     getUserDetail();
@@ -77,7 +101,7 @@ const ShowroomWrapped = () => {
 
   useEffect(() => {
     window.document.title = "JKT48 SHOWROOM WRAPPED";
-    if (!profile) {
+    if (!profile && !userId && !token) {
       showToast("info", "Please login before using JKT48 Showroom Wrapped");
 
       setTimeout(() => {
@@ -106,15 +130,15 @@ const ShowroomWrapped = () => {
         activityLog({
           logName: "Wrapped",
           description: "Download Showroom Wrapped",
-          userId: getSession()?.userProfile?._id,
-          liveId: getSession()?.session.cookie_login_id
+          userId: userId,
+          liveId: token
         });
 
         gaTag({
           action: "download_showroom_wrapped",
           label: "Showroom Wrapped",
           category: "wrapped",
-          username: getSession().profile.name
+          username: displayName
         });
         // Restore the original background color
         targetElement.style.backgroundColor = originalBackgroundColor;
@@ -141,8 +165,8 @@ const ShowroomWrapped = () => {
     activityLog({
       logName: "Wrapped",
       description: "Share twitter showroom wrapped ",
-      userId: getSession()?.userProfile?._id,
-      liveId: getSession()?.session.cookie_login_id
+      userId: userId,
+      liveId: token
     });
 
     gaTag({
@@ -166,7 +190,7 @@ const ShowroomWrapped = () => {
         <div id="screenshotTarget">
           <Header />
           <div className="layout wrapped-container">
-            {getSession().session && (
+            {token && (
               <Row>
                 <Col className="d-flex">
                   <div className="user">
@@ -175,7 +199,7 @@ const ShowroomWrapped = () => {
                         <img
                           className="user-image"
                           src={
-                            profile?.image ??
+                            avatar ??
                             "https://static.showroom-live.com/assets/img/no_profile.jpg"
                           }
                           alt="user profile"
@@ -183,15 +207,16 @@ const ShowroomWrapped = () => {
                       </div>
                       <div className="d-flex flex-column">
                         <b className="username">
-                          {profile?.name?.length > 10
-                            ? `${profile.name.slice(0, 10)}...`
-                            : profile?.name}
+                          {displayName?.length > 10
+                            ? `${displayName?.slice(0, 10)}...`
+                            : displayName}
                         </b>
 
                         <span style={{ fontSize: "14px" }}>
-                          ID: {user?.account_id?.length > 10
-                            ? `${user?.account_id.slice(0, 12)}...`
-                            : user?.account_id}
+                          ID:{" "}
+                          {account_id?.length > 10
+                            ? `${account_id.slice(0, 12)}...`
+                            : account_id}
                         </span>
                       </div>
                     </div>
@@ -204,7 +229,8 @@ const ShowroomWrapped = () => {
                       <div className="d-flex flex-column">
                         <b className="watch">Total Watch Live</b>
                         <span className="total-watch-live">
-                          <b>SR</b> : {totalWatchSR}x | <b>IDN</b>: {formatNumber(totalWatchIDN)}x
+                          <b>SR</b> : {totalWatchSR}x | <b>IDN</b>:{" "}
+                          {formatNumber(totalWatchIDN)}x
                         </span>
                       </div>
                     </div>
@@ -236,7 +262,7 @@ const ShowroomWrapped = () => {
                                 {idx + 1}
                               </div>
                               <img
-                                className="rounded-lg mr-3"
+                                className="rounded-lg mr-3 mt-2"
                                 width="101"
                                 height="57"
                                 src={item?.image}
@@ -300,7 +326,7 @@ const ShowroomWrapped = () => {
                                   {idx + 1}
                                 </div>
                                 <img
-                                  className="rounded-lg mr-3"
+                                  className="rounded-lg mr-3 mt-2"
                                   width="70"
                                   src={item?.member?.image}
                                 />

@@ -4,7 +4,7 @@ const ADMIN_API = process.env.REACT_APP_ADMIN_API;
 const BOT_API = process.env.REACT_APP_BOT_API;
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
-const SHOWROOM_WRAPPED = "https://jkt48-showroom-wrapped.vercel.app";
+const SHOWROOM_WRAPPED = "https://jkt48showroom-api.my.id";
 const LEADERBOARD_API = `${ADMIN_API}/leaderboard`;
 
 // LARAVEL API
@@ -136,7 +136,10 @@ const ACTIVITY_LOG_DETAIL = (id) => {
 };
 
 // SHOWROOM WRAPPED
-const MOST_WATCH = `${SHOWROOM_WRAPPED}/most-watch`;
+const MOST_WATCH = `${SHOWROOM_WRAPPED}/scrapper/most-watch`;
+const MOST_WATCH_IDN = (userId) => {
+  return `${ADMIN_API}/activity/most-watch-idn/${userId}`
+};
 const PREMIUM_LIVES = `${SHOWROOM_WRAPPED}/premium-lives`;
 
 // SUPPORT PROJECT
@@ -220,5 +223,6 @@ export {
   PODIUM_STAGE_IDN,
   LEADERBOARD_API,
   LEADERBOARD_SHOWROOM,
-  LEADERBOARD_IDN
+  LEADERBOARD_IDN,
+  MOST_WATCH_IDN
 };
