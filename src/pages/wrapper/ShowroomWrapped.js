@@ -8,11 +8,7 @@ import {
   useLocation
 } from "react-router-dom/cjs/react-router-dom.min";
 import { Button, Col, Row } from "reactstrap";
-import {
-  DETAIL_USER,
-  MOST_WATCH,
-  MOST_WATCH_IDN,
-} from "utils/api/api";
+import { DETAIL_USER, MOST_WATCH, MOST_WATCH_IDN } from "utils/api/api";
 import formatNumber from "utils/formatNumber";
 import { getSession } from "utils/getSession";
 import { showToast } from "utils/showToast";
@@ -42,7 +38,7 @@ const ShowroomWrapped = () => {
 
   const getParams = (parameter) => {
     const params = new URLSearchParams(location?.search);
-    return params.get(parameter) || null; 
+    return params.get(parameter) || null;
   };
 
   const session = getSession() || {};
@@ -56,9 +52,9 @@ const ShowroomWrapped = () => {
   // Safely retrieve values with fallback
   const token = getParams("token") || sessionData?.cookie_login_id || "";
   const userId = getParams("userId") || userProfile?._id || "";
-  const username = getParams("username") || profile?.name || "Guest"; 
+  const username = getParams("username") || profile?.name || "Guest";
   const account_id = getParams("account_id") || user?.account_id || "";
-  const avatar = getParams("avatar") || profile?.image || "/default-avatar.png"; 
+  const avatar = getParams("avatar") || profile?.image || "/default-avatar.png";
   const displayName = username ?? profile?.name;
 
   useEffect(() => {
@@ -78,11 +74,9 @@ const ShowroomWrapped = () => {
     }
 
     try {
-      axios
-        .get(MOST_WATCH_IDN(userId))
-        .then((res) => {
-          setMostWatchIdn(res.data.data);
-        });
+      axios.get(MOST_WATCH_IDN(userId)).then((res) => {
+        setMostWatchIdn(res.data.data);
+      });
     } catch (error) {
       showToast("error", "Server Full Please try again later");
       console.log(error);
@@ -146,7 +140,7 @@ const ShowroomWrapped = () => {
         // Create a link for the user to download the screenshot
         const downloadLink = document.createElement("a");
         downloadLink.href = screenshotImage;
-        downloadLink.setAttribute('target', '_blank');
+        downloadLink.setAttribute("target", "_blank");
         downloadLink.download = "jkt48-showroom-wrapped-2024.png";
         downloadLink.click();
       });
@@ -248,38 +242,44 @@ const ShowroomWrapped = () => {
                   <div className="d-flex align-items-center">
                     <div className="top-member-wrap">
                       {mostWatch.length > 0 ? (
-                        mostWatch?.slice(0, 3).map((item, idx) => (
-                          <div key={idx}>
-                            <div className="d-flex align-items-center">
-                              <div
-                                className={`rounded-circle d-flex justify-content-center align-items-center mr-3 bg-dark`}
-                                style={{
-                                  width: "30px",
-                                  height: "30px",
-                                  margin: "auto",
-                                  fontWeight: "bold"
-                                }}
-                              >
-                                {idx + 1}
-                              </div>
-                              <img
-                                className="rounded-lg mr-3 mt-2"
-                                width="101"
-                                height="57"
-                                src={item?.image}
-                              />
-                              <div>
-                                <span className="member-name-wrapped">
-                                  {item?.name}
-                                </span>
-                                <br />
-                                <span style={{ fontSize: 13 }}>
-                                  {item?.visit_2024}x Watch
-                                </span>
+                        mostWatch.every((item) => item?.visit_2024 === 0) ? (
+                          <div className="d-flex justify-content-center align-items-center">
+                            <span>No data available</span>
+                          </div>
+                        ) : (
+                          mostWatch.slice(0, 3).map((item, idx) => (
+                            <div key={idx}>
+                              <div className="d-flex align-items-center">
+                                <div
+                                  className={`rounded-circle d-flex justify-content-center align-items-center mr-3 bg-dark`}
+                                  style={{
+                                    width: "30px",
+                                    height: "30px",
+                                    margin: "auto",
+                                    fontWeight: "bold"
+                                  }}
+                                >
+                                  {idx + 1}
+                                </div>
+                                <img
+                                  className="rounded-lg mr-3 mt-2"
+                                  width="101"
+                                  height="57"
+                                  src={item?.image}
+                                />
+                                <div>
+                                  <span className="member-name-wrapped">
+                                    {item?.name}
+                                  </span>
+                                  <br />
+                                  <span style={{ fontSize: 13 }}>
+                                    {item?.visit_2024}x Watch
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))
+                          ))
+                        )
                       ) : (
                         <div className="d-flex justify-content-center align-items-center">
                           <Loading />
@@ -358,7 +358,8 @@ const ShowroomWrapped = () => {
             </Row>
           </div>
         </div>
-        <Col>
+        <Col className="mb-4">
+          
           {!isLoading && (
             <div className="d-flex">
               <Button className="mr-3" color="primary" onClick={takeScreenshot}>
@@ -379,6 +380,9 @@ const ShowroomWrapped = () => {
               </Button>
             </div>
           )}
+          <p className="text-sm mt-3">
+            * Data IDN Live dihitung dari history user di Website Showroom JKT48
+          </p>
         </Col>
       </Col>
       <ToastContainer position="bottom-center" autoClose={3000} />
