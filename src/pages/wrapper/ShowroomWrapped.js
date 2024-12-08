@@ -199,7 +199,7 @@ const ShowroomWrapped = () => {
     return () => {
       isMounted = false;
     };
-  }, [avatar]);
+  }, [avatar, imageSrc]);
 
   return (
     <Row className="px-3">
