@@ -381,7 +381,7 @@ const ShowroomWrapped = () => {
             </div>
           )}
           <p className="text-sm mt-3">
-            * Data IDN Live dihitung dari history user di Website Showroom JKT48
+            *Data IDN Live dihitung dari history watch user di Website / APP JKT48 Showroom Fanmade <br />
           </p>
         </Col>
       </Col>
