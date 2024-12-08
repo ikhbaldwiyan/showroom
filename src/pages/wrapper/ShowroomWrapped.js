@@ -17,7 +17,6 @@ import formatNumber from "utils/formatNumber";
 import { getSession } from "utils/getSession";
 import { showToast } from "utils/showToast";
 import useWindowDimensions from "utils/useWindowDimension";
-import Logo from "../../../src/assets/images/logo-dark.svg";
 import Header from "./Header";
 import html2canvas from "html2canvas";
 import { RiBroadcastFill } from "react-icons/ri";
@@ -27,6 +26,7 @@ import { ToastContainer } from "react-toastify";
 import "./style.scss";
 import { getUserLoad, getUserSuccess } from "redux/actions/userActions";
 import { useDispatch } from "react-redux";
+import { FaSquareXTwitter } from "react-icons/fa6";
 
 const ShowroomWrapped = () => {
   const [mostWatch, setMostWatch] = useState([]);
@@ -146,6 +146,7 @@ const ShowroomWrapped = () => {
         // Create a link for the user to download the screenshot
         const downloadLink = document.createElement("a");
         downloadLink.href = screenshotImage;
+        downloadLink.setAttribute('target', '_blank');
         downloadLink.download = "jkt48-showroom-wrapped-2024.png";
         downloadLink.click();
       });
@@ -154,8 +155,8 @@ const ShowroomWrapped = () => {
 
   const shareToTwitter = () => {
     const hashtag1 = "JKT48ShowroomWrapped";
-    const hashtag2 = "#JKT48ShowroomWrapped2023";
-    const additionalText = "My JKT48 Showroom Wrapped"; // Additional text to be included
+    const hashtag2 = "#JKT48ShowroomWrapped2024";
+    const additionalText = "My JKT48 Showroom Wrapped 2024"; // Additional text to be included
 
     const encodedHashtags = encodeURIComponent(`${hashtag1} ${hashtag2}`);
     const encodedText = encodeURIComponent(additionalText);
@@ -360,20 +361,20 @@ const ShowroomWrapped = () => {
         <Col>
           {!isLoading && (
             <div className="d-flex">
-              <Button className="mr-3" color="success" onClick={takeScreenshot}>
+              <Button className="mr-3" color="primary" onClick={takeScreenshot}>
                 <div className="d-flex align-items-center">
                   <FaDownload className="mr-2" />
                   Download
                 </div>
               </Button>
               <Button
-                style={{ backgroundColor: "#1DA1F2", border: "none" }}
-                color="info"
+                style={{ backgroundColor: "#01A982", border: "none" }}
+                color="success"
                 onClick={shareToTwitter}
               >
-                <div className="d-flex align-items-center text-white">
-                  <FaTwitter className="mr-1" />
-                  <span>Share to Twitter</span>
+                <div className="d-flex align-items-center mx-2 text-white">
+                  <FaSquareXTwitter className="mr-1" />
+                  <span>Share to X</span>
                 </div>
               </Button>
             </div>
