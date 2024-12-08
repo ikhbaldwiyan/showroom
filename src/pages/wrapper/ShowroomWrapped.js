@@ -23,6 +23,7 @@ import "./style.scss";
 import { getUserLoad, getUserSuccess } from "redux/actions/userActions";
 import { useDispatch } from "react-redux";
 import { FaSquareXTwitter } from "react-icons/fa6";
+import { getImageBase64 } from "utils/helpers";
 
 const ShowroomWrapped = () => {
   const [mostWatch, setMostWatch] = useState([]);
@@ -174,6 +175,32 @@ const ShowroomWrapped = () => {
     window.open(twitterShareUrl, "_blank");
   };
 
+  const [imageSrc, setImageSrc] = useState(
+    "https://static.showroom-live.com/assets/img/no_profile.jpg"
+  );
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchImage = async () => {
+      try {
+        const base64Image = await getImageBase64(avatar);
+        if (isMounted && base64Image) {
+          setImageSrc(base64Image);
+        }
+      } catch (error) {
+        console.error("Error fetching image:", error);
+      }
+    };
+
+    if (avatar) {
+      fetchImage();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [avatar]);
+
   return (
     <Row className="px-3">
       {width > 768 && (
@@ -193,10 +220,7 @@ const ShowroomWrapped = () => {
                       <div>
                         <img
                           className="user-image"
-                          src={
-                            avatar ??
-                            "https://static.showroom-live.com/assets/img/no_profile.jpg"
-                          }
+                          src={imageSrc}
                           alt="user profile"
                         />
                       </div>
@@ -359,7 +383,6 @@ const ShowroomWrapped = () => {
           </div>
         </div>
         <Col className="mb-4">
-          
           {!isLoading && (
             <div className="d-flex">
               <Button className="mr-3" color="primary" onClick={takeScreenshot}>
@@ -381,7 +404,8 @@ const ShowroomWrapped = () => {
             </div>
           )}
           <p className="text-sm mt-3">
-            *Data IDN Live dihitung dari history watch user di Website / APP JKT48 Showroom Fanmade <br />
+            *Data IDN Live dihitung dari history watch user di Website / APP
+            JKT48 Showroom Fanmade <br />
           </p>
         </Col>
       </Col>
