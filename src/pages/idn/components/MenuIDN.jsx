@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaThList } from "react-icons/fa";
 import { IoChatboxEllipses } from "react-icons/io5";
-import { Col, Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
+import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 import CommentIDN from "./CommentIDN";
 import RoomListIDN from "./RoomListIDN";
 
@@ -15,7 +15,7 @@ const MyComponent = ({ id, live }) => {
   };
 
   return (
-    <Col>
+    <>
       <Nav
         tabs
         style={{
@@ -78,7 +78,7 @@ const MyComponent = ({ id, live }) => {
           />
         </TabPane>
       </TabContent>
-    </Col>
+    </>
   );
 };
 
