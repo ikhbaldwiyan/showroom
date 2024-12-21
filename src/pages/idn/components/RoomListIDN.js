@@ -88,7 +88,7 @@ const RoomListIDN = ({ currentRoom }) => {
                   >
                     <Button
                       color={
-                        currentRoom === data.user.username ? "success" : "info"
+                        currentRoom === data.user.username ? "danger" : "info"
                       }
                     >
                       <RiLiveFill className="mb-1" />

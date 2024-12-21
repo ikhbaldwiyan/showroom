@@ -3,12 +3,11 @@ import MainLayout from "pages/layout/MainLayout";
 import { useState, useEffect } from "react";
 import {
   useLocation,
-  useParams,
+  useParams
 } from "react-router-dom/cjs/react-router-dom.min";
-import { Button, Col, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { ROOM_LIVE_IDN_DETAIL } from "utils/api/api";
 import formatNumber from "utils/formatNumber";
-import RoomListIDN from "./components/RoomListIDN";
 import Player from "./components/Player";
 import { IoReload } from "react-icons/io5";
 import { useRef } from "react";
@@ -16,6 +15,7 @@ import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
 import { activityLog } from "utils/activityLog";
 import Podium from "components/Podium";
+import MenuIDN from "./components/MenuIDN";
 
 const IDNLiveDetail = () => {
   let { id } = useParams();
@@ -61,7 +61,7 @@ const IDNLiveDetail = () => {
       category: "IDN Live",
       label: "Live Stream",
       username: profile?.name,
-      room: live?.user?.username,
+      room: live?.user?.username
     });
   };
 
@@ -71,7 +71,7 @@ const IDNLiveDetail = () => {
         logName: "Watch",
         userId: userProfile?._id,
         description: `Watch IDN Live ${live.user.name}`,
-        liveId: live.slug,
+        liveId: live.slug
       });
     }
 
@@ -80,7 +80,7 @@ const IDNLiveDetail = () => {
       category: "IDN Live",
       label: "Watch IDN - Live Stream",
       username: profile?.name,
-      room: live?.user?.username,
+      room: live?.user?.username
     });
   }, [id, live]);
 
@@ -88,7 +88,7 @@ const IDNLiveDetail = () => {
     <MainLayout title={`${live?.user?.name ?? "Room Offline"} - IDN Live`}>
       <div className="layout">
         <Row>
-          <Col md="8">
+          <Col md="7">
             {live?.stream_url ? (
               <>
                 <Player
@@ -99,7 +99,8 @@ const IDNLiveDetail = () => {
                 />
                 <div className="d-flex mb-3">
                   <h4 className="d-flex align-items-center mr-2">
-                    <b className="mr-2">{live?.user?.name}</b> | {live?.title}
+                    <b className="mr-2">{live?.user?.name}</b> |{" "}
+                    <span style={{ fontSize: "14px", marginLeft: "8px" }}> {live?.title}</span>
                     <IoReload
                       onClick={handleRefresh}
                       className={`${isRefresh && "spin-animation"} ml-3`}
@@ -113,8 +114,8 @@ const IDNLiveDetail = () => {
               <h3>IDN Live Room Offline</h3>
             )}
           </Col>
-          <Col>
-            <RoomListIDN currentRoom={live?.user?.username} />
+          <Col md="5">
+            <MenuIDN id={id} live={live} />
           </Col>
         </Row>
       </div>
