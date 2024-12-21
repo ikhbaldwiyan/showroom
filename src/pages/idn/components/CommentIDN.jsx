@@ -1,11 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Card } from "reactstrap";
+import { getSession } from "utils/getSession";
 
 const CommentIDN = ({ id, idnUrl }) => {
   const [messages, setMessages] = useState([]);
   const [connected, setConnected] = useState(false);
   const wsRef = useRef(null);
+
+  const generateRandomUsername = () => {
+    const randomPart = Math.random().toString(36).substring(2, 8);
+    return `user_${randomPart}`;
+  };
+
+  const nickname = getSession()?.user?.account_id || generateRandomUsername();
 
   const getChannelIdFromUrl = async (liveUrl) => {
     try {
@@ -36,7 +44,7 @@ const CommentIDN = ({ id, idnUrl }) => {
       ws.onopen = () => {
         console.log("WebSocket connected");
         setConnected(true);
-        ws.send("NICK test235");
+        ws.send(`NICK ${nickname}`);
         ws.send("USER websocket 0 * :WebSocket User");
       };
 

@@ -55,7 +55,7 @@ const MyComponent = ({ id, live }) => {
               cursor: "pointer",
               padding: "6px 14px",
               backgroundColor: activeTab === "2" ? "#3182CE" : "#4A5568",
-              border: activeTab === "2" ? "1px solid #63B3ED" : "none",
+              border: activeTab === "2" ? "2px solid #63B3ED" : "none",
               borderRadius: "8px",
               margin: "0 4px",
               fontWeight: "bold",
