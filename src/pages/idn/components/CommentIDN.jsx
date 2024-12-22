@@ -114,6 +114,7 @@ const CommentIDN = ({ id, slug, username }) => {
 
   useEffect(() => {
     if (username && slug) {
+      setMessages([])
       setupWebSocket();
     }
     
@@ -122,7 +123,7 @@ const CommentIDN = ({ id, slug, username }) => {
         wsRef.current.close();
       }
     };
-  }, [id, username]);
+  }, [username]);
 
   useEffect(() => {
     console.log(messages);

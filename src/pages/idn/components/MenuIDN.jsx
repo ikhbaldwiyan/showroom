@@ -66,7 +66,7 @@ const MenuIDN = ({ id, live }) => {
             }}
           >
             <IoChatboxEllipses size={18} />
-            Comment
+            Chat
           </NavLink>
         </NavItem>
         {isMobile && (

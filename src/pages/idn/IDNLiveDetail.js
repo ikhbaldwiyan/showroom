@@ -17,6 +17,7 @@ import { activityLog } from "utils/activityLog";
 import Podium from "components/Podium";
 import MenuIDN from "./components/MenuIDN";
 import { isDesktop } from "react-device-detect";
+import formatName from "utils/formatName";
 
 const IDNLiveDetail = () => {
   let { id } = useParams();
@@ -100,7 +101,7 @@ const IDNLiveDetail = () => {
                 />
                 <div className="d-flex mb-3">
                   <h4 className="d-flex align-items-center mr-2">
-                    <b className="mr-2">{live?.user?.name}</b> |{" "}
+                    <b className="mr-2">{formatName(live?.user?.name, true)}</b> |{" "}
                     <span style={{ fontSize: "14px", marginLeft: "8px" }}>
                       {" "}
                       {live?.title}
