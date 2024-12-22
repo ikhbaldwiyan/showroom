@@ -16,6 +16,7 @@ import { getSession } from "utils/getSession";
 import { activityLog } from "utils/activityLog";
 import Podium from "components/Podium";
 import MenuIDN from "./components/MenuIDN";
+import { isDesktop } from "react-device-detect";
 
 const IDNLiveDetail = () => {
   let { id } = useParams();
@@ -100,7 +101,10 @@ const IDNLiveDetail = () => {
                 <div className="d-flex mb-3">
                   <h4 className="d-flex align-items-center mr-2">
                     <b className="mr-2">{live?.user?.name}</b> |{" "}
-                    <span style={{ fontSize: "14px", marginLeft: "8px" }}> {live?.title}</span>
+                    <span style={{ fontSize: "14px", marginLeft: "8px" }}>
+                      {" "}
+                      {live?.title}
+                    </span>
                     <IoReload
                       onClick={handleRefresh}
                       className={`${isRefresh && "spin-animation"} ml-3`}
@@ -108,7 +112,7 @@ const IDNLiveDetail = () => {
                     />
                   </h4>
                 </div>
-                <Podium liveId={live.slug} isIDNLive />
+                {isDesktop && <Podium liveId={live.slug} isIDNLive />}
               </>
             ) : (
               <h3>IDN Live Room Offline</h3>
