@@ -4,7 +4,7 @@ const ADMIN_API = process.env.REACT_APP_ADMIN_API;
 const BOT_API = process.env.REACT_APP_BOT_API;
 const LIVE = `${API}/lives`;
 const ROOM = `${API}/rooms`;
-const SHOWROOM_WRAPPED = "https://jkt48showroom-api.my.id";
+const SHOWROOM_API = "https://jkt48showroom-api.my.id";
 const LEADERBOARD_API = `${ADMIN_API}/leaderboard`;
 
 // LARAVEL API
@@ -34,7 +34,7 @@ const RECENT_LIVE_LOG_API = (
   perpage = "10",
   search = "",
   roomId = "",
-  type = "all",
+  type = "all"
 ) => {
   return `${SHOWROOM_LOG_API}/recent?sort=${sort}&page=${page}&filter=${filter}&order=${order}&perpage=${perpage}&search=${search}&room_id=${roomId}&group=jkt48&type=${type}`;
 };
@@ -136,11 +136,11 @@ const ACTIVITY_LOG_DETAIL = (id) => {
 };
 
 // SHOWROOM WRAPPED
-const MOST_WATCH = `${SHOWROOM_WRAPPED}/scrapper/most-watch`;
+const MOST_WATCH = `${SHOWROOM_API}/scrapper/most-watch`;
 const MOST_WATCH_IDN = (userId) => {
-  return `${ADMIN_API}/activity/most-watch-idn/${userId}`
+  return `${ADMIN_API}/activity/most-watch-idn/${userId}`;
 };
-const PREMIUM_LIVES = `${SHOWROOM_WRAPPED}/premium-lives`;
+const PREMIUM_LIVES = `${SHOWROOM_API}/premium-lives`;
 
 // SUPPORT PROJECT
 const LIST_DONATOR = `${ADMIN_API}/discord/role?type=donator`;
@@ -159,8 +159,12 @@ const PODIUM_STAGE_IDN = (liveId) => {
   return `${ADMIN_API}/idn-live-history/${liveId}`;
 };
 
-const LEADERBOARD_SHOWROOM =  `${ADMIN_API}/leaderboard-member/showroom`
-const LEADERBOARD_IDN =  `${ADMIN_API}/leaderboard-member/idn`
+const LEADERBOARD_SHOWROOM = `${ADMIN_API}/leaderboard-member/showroom`;
+const LEADERBOARD_IDN = `${ADMIN_API}/leaderboard-member/idn`;
+
+const CHAT_ID = (username, slug) => {
+  return `${SHOWROOM_API}/scrapper/channel-id?username=${username}&slug=${slug}`;
+};
 
 export {
   API,
@@ -224,5 +228,6 @@ export {
   LEADERBOARD_API,
   LEADERBOARD_SHOWROOM,
   LEADERBOARD_IDN,
-  MOST_WATCH_IDN
+  MOST_WATCH_IDN,
+  CHAT_ID
 };
