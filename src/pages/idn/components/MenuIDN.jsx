@@ -5,7 +5,7 @@ import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 import CommentIDN from "./CommentIDN";
 import RoomListIDN from "./RoomListIDN";
 
-const MyComponent = ({ id, live }) => {
+const MenuIDN = ({ id, live }) => {
   const [activeTab, setActiveTab] = useState("2");
 
   const toggleTab = (tab) => {
@@ -74,7 +74,8 @@ const MyComponent = ({ id, live }) => {
         <TabPane tabId="2">
           <CommentIDN
             id={id}
-            idnUrl={`https://www.idn.app/${id}/live/${live.slug}`}
+            slug={live?.slug}
+            username={live?.user?.username}
           />
         </TabPane>
       </TabContent>
@@ -82,4 +83,4 @@ const MyComponent = ({ id, live }) => {
   );
 };
 
-export default MyComponent;
+export default MenuIDN;

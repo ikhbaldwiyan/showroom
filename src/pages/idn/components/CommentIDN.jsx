@@ -2,8 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Card } from "reactstrap";
 import { getSession } from "utils/getSession";
+import { CHAT_ID } from "utils/api/api";
 
-const CommentIDN = ({ id, idnUrl }) => {
+const CommentIDN = ({ id, slug, username }) => {
   const [messages, setMessages] = useState([]);
   const [connected, setConnected] = useState(false);
   const wsRef = useRef(null);
@@ -15,25 +16,20 @@ const CommentIDN = ({ id, idnUrl }) => {
 
   const nickname = getSession()?.user?.account_id || generateRandomUsername();
 
-  const getChannelIdFromUrl = async (liveUrl) => {
+  const getChannelId = async () => {
     try {
-      const response = await axios.get(liveUrl);
+      const response = await axios.get(CHAT_ID(username, slug));
 
-      // Extract the channel ID using regex
-      const channelIdMatch = response.data.match(/room\/([\w-]+)/);
-      if (channelIdMatch) {
-        return `arn:aws:ivschat:us-east-1:050891932989:room/${channelIdMatch[1]}`;
-      }
-      throw new Error("Channel ID not found in page");
+      return response.data.chatId;
     } catch (error) {
       console.error("Failed to get channel ID:", error);
       throw error;
     }
   };
 
-  const setupWebSocket = async (liveUrl) => {
+  const setupWebSocket = async () => {
     try {
-      const id = await getChannelIdFromUrl(liveUrl);
+      const id = await getChannelId();
 
       const ws = new WebSocket(`wss://chat.idn.app`);
       wsRef.current = ws;
@@ -117,13 +113,16 @@ const CommentIDN = ({ id, idnUrl }) => {
   };
 
   useEffect(() => {
-    setupWebSocket(idnUrl);
+    if (username && slug) {
+      setupWebSocket();
+    }
+    
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
       }
     };
-  }, [idnUrl, id]);
+  }, [id, username]);
 
   useEffect(() => {
     console.log(messages);
@@ -131,8 +130,6 @@ const CommentIDN = ({ id, idnUrl }) => {
 
   return (
     <div>
-      {/* <p>Status: {connected ? "Connected" : "Disconnected"}</p> */}
-
       <Card
         className="p-0 mb-5"
         style={{
