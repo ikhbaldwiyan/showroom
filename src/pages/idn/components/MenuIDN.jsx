@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { isMobile } from "react-device-detect";
-import { AiFillTrophy } from "react-icons/ai";
+import { AiFillGift, AiFillTrophy } from "react-icons/ai";
 import { FaThList } from "react-icons/fa";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 import CommentIDN from "./CommentIDN";
 import RoomListIDN from "./RoomListIDN";
 import Podium from "components/Podium";
+import GiftIDN from "./GiftIDN";
 
-const MenuIDN = ({ id, live }) => {
+const MenuIDN = ({ id, live, setActiveGift }) => {
   const [activeTab, setActiveTab] = useState("2");
+  const [gift, setGift] = useState([]);
 
   const toggleTab = (tab) => {
     if (activeTab !== tab) {
@@ -92,6 +94,27 @@ const MenuIDN = ({ id, live }) => {
             </NavLink>
           </NavItem>
         )}
+        <NavItem>
+          <NavLink
+            onClick={() => toggleTab("4")}
+            style={{
+              display: "flex",
+              gap: 6,
+              alignItems: "center",
+              cursor: "pointer",
+              padding: "6px 14px",
+              backgroundColor: activeTab === "4" ? "#3182CE" : "#4A5568",
+              border: activeTab === "4" ? "2px solid #63B3ED" : "none",
+              borderRadius: "8px",
+              margin: "0 4px",
+              fontWeight: "bold",
+              textAlign: "center"
+            }}
+          >
+            <AiFillGift size={18} />
+            Gift
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={activeTab} className="mt-3">
         <TabPane tabId="1">
@@ -102,10 +125,14 @@ const MenuIDN = ({ id, live }) => {
             id={id}
             slug={live?.slug}
             username={live?.user?.username}
+            setGift={setGift}
           />
         </TabPane>
         <TabPane tabId="3">
           <Podium liveId={live.slug} isIDNLive />
+        </TabPane>
+        <TabPane tabId="4">
+          <GiftIDN giftList={gift} setActiveGift={setActiveGift} />
         </TabPane>
       </TabContent>
     </>

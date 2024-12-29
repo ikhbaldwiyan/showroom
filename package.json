@@ -24,6 +24,7 @@
     "react-ga": "^3.3.0",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.12.0",
+    "react-lottie": "^1.2.10",
     "react-player": "^2.9.0",
     "react-redux": "^8.0.1",
     "react-reveal": "^1.2.2",

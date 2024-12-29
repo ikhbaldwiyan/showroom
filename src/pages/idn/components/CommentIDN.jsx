@@ -4,7 +4,7 @@ import { Card } from "reactstrap";
 import { getSession } from "utils/getSession";
 import { CHAT_ID } from "utils/api/api";
 
-const CommentIDN = ({ id, slug, username }) => {
+const CommentIDN = ({ slug, username, setGift }) => {
   const [messages, setMessages] = useState([]);
   const [connected, setConnected] = useState(false);
   const wsRef = useRef(null);
@@ -71,7 +71,7 @@ const CommentIDN = ({ id, slug, username }) => {
             try {
               const data = JSON.parse(jsonMatch[1]);
 
-              console.log("jsonData", data);
+              // console.log("jsonData", data);
 
               if (data?.chat) {
                 // Ensure that jsonData is mapped into the desired structure
@@ -87,6 +87,15 @@ const CommentIDN = ({ id, slug, username }) => {
                     return [mappedMessage, ...prevMessages];
                   } else {
                     return [mappedMessage];
+                  }
+                });
+              }
+              if (data?.gift) {
+                setGift((prevMessages) => {
+                  if (Array.isArray(prevMessages)) {
+                    return [data, ...prevMessages];
+                  } else {
+                    return [data];
                   }
                 });
               }
@@ -115,6 +124,7 @@ const CommentIDN = ({ id, slug, username }) => {
   useEffect(() => {
     if (username && slug) {
       setMessages([])
+      setGift([])
       setupWebSocket();
     }
     
@@ -124,10 +134,6 @@ const CommentIDN = ({ id, slug, username }) => {
       }
     };
   }, [username]);
-
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
 
   return (
     <div>
