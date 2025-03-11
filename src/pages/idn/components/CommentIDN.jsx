@@ -158,7 +158,7 @@ const CommentIDN = ({ id, slug, username }) => {
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        color: item?.user?.color_code,
+                        color: item?.user?.color_code ?? "#24a2b7",
                         fontSize: "18px",
                         fontWeight: "600"
                       }}
