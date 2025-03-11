@@ -23,7 +23,7 @@ const SupportProject = () => {
   }, []);
 
   const handleDonateClick = () => {
-    window.open("https://saweria.co/Inzoid");
+    window.open("https://saweria.co/JKT48Showroom48");
     activityLog({
       logName: "Donate",
       description: "Donate saweria button click",

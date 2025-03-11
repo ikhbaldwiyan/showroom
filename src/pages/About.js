@@ -47,12 +47,12 @@ function About(props) {
             server dan lainnya <br />
             kalian bisa donasi di link saweria berikut{" "}
             <a
-              href="https://saweria.co/Inzoid"
+              href="https://saweria.co/JKT48Showroom48"
               rel="noreferrer"
               target="_blank"
               onClick={() => activityTrack("About Link", "Donation Link Click")}
             >
-              https://saweria.co/Inzoid
+              https://saweria.co/JKT48Showroom48
             </a>
           </p>
           <p>Social Media :</p>
