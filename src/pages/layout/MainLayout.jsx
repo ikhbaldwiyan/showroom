@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { isMobile } from "react-device-detect";
 import { ToastContainer } from "react-toastify";
@@ -13,6 +13,13 @@ function MainLayout(props) {
   const { width } = useWindowDimensions();
   const sidebarResponsive = width < 1200 ? "1" : "2";
   const containerResponsive = width < 1200 ? "11" : "10";
+  const [isAndroidView, setIsAndroidView] = useState(false);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const viewType = searchParams.get("view_type");
+    setIsAndroidView(viewType === "android");
+  }, []);
 
   return (
     <>
@@ -33,10 +40,10 @@ function MainLayout(props) {
       </Helmet>
       {isMobile || width < 768 ? (
         <>
-          <Header {...props} />
+          {!isAndroidView && <Header {...props} />}
           {props.children}
           <ToastContainer position="bottom-center" autoClose={3000} />
-          <Footer />
+          {!isAndroidView && <Footer />}
         </>
       ) : (
         <>
