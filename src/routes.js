@@ -25,6 +25,7 @@ import Android from "pages/android/Android";
 import PrivacyPolicy from "pages/privacy-policy/PrivacyPolicy";
 import RemoveAccount from "pages/remove-account/RemoveAccount";
 import LeaderboardMember from "pages/leaderboard/LeaderboardMember";
+import MultiRoomIDNMobile from "pages/idn/mobile/MultiRoomIDNMobile";
 
 const routes = [
   { path: "/", component: Home, exact: true },
@@ -55,7 +56,7 @@ const routes = [
   { path: "/privacy-policy", component: PrivacyPolicy },
   { path: "/remove-account", component: RemoveAccount },
   { path: "/leaderboard-members", component: LeaderboardMember },
-
+  { path: "/multi-room-idn-mobile", component: MultiRoomIDNMobile },
 ];
 
 export default routes;

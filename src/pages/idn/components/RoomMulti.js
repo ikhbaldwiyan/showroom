@@ -9,17 +9,18 @@ import {
   TabPane,
   Nav,
   NavItem,
-  NavLink,
+  NavLink
 } from "reactstrap";
 import LiveButton from "elements/Button";
 import { ROOM_LIVES_IDN } from "utils/api/api";
 import axios from "axios";
 import { RiBroadcastFill, RiLiveFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { FaUsers, FaUsersCog } from "react-icons/fa";
+import { FaUserCheck, FaUsers, FaUsersCog } from "react-icons/fa";
 import { IoReload } from "react-icons/io5";
 import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
+import { BiUserCheck } from "react-icons/bi";
 
 const RoomMulti = ({
   roomOne,
@@ -31,7 +32,7 @@ const RoomMulti = ({
   setRoomThree,
   setRoomFour,
   layout,
-  settingsLayout,
+  settingsLayout
 }) => {
   const [roomList, setRoomList] = useState([]);
   const [activeTab, setActiveTab] = useState("roomOne");
@@ -91,26 +92,33 @@ const RoomMulti = ({
                 />
               </td>
               <td className="d-flex flex-column align-items-center">
-                <span className="mt-1">
+                <span className="mt-4">
                   {data?.user?.name.replace("JKT48", "")}
                 </span>
-                <LiveButton
-                  style={{ borderRadius: "6px" }}
-                  className="btn-sm btn-danger mt-1"
-                >
-                  <RiBroadcastFill className="mb-1" /> Live
-                </LiveButton>
               </td>
               <td>
                 <div className="mt-4">
                   <Link>
                     <Button
                       onClick={() => changeRoom(setRoom, data, number)}
-                      color={
-                        currentRoom === data.user.username ? "success" : "info"
-                      }
+                      style={{
+                        backgroundColor:
+                          currentRoom === data.user.username
+                            ? "#24A2B7"
+                            : "#4A5568",
+                        border: "none",
+                        width: "50px",
+                        height: "30px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
                     >
-                      <RiLiveFill className="mb-1" />
+                      {currentRoom === data.user.username ? (
+                        <FaUserCheck size={18} />
+                      ) : (
+                        <RiLiveFill />
+                      )}
                     </Button>
                   </Link>
                 </div>
@@ -136,39 +144,37 @@ const RoomMulti = ({
       action: "refresh_multi_room_idn",
       category: "Refresh - Multi IDN",
       label: "Live Stream",
-      username: getSession()?.profile?.name,
+      username: getSession()?.profile?.name
     });
   };
 
   return (
     <div>
-      <Row>
-        <Col md="12" className="mb-3">
-          {layout !== "twoRoom" && (
-            <Badge
-              className="mr-2"
-              color="secondary"
-              onClick={() => settingsLayout("twoRoom")}
-            >
-              Reset
-            </Badge>
-          )}
+      <div className="d-flex py-2 mb-2">
+        {layout !== "twoRoom" && (
           <Badge
             className="mr-2"
-            color="light"
-            onClick={() => settingsLayout("threeRoom")}
+            color="secondary"
+            onClick={() => settingsLayout("twoRoom")}
           >
-            <FaUsers /> Set 3 Room
+            Reset
           </Badge>
-          <Badge
-            className="mr-1"
-            color="light"
-            onClick={() => settingsLayout("fourRoom")}
-          >
-            <FaUsersCog /> Set 4 Room
-          </Badge>
-        </Col>
-      </Row>
+        )}
+        <Badge
+          className="mr-2"
+          color="light"
+          onClick={() => settingsLayout("threeRoom")}
+        >
+          <FaUsers /> Set 3 Room
+        </Badge>
+        <Badge
+          className="mr-1"
+          color="light"
+          onClick={() => settingsLayout("fourRoom")}
+        >
+          <FaUsersCog /> Set 4 Room
+        </Badge>
+      </div>
 
       <Nav className="select-room" tabs>
         <NavItem>
