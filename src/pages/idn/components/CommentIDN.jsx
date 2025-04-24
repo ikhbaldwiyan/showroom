@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
 import { Card } from "reactstrap";
 import { getSession } from "utils/getSession";
-import { CHAT_ID } from "utils/api/api";
 
-const CommentIDN = ({ id, slug, username }) => {
+const CommentIDN = ({ chatId, slug, username }) => {
   const [messages, setMessages] = useState([]);
   const [connected, setConnected] = useState(false);
   const wsRef = useRef(null);
@@ -16,20 +14,8 @@ const CommentIDN = ({ id, slug, username }) => {
 
   const nickname = getSession()?.user?.account_id || generateRandomUsername();
 
-  const getChannelId = async () => {
-    try {
-      const response = await axios.get(CHAT_ID(username, slug));
-
-      return response.data.chatId;
-    } catch (error) {
-      console.error("Failed to get channel ID:", error);
-      throw error;
-    }
-  };
-
   const setupWebSocket = async () => {
     try {
-      const id = await getChannelId();
 
       const ws = new WebSocket(`wss://chat.idn.app`);
       wsRef.current = ws;
@@ -55,7 +41,7 @@ const CommentIDN = ({ id, slug, username }) => {
         if (rawMessage.includes("001") && !registered) {
           registered = true;
           console.log("Connected, joining channel...");
-          ws.send(`JOIN #${id}`);
+          ws.send(`JOIN #${chatId}`);
           return;
         }
 

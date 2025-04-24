@@ -102,6 +102,7 @@ const MenuIDN = ({ id, live }) => {
             id={id}
             slug={live?.slug}
             username={live?.user?.username}
+            chatId={live?.chat_room_id}
           />
         </TabPane>
         <TabPane tabId="3">
