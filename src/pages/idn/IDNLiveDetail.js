@@ -101,7 +101,9 @@ const IDNLiveDetail = () => {
                 />
                 <div className="d-flex mb-3">
                   <h4 className="d-flex align-items-center mr-2">
-                    <b className="mr-2">{formatName(live?.user?.name, true)}</b> |{" "}
+                    <b className="mr-2">
+                      {live?.user?.name !== "JKT48" ? formatName(live?.user?.name, true) : "JKT48"}
+                    </b> |{" "}
                     <span style={{ fontSize: "14px", marginLeft: "8px" }}>
                       {" "}
                       {live?.title}
