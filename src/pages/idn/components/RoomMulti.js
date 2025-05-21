@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Table,
   Button,
-  Col,
-  Row,
   Badge,
   TabContent,
   TabPane,
@@ -11,16 +9,14 @@ import {
   NavItem,
   NavLink
 } from "reactstrap";
-import LiveButton from "elements/Button";
 import { ROOM_LIVES_IDN } from "utils/api/api";
 import axios from "axios";
-import { RiBroadcastFill, RiLiveFill } from "react-icons/ri";
+import { RiLiveFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { FaUserCheck, FaUsers, FaUsersCog } from "react-icons/fa";
 import { IoReload } from "react-icons/io5";
 import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
-import { BiUserCheck } from "react-icons/bi";
 
 const RoomMulti = ({
   roomOne,
@@ -32,11 +28,16 @@ const RoomMulti = ({
   setRoomThree,
   setRoomFour,
   layout,
-  settingsLayout
+  settingsLayout,
+  isAndroid
 }) => {
   const [roomList, setRoomList] = useState([]);
   const [activeTab, setActiveTab] = useState("roomOne");
   const [refresh, setRefresh] = useState(false);
+
+  const params = new URLSearchParams(window.location.search);
+  const isThreeRoom = isAndroid ? params.get("threeRoom") === "true" : true;
+  const isFourRoom = isAndroid ? params.get("fourRoom") === "true" : true;
 
   useEffect(() => {
     try {
@@ -76,7 +77,9 @@ const RoomMulti = ({
         {roomList?.length === 0 && (
           <tbody>
             <tr className="text-center">
-              <td colSpan={3}>No member Live IDN</td>
+              <td colSpan={3}>
+                <p className="mt-2">Tidak ada member yang Live IDN</p>
+              </td>
             </tr>
           </tbody>
         )}
@@ -150,31 +153,37 @@ const RoomMulti = ({
 
   return (
     <div>
-      <div className="d-flex py-2 mb-2">
-        {layout !== "twoRoom" && (
-          <Badge
-            className="mr-2"
-            color="secondary"
-            onClick={() => settingsLayout("twoRoom")}
-          >
-            Reset
-          </Badge>
-        )}
-        <Badge
-          className="mr-2"
-          color="light"
-          onClick={() => settingsLayout("threeRoom")}
-        >
-          <FaUsers /> Set 3 Room
-        </Badge>
-        <Badge
-          className="mr-1"
-          color="light"
-          onClick={() => settingsLayout("fourRoom")}
-        >
-          <FaUsersCog /> Set 4 Room
-        </Badge>
-      </div>
+      {(isThreeRoom || isFourRoom) && (
+        <div className="d-flex py-2 mb-2">
+          {layout !== "twoRoom" && (
+            <Badge
+              className="mr-2"
+              color="secondary"
+              onClick={() => settingsLayout("twoRoom")}
+            >
+              Reset
+            </Badge>
+          )}
+          {isThreeRoom && (
+            <Badge
+              className="mr-2"
+              color="light"
+              onClick={() => settingsLayout("threeRoom")}
+            >
+              <FaUsers /> Set 3 Room
+            </Badge>
+          )}
+          {isThreeRoom && isFourRoom && (
+            <Badge
+              className="mr-1"
+              color="light"
+              onClick={() => settingsLayout("fourRoom")}
+            >
+              <FaUsersCog /> Set 4 Room
+            </Badge>
+          )}
+        </div>
+      )}
 
       <Nav className="select-room" tabs>
         <NavItem>

@@ -123,6 +123,7 @@ const MultiRoomIDN = () => {
       <div className="mt-1 p-2">
         {layoutColumns}
         <RoomMulti
+          isAndroid
           layout={layout}
           roomOne={roomOne}
           roomTwo={roomTwo}
