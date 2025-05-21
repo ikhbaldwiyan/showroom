@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Row } from "reactstrap";
 
-import { RoomList } from "components";
 import RoomsPlayer from "./components/RoomsPlayer";
 import MainLayout from "pages/layout/MainLayout";
+import RoomListMultiSR from "./components/RoomListMultiSR";
 
 // Layout helper functions
 const getLayoutName = (layoutValue) => {
@@ -165,7 +165,7 @@ export default function MultiRoom(props) {
           {memoizedLayoutElements}
         </Row>
 
-        <RoomList
+        <RoomListMultiSR
           isMultiRoom={Boolean(isMultiRoom)}
           updateMultiRoom={updateMultiRoom}
           multiRoom={multiRoom}

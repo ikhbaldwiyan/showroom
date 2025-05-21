@@ -13,7 +13,7 @@ import RoomListTable from "components/RoomListTable";
 import LiveButton from "elements/Button";
 import { Loading } from "components";
 
-export default function RoomList({
+export default function RoomListMultiSR({
   roomId,
   setRoomId,
   isMultiRoom,
