@@ -95,15 +95,7 @@ export default function RoomsPlayer({
           </>
         ))
       ) : !url && roomId ? (
-        <Profile
-          roomId={roomId}
-          setRoomId={setRoomId}
-          isLoad={loading}
-          menu={menu}
-          session={getSession().session}
-          number={number}
-          removeSelectedRoom={removeSelectedRoom}
-        />
+        <p className="h6 text-center py-2">Pilih Room {number} </p>
       ) : (
         ""
       )}
