@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
-import { IoReload, IoTimeSharp } from "react-icons/io5";
+import { IoCloseCircle, IoReload, IoTimeSharp } from "react-icons/io5";
 import formatViews from "utils/formatViews";
 import { LIVE_INFO } from "utils/api/api";
 
@@ -10,7 +10,7 @@ import Settings from "./Settings";
 import LastSeen from "./LastSeen";
 import getTimes from "utils/getTimes";
 import { getSession } from "utils/getSession";
-import { Button } from "reactstrap";
+import { Badge } from "reactstrap";
 import { isDesktop } from "react-device-detect";
 import formatName from "utils/formatName";
 
@@ -38,7 +38,7 @@ function Title({
   refresh,
   setLiveId,
   hidePodium,
-  setHidePodium,
+  setHidePodium
 }) {
   const [profile, setProfile] = useState("");
   const [title, setTitle] = useState("");
@@ -71,10 +71,10 @@ function Title({
     updateMenu,
     setUrl,
     hidePodium,
-    setHidePodium,
+    setHidePodium
   };
 
-  const icon = { fontSize: 20,marginRight: 4 };
+  const icon = { fontSize: 20, marginRight: 4 };
 
   useEffect(() => {
     try {
@@ -83,7 +83,7 @@ function Title({
           const profiles = res.data;
           setProfile(profiles);
           setTitle(profiles.title);
-          setLiveId(profiles?.websocket?.live_id)
+          setLiveId(profiles?.websocket?.live_id);
           !isMultiRoom && setIsPremiumLive(profiles.isPremiumLive);
         },
         [profile]
@@ -121,6 +121,11 @@ function Title({
     window.document.title = !isMultiRoom ? name : "Multi Room";
   }, [profile]);
 
+  const removeThisRoom = (number) => {
+    removeSelectedRoom(number);
+    setUrl([]);
+  };
+
   return (
     <div className="d-flex align-items-center mb-1">
       {!hideName && (
@@ -140,14 +145,14 @@ function Title({
 
       {profile?.title && isDesktop && <span> | {profile?.title}</span>}
 
-      {!hideTime && (
-         <LastSeen times={profile.current_live_started_at} />
-      )}
+      {!hideTime && <LastSeen times={profile.current_live_started_at} />}
 
       {!hideViews && (
         <Views
           onClick={() => setIsTime(!isTime)}
-          className="btn-sm btn-danger ml-2 mr-2"
+          className={`btn-sm mx-2 ${
+            isMultiRoom ? "btn-primary" : "btn-danger"
+          }  `}
           style={{ borderRadius: 5 }}
         >
           {!isTime ? (
@@ -165,15 +170,21 @@ function Title({
           )}
         </Views>
       )}
-      <Settings {...propSettings} />
+      {!isMultiRoom && <Settings {...propSettings} />}
       <span
         onClick={handleRefresh}
         color="secondary"
         style={{ borderRadius: "10px" }}
-        className="ml-3 "
+        className="ml-2"
       >
         <IoReload className={`${refresh && "spin-animation"}`} size={20} />
       </span>
+
+      {isMultiRoom && (
+        <Badge onClick={removeThisRoom} color="danger" className="ml-3 ">
+          <IoCloseCircle size={20} />
+        </Badge>
+      )}
     </div>
   );
 }
