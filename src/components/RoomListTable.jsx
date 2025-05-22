@@ -13,7 +13,7 @@ function RoomListTable({
   updateMultiRoom,
   number
 }) {
-  const isMultiRoom = window.location.pathname === "/multi-room";
+  const isMultiRoom = (window.location.pathname === "/multi-room" ||  window.location.pathname === "/multi-room-sr-mobile");
   const buttonStyle = {
     backgroundColor:
       roomId == data.id || roomId == data.room_id ? "#DC3545" : "#008b9b",
