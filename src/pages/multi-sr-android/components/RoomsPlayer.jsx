@@ -94,12 +94,9 @@ export default function RoomsPlayer({
             />
           </>
         ))
-      ) : !url && roomId ? (
-        <p className="h6 text-center py-2">Pilih Room {number} </p>
       ) : (
-        ""
+        <p className="h6 text-center py-2">Pilih Room {number} </p>
       )}
-      {!roomId && <p className="h6 text-center py-2">Pilih Room {number} </p>}
     </Col>
   );
 }

@@ -126,8 +126,6 @@ export default function RoomListMultiSR({
 
   // Show room tabs only in multi-room mode
   const renderRoomTabs = () => {
-    if (!isMultiRoom) return null;
-
     return (
       <Nav tabs className="select-room mt-3">
         <NavItem>
@@ -215,21 +213,9 @@ export default function RoomListMultiSR({
             </Badge>
           )}
         </div>
-        {isMultiRoom && renderRoomTabs()}
+        {renderRoomTabs()}
         <div className="scroll-room rounded">
-          <Table dark>
-            {!isMultiRoom && (
-              <thead className="room-list">
-                <tr>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Room</th>
-                </tr>
-              </thead>
-            )}
-
-            {renderRoomContent()}
-          </Table>
+          <Table dark>{renderRoomContent()}</Table>
         </div>
       </Col>
     </Row>

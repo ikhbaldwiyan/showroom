@@ -5,7 +5,6 @@ import RoomsPlayer from "./components/RoomsPlayer";
 import MainLayout from "pages/layout/MainLayout";
 import RoomListMultiSR from "./components/RoomListMultiSR";
 
-// Layout helper functions
 const getLayoutName = (layoutValue) => {
   switch (layoutValue) {
     case "4":
@@ -38,7 +37,6 @@ export default function MultiRoom(props) {
   const [hideMultiMenu, setHideMultiMenu] = useState(false);
   const [isFarming, setIsFarming] = useState(false);
 
-  // Initial state for the four room positions
   const multiRoomInitialState = {
     1: { id: "", name: "" },
     2: { id: "", name: "" },
@@ -48,11 +46,9 @@ export default function MultiRoom(props) {
 
   const [multiRoom, setMultiRoom] = useState(multiRoomInitialState);
 
-  // Get the current layout name and room count
   const layoutName = getLayoutName(layout);
   const roomCount = getLayoutRoomCount(layout);
 
-  // Show loading state when layout changes
   useEffect(() => {
     setLoading(true);
     const timer = setTimeout(() => {
@@ -64,14 +60,6 @@ export default function MultiRoom(props) {
 
   // Determine if we're in multi-room mode (any layout that shows more than 1 room)
   const isMultiRoom = roomCount > 1 ? "isMultiRoom" : "";
-
-  // Update a specific room position with new data
-  const updateMultiRoom = (number, id, name) => {
-    setMultiRoom((prevMultiRoom) => ({
-      ...prevMultiRoom,
-      [number]: { id, name },
-    }));
-  };
 
   // Load saved room data from localStorage on initial mount
   useEffect(() => {
@@ -97,9 +85,20 @@ export default function MultiRoom(props) {
     localStorage.removeItem("multiRoom");
   };
 
+  // Update a specific room position with new data
+  const updateMultiRoom = (number, id, name) => {
+    setMultiRoom((prevMultiRoom) => ({
+      ...prevMultiRoom,
+      [number]: { id, name },
+    }));
+  };
+
   // Remove a specific room
   const removeSelectedRoom = (number) => {
-    updateMultiRoom(number, "", "");
+    setMultiRoom((prevMultiRoom) => ({
+      ...prevMultiRoom,
+      [number]: { id: "", name: "", url: "" },
+    }));
   };
 
   // Props to pass to Multi components
@@ -166,7 +165,7 @@ export default function MultiRoom(props) {
         </Row>
 
         <RoomListMultiSR
-          isMultiRoom={Boolean(isMultiRoom)}
+          isMultiRoom
           updateMultiRoom={updateMultiRoom}
           multiRoom={multiRoom}
           setRoomId={() => { }}
