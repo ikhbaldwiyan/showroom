@@ -20,7 +20,7 @@ function RoomListTable({
     window.location.pathname === "/multi-room" ||
     window.location.pathname === "/multi-room-sr-mobile";
 
-  const isActiveRoom = data?.room_id == multiRoom[number]?.id;
+  const isActiveRoom = isAndroidMulti && data?.room_id == multiRoom[number]?.id;
 
   const buttonStyle = {
     backgroundColor: isAndroidMulti
