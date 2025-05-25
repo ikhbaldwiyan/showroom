@@ -69,7 +69,7 @@ function RoomListTable({
         </td>
         <td>
           {data.is_live || data.next_live_schedule !== 0 ? (
-            <p className="mt-4">
+            <p className={isAndroidMulti && "mt-4"}>
               {data.url_key
                 ? data.url_key.substr(6)
                 : data.room_url_key !== "officialJKT48"

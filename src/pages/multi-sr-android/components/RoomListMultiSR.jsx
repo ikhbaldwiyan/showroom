@@ -2,14 +2,14 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useState, useEffect } from "react";
 import { Row, Col, Table, Nav, NavItem, NavLink, Badge } from "reactstrap";
-import { API, ROOM_LIVES_API } from "utils/api/api";
+import { ROOM_LIVES_API } from "utils/api/api";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getRoomLiveSuccess, getRoomLiveFailed } from "redux/actions/roomLives";
-import { getRoomListRegular } from "redux/actions/rooms";
 import { FaUsers, FaUsersCog } from "react-icons/fa";
 import RoomListTable from "components/RoomListTable";
 import { Loading } from "components";
+import { IoReload } from "react-icons/io5";
 
 export default function RoomListMultiSR({
   roomId,
@@ -19,6 +19,7 @@ export default function RoomListMultiSR({
   layoutName,
   setLayout
 }) {
+  const dispatch = useDispatch();
   const [search, setSearch] = useState("");
   const [activeRoomTab, setActiveRoomTab] = useState("1"); // Default to room 1
 
@@ -28,16 +29,8 @@ export default function RoomListMultiSR({
   const params = new URLSearchParams(window.location.search);
   const isThreeRoom = params.get("threeRoom") === "true";
   const isFourRoom = params.get("fourRoom") === "true";
+  const [refresh, setRefresh] = useState(false);
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    async function getRoomList() {
-      const room = await axios.get(`${API}/rooms`);
-      dispatch(getRoomListRegular(room.data));
-    }
-    getRoomList();
-  }, []);
 
   useEffect(() => {
     async function getRoomLive() {
@@ -49,7 +42,7 @@ export default function RoomListMultiSR({
       }
     }
     getRoomLive();
-  }, []);
+  }, [refresh]);
 
   const toggleRoomTab = (tab) => {
     if (activeRoomTab !== tab) {
@@ -78,6 +71,13 @@ export default function RoomListMultiSR({
       })}
     </tbody>
   );
+
+  const handleRefresh = () => {
+    setRefresh(true);
+    setTimeout(() => {
+      setRefresh(false);
+    }, 2000);
+  };
 
   // Function to render room content based on filters
   const renderRoomContent = () => {
@@ -118,9 +118,10 @@ export default function RoomListMultiSR({
     );
   };
 
-  
   const buttonActive = (isActive) => {
-    return isActive === activeRoomTab ? "active-nav-idn mr-1" : "inactive-nav mr-1";
+    return isActive === activeRoomTab
+      ? "active-nav-idn mr-1"
+      : "inactive-nav mr-1";
   };
 
   // Show room tabs only in multi-room mode
@@ -167,6 +168,11 @@ export default function RoomListMultiSR({
             </NavLink>
           </NavItem>
         )}
+        <NavItem>
+          <NavLink onClick={handleRefresh}>
+            <IoReload size={18} className={`${refresh && "spin-animation"}`} />
+          </NavLink>
+        </NavItem>
       </Nav>
     );
   };
