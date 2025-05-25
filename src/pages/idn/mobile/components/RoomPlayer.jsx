@@ -61,7 +61,7 @@ const RoomPlayer = React.memo(({
 
   if (!data?.stream_url) {
     return (
-      <div className="p-1">
+      <div className="p-1 my-4">
         <h6 className="font-semibold">Pilih Room {number}</h6>
       </div>
     );

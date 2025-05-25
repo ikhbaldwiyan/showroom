@@ -2,7 +2,6 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useState, useEffect } from "react";
 import { Row, Col, Table, Nav, NavItem, NavLink, Badge } from "reactstrap";
-import { RiBroadcastFill } from "react-icons/ri";
 import { API, ROOM_LIVES_API } from "utils/api/api";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -10,13 +9,11 @@ import { getRoomLiveSuccess, getRoomLiveFailed } from "redux/actions/roomLives";
 import { getRoomListRegular } from "redux/actions/rooms";
 import { FaUsers, FaUsersCog } from "react-icons/fa";
 import RoomListTable from "components/RoomListTable";
-import LiveButton from "elements/Button";
 import { Loading } from "components";
 
 export default function RoomListMultiSR({
   roomId,
   setRoomId,
-  isMultiRoom,
   updateMultiRoom,
   multiRoom,
   layoutName,
@@ -97,25 +94,22 @@ export default function RoomListMultiSR({
                   <RoomListTable
                     key={`live-${idx}`}
                     idx={idx}
+                    multiRoom={multiRoom}
+                    isAndroidMulti
                     data={item}
                     roomId={roomId}
                     setRoomId={setRoomId}
                     updateMultiRoom={updateMultiRoom}
                     number={activeRoomTab}
-                  >
-                    <LiveButton
-                      style={{ borderRadius: "6px" }}
-                      className="btn-sm btn-danger"
-                    >
-                      <RiBroadcastFill className="mb-1" /> Live
-                    </LiveButton>
-                  </RoomListTable>
+                  />
                 )
             )
           ) : (
             <tbody>
               <tr className="text-center">
-                <td colSpan={3}>Tidak ada member yang live huhu</td>
+                <td colSpan={3}>
+                  <p className="mt-4">Tidak ada member yang live huhu</p>
+                </td>
               </tr>
             </tbody>
           )}
@@ -124,13 +118,18 @@ export default function RoomListMultiSR({
     );
   };
 
+  
+  const buttonActive = (isActive) => {
+    return isActive === activeRoomTab ? "active-nav-idn mr-1" : "inactive-nav mr-1";
+  };
+
   // Show room tabs only in multi-room mode
   const renderRoomTabs = () => {
     return (
       <Nav tabs className="select-room mt-3">
         <NavItem>
           <NavLink
-            className={activeRoomTab === "1" ? "active" : ""}
+            className={buttonActive("1")}
             onClick={() => toggleRoomTab("1")}
             style={{ cursor: "pointer" }}
           >
@@ -139,7 +138,7 @@ export default function RoomListMultiSR({
         </NavItem>
         <NavItem>
           <NavLink
-            className={activeRoomTab === "2" ? "active" : ""}
+            className={buttonActive("2")}
             onClick={() => toggleRoomTab("2")}
             style={{ cursor: "pointer" }}
           >
@@ -149,7 +148,7 @@ export default function RoomListMultiSR({
         {(layoutName === "threeRoom" || layoutName === "fourRoom") && (
           <NavItem>
             <NavLink
-              className={activeRoomTab === "3" ? "active" : ""}
+              className={buttonActive("3")}
               onClick={() => toggleRoomTab("3")}
               style={{ cursor: "pointer" }}
             >
@@ -160,7 +159,7 @@ export default function RoomListMultiSR({
         {layoutName === "fourRoom" && (
           <NavItem>
             <NavLink
-              className={activeRoomTab === "4" ? "active" : ""}
+              className={buttonActive("4")}
               onClick={() => toggleRoomTab("4")}
               style={{ cursor: "pointer" }}
             >
@@ -175,7 +174,7 @@ export default function RoomListMultiSR({
   return (
     <Row>
       <Col>
-        <div className="d-flex mb-2">
+        <div className="d-flex my-3">
           {(layoutName === "threeRoom" || layoutName === "fourRoom") && (
             <Badge
               className="mr-2"

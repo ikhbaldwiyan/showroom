@@ -75,7 +75,7 @@ export default function RoomsPlayer({
     <Col sm="6" lg={layout}>
       {url && roomId ? (
         url.slice(0, 1).map((item, idx) => (
-          <>
+          <div className="mt-2">
             <Stream refreshKey={refreshKey} key={idx} url={item.url} />
             <Title
               roomId={roomId}
@@ -92,10 +92,10 @@ export default function RoomsPlayer({
               handleRefresh={handleRefresh}
               setLiveId={setLiveId}
             />
-          </>
+          </div>
         ))
       ) : (
-        <p className="h6 text-center py-2">Pilih Room {number} </p>
+        <p className="h6 text-center py-2 mt-3">Pilih Room {number} </p>
       )}
     </Col>
   );

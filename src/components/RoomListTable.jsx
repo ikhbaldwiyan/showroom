@@ -3,6 +3,7 @@ import { Button } from "reactstrap";
 import { RiLiveFill } from "react-icons/ri";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { gaEvent } from "utils/gaEvent";
+import { FaUserCheck } from "react-icons/fa";
 
 function RoomListTable({
   data,
@@ -11,14 +12,26 @@ function RoomListTable({
   idx,
   roomId,
   updateMultiRoom,
-  number
+  number,
+  multiRoom,
+  isAndroidMulti
 }) {
-  const isMultiRoom = (window.location.pathname === "/multi-room" ||  window.location.pathname === "/multi-room-sr-mobile");
+  const isMultiRoom =
+    window.location.pathname === "/multi-room" ||
+    window.location.pathname === "/multi-room-sr-mobile";
+
+  const isActiveRoom = data?.room_id == multiRoom[number]?.id;
+
   const buttonStyle = {
-    backgroundColor:
-      roomId == data.id || roomId == data.room_id ? "#DC3545" : "#008b9b",
+    backgroundColor: isAndroidMulti
+      ? isActiveRoom
+        ? "#24A2B7"
+        : "#4A5568"
+      : roomId == data.id
+      ? "#DC3545"
+      : "#008b9b",
     color: "white",
-    border: "none",
+    border: "none"
   };
 
   const eventName = data.url_key
@@ -56,7 +69,7 @@ function RoomListTable({
         </td>
         <td>
           {data.is_live || data.next_live_schedule !== 0 ? (
-            <p className="mb-1">
+            <p className="mt-4">
               {data.url_key
                 ? data.url_key.substr(6)
                 : data.room_url_key !== "officialJKT48"
@@ -80,7 +93,7 @@ function RoomListTable({
               onClick={() => handleSwitchRoomMulti()}
               style={buttonStyle}
             >
-              <RiLiveFill className="mb-1" />
+              {isActiveRoom ? <FaUserCheck /> : <RiLiveFill className="mb-1" />}
             </Button>
           ) : (
             <Link
@@ -88,7 +101,7 @@ function RoomListTable({
                 ...location,
                 pathname: `/room/${data.url_key ?? data.room_url_key}/${
                   data.id ? data.id : data.room_id
-                }`,
+                }`
               })}
             >
               <Button
