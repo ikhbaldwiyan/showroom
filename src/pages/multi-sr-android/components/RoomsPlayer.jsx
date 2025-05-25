@@ -72,7 +72,7 @@ export default function RoomsPlayer({
   };
 
   return (
-    <Col sm="6" lg={layout}>
+    <Col sm={layout === "4" ? "4" : "6"} lg={layout}>
       {url && roomId ? (
         url.slice(0, 1).map((item, idx) => (
           <div className="mt-2">
