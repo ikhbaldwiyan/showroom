@@ -101,29 +101,27 @@ const RoomMulti = ({
               </td>
               <td>
                 <div className="mt-4">
-                  <Link>
-                    <Button
-                      onClick={() => changeRoom(setRoom, data, number)}
-                      style={{
-                        backgroundColor:
-                          currentRoom === data.user.username
-                            ? "#24A2B7"
-                            : "#4A5568",
-                        border: "none",
-                        width: "50px",
-                        height: "30px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                    >
-                      {currentRoom === data.user.username ? (
-                        <FaUserCheck size={18} />
-                      ) : (
-                        <RiLiveFill />
-                      )}
-                    </Button>
-                  </Link>
+                  <Button
+                    onClick={() => changeRoom(setRoom, data, number)}
+                    style={{
+                      backgroundColor:
+                        currentRoom === data.user.username
+                          ? "#24A2B7"
+                          : "#4A5568",
+                      border: "none",
+                      width: "50px",
+                      height: "30px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    {currentRoom === data.user.username ? (
+                      <FaUserCheck size={18} />
+                    ) : (
+                      <RiLiveFill />
+                    )}
+                  </Button>
                 </div>
               </td>
             </tr>
