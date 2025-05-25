@@ -181,7 +181,7 @@ function Title({
       </span>
 
       {isMultiRoom && (
-        <Badge onClick={removeThisRoom} color="danger" className="ml-3 ">
+        <Badge onClick={() => removeThisRoom(number)} color="danger" className="ml-3 ">
           <IoCloseCircle size={20} />
         </Badge>
       )}

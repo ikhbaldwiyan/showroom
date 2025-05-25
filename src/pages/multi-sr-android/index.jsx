@@ -10,9 +10,9 @@ const getLayoutName = (layoutValue) => {
     case "4":
       return "threeRoom"; // Layout 4 shows 3 rooms
     case "3":
-      return "fourRoom";  // Layout 3 shows 4 rooms
+      return "fourRoom"; // Layout 3 shows 4 rooms
     case "6":
-      return "twoRoom";   // Layout 6 shows 2 rooms
+      return "twoRoom"; // Layout 6 shows 2 rooms
     default:
       return "";
   }
@@ -41,7 +41,7 @@ export default function MultiRoom(props) {
     1: { id: "", name: "" },
     2: { id: "", name: "" },
     3: { id: "", name: "" },
-    4: { id: "", name: "" },
+    4: { id: "", name: "" }
   };
 
   const [multiRoom, setMultiRoom] = useState(multiRoomInitialState);
@@ -89,7 +89,7 @@ export default function MultiRoom(props) {
   const updateMultiRoom = (number, id, name) => {
     setMultiRoom((prevMultiRoom) => ({
       ...prevMultiRoom,
-      [number]: { id, name },
+      [number]: { id, name }
     }));
   };
 
@@ -97,7 +97,7 @@ export default function MultiRoom(props) {
   const removeSelectedRoom = (number) => {
     setMultiRoom((prevMultiRoom) => ({
       ...prevMultiRoom,
-      [number]: { id: "", name: "", url: "" },
+      [number]: { id: "", name: "", url: "" }
     }));
   };
 
@@ -113,7 +113,7 @@ export default function MultiRoom(props) {
     setIsFarming,
     updateMultiRoom,
     handleClearRoom,
-    removeSelectedRoom,
+    removeSelectedRoom
   };
 
   // Determine which rooms to render based on the layout
@@ -122,8 +122,18 @@ export default function MultiRoom(props) {
 
     // Room 1 and 2 are always shown (all layouts have at least 2 rooms)
     rooms.push(
-      <RoomsPlayer key="room1" {...propsMultiRoom} number="1" selectedRoom={multiRoom[1]} />,
-      <RoomsPlayer key="room2" {...propsMultiRoom} number="2" selectedRoom={multiRoom[2]} />
+      <RoomsPlayer
+        key="room1"
+        {...propsMultiRoom}
+        number="1"
+        selectedRoom={multiRoom[1]}
+      />,
+      <RoomsPlayer
+        key="room2"
+        {...propsMultiRoom}
+        number="2"
+        selectedRoom={multiRoom[2]}
+      />
     );
 
     // Add room 3 if layout shows 3 or 4 rooms (threeRoom or fourRoom)
@@ -160,15 +170,12 @@ export default function MultiRoom(props) {
       isMultiRoom={isMultiRoom}
     >
       <div className="layout">
-        <Row className="d-flex">
-          {memoizedLayoutElements}
-        </Row>
+        <Row className="d-flex">{memoizedLayoutElements}</Row>
 
         <RoomListMultiSR
-          isMultiRoom
           updateMultiRoom={updateMultiRoom}
           multiRoom={multiRoom}
-          setRoomId={() => { }}
+          setRoomId={() => {}}
           roomCount={roomCount}
           layoutName={layoutName}
           setLayout={setLayout}
