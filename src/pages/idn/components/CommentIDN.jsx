@@ -8,11 +8,14 @@ const CommentIDN = ({ chatId, slug, username }) => {
   const wsRef = useRef(null);
 
   const generateRandomUsername = () => {
-    const randomPart = Math.random().toString(36).substring(2, 8);
-    return `user_${randomPart}`;
+    const uuid = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+    const timestamp = Date.now();
+    return `idn-${uuid}-${timestamp}`;
   };
 
-  const nickname = getSession()?.user?.account_id || generateRandomUsername();
+  const nickname = generateRandomUsername();
 
   const setupWebSocket = async () => {
     try {
@@ -27,7 +30,7 @@ const CommentIDN = ({ chatId, slug, username }) => {
         console.log("WebSocket connected");
         setConnected(true);
         ws.send(`NICK ${nickname}`);
-        ws.send("USER websocket 0 * :WebSocket User");
+        ws.send(`USER ${nickname} 0 * null`);
       };
 
       ws.onmessage = (event) => {
@@ -57,7 +60,6 @@ const CommentIDN = ({ chatId, slug, username }) => {
             try {
               const data = JSON.parse(jsonMatch[1]);
 
-              console.log("jsonData", data);
 
               if (data?.chat) {
                 // Ensure that jsonData is mapped into the desired structure
