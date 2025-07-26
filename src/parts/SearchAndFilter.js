@@ -6,7 +6,6 @@ import { FaGithub, FaTheaterMasks, FaUserGraduate } from "react-icons/fa";
 import { activityLog } from "utils/activityLog";
 import { getSession } from "utils/getSession";
 import useWindowDimensions from "utils/useWindowDimension";
-import GooglePlay from "../assets/images/google-play.svg";
 import { FaSquareXTwitter } from "react-icons/fa6";
 
 function SearchAndFilter({
@@ -75,7 +74,7 @@ function SearchAndFilter({
         />
       </Col>
 
-      <Col md="3" sm="12" className="search-wrapper">
+      <Col md="4" sm="12" className="search-wrapper">
         <Button
           className="menu-button mx-2"
           onClick={filterAllMember}
@@ -94,20 +93,7 @@ function SearchAndFilter({
         </Button>
       </Col>
 
-      <Col md="5" sm="12" className="search-wrapper d-flex justify-content-end">
-        <a
-          href={process.env.REACT_APP_ANDROID_LINK}
-          target="_blank"
-          rel="noreferrer"
-          onClick={() => socmedClick("Play Store")}
-        >
-          <img
-            height={45}
-            className="rounded"
-            src={GooglePlay}
-            alt="Play Store"
-          />
-        </a>
+      <Col md="4" sm="12" className="search-wrapper d-flex justify-content-end">
         <a
           href={process.env.REACT_APP_DISCORD_LINK}
           target="_blank"
