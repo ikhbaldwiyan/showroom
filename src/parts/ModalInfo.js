@@ -1,53 +1,57 @@
-import React, { useEffect, useState } from "react";
 import CustomModal from "components/CustomModal";
+import { useSelector } from "react-redux";
 import { Button } from "reactstrap";
+import { activityLog } from "utils/activityLog";
 import { gaTag } from "utils/gaTag";
 import { getSession } from "utils/getSession";
 
 const ModalInfo = () => {
-  const handleDownload = () => {
-    window.open(process.env.REACT_APP_ANDROID_LINK, "_blank");
+  const user = useSelector((state) => state.user.user);
+
+  const handleDonate = () => {
+    window.open("https://saweria.co/JKT48Showroom48/wishlist/perpanjang-web-domain-com-02nyxc", "_blank");
     gaTag({
-      action: "playstore_link",
-      category: "Play Store",
-      label: "Android",
+      action: "donate_link",
+      category: "Donate",
+      label: "Website",
       username: getSession()?.profile?.name ?? "Guest"
     });
-    localStorage.setItem("releaseInfo", "true");
   };
 
   return (
     <CustomModal
       isInfo
       buttonText="Open"
-      modalTitle="Pengumuman Aplikasi"
-      autoShowModal={localStorage.getItem("releaseInfo") ? false : true}
+      modalTitle="Pengumuman Website"
+      autoShowModal={true}
       isShowButton={false}
       action={() => (
-        <Button onClick={handleDownload} color="primary">
-          Download APK
+        <Button onClick={handleDonate} color="primary">
+          Donasi
         </Button>
       )}
     >
       <p>
-        Halo guys terima kasih atas dukungan dan feedback nya selama Beta
-        Testing apk android kemarin, setelah ada banyak update dan kritik saran
-        dari kalian akhirnya aplikasi <b>JKT48 Showroom Fanmade</b> sudah
-        official launching dan sudah tersedia di Play Store.
+        Halo guys terima kasih sudah jadi pengunjung setia website JKT48 Showroom Fanmade,
+        Karena domain <b>.com</b> di website ini sudah hampir expired maka dari itu kami meminta bantuan dari kalian dengan open donasi patungan via saweria agar nama website dengan nama <span className="text-primary"> jkt48showroom.com</span> masih bisa terus digunakan setahun kedepan
         <br />
         <br />
-        Download sekarang update versi terbaru aplikasinya{" "}
-        <span className="text-primary" onClick={handleDownload}>
-          <b className="cursor-pointer"> disini</b>
-        </span>{" "}
-        Jangan lupa kasih review rating dan komen nya juga ya guys biar kita
-        makin semangat developnya hehe, Terima kasih.
+        Kalian bisa ikut patungan lewat link saweria
+        <a href="https://saweria.co/JKT48Showroom48/wishlist/perpanjang-web-domain-com-02nyxc" target="_blank" onClick={() => {
+          activityLog({
+            userId: user._id ?? "64e2090061ec79ea209a0160",
+            logName: "Donate",
+            description: "Donate patungan domain web"
+          });
+        }}> Disini</a>, Mohon dukungannya agar web ini masih bisa hidup terima kasih 🙏🏻
       </p>
-      <img
-        width="100%"
-        src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1725986998/tkaow9tf4v27d4dig07g.png"
-        alt="JKT48 SHOWROOM APK"
-      />
+      <center>
+        <img
+          width="200"
+          src="https://res.cloudinary.com/dkkagbzl4/image/upload/v1759416666/members/qffso5hjbeog7evhwcy8.png"
+          alt="JKT48 SHOWROOM APK"
+        />
+      </center>
     </CustomModal>
   );
 };

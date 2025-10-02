@@ -95,6 +95,7 @@ function Home(props) {
   return (
     <MainLayout {...props}>
       <div className="layout my-0 mb-4">
+        <ModalInfo />
         <SearchAndFilter
           isLive={isLive}
           isAcademy={isAcademy}
