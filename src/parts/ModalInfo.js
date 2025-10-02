@@ -33,7 +33,7 @@ const ModalInfo = () => {
     >
       <p>
         Halo guys terima kasih sudah jadi pengunjung setia website JKT48 Showroom Fanmade,
-        Karena domain <b>.com</b> di website ini sudah hampir expired maka dari itu kami meminta bantuan dari kalian dengan open donasi patungan via saweria agar nama website dengan nama <span className="text-primary"> jkt48showroom.com</span> masih bisa terus digunakan setahun kedepan
+        Karena domain <b>.com</b> di website ini sudah hampir expired maka dari itu kami meminta bantuan dari kalian dengan open donasi patungan via saweria agar website dengan nama <span className="text-primary "> <b>jkt48showroom.com</b></span> masih bisa terus digunakan setahun kedepan.
         <br />
         <br />
         Kalian bisa ikut patungan lewat link saweria
