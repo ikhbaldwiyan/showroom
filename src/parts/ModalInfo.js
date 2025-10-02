@@ -16,6 +16,11 @@ const ModalInfo = () => {
       label: "Website",
       username: getSession()?.profile?.name ?? "Guest"
     });
+    activityLog({
+      userId: user._id ?? "64e2090061ec79ea209a0160",
+      logName: "Donate",
+      description: "Donate patungan domain web"
+    });
   };
 
   return (
