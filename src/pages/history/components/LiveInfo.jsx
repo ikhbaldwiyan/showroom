@@ -1,29 +1,36 @@
 import moment from "moment";
+import Streaming from "pages/streaming/Stream";
 import React from "react";
 import {
   FaCommentDots,
   FaComments,
   FaRegCalendarAlt,
-  FaUser,
+  FaUser
 } from "react-icons/fa";
 import {
   RiPlayCircleLine,
   RiStopCircleLine,
-  RiTimerFlashFill,
+  RiTimerFlashFill
 } from "react-icons/ri";
 import formatLongDate from "utils/formatLongDate";
 import formatNumber from "utils/formatNumber";
 import { getLiveDuration } from "utils/getLiveDuration";
 import Screenshot from "./Screenshot";
 
-const LiveInfo = ({ history }) => {
+const LiveInfo = ({ history, video, platform }) => {
   return (
     <>
       {history?.live_info?.screenshot?.list?.length > 0 ? (
-        <Screenshot
-          thumbnail={history?.room_info?.img}
-          images={history?.live_info?.screenshot}
-        />
+        <>
+          {(video?.includes("undefined") || video === null) ? (
+            <Screenshot
+              thumbnail={history?.room_info?.img}
+              images={history?.live_info?.screenshot}
+            />
+          ) : (
+            <Streaming platform={platform} url={video} />
+          )}
+        </>
       ) : (
         <img
           className="rounded-lg"
@@ -34,7 +41,7 @@ const LiveInfo = ({ history }) => {
             borderTopRightRadius: "6px",
             borderTopLeftRadius: "6px",
             maxHeight: "215px",
-            objectFit: "cover",
+            objectFit: "cover"
           }}
         />
       )}

@@ -7,8 +7,8 @@ import { AiFillGift } from "react-icons/ai";
 import { FaUsers } from "react-icons/fa";
 import { RiBookmark3Fill } from "react-icons/ri";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { Col, Container, Row } from "reactstrap";
-import { DETAIL_LIVE_HISTORY } from "utils/api/api";
+import { Col, Row } from "reactstrap";
+import { DETAIL_LIVE_HISTORY, PODIUM_STAGE, PODIUM_STAGE_IDN } from "utils/api/api";
 import formatLongDate from "utils/formatLongDate";
 import formatNumber from "utils/formatNumber";
 import MainLayout from "../layout/MainLayout";
@@ -21,6 +21,9 @@ const DetailLiveHistory = (props) => {
   const [rank, setRank] = useState([]);
   const [gift, setGift] = useState([]);
   const [search, setSearch] = useState("");
+  const [video, setVideo] = useState("")
+  const userProfile = localStorage?.getItem("profile");
+  const profile = JSON.parse(userProfile);
 
   useEffect(() => {
     async function getDetailHistory() {
@@ -39,18 +42,37 @@ const DetailLiveHistory = (props) => {
     window.scrollTo(0, 0);
   }, [search, id]);
 
+  useEffect(() => {
+    getReplay()
+  }, [history])
+
+  const API = history?.type === "idn" ? PODIUM_STAGE_IDN(history?.idn?.slug) : PODIUM_STAGE(history?.live_id);
+
+  const getReplay = async () => {
+    try {
+      const res = await axios.get(API);
+      setVideo(res?.data?.liveData?.youtube)
+    } catch (error) {
+      console.error("Error fetching user data: ", error);
+    }
+  };
+
   const filterName = !search
     ? rank
     : rank.filter((data) =>
-        data.name.toLowerCase().includes(search.toLowerCase())
-      );
+      data.name.toLowerCase().includes(search.toLowerCase())
+    );
 
   return (
     <MainLayout {...props}>
       <div className="layout">
         <Row className="mb-4">
           <Col md="4">
-            <LiveInfo history={history} />
+            <LiveInfo
+              platform={history?.type}
+              video={profile?.name === "Inzoid" ? `https://www.youtube.com/watch?v=${video}` : null}
+              history={history}
+            />
           </Col>
           <Col md="4" className="detail-layout">
             <div className="main-title-log">
@@ -130,9 +152,8 @@ const DetailLiveHistory = (props) => {
                           .map((item, idx) => (
                             <div
                               key={idx}
-                              className={`col-6 ${
-                                rowIndex !== 0 ? "mt-3" : ""
-                              }`}
+                              className={`col-6 ${rowIndex !== 0 ? "mt-3" : ""
+                                }`}
                             >
                               <div className="gift-wrapper">
                                 <img

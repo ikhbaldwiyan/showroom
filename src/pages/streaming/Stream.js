@@ -2,12 +2,12 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 import './video.scss';
 
-export default function Streaming({ url, refreshKey, playerRef }) {
+export default function Streaming({ url, refreshKey, playerRef, platform = "" }) {
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
   return (
     <>
-      <div className="player-wrapper mb-3">
+      <div className="player-wrapper mb-3" style={{ height: platform === "idn" ? 500 : 200 }}>
         <ReactPlayer
           key={refreshKey}
           ref={playerRef}
