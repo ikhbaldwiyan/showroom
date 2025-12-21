@@ -9,7 +9,7 @@ import {
 } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { RiLoginBoxFill } from "react-icons/ri";
-import { BsInfoCircleFill } from "react-icons/bs";
+import { BsChatDotsFill, BsInfoCircleFill } from "react-icons/bs";
 import Button from "elements/Button";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import UserProfile from "parts/UserProfile";
@@ -44,6 +44,11 @@ const Sidebar = () => {
       name: "Top Member",
       icon: <AiFillTrophy style={iconHome} />,
       link: "/leaderboard-members"
+    },
+    {
+      name: "Public Chat",
+      icon: <BsChatDotsFill style={iconHome} />,
+      link: "/public-chat",
     },
     {
       name: "Leaderboard",
