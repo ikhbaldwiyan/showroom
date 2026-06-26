@@ -218,7 +218,10 @@ const ReplayChat = ({ srtFile, currentTime, isPlaying, isTheaterMode }) => {
               />
 
               <IoCloseCircle
-                onClick={() => setShowSearch(false)}
+                onClick={() => {
+                  setShowSearch(false)
+                  setSearch("")
+                }}
                 className="search-close"
               />
             </div>
