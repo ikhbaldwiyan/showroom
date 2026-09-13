@@ -55,20 +55,10 @@ const Sidebar = () => {
       icon: <RiBroadcastFill style={iconHome} />,
       link: "/room/officialJKT48/332503"
     },
-     {
-      name: "Replay",
-      icon: <MdPlayCircleFilled style={iconHome} />,
-      link: "/replay"
-    },
     {
       name: "Multi Room",
       icon: <HiUsers style={iconHome} />,
       link: "/multi-room"
-    },
-    {
-      name: "Multi IDN",
-      icon: <MdSmartDisplay style={iconHome} />,
-      link: "/multi-room-idn"
     },
     {
       name: "History Live",
